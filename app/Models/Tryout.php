@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Models;
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Tryout extends Model
+{
+    use HasFactory;
+
+    protected $table = 'tryout';
+    protected $primaryKey = 'tryout_id';
+
+    protected $fillable = [
+        'tryout_judul',
+        'tryout_deskripsi',
+        'tryout_jenjang',
+        'tryout_kelas',
+        'tryout_register_due',
+        'tryout_banner',
+        'tryout_status',
+        'tryout_jenis',
+        'tryout_nominal',
+    ];
+
+    public function materi()
+    {
+
+        return $this->hasMany(TryoutMateri::class, 'tryout_id', 'tryout_id');
+    }
+
+    public function getTryoutNominalAttribute($value)
+    {
+        return number_format($value, 0, ',', '.');
+    }
+
+    // Mutator for amount
+    public function setTryoutNominalAttribute($value)
+    {
+        $this->attributes['tryout_nominal'] = str_replace(',', '.', str_replace('.', '', $value));
+    }
+
+    // Accessor for transaction_date
+    public function getTryoutRegisterDueAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-M-Y');
+    }
+
+    // Mutator for transaction_date
+    public function setTryoutRegisterDueAttribute($value)
+    {
+        $this->attributes['tryout_register_due'] = Carbon::createFromFormat('d-M-Y', $value)->toDateString();
+    }
+
+    public function getIsGratisAttribute($value)
+    {
+         
+        return $this->getRawOriginal('tryout_nominal') ? true : false;
+    }
+    public function getIsCanRegisterAttribute($value)
+    {
+         
+        return $this->getRawOriginal('tryout_register_due') <= date('Y-m-d') ? true : false;
+    }
+}

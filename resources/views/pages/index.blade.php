@@ -1,0 +1,461 @@
+@extends('layouts.master-without-nav')
+@section('title') Landing @endsection
+@section('css')
+<link href="{{ URL::asset('assets/libs/swiper/swiper.min.css') }}" rel="stylesheet" type="text/css" />
+
+@endsection
+@section('body')
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-example">
+    @endsection
+    @section('content')
+
+    <!-- Begin page -->
+    <div class="layout-wrapper landing">
+        <nav class="navbar navbar-expand-lg navbar-landing fixed-top job-navbar" id="navbar">
+            <div class="container-fluid custom-container">
+                <a class="navbar-brand" href="index">
+                    <img src="{{URL::asset('assets/images/logo-cendikia.png')}}" class="card-logo card-logo-dark" alt="logo dark" height="40">
+                    <img src="{{URL::asset('assets/images/logo-cendikia.png')}}" class="card-logo card-logo-light" alt="logo light" height="40">
+                </a>
+                <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#hero">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#informasi">Informasi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#hubungi">Hubungi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#promo">Promo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tryout">Tryout</a>
+                        </li>
+
+                    </ul>
+
+                    <div class="">
+                        <a href="{{ route('login')}}" class="btn btn-soft-danger"><i class="ri-user-3-line align-bottom me-1"></i> Masuk & Daftar</a>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+        <!-- end navbar -->
+
+        <!-- start hero section -->
+        <section class="section job-hero-section bg-light pb-0" id="hero">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-lg-6">
+                        <div>
+                            <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">Lembaga Bimbingan Belajar Cendekia Yogyakarta</h1>
+                            <p class="lead text-muted lh-base mb-4">Lembaga Bimbingan Belajar Cendekia, Bimbel yang melayani kebutuhan belajar kurikulum Merdeka & kurikulum 13 (K13), serta mengembangkan tipe-tipe soal menuju sukses assesmen daerah.Menekankan penguasaan konsep dan juga cara praktis dalam penyelesaian soal.Dibimbing oleh tentor senior yang sudah berpengalaman dalam menulis soal ujian nasional mulai dari tingkat provinsi sampai dengan nasional.</p>
+                             
+                        </div>
+                    </div>
+                    <!--end col-->
+                    <div class="col-lg-4">
+                        <div class="position-relative home-img text-center mt-5 mt-lg-0">
+                            <div class="card p-3 rounded shadow-lg inquiry-box">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm flex-shrink-0 me-3">
+                                        <div class="avatar-title bg-soft-warning text-warning rounded fs-18">
+                                            <i class="ri-whatsapp-line"></i>
+                                        </div>
+                                    </div>
+                                    <a href="https://wa.me/c/6281272139500"><h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5></a>
+                                </div>
+                            </div>
+
+                            
+                            <img src="{{URL::asset('assets/images/job-profile2.png')}}" alt="" class="user-img">
+
+                            <div class="circle-effect">
+                                <div class="circle"></div>
+                                <div class="circle2"></div>
+                                <div class="circle3"></div>
+                                <div class="circle4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end hero section -->
+
+        <section class="section" id="informasi">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="text-center mb-5">
+                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">HASIL TRYOUT PENILAIAN AKHIR SEMESTER SMP NEGERI 9 YOGYAKARTA</h1>
+                            
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!--end row-->
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-lg">
+                            <div class="card-body p-4">
+                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                                    <div class="job-icon-effect"></div>
+                                    <span>1</span>
+                                </h1>
+                                <h6 class="fs-17 mb-2">Syakira Marsya T</h6>
+                                <p class="text-muted mb-0 fs-15"> dari SD N 1 Godean dengan total nilai 276,67.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-none">
+                            <div class="card-body p-4">
+                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                                    <div class="job-icon-effect"></div>
+                                    <span>2</span>
+                                </h1>
+                                <h6 class="fs-17 mb-2">Fadlan Raya Efendi</h6>
+                                <p class="text-muted mb-0 fs-15">dari SD N Adisucipto 1 dengan total nilai 276,66.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-none">
+                            <div class="card-body p-4">
+                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                                    <div class="job-icon-effect"></div>
+                                    <span>3</span>
+                                </h1>
+
+                                <h6 class="fs-17 mb-2">Janu Lanang P</h6>
+                                <p class="text-muted mb-0 fs-15">dari SD Budi Utama dengan total nilai 269,99.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-none">
+                            <div class="card-body p-4">
+                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                                    <div class="job-icon-effect"></div>
+                                    <span>4</span>
+                                </h1>
+                                <h6 class="fs-17 mb-2">Nathanael V. T.</h6>
+                                <p class="text-muted mb-0 fs-15">SD Model dengan total nilai 266,67.</p>
+                            </div>
+                        </div>
+                    </div>
+                     
+                </div>
+            </div>
+            <!--end container-->
+        </section>
+
+       
+        <!-- start services -->
+        <section class="section bg-light" id="hubungi">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="text-center mb-5">
+                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">HUBUNGI KAMI DI : </h1>
+                             
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-none text-center py-3">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                                    <div class="job-icon-effect"></div>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-pencil-ruler-2-line fs-1"></i>
+                                    </div>
+                                </div>
+                                <a href="#!" class="stretched-link">
+                                    <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
+                                </a> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-none text-center py-3">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                                    <div class="job-icon-effect"></div>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-whatsapp-line  fs-1"></i>
+                                    </div>
+                                </div>
+                                <a href="#!" class="stretched-link">
+                                    <h5 class="fs-17 pt-1">WHATSAPP KAK YENI</h5>
+                                </a> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-none text-center py-3">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm mb-4 mx-auto position-relative">
+                                    <div class="job-icon-effect"></div>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-whatsapp-line  fs-1"></i>
+                                    </div>
+                                </div>
+                                <a href="#!" class="stretched-link">
+                                    <h5 class="fs-17 pt-1">WHATSAPP KAK LIA</h5>
+                                </a> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-none text-center py-3">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                                    <div class="job-icon-effect"></div>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-focus-2-line fs-1"></i>
+                                    </div>
+                                </div>
+                                <a href="instagram.com/lbbcendekia/" class="stretched-link">
+                                    <h5 class="fs-17 pt-1">instagram.com/lbbcendekia/</h5>
+                                </a> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-none text-center py-3">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                                    <div class="job-icon-effect"></div>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-map-pin-line  fs-1"></i>
+                                    </div>
+                                </div>
+                                <a href="bit.ly/ALAMATLBBC" class="stretched-link">
+                                    <h5 class="fs-17 pt-1">Alamat</h5>
+                                </a> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-none text-center py-3">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                                    <div class="job-icon-effect"></div>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-bookmark-2-line  fs-1"></i>
+                                    </div>
+                                </div>
+                                <a href="https://sites.google.com/view/rekrutmenlbbcendekiayk/lbb-cendekia-yogyakarta" class="stretched-link">
+                                    <h5 class="fs-17 pt-1">Recruitmen</h5>
+                                </a> 
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end services -->
+
+        <!-- start cta -->
+        <section class="py-5 bg-warning position-relative">
+            <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
+            <div class="container">
+                <div class="row align-items-center gy-4">
+                    <div class="col-sm">
+                        <div>
+                            <h4 class="text-white mb-2">Siap untuk memulai?</h4> 
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-sm-auto">
+                        <div>
+                            <a href="{{ route('siswa.register') }}" class="btn bg-gradient btn-danger">Daftar akun geratis</a>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end cta -->
+
+        <section class="section" id="promo">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="text-center mb-5">
+                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">PROMO</h1>
+                            <p class="text-muted">Temukan Promo Menarik.</p>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+
+                
+            </div>
+        </section>
+
+      
+        <!-- start tryout -->
+        <section class="section bg-light" id="tryout">
+            <div class="bg-overlay bg-overlay-pattern"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="text-center mb-5">
+                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">TRY OUT</h1>
+                            <p class="text-muted mb-4">Temukan tryout yang sesuai dengan kebutuhan anda.</p>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+              
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end tryout -->
+
+
+
+
+        <!-- Start footer -->
+        <footer class="  py-5 position-relative" style="background-color: #e2b602;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mt-4">
+                        <div>
+                            <div>
+                                <img src="{{URL::asset('assets/images/logo-cendikia.png')}}" alt="logo light" height="40" />
+                            </div>
+                            <div class="mt-4 fs-13">
+                                <p>Selamat datang di LBB Cendekia!</p>
+                                <p>Lembaga Bimbingan Belajar Cendekia, Bimbel yang melayani kebutuhan belajar kurikulum Merdeka & kurikulum 13 (K13), serta mengembangkan tipe-tipe soal menuju sukses assesmen daerah.Menekankan penguasaan konsep dan juga cara praktis dalam penyelesaian soal.
+                                    Dibimbing oleh tentor senior yang sudah berpengalaman dalam menulis soal ujian nasional mulai dari tingkat provinsi sampaidengan nasional..</p>
+                                <ul class="list-inline mb-0 footer-social-link">
+                                    <li class="list-inline-item">
+                                        <a href="javascript: void(0);" class="avatar-xs d-block">
+                                            <div class="avatar-title rounded-circle">
+                                                <i class="ri-facebook-fill"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li class="list-inline-item">
+                                        <a href="javascript: void(0);" class="avatar-xs d-block">
+                                            <div class="avatar-title rounded-circle">
+                                                <i class="ri-instagram-line"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7 ms-lg-auto">
+                        <div class="row">
+                            <div class="col-sm-4 mt-4">
+                                <h5 class="text-white mb-0">HUBUNGI KAMI</h5>
+                                <div class="text-white mt-3">
+                                    <ul class="list-unstyled ff-secondary footer-list">
+                                        <li><strong>Telfon / WhatsApp :</strong>
+
+                                        </li>
+                                        <li><strong><a href="https://bit.ly/WA-CENDEKIA-LIA" class="text-white">Kak Lia : 081272139500&nbsp;</a></strong></li>
+                                        <li> <strong><a href="https://bit.ly/WA-CENDEKIA-YENI" class="text-white">Kak Yeni : 082323356415</a></strong></li>
+                                    </ul>
+                                </div>
+                                <hr>
+
+                            </div>
+                            <div class="col-sm-4 mt-4">
+                                <h5 class="text-white mb-0">Jam Kerja</h5>
+                                <div class="text-white mt-3">
+                                    <ul class="list-unstyled ff-secondary footer-list">
+
+                                        <li>Senin - Jumat : 09.00 - 20.00</li>
+                                        <li>Sabtu : 09.00 - 17.00</li>
+                                        <li>Ahad : Libur</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 mt-4">
+                                <h5 class="text-white mb-0">Alamat</h5>
+                                <div class="text-muted mt-3">
+                                    <ul class="list-unstyled ff-secondary footer-list">
+                                        <li class="text-white">Barat Gedung SMPN 9 Yogyakarta</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row text-center text-sm-start align-items-center mt-5">
+                    <div class="col-sm-6">
+                        <div>
+                            <p class="copy-rights mb-0">
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script> © LBB Cendikia
+                            </p>
+                        </div>
+                    </div>
+                    {{-- <div class="col-sm-6">
+                        <div class="text-sm-end mt-3 mt-sm-0">
+                            <ul class="list-inline mb-0 footer-list gap-4 fs-13">
+                                <li class="list-inline-item">
+                                    <a href="pages-privacy-policy">Privacy Policy</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="pages-term-conditions">Terms & Conditions</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="pages-privacy-policy">Security</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>--}}
+                </div>
+            </div>
+        </footer>
+        <!-- end footer -->
+
+        <!--start back-to-top-->
+        <button onclick="topFunction()" class="btn btn-warning btn-icon landing-back-top" id="back-to-top">
+            <i class="ri-arrow-up-line"></i>
+        </button>
+        <!--end back-to-top-->
+
+    </div>
+    <!-- end layout wrapper -->
+
+    @endsection
+    @section('script')
+    <script src="{{ URL::asset('assets/libs/swiper/swiper.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/pages/job-lading.init.js') }}"></script>
+    @endsection
