@@ -98,7 +98,7 @@ Masuk
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center">
-                        <p class="mb-0 text-muted">&copy; <script>document.write(new Date().getFullYear())</script> LBB Cendikia</p>
+                        <p class="mb-0 text-muted">&copy; <script>document.write(new Date().getFullYear())</script> LBB Cendekia</p>
                     </div>
                 </div>
             </div>

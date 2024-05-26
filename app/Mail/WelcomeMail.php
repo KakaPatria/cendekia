@@ -33,7 +33,7 @@ class WelcomeMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Selamat datang di LBB Cendikia',
+            subject: 'Selamat datang di LBB Cendekia',
         );
     }
 

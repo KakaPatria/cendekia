@@ -421,7 +421,7 @@
                             <p class="copy-rights mb-0">
                                 <script>
                                     document.write(new Date().getFullYear())
-                                </script> © LBB Cendikia
+                                </script> © LBB Cendekia
                             </p>
                         </div>
                     </div>
