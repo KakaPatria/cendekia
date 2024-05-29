@@ -68,6 +68,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'telepon' => 'required|numeric',
+            'alamat' => 'required|string|max:255',
             'asal_sekolah' => 'required|string|max:255',
             'jenjang' => 'required|string|in:SD,SMP,SMA',
             'kelas' => 'required|integer|min:1|max:12',
@@ -84,6 +85,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'telepon' => $request->telepon,
+            'alamat' => $request->alamat,
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
@@ -95,5 +97,51 @@ class UserController extends Controller
         //Mail::to($user->email)->send(new WelcomeMail($user));
 
         return redirect()->route('login')->with('success', 'Pendaftaran Berhasil Silahkan Login!');
+    }
+
+    public function profile(){
+
+        return view('pages.siswa.profile.index');
+    }
+    public function edit(){
+
+        $user = Auth::user();
+        return view('pages.siswa.profile.edit',compact('user'));
+    }
+
+    public function update(Request $request){
+        $user = User::find(Auth::user()->id);
+        $validator = Validator::make($request->all(), [
+
+            'name' => 'required|string|max:255',
+            'email' => 'required|email:rfc,dns|unique:users,email,' . $user->id,
+            'telepon' => 'required|numeric',
+            'asal_sekolah' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'jenjang' => 'required|string|in:SD,SMP,SMA',
+            'kelas' => 'required|integer|min:1|max:12', 
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $user = User::find($user->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'telepon' => $request->telepon,
+            'alamat' => $request->alamat,
+            'asal_sekolah' => $request->asal_sekolah,
+            'jenjang' => $request->jenjang,
+            'kelas' => $request->kelas,
+            'password' => Hash::make($request->password),
+
+        ]);
+ 
+        //Mail::to($user->email)->send(new WelcomeMail($user));
+
+        return redirect()->route('siswa.dashboard')->with('success', 'Profile berhasil diupdate!');
     }
 }

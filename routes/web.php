@@ -69,6 +69,10 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::get('dashboard', [SiswaashboardController::class, 'index'])->name('dashboard');
 
+        Route::get('profile', [SiswaUserController::class, 'profile'])->name('profile.index');
+        Route::get('profile/edit', [SiswaUserController::class, 'edit'])->name('profile.edit');
+        Route::put('profile/', [SiswaUserController::class, 'update'])->name('profile.update');
+
         Route::post('logout', [SiswaUserController::class, 'logout'])->name('logout');
     });
 });

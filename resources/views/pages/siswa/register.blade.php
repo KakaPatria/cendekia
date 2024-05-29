@@ -51,7 +51,10 @@ Daftar
                                                 <label for="telepon" class="form-label">Telepon</label>
                                                 <input type="number" class="form-control" id="telepon" name="telepon" placeholder="Masukan Telepon" required value="{{ old('telepon') }}">
                                             </div>
-
+                                            <div class="mb-3">
+                                                <label for="telepon" class="form-label">Alamat</label>
+                                                <input type="number" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat" required value="{{ old('alamat') }}">
+                                            </div>
                                             <div class="mb-3">
                                                 <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
 
@@ -158,7 +161,7 @@ Daftar
             tags: true,
             minimumInputLength: 1,
             ajax: {
-                url: '<?= route('ajax.cari-sekolah')?>',
+                url: '<?= route('ajax.cari-sekolah') ?>',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -173,7 +176,7 @@ Daftar
                 },
                 cache: true
             },
-             
+
         });
 
         const classes = {
