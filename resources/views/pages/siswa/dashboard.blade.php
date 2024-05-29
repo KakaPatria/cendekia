@@ -42,7 +42,7 @@
                             <img src="{{Storage::url($data->tryout_banner)}}" alt="" class="card-img-top explore-img">
                             <div class="bg-overlay"></div>
                             <div class="place-bid-btn">
-                                <a href="#!" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Daftar</a>
+                                <a href="{{ route('siswa.tryout.show',$data->tryout_id)}}" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Daftar</a>
                             </div>
                         </div>
                         <div class="card-body   ">
@@ -54,7 +54,7 @@
                             @endif
 
                             <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> 10 </p>
-                            <h5 class="mb-1"><a href="apps-nft-item-details.html">{{ $data->tryout_judul}}</a></h5>
+                            <h5 class="mb-1"><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
                             <div class="hstack flex-wrap gap-2 fs-16">
                                 @foreach($data->materi as $materi)
                                 <div class="badge fw-medium badge-soft-info">{{ $materi->refMateri->ref_materi_judul}}</div>

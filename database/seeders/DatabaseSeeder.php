@@ -22,6 +22,6 @@ class DatabaseSeeder extends Seeder
         // ]);
         //$this->call(RolePermissionSeeder::class);
         //$this->call(SiswaSeeder::class);
-        $this->call(PengajarSeeder::class);
+        $this->call(TryoutNilaiSeeder::class);
     }
 }

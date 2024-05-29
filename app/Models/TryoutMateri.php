@@ -23,4 +23,9 @@ class TryoutMateri extends Model
     {
         return $this->hasOne(Materi::class,  'ref_materi_id','materi_id');
     }
+
+    public function nilai()
+    {
+        return $this->hasMany(TryoutNilai::class,  'tryout_materi_id','tryout_materi_id');
+    }
 }

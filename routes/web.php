@@ -10,6 +10,9 @@ use App\Http\Controllers\Panel\RoleController;
 use App\Http\Controllers\Panel\TryoutController;
 use App\Http\Controllers\Siswa\UserController as SiswaUserController;
 use App\Http\Controllers\Siswa\DashboardController as SiswaashboardController;
+use App\Http\Controllers\Siswa\TryoutController as SiswaaasTryoutController;
+use App\Http\Controllers\Siswa\TryoutPesertaController as SiswaaasTryoutPesertaController;
+use App\Http\Controllers\Siswa\InvoiceController as SiswaaasInvoiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,6 +75,11 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
         Route::get('profile', [SiswaUserController::class, 'profile'])->name('profile.index');
         Route::get('profile/edit', [SiswaUserController::class, 'edit'])->name('profile.edit');
         Route::put('profile/', [SiswaUserController::class, 'update'])->name('profile.update');
+
+        Route::resource('tryout',SiswaaasTryoutController::class);
+        Route::get('tryout/{tryout}/daftar',[SiswaaasTryoutController::class,'daftar'])->name('tryout.daftar'); 
+        Route::resource('tryout_peserta',SiswaaasTryoutPesertaController::class);
+        Route::resource('invoice',SiswaaasInvoiceController::class);
 
         Route::post('logout', [SiswaUserController::class, 'logout'])->name('logout');
     });

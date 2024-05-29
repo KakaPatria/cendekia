@@ -30,6 +30,17 @@ class Tryout extends Model
 
         return $this->hasMany(TryoutMateri::class, 'tryout_id', 'tryout_id');
     }
+    public function peserta()
+    {
+
+        return $this->hasMany(TryoutPeserta::class, 'tryout_id', 'tryout_id');
+    }
+
+    public function nilai()
+    {
+
+        return $this->hasMany(TryoutNilai::class, 'tryout_id', 'tryout_id');
+    }
 
     public function getTryoutNominalAttribute($value)
     {
@@ -56,12 +67,44 @@ class Tryout extends Model
 
     public function getIsGratisAttribute($value)
     {
-         
+
         return $this->getRawOriginal('tryout_nominal') ? true : false;
     }
     public function getIsCanRegisterAttribute($value)
     {
-         
+
         return $this->getRawOriginal('tryout_register_due') <= date('Y-m-d') ? true : false;
+    }
+
+    public function getAverageNilai()
+    {
+
+        $allNilai = $this->nilai->groupBy('user_id');
+
+        $susunNilai = [];
+        foreach ($allNilai as $key => $value) {
+            $susunNilai[$key]['siswa'] = $value[0]->siswa;
+            $susunNilai[$key]['average'] = $value->avg('nilai');
+            $susunNilai[$key]['sum'] = $value->sum('nilai');
+            $susunNilai[$key]['list'] = $value;
+        }
+
+
+        // Mengurutkan array berdasarkan key 'usia' secara ascending
+        usort($susunNilai, function ($a, $b) {
+            return $a['average'] < $b['average'];
+        });
+
+
+        return $susunNilai;
+    }
+    
+    function isTerdaftar($id){
+
+        $peserta = TryoutPeserta::where('user_id',auth()->user()->id)
+        ->where('tryout_id', $id)
+        ->first();
+        //dd($peserta);
+        return $peserta;
     }
 }
