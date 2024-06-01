@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
+use App\Providers\RouteServiceProvider;
 
 
 class UserController extends Controller
 {
-    
+
     public function login()
     {
         if (Auth::check()) {
@@ -99,17 +101,82 @@ class UserController extends Controller
         return redirect()->route('login')->with('success', 'Pendaftaran Berhasil Silahkan Login!');
     }
 
-    public function profile(){
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+
+    public function handleGoogleCallback()
+    {
+        $googleUser = Socialite::driver('google')->stateless()->user();
+        $user = User::where('email', $googleUser->email)->first();
+        if (!$user) {
+            $user = User::create(['name' => $googleUser->name, 'email' => $googleUser->email, 'password' => \Hash::make(rand(100000, 999999))]);
+        }
+
+        Auth::login($user);
+
+        return redirect()->intended(route('siswa.dashboard'))->with('success', 'Login berhasil!');
+    }
+
+
+
+    public function profileComplete()
+    {
+
+        $user = Auth::user();
+        return view('pages.siswa.profile.complete', compact('user'));
+    }
+
+    public function doProfileComplete(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $validator = Validator::make($request->all(), [
+
+            'telepon' => 'required|numeric',
+            'asal_sekolah' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'jenjang' => 'required|string|in:SD,SMP,SMA',
+            'kelas' => 'required|integer|min:1|max:12',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $user = User::find($user->id)->update([
+            'telepon' => $request->telepon,
+            'alamat' => $request->alamat,
+            'asal_sekolah' => $request->asal_sekolah,
+            'jenjang' => $request->jenjang,
+            'kelas' => $request->kelas,
+        ]);
+
+        //Mail::to($user->email)->send(new WelcomeMail($user));
+
+        return redirect()->route('siswa.dashboard')->with('success', 'Profile berhasil diupdate!');
+    }
+
+     
+
+    public function profile()
+    {
 
         return view('pages.siswa.profile.index');
     }
-    public function edit(){
+
+    public function edit()
+    {
 
         $user = Auth::user();
-        return view('pages.siswa.profile.edit',compact('user'));
+        return view('pages.siswa.profile.edit', compact('user'));
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         $user = User::find(Auth::user()->id);
         $validator = Validator::make($request->all(), [
 
@@ -119,7 +186,7 @@ class UserController extends Controller
             'asal_sekolah' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'jenjang' => 'required|string|in:SD,SMP,SMA',
-            'kelas' => 'required|integer|min:1|max:12', 
+            'kelas' => 'required|integer|min:1|max:12',
         ]);
 
         if ($validator->fails()) {
@@ -139,7 +206,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
 
         ]);
- 
+
         //Mail::to($user->email)->send(new WelcomeMail($user));
 
         return redirect()->route('siswa.dashboard')->with('success', 'Profile berhasil diupdate!');

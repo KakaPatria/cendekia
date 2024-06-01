@@ -36,6 +36,21 @@
                         <i class="ri-home-3-line"></i> <span>Home</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link text-white" href="{{route('siswa.tryout.library')}}" id="nav-home">
+                        <i class="ri-book-line"></i> <span>Perpustakaan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link text-white" href="{{route('siswa.tryout.index')}}" id="nav-home">
+                        <i class="ri-todo-line"></i> <span>Tryout</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link text-white" href="{{route('siswa.invoice.index')}}" id="nav-home">
+                        <i class="ri-wallet-3-fill"></i> <span>Pembayaran</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

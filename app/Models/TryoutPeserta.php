@@ -5,6 +5,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class TryoutPeserta extends Model
 {
@@ -25,6 +27,10 @@ class TryoutPeserta extends Model
     public function masterTryout()
     {
         return $this->hasOne(Tryout::class,  'tryout_id', 'tryout_id');
+    }
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class,  'tryout_id', 'tryout_id')->where(DB::raw('invoice.user_id'),auth()->user()->id);
     }
 
     public function siswa(){

@@ -62,7 +62,7 @@
                         <table class="table align-middle table-nowrap table-striped mb-2">
                             <thead class="table-light">
                                 <tr>
-                                    <th scope="col" width="1%">#</th>
+                                    <th scope="col" width="1%">Nomor Invoice</th>
                                     <th scope="col">Nominal</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Tenggat Waktu </th>
@@ -74,9 +74,9 @@
                                 <tr>
                                     <td><a href="{{ route('siswa.invoice.show',$inv->inv_id)}}" class="fw-medium link-primary">#{{ $inv->inv_id}}</a></td>
 
-                                    <td>{{ $inv->amount }}</td>
+                                    <td>Rp. {{ $inv->amount_rp }}</td>
 
-                                    <td>{{ $inv->status }}</td>
+                                    <td>{!! $inv->status_badge !!}</td>
                                     <td>{{ $inv->due_date }}</td>
                                     <td>
                                         <a href="{{ route('siswa.invoice.show',$inv->inv_id)}}" class="btn rounded-pill btn-primary btn-sm editBtn">

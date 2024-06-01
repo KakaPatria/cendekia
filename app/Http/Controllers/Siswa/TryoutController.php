@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Siswa;
 use App\Http\Controllers\Controller;
 use App\Models\Tryout;
 use App\Models\TryoutPeserta;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class TryoutController extends Controller
@@ -25,6 +25,25 @@ class TryoutController extends Controller
         $load['tryout'] = $tryout;
         //dd($load);
         return view('pages.siswa.tryout.index', $load);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function library()
+    {
+        $user = auth()->user();
+
+        $tryoutRekomendasi = Tryout::orderBy(DB::raw("CASE WHEN tryout_kelas = '" . $user->kelas . "' THEN 0 WHEN tryout_jenjang = '" . $user->jenjang . "' THEN 1 ELSE 2 END "))
+            ->limit(3)
+            ->get();
+        $load['tryout_rekomendasi'] = $tryoutRekomendasi;
+
+        $tryoutAll = Tryout::get()->groupBy('tryout_jenjang');
+        $load['tryout_all'] = $tryoutAll;
+        return view('pages.siswa.tryout.library', $load);
     }
 
     /**
@@ -81,6 +100,27 @@ class TryoutController extends Controller
         //dd($tryout->getAverageNilai());
 
         return view('pages.siswa.tryout.show', $load);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function detail($id)
+    {
+        $user = auth()->user();
+        $tryout = Tryout::whereHas('peserta', function ($q) use ($user) {
+            return $q->where('user_id', $user->id);
+        })
+            ->where('tryout_id', $id)->first()->load('materi.refMateri');
+        $load['tryout'] = $tryout;
+        $load['tryout_peserta'] = TryoutPeserta::where('user_id', $user->id)
+            ->where('tryout_id', $tryout->tryout_id)->first();
+        //dd($load);
+
+        return view('pages.siswa.tryout.detail', $load);
     }
 
     /**

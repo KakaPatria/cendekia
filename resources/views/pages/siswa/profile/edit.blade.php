@@ -63,11 +63,11 @@
 
                             <div class="mb-3">
                                 <label for="nama " class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control" id="nama" name="name" placeholder="Masukan Nama Lengkap" required value="{{ old('name',$user->name) }}">
+                                <input type="text" class="form-control bg-light" id="nama" name="name" placeholder="Masukan Nama Lengkap" required value="{{ old('name',$user->name) }}" readonly>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Masukan Email" required value="{{ old('email',$user->email) }}">
+                                <input type="text" class="form-control bg-light" id="email" name="email" placeholder="Masukan Email" required value="{{ old('email',$user->email) }}" readonly>
                             </div>
                             <div class="mb-3">
                                 <label for="telepon" class="form-label">Telepon</label>

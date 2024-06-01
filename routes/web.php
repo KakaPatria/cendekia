@@ -61,6 +61,9 @@ Route::name('panel.')->prefix('panel')->group(function () {
 
 /* Route Siswa */
 Route::get('/login', [SiswaUserController::class, 'login'])->name('login');
+Route::get('/google/redirect', [SiswaUserController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/google/callback', [SiswaUserController::class, 'handleGoogleCallback'])->name('google.callback');
+
 Route::name('siswa.')->prefix('siswa')->group(function () {
 
     Route::post('login', [SiswaUserController::class, 'doLogin'])->name('doLogin');
@@ -68,16 +71,23 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
     Route::get('register', [SiswaUserController::class, 'register'])->name('register');
     Route::post('register', [SiswaUserController::class, 'doRegister'])->name('doRegister');
 
+    Route::get('complete-profile/', [SiswaUserController::class, 'profileComplete'])->name('profile.complete');
+    Route::put('complete-profile/', [SiswaUserController::class, 'doProfileComplete'])->name('profile.complete.update');
 
-    Route::group(['middleware' => ['auth']], function () {
+    Route::group(['middleware' => ['auth','complete.profile']], function () {
         Route::get('dashboard', [SiswaashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('library', [SiswaaasTryoutController::class, 'library'])->name('tryout.library');
 
         Route::get('profile', [SiswaUserController::class, 'profile'])->name('profile.index');
         Route::get('profile/edit', [SiswaUserController::class, 'edit'])->name('profile.edit');
         Route::put('profile/', [SiswaUserController::class, 'update'])->name('profile.update');
+    
+        
 
         Route::resource('tryout',SiswaaasTryoutController::class);
         Route::get('tryout/{tryout}/daftar',[SiswaaasTryoutController::class,'daftar'])->name('tryout.daftar'); 
+        Route::get('tryout/{tryout}/detail',[SiswaaasTryoutController::class,'detail'])->name('tryout.detail'); 
         Route::resource('tryout_peserta',SiswaaasTryoutPesertaController::class);
         Route::resource('invoice',SiswaaasInvoiceController::class);
 

@@ -60,7 +60,14 @@ Masuk
                                             </div>
 
 
-
+                                            <div class="mt-4 text-center">
+                                                <div class="signin-other-title">
+                                                    <h5 class="fs-13 mb-4 title">Masuk dengan </h5>
+                                                </div>
+                                                <div> 
+                                                    <a href="{{route('google.redirect')}}" class="btn btn-warning btn-icon waves-effect waves-light"><i class="ri-google-fill fs-16"></i></a> 
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
 

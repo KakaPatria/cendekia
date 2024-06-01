@@ -48,13 +48,14 @@
                             </div>
                             <!--end col-->
                             <div class="col-lg-3 col-6">
-                                <p class="text-muted mb-2 text-uppercase fw-semibold"> Status Invoice</p>
-                                <span class="badge badge-soft-success fs-11" id="payment-status">{{ $inv->status }}</span>
+                                <p class="text-muted mb-2 text-uppercase fw-semibold"> Status Invoice</p> 
+                                {!! $inv->status_badge !!}
+
                             </div>
                             <!--end col-->
                             <div class="col-lg-3 col-6">
                                 <p class="text-muted mb-2 text-uppercase fw-semibold">Total</p>
-                                <h5 class="fs-14 mb-0">$<span id="total-amount">{{ $inv->Amount }}</span></h5>
+                                <h5 class="fs-14 mb-0">Rp. <span id="total-amount">{{ $inv->amount_rp }}</span></h5>
                             </div>
                             <!--end col-->
                         </div>
@@ -87,56 +88,20 @@
                                 <thead>
                                     <tr class="table-active">
                                         <th scope="col" style="width: 50px;">#</th>
-                                        <th scope="col">Product Details</th>
-                                        <th scope="col">Rate</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col" class="text-end">Amount</th>
+                                        <th scope="col">Detail</th> 
+                                        <th scope="col" class="text-end">Nominal</th>
                                     </tr>
                                 </thead>
                                 <tbody id="products-list">
                                     <tr>
                                         <th scope="row">01</th>
                                         <td class="text-start">
-                                            <span class="fw-medium">Sweatshirt for Men (Pink)</span>
-                                            <p class="text-muted mb-0">Graphic Print Men & Women Sweatshirt
-                                            </p>
-                                        </td>
-                                        <td>$119.99</td>
-                                        <td>02</td>
-                                        <td class="text-end">$239.98</td>
+                                            <span class="fw-medium">{{ $inv->keterangan}}</span>
+                                            
+                                        </td> 
+                                        <td class="text-end">Rp. {{ $inv->amount_rp }}</td>
                                     </tr>
-                                    <tr>
-                                        <th scope="row">02</th>
-                                        <td class="text-start">
-                                            <span class="fw-medium">Noise NoiseFit Endure Smart Watch</span>
-                                            <p class="text-muted mb-0">32.5mm (1.28 Inch) TFT Color Touch
-                                                Display</p>
-                                        </td>
-                                        <td>$94.99</td>
-                                        <td>01</td>
-                                        <td class="text-end">$94.99</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">03</th>
-                                        <td class="text-start">
-                                            <span class="fw-medium">350 ml Glass Grocery Container</span>
-                                            <p class="text-muted mb-0">Glass Grocery Container (Pack of 3,
-                                                White)</p>
-                                        </td>
-                                        <td>$24.99</td>
-                                        <td>01</td>
-                                        <td class="text-end">$24.99</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">04</th>
-                                        <td class="text-start">
-                                            <span class="fw-medium">Fabric Dual Tone Living Room Chair</span>
-                                            <p class="text-muted mb-0">Chair (White)</p>
-                                        </td>
-                                        <td>$340.00</td>
-                                        <td>01</td>
-                                        <td class="text-end">$340.00</td>
-                                    </tr>
+                                     
                                 </tbody>
                             </table>
                             <!--end table-->
@@ -144,25 +109,10 @@
                         <div class="border-top border-top-dashed mt-2">
                             <table class="table table-borderless table-nowrap align-middle mb-0 ms-auto" style="width:250px">
                                 <tbody>
-                                    <tr>
-                                        <td>Sub Total</td>
-                                        <td class="text-end">$699.96</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Estimated Tax (12.5%)</td>
-                                        <td class="text-end">$44.99</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Discount <small class="text-muted">(VELZON15)</small></td>
-                                        <td class="text-end">- $53.99</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shipping Charge</td>
-                                        <td class="text-end">$65.00</td>
-                                    </tr>
+                                     
                                     <tr class="border-top border-top-dashed fs-15">
-                                        <th scope="row">Total Amount</th>
-                                        <th class="text-end">$755.96</th>
+                                        <th scope="row">Total</th>
+                                        <th class="text-end">Rp. {{ $inv->amount_rp}}</th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -171,10 +121,11 @@
                         </div>
                         <div class="mt-3">
                             <h6 class="text-muted text-uppercase fw-semibold mb-3">Silahkan melakukan pembayaran  ke rekening berikut :</h6>
-                            <p class="text-muted mb-1">Atas Nama: <span class="fw-medium" id="payment-method">Mastercard</span></p>
-                            <p class="text-muted mb-1">Nomor Rekening: <span class="fw-medium" id="card-holder-name">David Nichols</span></p>
+                            <p class="text-muted mb-1">Atas Nama: <span class="fw-medium" id="payment-method">LBB Cendikia</span></p>
+                            <p class="text-muted mb-1">BANK: <span class="fw-medium" id="card-holder-name">BCA</span></p>
+                            <p class="text-muted mb-1">Nomor Rekening: <span class="fw-medium" id="card-holder-name">9867112</span></p>
                             
-                            <p class="text-muted">Sejumlah: <span class="fw-medium" id="">Rp </span><span id="card-total-amount">{{ $inv->amount}}</span></p>
+                            <p class="text-muted">Sejumlah: <span class="fw-medium" id="">Rp </span><span id="card-total-amount">{{ $inv->amount_rp}}</span></p>
                         </div>
                         <div class="mt-4">
                             <div class="alert alert-info">

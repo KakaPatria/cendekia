@@ -45,13 +45,13 @@ class TryoutPesertaController extends Controller
             'name' => 'required|string',
             'email' => 'required|email',
             'alamat' => 'required',
-            'telepon' => 'required', 
+            'telepon' => 'required',
         ]);
 
         $user = auth()->user();
 
         $tryout = Tryout::find($request->tryout_id);
-        $peserta =new TryoutPeserta();
+        $peserta = new TryoutPeserta();
         $peserta->tryout_id = $request->tryout_id;
         $peserta->user_id = $user->id;
         $peserta->tryout_peserta_name = $request->name;
@@ -61,24 +61,31 @@ class TryoutPesertaController extends Controller
         $peserta->tryout_peserta_status = 0;
         $peserta->save();
 
-        $prefix = PrefixNumber::find('Invoice')->first();
-        $prefix->value =$prefix->value+1;
-        $prefix->update();
+        if ($tryout->tryout_jenis == 'Gratis') {
+            //dd($tryout->getAverageNilai());
 
-        $invoice = new Invoice();
-        $invoice->user_id = $user->id;
-        $invoice->inv_id = 'IN-'.date('ym').'-'.sprintf('%04d',($prefix->value));
-        $invoice->keterangan = 'Biaya '.$tryout->tryout_judul;
-        $invoice->tryout_id = $request->tryout_id;
-        $invoice->tryout_peserta_id = $peserta->tryout_peserta_id;
-        $invoice->amount = $tryout->getRawOriginal('tryout_nominal');
-        $invoice->status = 0;
-        $invoice->due_date = Carbon::now()->addDays(7)->format('Y-m-d');
-        $invoice->save();
-        
-        //dd($invoice,$peserta,$prefix);
-        return redirect()->route('siswa.invoice.show', $invoice->inv_id)
-        ->withSuccess(('Tryout Berhasil terdaftar. silahkan melakukan pembayaran'));
+            return redirect()->route('siswa.tryout.show', $request->tryout_id)
+                ->withSuccess(('Tryout Berhasil terdaftar'));
+        } else {
+            $prefix = PrefixNumber::find('Invoice')->first();
+            $prefix->value = $prefix->value + 1;
+            $prefix->update();
+
+            $invoice = new Invoice();
+            $invoice->user_id = $user->id;
+            $invoice->inv_id = 'IN-' . date('ym') . '-' . sprintf('%04d', ($prefix->value));
+            $invoice->keterangan = 'Biaya ' . $tryout->tryout_judul;
+            $invoice->tryout_id = $request->tryout_id;
+            $invoice->tryout_peserta_id = $peserta->tryout_peserta_id;
+            $invoice->amount = $tryout->getRawOriginal('tryout_nominal');
+            $invoice->status = 0;
+            $invoice->due_date = Carbon::now()->addDays(7)->format('Y-m-d');
+            $invoice->save();
+
+            //dd($invoice,$peserta,$prefix);
+            return redirect()->route('siswa.invoice.show', $invoice->inv_id)
+                ->withSuccess(('Tryout Berhasil terdaftar. silahkan melakukan pembayaran'));
+        }
     }
 
     /**

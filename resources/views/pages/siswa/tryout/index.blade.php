@@ -85,7 +85,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{ route('siswa.tryout.show',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm editBtn">
+                            <a href="{{ route('siswa.tryout.detail',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm editBtn">
                                 <i class="fa fa-edit"></i> Detail</a>
                         </td>
 
