@@ -76,6 +76,7 @@
                                     @endif
                                     <th scope="col">Avatar</th>
                                     <th scope="col">Roles</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col" colspan="3" width="10%" class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -104,6 +105,7 @@
                                         <span class="label label-primary">{{ $role->name }}</span>
                                         @endforeach
                                     </td>
+                                    <td>{{ $user->status}}</td>
                                     {{-- <td><a href="{{ route('panel.user.show', $user->id) }}" class="btn rounded-pill btn-info btn-sm"><i class="fa fa-search-plus"></i> Detail</a></td> --}}
                                     <td><a href="{{ route('panel.user.edit', ['user'=>$user->id,'roleX'=>$roleX]) }}" class="btn rounded-pill btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a></td>
                                     <td><a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$user->id}}" data-name="{{$user->name}}"><i class="fa fa-trash"></i> Hapus</a></td>

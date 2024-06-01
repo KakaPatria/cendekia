@@ -8,6 +8,9 @@ use App\Http\Controllers\Panel\PermissionController;
 use App\Http\Controllers\Panel\Referensi\MateriController;
 use App\Http\Controllers\Panel\RoleController;
 use App\Http\Controllers\Panel\TryoutController;
+use App\Http\Controllers\Panel\TryoutJawabanController;
+use App\Http\Controllers\Panel\TryoutMateriController;
+use App\Http\Controllers\Panel\TryoutSoalController;
 use App\Http\Controllers\Siswa\UserController as SiswaUserController;
 use App\Http\Controllers\Siswa\DashboardController as SiswaashboardController;
 use App\Http\Controllers\Siswa\TryoutController as SiswaaasTryoutController;
@@ -30,6 +33,8 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::get('ajax/materi-tryout',[AjaxController::class,'materiTryout'])->name('ajax.materi-tryout');
 Route::get('ajax/cari-sekolah',[AjaxController::class,'cariSekolah'])->name('ajax.cari-sekolah');
+Route::get('ajax/cari-siwa',[AjaxController::class,'cariSiswa'])->name('ajax.cari-siswa');
+Route::get('ajax/get-jawaban',[AjaxController::class,'getJawaban'])->name('ajax.get-jawaban');
 /* Route Admin & Pengajar */
 Route::name('panel.')->prefix('panel')->group(function () {
     Route::get('/', [PanelUserController::class, 'login'])->name('login');
@@ -49,6 +54,14 @@ Route::name('panel.')->prefix('panel')->group(function () {
         });
 
         Route::resource('tryout',TryoutController::class);
+        Route::post('tryout/{tryout_id}/addPeserta',[TryoutController::class,'addPeserta'])->name('tryout.addPeserta'); 
+        Route::post('tryout/{tryout_id}/addMateri',[TryoutController::class,'addMateri'])->name('tryout.addMateri'); 
+        Route::post('tryout/{tryout_id}/editMateri',[TryoutController::class,'editMateri'])->name('tryout.editMateri'); 
+        Route::resource('tryout_materi',TryoutMateriController::class); 
+        Route::get('tryout_materi/{tryout_materi}/createJawaban',[TryoutMateriController::class,'createJawaban'])->name('tryout_materi.createJawaban'); 
+        Route::post('tryout_materi/{tryout_materi}/storeJawaban',[TryoutMateriController::class,'storeJawaban'])->name('tryout_materi.storeJawaban'); 
+        Route::put('tryout_materi/{tryout_materi}/updateJawaban',[TryoutMateriController::class,'updateJawaban'])->name('tryout_materi.updateJawaban');  
+        Route::resource('tryout_jawaban',TryoutSoalController::class); 
 
         Route::resource('referensi/materi',MateriController::class);
 

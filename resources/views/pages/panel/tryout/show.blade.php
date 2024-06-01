@@ -16,24 +16,57 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-muted">
-                    <h6 class="mb-3 fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
+                    <div class="align-items-center d-flex mb-2">
+
+                        <div class="flex-grow-1">
+
+                            <h6 class="mb-3 fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <a href="{{ route('panel.tryout.edit',$tryout->tryout_id)}}" class="btn rounded-pill btn-info btn-sm">
+                                <i class="fa fa-edit"></i> Edit</a>
+                            <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$tryout->tryout_id}}" data-name="{{$tryout->tryout_judul}}"><i class="fa fa-trash"></i> Hapus</a>
+                        </div>
+                    </div>
+
                     {!! $tryout->tryout_deskripsi!!}
 
-                    <h6 class="mb-3 fw-bold text-uppercase">Materi</h6>
-
-
                     <!-- Base Example -->
+                    <div class="align-items-center d-flex mb-2">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-3 fw-bold text-uppercase">Materi</h6>
+                        </div>
+                        <div class="flex-shrink-0">
+
+                            <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-materi-modal">
+                                <i class="fa fa-edit"></i> Tambah Materi
+                            </a>
+                        </div>
+                    </div>
+
                     <div class="accordion" id="default-accordion-example">
                         @foreach($tryout->materi as $materi)
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="heading-{{$materi->tryout_materi_id}}">
+
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     {{ $materi->refMateri->ref_materi_judul}}
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="heading-{{$materi->tryout_materi_id}}" data-bs-parent="#default-accordion-example">
                                 <div class="accordion-body">
-                                    {{ $materi->tryout_materi_deskripsi}}
+                                    <div class="align-items-center d-flex mb-2">
+                                        <div class="flex-grow-1">
+
+                                            {{ $materi->tryout_materi_deskripsi}}
+                                        </div>
+                                        <div class="flex-shrink-0">
+
+                                            <a href="{{ route('panel.tryout_materi.show',$materi->tryout_materi_id)}}" class="btn rounded-pill btn-primary btn-sm">
+                                                <i class="fa fa-edit"></i> Detail</a>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -49,325 +82,137 @@
         <div class="card">
             <div class="card-header">
                 <div>
-                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#home-1" role="tab" aria-selected="false" tabindex="-1">
-                                Comments (5)
+                    <div class="align-items-center d-flex mb-2">
+
+                        <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0 flex-grow-1" role="tablist">
+                            <li class="nav-item " role="presentation">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#tryout-soal" role="tab" aria-selected="false" tabindex="-1">
+                                    Daftar Peserta
+                                </a>
+                            </li>
+                            <li class="nav-item " role="presentation">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tryout-hasil-summary" role="tab" aria-selected="false" tabindex="-1">
+                                    Rangking Rata Rata
+                                </a>
+                            </li>
+                            @foreach($tryout->materi as $materi)
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tryout-hasil-{{ $materi->materi_tryout_id}}" role="tab" aria-selected="false" tabindex="-1">
+                                    Hasil {{ $materi->refMateri->ref_materi_judul}}
+                                </a>
+                            </li>
+                            @endforeach
+
+                        </ul>
+                        <!--end nav-->
+                        <div class="flex-shrink-0">
+
+                            <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-peserta-modal">
+                                <i class="fa fa-edit"></i> Tambah Peserta
                             </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#messages-1" role="tab" aria-selected="false" tabindex="-1">
-                                Attachments File (4)
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#profile-1" role="tab" aria-selected="true">
-                                Time Entries (9 hrs 13 min)
-                            </a>
-                        </li>
-                    </ul>
-                    <!--end nav-->
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="tab-content">
-                    <div class="tab-pane" id="home-1" role="tabpanel">
-                        <h5 class="card-title mb-4">Comments</h5>
-                        <div data-simplebar="init" style="height: 508px;" class="px-3 mx-n3 mb-2">
-                            <div class="simplebar-wrapper" style="margin: 0px -16px;">
-                                <div class="simplebar-height-auto-observer-wrapper">
-                                    <div class="simplebar-height-auto-observer"></div>
-                                </div>
-                                <div class="simplebar-mask">
-                                    <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-                                        <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;">
-                                            <div class="simplebar-content" style="padding: 0px 16px;">
-                                                <div class="d-flex mb-4">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="assets/images/users/avatar-7.jpg" alt="" class="avatar-xs rounded-circle">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h5 class="fs-15"><a href="pages-profile.html">Joseph Parker</a> <small class="text-muted">20 Dec 2021 - 05:47AM</small></h5>
-                                                        <p class="text-muted">I am getting message from customers that when they place order always get error message .</p>
-                                                        <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
-                                                        <div class="d-flex mt-4">
-                                                            <div class="flex-shrink-0">
-                                                                <img src="assets/images/users/avatar-10.jpg" alt="" class="avatar-xs rounded-circle">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-3">
-                                                                <h5 class="fs-15"><a href="pages-profile.html">Tonya Noble</a> <small class="text-muted">22 Dec 2021 - 02:32PM</small></h5>
-                                                                <p class="text-muted">Please be sure to check your Spam mailbox to see if your email filters have identified the email from Dell as spam.</p>
-                                                                <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex mb-4">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="assets/images/users/avatar-8.jpg" alt="" class="avatar-xs rounded-circle">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h5 class="fs-15"><a href="pages-profile.html">Thomas Taylor</a> <small class="text-muted">24 Dec 2021 - 05:20PM</small></h5>
-                                                        <p class="text-muted">If you have further questions, please contact Customer Support from the “Action Menu” on your <a href="javascript:void(0);" class="text-decoration-underline">Online Order Support</a>.</p>
-                                                        <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="assets/images/users/avatar-10.jpg" alt="" class="avatar-xs rounded-circle">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h5 class="fs-15"><a href="pages-profile.html">Tonya Noble</a> <small class="text-muted">26 min ago</small></h5>
-                                                        <p class="text-muted">Your <a href="javascript:void(0)" class="text-decoration-underline">Online Order Support</a> provides you with the most current status of your order. To help manage your order refer to the “Action Menu” to initiate return, contact Customer Support and more.</p>
-                                                        <div class="row g-2 mb-3">
-                                                            <div class="col-lg-1 col-sm-2 col-6">
-                                                                <img src="assets/images/small/img-4.jpg" alt="" class="img-fluid rounded">
-                                                            </div>
-                                                            <div class="col-lg-1 col-sm-2 col-6">
-                                                                <img src="assets/images/small/img-5.jpg" alt="" class="img-fluid rounded">
-                                                            </div>
-                                                        </div>
-                                                        <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
-                                                        <div class="d-flex mt-4">
-                                                            <div class="flex-shrink-0">
-                                                                <img src="assets/images/users/avatar-6.jpg" alt="" class="avatar-xs rounded-circle">
-                                                            </div>
-                                                            <div class="flex-grow-1 ms-3">
-                                                                <h5 class="fs-15"><a href="pages-profile.html">Nancy Martino</a> <small class="text-muted">8 sec ago</small></h5>
-                                                                <p class="text-muted">Other shipping methods are available at checkout if you want your purchase delivered faster.</p>
-                                                                <a href="javascript: void(0);" class="badge text-muted bg-light"><i class="mdi mdi-reply"></i> Reply</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="simplebar-placeholder" style="width: 0px; height: 0px;"></div>
-                            </div>
-                            <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
-                                <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
-                            </div>
-                            <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
-                                <div class="simplebar-scrollbar" style="height: 0px; transform: translate3d(0px, 0px, 0px); display: none;"></div>
-                            </div>
-                        </div>
-                        <form class="mt-4">
-                            <div class="row g-3">
-                                <div class="col-lg-12">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Leave a Comments</label>
-                                    <textarea class="form-control bg-light border-light" id="exampleFormControlTextarea1" rows="3" placeholder="Enter comments"></textarea>
-                                </div>
-                                <!--end col-->
-                                <div class="col-12 text-end">
-                                    <button type="button" class="btn btn-ghost-secondary btn-icon waves-effect me-1"><i class="ri-attachment-line fs-16"></i></button>
-                                    <a href="javascript:void(0);" class="btn btn-success">Post Comments</a>
-                                </div>
-                            </div>
-                            <!--end row-->
-                        </form>
-                    </div>
-                    <!--end tab-pane-->
-                    <div class="tab-pane" id="messages-1" role="tabpanel">
-                        <div class="table-responsive table-card">
-                            <table class="table table-borderless align-middle mb-0">
-                                <thead class="table-light text-muted">
-                                    <tr>
-                                        <th scope="col">File Name</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">Upload Date</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-soft-primary text-primary rounded fs-20">
-                                                        <i class="ri-file-zip-fill"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="ms-3 flex-grow-1">
-                                                    <h6 class="fs-15 mb-0"><a href="javascript:void(0)" class="link-secondary">App pages.zip</a></h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>Zip File</td>
-                                        <td>2.22 MB</td>
-                                        <td>21 Dec, 2021</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="true">
-                                                    <i class="ri-equalizer-fill"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink1" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 23px);">
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill me-2 align-middle text-muted"></i>View</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-fill me-2 align-middle text-muted"></i>Download</a></li>
-                                                    <li class="dropdown-divider"></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 align-middle text-muted"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-soft-danger text-danger rounded fs-20">
-                                                        <i class="ri-file-pdf-fill"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="ms-3 flex-grow-1">
-                                                    <h6 class="fs-15 mb-0"><a href="javascript:void(0);" class="link-secondary">Velzon admin.ppt</a></h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>PPT File</td>
-                                        <td>2.24 MB</td>
-                                        <td>25 Dec, 2021</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink2" data-bs-toggle="dropdown" aria-expanded="true">
-                                                    <i class="ri-equalizer-fill"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink2" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 23px);">
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill me-2 align-middle text-muted"></i>View</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-fill me-2 align-middle text-muted"></i>Download</a></li>
-                                                    <li class="dropdown-divider"></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 align-middle text-muted"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-soft-info text-info rounded fs-20">
-                                                        <i class="ri-folder-line"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="ms-3 flex-grow-1">
-                                                    <h6 class="fs-15 mb-0"><a href="javascript:void(0);" class="link-secondary">Images.zip</a></h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>ZIP File</td>
-                                        <td>1.02 MB</td>
-                                        <td>28 Dec, 2021</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink3" data-bs-toggle="dropdown" aria-expanded="true">
-                                                    <i class="ri-equalizer-fill"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink3" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 23px);">
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill me-2 align-middle"></i>View</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-fill me-2 align-middle"></i>Download</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 align-middle"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-soft-danger text-danger rounded fs-20">
-                                                        <i class="ri-image-2-fill"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="ms-3 flex-grow-1">
-                                                    <h6 class="fs-15 mb-0"><a href="javascript:void(0);" class="link-secondary">Bg-pattern.png</a></h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>PNG File</td>
-                                        <td>879 KB</td>
-                                        <td>02 Nov 2021</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink4" data-bs-toggle="dropdown" aria-expanded="true">
-                                                    <i class="ri-equalizer-fill"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink4" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 23px);">
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill me-2 align-middle"></i>View</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-fill me-2 align-middle"></i>Download</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 align-middle"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!--end table-->
-                        </div>
-                    </div>
-                    <!--end tab-pane-->
-                    <div class="tab-pane active show" id="profile-1" role="tabpanel">
-                        <h6 class="card-title mb-4 pb-2">Time Entries</h6>
+                    <div class="tab-pane active show" id="tryout-soal" role="tabpanel">
+                        <h5 class="card-title mb-4">Daftar Peserta</h5>
                         <div class="table-responsive table-card">
                             <table class="table align-middle mb-0">
                                 <thead class="table-light text-muted">
                                     <tr>
-                                        <th scope="col">Member</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Duration</th>
-                                        <th scope="col">Timer Idle</th>
-                                        <th scope="col">Tasks Title</th>
+                                        <th scope="col">No. </th>
+                                        <th scope="col">Nama </th>
+                                        <th scope="col">Asal Sekolah</th>
+                                        <th scope="col">Jenjang</th>
+                                        <th scope="col">Kelas</th>
+                                        <th scope="col">Tanggal Pendaftaran</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($tryout->peserta as $peserta)
                                     <tr>
-                                        <th scope="row">
-                                            <div class="d-flex align-items-center">
-                                                <img src="assets/images/users/avatar-8.jpg" alt="" class="rounded-circle avatar-xxs">
-                                                <div class="flex-grow-1 ms-2">
-                                                    <a href="pages-profile.html" class="fw-medium link-secondary">Thomas Taylor</a>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <td>02 Jan, 2022</td>
-                                        <td>3 hrs 12 min</td>
-                                        <td>05 min</td>
-                                        <td>Apps Pages</td>
+
+                                        <td>{{ $loop->iteration}}</td>
+                                        <td>{{ $peserta->siswa->name}}</td>
+                                        <td>{{ $peserta->siswa->asal_sekolah}}</td>
+                                        <td>{{ $peserta->siswa->jenjang}}</td>
+                                        <td>{{ $peserta->siswa->kelas}}</td>
+                                        <td>{{ $peserta->tanggal_daftar}}</td>
+
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="assets/images/users/avatar-10.jpg" alt="" class="rounded-circle avatar-xxs">
-                                                <div class="flex-grow-1 ms-2">
-                                                    <a href="pages-profile.html" class="fw-medium link-secondary">Tonya Noble</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>28 Dec, 2021</td>
-                                        <td>1 hrs 35 min</td>
-                                        <td>-</td>
-                                        <td>Profile Page Design</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <div class="d-flex align-items-center">
-                                                <img src="assets/images/users/avatar-10.jpg" alt="" class="rounded-circle avatar-xxs">
-                                                <div class="flex-grow-1 ms-2">
-                                                    <a href="pages-profile.html" class="fw-medium link-secondary">Tonya Noble</a>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <td>27 Dec, 2021</td>
-                                        <td>4 hrs 26 min</td>
-                                        <td>03 min</td>
-                                        <td>Ecommerce Dashboard</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <!--end table-->
                         </div>
                     </div>
-                    <!--edn tab-pane-->
+                    <div class="tab-pane " id="tryout-hasil-summary" role="tabpanel">
+                        <h5 class="card-title mb-4">Rangking Rata Rata</h5>
+                        <div class="table-responsive table-card">
+                            <table class="table align-middle mb-0">
+                                <thead class="table-light text-muted">
+                                    <tr>
+                                        <th scope="col">No. </th>
+                                        <th scope="col">Nama </th>
+                                        <th scope="col">Asal Sekolah </th>
+                                        <th scope="col">Rata-Rata</th>
+                                        @foreach($tryout->materi as $materi)
+                                        <th scope="col">{{ $materi->refMateri->ref_materi_judul}}</th>
+                                        @endforeach
+                                        <th>Total Nilai</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($tryout->getAverageNilai() as $value)
+                                    <tr>
+                                        <td>{{ $loop->iteration}}</td>
+                                        <td>{{ $value['siswa']->name}}</td>
+                                        <td>{{ $value['siswa']->asal_sekolah}}</td>
+                                        <td>{{ $value['average']}}</td>
+                                        @foreach($value['list'] as $list)
+                                        <td>{{ $list->nilai}}</td>
+                                        @endforeach
+                                        <td>{{ $value['sum']}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @foreach($tryout->materi as $materi)
+                    <div class="tab-pane " id="tryout-hasil-{{$materi->materi_tryout_id}}" role="tabpanel">
+                        <h5 class="card-title mb-4">Rangking {{ $materi->refMateri->ref_materi_judul}}</h5>
+                        <div class="table-responsive table-card">
+                            <table class="table align-middle mb-0">
+                                <thead class="table-light text-muted">
+                                    <tr>
+                                        <th scope="col">No. </th>
+                                        <th scope="col">Nama </th>
+                                        <th scope="col">Asal Sekolah </th>
+                                        <th scope="col">Nilai </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($materi->nilai->sortByDesc('nilai') as $value)
+                                    <tr>
+                                        <td>{{ $loop->iteration}}</td>
+                                        <td>{{ $value->siswa->name}}</td>
+                                        <td>{{ $value->siswa->asal_sekolah}}</td>
+                                        <td>{{ $value->nilai}}</td>
+
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @endforeach
+                    <!--end tab-pane-->
+
 
                 </div>
                 <!--end tab-content-->
@@ -377,13 +222,21 @@
     </div>
     <!--end col-->
     <div class="col-xxl-3">
-
+        <div class="row g-4 mb-3">
+            <div class="col-sm">
+                <div class="d-flex justify-content-sm-end gap-2">
+                    <div>
+                        <a href="{{ route('panel.tryout.index')}}" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card mb-3">
             <div class="card-body">
                 <div class="mb-4">
                     @if($tryout->tryout_banner)
                     <a class="image-popup" href="{{ Storage::url($tryout->tryout_banner) }}" title="">
-                        <img class="gallery-img img-fluid mx-auto" src="{{ Storage::url($tryout->tryout_banner) }}" alt="">
+                        <img class="gallery-img img-fluid mx-auto " src="{{ Storage::url($tryout->tryout_banner) }}" alt="">
                     </a>
                     @endif
                 </div>
@@ -416,8 +269,116 @@
 
     </div>
     <!---end col-->
-
 </div>
+
+<div class="modal fade" id="add-materi-modal" tabindex="-1" aria-labelledby="add-soal-label" aria-hidden="true">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-invoice-label">Tambah Materi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('panel.tryout.addMateri',$tryout->tryout_id)}}" id="add-materi-form" method="post" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Materi</label>
+                        <div class="col-md-9">
+
+                            <select class="form-control select-materi" id="add-select-materi" name="materi_id">
+                                <option value="">-- Pilih Materi --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Pengajar</label>
+                        <div class="col-md-9">
+                            <select class="form-control " id="add-select-pengajar" name="pengajar_id">
+                                <option value="">-- Pilih Pengajar --</option>
+                                @foreach($pengajar as $value)
+                                <option value="{{ $value->id}}">{{ $value->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Keterangan</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" id="" name="tryout_materi_deskripsi" rows="5"></textarea>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" form="add-materi-form" class="btn btn-primary">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-peserta-modal" tabindex="-1" aria-labelledby="add-soal-label" aria-hidden="true">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-invoice-label">Tambah Peserta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('panel.tryout.addPeserta',$tryout->tryout_id)}}" id="add-peserta-form" method="post" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Siswa</label>
+                        <div class="col-md-9">
+
+                            <select id="add-siswa-tryout" class="form-control" name="siswa[]" multiple>
+                                <option value="">Pilih Siswa</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" form="add-peserta-form" class="btn btn-primary">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Hapus Materi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Apakah anda yakin menghapus <strong id="deleteName"></strong>
+                <form action="" method="POST" id="deleteForm">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" form="deleteForm" class="btn btn-danger">Hapus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('script')
 <script src="{{ URL::asset('/assets/libs/glightbox/glightbox.min.js') }}"></script>
@@ -428,5 +389,55 @@
 
 <script>
     $('#nav-tryout').addClass('active')
+
+    $('.deleteBtn').click(function() {
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        $('#deleteForm').attr('action', '<?php echo route('panel.tryout.destroy', '') ?>/' + id)
+        $('#deleteName').html(name);
+    })
+    $('#add-select-pengajar').select2({
+        dropdownParent: $('#add-materi-modal'),
+    })
+    $.ajax({
+        url: '<?= route('ajax.materi-tryout') ?>',
+        data: {
+            kelas: '<?= $tryout->tryout_kelas ?>'
+        },
+        dataType: 'json',
+        success: function(data) {
+            $('#add-select-materi').empty().select2({
+                data: data.results,
+                dropdownParent: $('#add-materi-modal'),
+                placeholder: 'Pilih Materi'
+            });
+        }
+    });
+
+    $('#add-siswa-tryout').select2({
+        placeholder: "Cari Siswa",
+        allowClear: true,
+        tags: true,
+        dropdownParent: $('#add-peserta-modal'),
+        minimumInputLength: 1,
+        ajax: {
+            url: '<?= route('ajax.cari-siswa') ?>',
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return {
+                    q: params.term // search term
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+
+
+    });
 </script>
 @endsection

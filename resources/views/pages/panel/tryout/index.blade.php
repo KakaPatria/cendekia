@@ -67,8 +67,9 @@
                                     <th scope="col">Judul Materi</th>
                                     <th scope="col">Jenjang</th>
                                     <th scope="col">Kelas</th>
+                                    <th scope="col">Jenis</th>
                                     <th scope="col">Materi</th>
-                                    <th scope="col" colspan="3" width="10%" class="text-center">Action</th>
+                                    <th scope="col"   width="10%" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,6 +81,7 @@
 
                                     <td>{{ $data->tryout_jenjang }}</td>
                                     <td>{{ $data->tryout_kelas }}</td>
+                                    <td>{{ $data->tryout_jenis }}</td>
                                     <td>
                                         <div class="hstack flex-wrap gap-2 fs-16">
                                             @foreach($data->materi as $materi)
@@ -87,15 +89,10 @@
                                             @endforeach
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <a href="{{ route('panel.tryout.show',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm">
                                             <i class="fa fa-edit"></i> Detail</a>
                                     </td>
-                                    <td>
-                                        <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm">
-                                            <i class="fa fa-edit"></i> Edit</a>
-                                    </td>
-                                    <td><a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$data->tryout_id}}" data-name="{{$data->tryout_judul}}"><i class="fa fa-trash"></i> Hapus</a></td>
                                 </tr>
                                 @empty
                                 <div class="alert alert-danger">
@@ -115,29 +112,7 @@
 </div>
 
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Hapus Materi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Apakah anda yakin menghapus <strong id="deleteName"></strong>
-                <form action="" method="POST" id="deleteForm">
-                    @csrf
-                    @method('DELETE')
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" form="deleteForm" class="btn btn-danger">Hapus</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 @endsection
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -174,12 +149,7 @@
 
 
 
-    $('.deleteBtn').click(function() {
-        var id = $(this).data('id');
-        var name = $(this).data('name');
-        $('#deleteForm').attr('action', '<?php echo route('panel.tryout.destroy', '') ?>/' + id)
-        $('#deleteName').html(name);
-    })
+   
     <?php if ($filter_jenjang) { ?>
         $('#filter-jenjang').val('<?= $filter_jenjang ?>').change()
 
