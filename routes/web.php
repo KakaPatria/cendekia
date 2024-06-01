@@ -87,7 +87,7 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
     Route::get('complete-profile/', [SiswaUserController::class, 'profileComplete'])->name('profile.complete');
     Route::put('complete-profile/', [SiswaUserController::class, 'doProfileComplete'])->name('profile.complete.update');
 
-    Route::group(['middleware' => ['auth','complete.profile']], function () {
+    Route::group(['middleware' => ['auth','user.aktif','complete.profile']], function () {
         Route::get('dashboard', [SiswaashboardController::class, 'index'])->name('dashboard');
 
         Route::get('library', [SiswaaasTryoutController::class, 'library'])->name('tryout.library');
