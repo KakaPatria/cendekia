@@ -63,6 +63,8 @@ class TryoutPesertaController extends Controller
 
         if ($tryout->tryout_jenis == 'Gratis') {
             //dd($tryout->getAverageNilai());
+            $peserta->tryout_peserta_status = 1;
+            $peserta->update();
 
             return redirect()->route('siswa.tryout.show', $request->tryout_id)
                 ->withSuccess(('Tryout Berhasil terdaftar'));

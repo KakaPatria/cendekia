@@ -53,7 +53,7 @@ Daftar
                                             </div>
                                             <div class="mb-3">
                                                 <label for="telepon" class="form-label">Alamat</label>
-                                                <input type="number" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat" required value="{{ old('alamat') }}">
+                                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat" required value="{{ old('alamat') }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
