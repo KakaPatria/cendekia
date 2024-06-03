@@ -66,8 +66,9 @@
                         <th scope="col">Judul Materi</th>
                         <th scope="col">Jenjang</th>
                         <th scope="col">Kelas</th>
+                        <th scope="col">Jenis</th>
                         <th scope="col">Materi</th>
-                        <th scope="col" colspan="3" width="10%" class="text-center">Action</th>
+                        <th scope="col" colspan="1" width="10%" class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,6 +78,7 @@
                         <td>{{ $data->tryout_judul }}</td>
                         <td>{{ $data->tryout_jenjang }}</td>
                         <td>{{ $data->tryout_kelas }}</td>
+                        <td>{{ $data->tryout_jenis }}</td>
                         <td>
                             <div class="hstack flex-wrap gap-2 fs-16">
                                 @foreach($data->materi as $materi)
@@ -84,9 +86,10 @@
                                 @endforeach
                             </div>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <a href="{{ route('siswa.tryout.detail',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm editBtn">
-                                <i class="fa fa-edit"></i> Detail</a>
+                                <i class="fa fa-edit"></i> Detail
+                            </a>
                         </td>
 
                     </tr>

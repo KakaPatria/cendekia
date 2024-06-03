@@ -86,24 +86,32 @@ class Tryout extends Model
             $susunNilai[$key]['siswa'] = $value[0]->siswa;
             $susunNilai[$key]['average'] = $value->avg('nilai');
             $susunNilai[$key]['sum'] = $value->sum('nilai');
-            $susunNilai[$key]['list'] = $value;
+            $susunNilai[$key]['list'] = $value->keyBy('tryout_materi_id')->toArray();
         }
-
-
+ 
         // Mengurutkan array berdasarkan key 'usia' secara ascending
         usort($susunNilai, function ($a, $b) {
             return $a['average'] < $b['average'];
         });
 
-
         return $susunNilai;
     }
-    
-    function isTerdaftar($id){
 
-        $peserta = TryoutPeserta::where('user_id',auth()->user()->id)
-        ->where('tryout_id', $id)
-        ->first();
+    function getIsRegisteredAttribute()
+    {
+//dd(auth()->user()->id);
+        $peserta = TryoutPeserta::where('user_id', auth()->user()->id)
+            ->where('tryout_id', $this->tryout_id)
+            ->first();
+        //dd($peserta);
+        return $peserta;
+    }
+    function isTerdaftar($id)
+    {
+
+        $peserta = TryoutPeserta::where('user_id', auth()->user()->id)
+            ->where('tryout_id', $id)
+            ->first();
         //dd($peserta);
         return $peserta;
     }

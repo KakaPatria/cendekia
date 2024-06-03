@@ -172,8 +172,12 @@
                                         <td>{{ $value['siswa']->name}}</td>
                                         <td>{{ $value['siswa']->asal_sekolah}}</td>
                                         <td>{{ $value['average']}}</td>
-                                        @foreach($value['list'] as $list)
-                                        <td>{{ $list->nilai}}</td>
+                                        @foreach($tryout->materi as $materi)
+                                        <td> 
+                                            @if(isset($value['list'][$materi->tryout_materi_id]))
+                                            {{ $value['list'][$materi->tryout_materi_id]['nilai'] }}
+                                            @endif
+                                        </td>
                                         @endforeach
                                         <td>{{ $value['sum']}}</td>
                                     </tr>

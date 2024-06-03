@@ -17,8 +17,7 @@
 @show
 <!-- Begin page -->
 <div id="layout-wrapper">
-    @include('layouts.siswa.topbar')
-    @include('layouts.siswa.sidebar')
+    @include('layouts.siswa.topbar') 
     <!-- ============================================================== -->
     <!-- Start right Content here -->
     <!-- ============================================================== -->
@@ -29,8 +28,7 @@
             </div>
             <!-- container-fluid -->
         </div>
-        <!-- End Page-content -->
-        @include('layouts.footer')
+        <!-- End Page-content --> 
     </div>
     <!-- end main content-->
 </div>

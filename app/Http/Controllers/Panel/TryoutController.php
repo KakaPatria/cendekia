@@ -265,17 +265,24 @@ class TryoutController extends Controller
         return redirect()->route('panel.tryout.show', $tryout->tryout_id)
             ->withSuccess(('Materi Tryout Berhasil ditambahkan.'));
     }
+
     public function editMateri(Request $request, $id)
     {
         $request->validate([
             'materi_id' => 'required',
             'pengajar_id' => 'required',
             'tryout_materi_deskripsi' => 'required',
+            'periode_mulai' => 'required',
+            'periode_selesai' => 'required',
+            'safe_mode' => 'required|integer',
         ]);
         $tryoutMateri = TryoutMateri::find($id);
         $tryoutMateri->materi_id =  $request->materi_id;
         $tryoutMateri->pengajar_id =  $request->pengajar_id;
         $tryoutMateri->tryout_materi_deskripsi =  $request->tryout_materi_deskripsi;
+        $tryoutMateri->periode_mulai = $request->periode_mulai;
+        $tryoutMateri->periode_selesai = $request->periode_selesai;
+        $tryoutMateri->safe_mode = $request->safe_mode;
         $tryoutMateri->update();
         
 

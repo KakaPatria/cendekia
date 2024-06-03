@@ -2,6 +2,8 @@
 @section('title') Tryout @endsection
 @section('css')
 <link rel="stylesheet" href="{{ URL::asset('assets/libs/glightbox/glightbox.min.css') }}">
+<link href="{{ URL::asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
+
 @endsection
 @section('content')
 @component('components.breadcrumb')
@@ -66,26 +68,81 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-muted">
-                    <h6 class="mb-3 fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
-                    {!! $tryout->tryout_deskripsi!!}
-
-                    <h6 class="mb-3 fw-bold text-uppercase">Materi</h6>
+                    <h6 class="mb-2 fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
+                    <div class="mb-2">
+                        {!! $tryout->tryout_deskripsi!!}
+                    </div>
+                    <h6 class="mb-2 fw-bold text-uppercase">Materi</h6>
 
 
                     <!-- Base Example -->
-                    <div class="accordion" id="default-accordion-example">
+                    <div class="row">
                         @foreach($tryout->materi as $materi)
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading-{{$materi->tryout_materi_id}}">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    {{ $materi->refMateri->ref_materi_judul}}
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="heading-{{$materi->tryout_materi_id}}" data-bs-parent="#default-accordion-example">
-                                <div class="accordion-body">
-                                    {{ $materi->tryout_materi_deskripsi}}
+                        <div class="col-xxl-3 col-sm-6 project-card">
+                            <div class="card card ribbon-box border ribbon-fill shadow-none right mb-lg-0">
+                                <div class="card-body">
+                                    @if($materi->nilaiUser && $materi->nilaiUser->status == 'Selesai')
+                                    <h5 class="ribbon ribbon-info">Selesai</h5>
+                                    @endif
+                                    <div class="d-flex flex-column h-100">
+                                        <div class="d-flex mb-2">
+
+                                            <div class="flex-grow-1">
+                                                <h5 class="mb-1 fs-16"><a href="apps-projects-overview.html" class="text-dark">{{ $materi->refMateri->ref_materi_judul}}</a></h5>
+                                                <p class="text-muted text-truncate-two-lines mb-3">{{ $materi->tryout_materi_deskripsi}}</p>
+                                                <div>
+                                                    <p class="text-muted mb-1">Pengajar</p>
+                                                    <h5 class="fs-14">{{ $materi->pengajar->name}}</h5>
+                                                </div>
+                                                <div>
+                                                    <p class="text-muted mb-1">Periode Pengerjaan</p>
+                                                    <h5 class="fs-14">{{ $materi->periode}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if($materi->nilaiUser)
+                                        <div class="mt-auto">
+                                            <div class="d-flex mb-2">
+                                                <div class="flex-grow-1">
+                                                    <div>Progres</div>
+                                                </div>
+                                                <div class="flex-shrink-0">
+                                                    <div><i class="ri-list-check align-bottom me-1 text-muted"></i> {{ $materi->nilaiUser->soal_dijekerjakan .'/'.$materi->nilaiUser->soal_total}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="progress progress-sm animated-progress">
+                                                <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{ $materi->nilaiUser->progres_persen}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $materi->nilaiUser->progres_persen}}%;"></div><!-- /.progress-bar -->
+                                            </div><!-- /.progress -->
+                                        </div>
+                                        @endif
+                                    </div>
+
                                 </div>
+                                <!-- end card body -->
+                                <div class="card-footer bg-transparent border-top-dashed py-2">
+                                    <div class="text-center">
+                                        @if(!$materi->in_periode)
+                                        <div class="alert alert-danger mb-xl-0" role="alert">
+                                            Belum dalam periode tryout
+                                        </div>
+                                        @else
+                                        @if($materi->nilaiUser)
+                                        @if($materi->nilaiUser->status == 'Proses')
+                                        <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',$materi->tryout_materi_id)}}">
+                                            <i class="fa fa-edit"></i> Lanjutkan
+                                        </a>
+                                        @endif
+                                        @else
+                                        <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',$materi->tryout_materi_id)}}">
+                                            <i class="fa fa-edit"></i> Kerjakan
+                                        </a>
+                                        @endif
+                                        @endif
+                                    </div>
+                                </div>
+                                <!-- end card footer -->
                             </div>
+                            <!-- end card -->
                         </div>
                         @endforeach
 
@@ -100,69 +157,28 @@
             <div class="card-header">
                 <div>
                     <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+
                         <li class="nav-item " role="presentation">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#tryout-soal" role="tab" aria-selected="false" tabindex="-1">
-                                Daftar Tryout
-                            </a>
-                        </li>
-                        <li class="nav-item " role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#tryout-hasil-summary" role="tab" aria-selected="false" tabindex="-1">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#tryout-hasil-summary" role="tab" aria-selected="false" tabindex="-1">
                                 Rangking Rata Rata
                             </a>
                         </li>
-                        @foreach($tryout->materi as $materi)
+                        @foreach($tryout->materi as $kMateri => $materi)
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#tryout-hasil-{{ $materi->materi_tryout_id}}" role="tab" aria-selected="false" tabindex="-1">
+                            <a class="nav-link" data-bs-toggle="tab" href="#tryout-hasil-{{ $materi->tryout_materi_id}}" role="tab" aria-selected="false" tabindex="{{ $kMateri}}">
                                 Hasil {{ $materi->refMateri->ref_materi_judul}}
                             </a>
                         </li>
                         @endforeach
-                        {{--<li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#messages-1" role="tab" aria-selected="false" tabindex="-1">
-                                Attachments File (4)
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link " data-bs-toggle="tab" href="#profile-1" role="tab" aria-selected="true">
-                                Time Entries (9 hrs 13 min)
-                            </a>
-                        </li>--}}
+
                     </ul>
                     <!--end nav-->
                 </div>
             </div>
             <div class="card-body">
                 <div class="tab-content">
-                    <div class="tab-pane active show" id="tryout-soal" role="tabpanel">
-                        <h5 class="card-title mb-4">Daftar Tryout yang perlu dikerjakan</h5>
-                        <ul class="list-group list-group-flush border-dashed">
-                            @foreach($tryout->materi as $materi)
 
-                            <li class="list-group-item ps-0">
-                                <div class="row align-items-center g-3">
-                                    <div class="col-auto">
-                                        <div class="avatar-sm p-1 py-2 h-auto bg-light rounded-3">
-                                            <div class="text-center">
-                                                <h5 class="mb-0">25</h5>
-                                                <div class="text-muted">Tue</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <a href="#" class="text-reset fs-14 mb-0">{{ $materi->refMateri->ref_materi_judul}}</a>
-                                        <h5 class="text-muted mt-0 mb-1 fs-13">Jumlah Soal (10)</h5>
-                                    </div>
-                                    <div class="col-sm-auto">
-
-                                    </div>
-                                </div>
-                                <!-- end row -->
-                            </li><!-- end -->
-                            @endforeach
-
-                        </ul>
-                    </div>
-                    <div class="tab-pane " id="tryout-hasil-summary" role="tabpanel">
+                    <div class="tab-pane active show " id="tryout-hasil-summary" role="tabpanel">
                         <h5 class="card-title mb-4">Rangking Rata Rata</h5>
                         <div class="table-responsive table-card">
                             <table class="table align-middle mb-0">
@@ -181,250 +197,93 @@
                                 </thead>
                                 <tbody>
                                     @foreach($tryout->getAverageNilai() as $value)
+                                    @if($value['average'])
                                     <tr>
                                         <td>{{ $loop->iteration}}</td>
                                         <td>{{ $value['siswa']->name}}</td>
                                         <td>{{ $value['siswa']->asal_sekolah}}</td>
                                         <td>{{ $value['average']}}</td>
-                                        @foreach($value['list'] as $list)
-                                        <td>{{ $list->nilai}}</td>
+                                        @foreach($tryout->materi as $materi)
+                                        <td>
+                                            @if(isset($value['list'][$materi->tryout_materi_id]))
+                                            {{ $value['list'][$materi->tryout_materi_id]['nilai'] }}
+                                            @endif
+                                        </td>
                                         @endforeach
                                         <td>{{ $value['sum']}}</td>
                                     </tr>
+                                    @endif
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     @foreach($tryout->materi as $materi)
-                    <div class="tab-pane " id="tryout-hasil-{{$materi->materi_tryout_id}}" role="tabpanel">
-                        <h5 class="card-title mb-4">Rangking {{ $materi->refMateri->ref_materi_judul}}</h5>
-                        <div class="table-responsive table-card">
+                    <div class="tab-pane " id="tryout-hasil-{{$materi->tryout_materi_id}}" role="tabpanel">
+                        <h5 class="card-title mb-4">Analisa Pengerjaan {{ $materi->refMateri->ref_materi_judul}}</h5>
+                        @if($materi->nilaiSiswa)
+                        <div class="row p-2">
+                            <div class="col-3">
+                                <div>
+                                    <p class="text-muted mb-1">Nilai</p>
+                                    <h5 class="fs-14">{{$materi->nilaiSiswa->nilai}}</h5>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <p class="text-muted mb-1">Jumlah Benar</p>
+                                    <h5 class="fs-14">{{$materi->nilaiSiswa->jumlah_benar}}</h5>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <p class="text-muted mb-1">Jumlah Salah</p>
+                                    <h5 class="fs-14">{{$materi->nilaiSiswa->jumlah_salah}}</h5>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <p class="text-muted mb-1">Lama Pengerjaan</p>
+                                    <h5 class="fs-14">{{$materi->nilaiSiswa->durasi_pengerjaan}}</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive table-card mt-2">
                             <table class="table align-middle mb-0">
                                 <thead class="table-light text-muted">
                                     <tr>
                                         <th scope="col">No. </th>
-                                        <th scope="col">Nama </th>
-                                        <th scope="col">Asal Sekolah </th>
-                                        <th scope="col">Nilai </th>
-
+                                        <th scope="col">Jawaban </th>
+                                        <th scope="col">Kunci Jawaban</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($materi->nilai->sortByDesc('nilai') as $value)
+                                    @foreach($materi->soal as $soal)
                                     <tr>
-                                        <td>{{ $loop->iteration}}</td>
-                                        <td>{{ $value->siswa->name}}</td>
-                                        <td>{{ $value->siswa->asal_sekolah}}</td>
-                                        <td>{{ $value->nilai}}</td>
+
+                                        <td>{{ $soal->tryout_nomor}}</td>
+                                        <td>{{ $soal->pengerjaan->tryout_jawaban}}</td>
+                                        <td>{{ $soal->tryout_kunci_jawaban}}</td>
+                                        <td>{!! $soal->pengerjaan->status_badge !!}</td>
+                                        <td> 
+                                            <a href="" class="btn rounded-pill btn-info btn-sm" >
+                                                <i class="fa fa-edit"></i> Detail
+                                            </a>
+                                        </td>
 
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                            <!--end table-->
                         </div>
+                        @endif
                     </div>
                     @endforeach
-                    <!--end tab-pane-->
-                    {{-- <div class="tab-pane" id="messages-1" role="tabpanel">
-                        <div class="table-responsive table-card">
-                            <table class="table table-borderless align-middle mb-0">
-                                <thead class="table-light text-muted">
-                                    <tr>
-                                        <th scope="col">File Name</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Size</th>
-                                        <th scope="col">Upload Date</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-soft-primary text-primary rounded fs-20">
-                                                        <i class="ri-file-zip-fill"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="ms-3 flex-grow-1">
-                                                    <h6 class="fs-15 mb-0"><a href="javascript:void(0)" class="link-secondary">App pages.zip</a></h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>Zip File</td>
-                                        <td>2.22 MB</td>
-                                        <td>21 Dec, 2021</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="true">
-                                                    <i class="ri-equalizer-fill"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink1" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 23px);">
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill me-2 align-middle text-muted"></i>View</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-fill me-2 align-middle text-muted"></i>Download</a></li>
-                                                    <li class="dropdown-divider"></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 align-middle text-muted"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-soft-danger text-danger rounded fs-20">
-                                                        <i class="ri-file-pdf-fill"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="ms-3 flex-grow-1">
-                                                    <h6 class="fs-15 mb-0"><a href="javascript:void(0);" class="link-secondary">Velzon admin.ppt</a></h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>PPT File</td>
-                                        <td>2.24 MB</td>
-                                        <td>25 Dec, 2021</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink2" data-bs-toggle="dropdown" aria-expanded="true">
-                                                    <i class="ri-equalizer-fill"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink2" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 23px);">
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill me-2 align-middle text-muted"></i>View</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-fill me-2 align-middle text-muted"></i>Download</a></li>
-                                                    <li class="dropdown-divider"></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 align-middle text-muted"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-soft-info text-info rounded fs-20">
-                                                        <i class="ri-folder-line"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="ms-3 flex-grow-1">
-                                                    <h6 class="fs-15 mb-0"><a href="javascript:void(0);" class="link-secondary">Images.zip</a></h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>ZIP File</td>
-                                        <td>1.02 MB</td>
-                                        <td>28 Dec, 2021</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink3" data-bs-toggle="dropdown" aria-expanded="true">
-                                                    <i class="ri-equalizer-fill"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink3" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 23px);">
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill me-2 align-middle"></i>View</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-fill me-2 align-middle"></i>Download</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 align-middle"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar-sm">
-                                                    <div class="avatar-title bg-soft-danger text-danger rounded fs-20">
-                                                        <i class="ri-image-2-fill"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="ms-3 flex-grow-1">
-                                                    <h6 class="fs-15 mb-0"><a href="javascript:void(0);" class="link-secondary">Bg-pattern.png</a></h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>PNG File</td>
-                                        <td>879 KB</td>
-                                        <td>02 Nov 2021</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink4" data-bs-toggle="dropdown" aria-expanded="true">
-                                                    <i class="ri-equalizer-fill"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink4" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 23px);">
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-eye-fill me-2 align-middle"></i>View</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-fill me-2 align-middle"></i>Download</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-delete-bin-5-line me-2 align-middle"></i>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!--end table-->
-                        </div>
-                    </div>
-                    <!--end tab-pane-->
-                    <div class="tab-pane " id="profile-1" role="tabpanel">
-                        <h6 class="card-title mb-4 pb-2">Time Entries</h6>
-                        <div class="table-responsive table-card">
-                            <table class="table align-middle mb-0">
-                                <thead class="table-light text-muted">
-                                    <tr>
-                                        <th scope="col">Member</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Duration</th>
-                                        <th scope="col">Timer Idle</th>
-                                        <th scope="col">Tasks Title</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            <div class="d-flex align-items-center">
-                                                <img src="assets/images/users/avatar-8.jpg" alt="" class="rounded-circle avatar-xxs">
-                                                <div class="flex-grow-1 ms-2">
-                                                    <a href="pages-profile.html" class="fw-medium link-secondary">Thomas Taylor</a>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <td>02 Jan, 2022</td>
-                                        <td>3 hrs 12 min</td>
-                                        <td>05 min</td>
-                                        <td>Apps Pages</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="assets/images/users/avatar-10.jpg" alt="" class="rounded-circle avatar-xxs">
-                                                <div class="flex-grow-1 ms-2">
-                                                    <a href="pages-profile.html" class="fw-medium link-secondary">Tonya Noble</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>28 Dec, 2021</td>
-                                        <td>1 hrs 35 min</td>
-                                        <td>-</td>
-                                        <td>Profile Page Design</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <div class="d-flex align-items-center">
-                                                <img src="assets/images/users/avatar-10.jpg" alt="" class="rounded-circle avatar-xxs">
-                                                <div class="flex-grow-1 ms-2">
-                                                    <a href="pages-profile.html" class="fw-medium link-secondary">Tonya Noble</a>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <td>27 Dec, 2021</td>
-                                        <td>4 hrs 26 min</td>
-                                        <td>03 min</td>
-                                        <td>Ecommerce Dashboard</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!--end table-->
-                        </div>
-                    </div>--}}
-                    <!--edn tab-pane-->
+
 
                 </div>
                 <!--end tab-content-->
@@ -442,10 +301,50 @@
 <script src="{{ URL::asset('/assets/libs/glightbox/glightbox.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/libs/isotope-layout/isotope-layout.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/pages/gallery.init.js') }}"></script>
+<script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 
 
 <script>
     $('#nav-tryout').addClass('active')
+
+    $('.lanjutkan-btn').click(function() {
+        var action = $(this).data('action')
+        Swal.fire({
+            title: "Siap lanjutkan tryout?",
+            text: "Persiapkan diri anda dan berdoa",
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonText: "kembali",
+            confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
+            cancelButtonClass: 'btn btn-danger w-xs mt-2',
+            confirmButtonText: "Mulai!",
+            buttonsStyling: false,
+            showCloseButton: true
+        }).then(function(result) {
+            if (result.value) {
+                window.location.href = action;
+            }
+        });
+    })
+    $('.kerjakan-btn').click(function() {
+        var action = $(this).data('action')
+        Swal.fire({
+            title: "Siap memulai tryout?",
+            text: "Persiapkan diri anda dan berdoa",
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonText: "kembali",
+            confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
+            cancelButtonClass: 'btn btn-danger w-xs mt-2',
+            confirmButtonText: "Mulai!",
+            buttonsStyling: false,
+            showCloseButton: true
+        }).then(function(result) {
+            if (result.value) {
+                window.location.href = action;
+            }
+        });
+    })
 </script>
 @endsection

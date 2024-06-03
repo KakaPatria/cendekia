@@ -16,6 +16,7 @@ use App\Http\Controllers\Siswa\DashboardController as SiswaashboardController;
 use App\Http\Controllers\Siswa\TryoutController as SiswaaasTryoutController;
 use App\Http\Controllers\Siswa\TryoutPesertaController as SiswaaasTryoutPesertaController;
 use App\Http\Controllers\Siswa\InvoiceController as SiswaaasInvoiceController;
+use App\Http\Controllers\Siswa\PengerjaanController as SiswaasPengerjaanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -96,13 +97,19 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
         Route::get('profile/edit', [SiswaUserController::class, 'edit'])->name('profile.edit');
         Route::put('profile/', [SiswaUserController::class, 'update'])->name('profile.update');
     
-        
 
         Route::resource('tryout',SiswaaasTryoutController::class);
         Route::get('tryout/{tryout}/daftar',[SiswaaasTryoutController::class,'daftar'])->name('tryout.daftar'); 
         Route::get('tryout/{tryout}/detail',[SiswaaasTryoutController::class,'detail'])->name('tryout.detail'); 
         Route::resource('tryout_peserta',SiswaaasTryoutPesertaController::class);
         Route::resource('invoice',SiswaaasInvoiceController::class);
+
+        Route::get('tryout/{tryout_materi_id}/pengerjaan',[SiswaasPengerjaanController::class,'create'])->name('tryout.pengerjaan.create'); 
+        Route::post('tryout/{tryout_materi_id}/pengerjaan',[SiswaasPengerjaanController::class,'store'])->name('tryout.pengerjaan.store'); 
+
+        Route::post('tryout/{nilai}/jawab',[SiswaasPengerjaanController::class,'jawab'])->name('tryout.pengerjaan.jawab'); 
+        Route::get('tryout/{nilai}/leave',[SiswaasPengerjaanController::class,'leave'])->name('tryout.pengerjaan.leave'); 
+        Route::get('tryout/{nilai}/selesai',[SiswaasPengerjaanController::class,'selesai'])->name('tryout.pengerjaan.selesai'); 
 
         Route::post('logout', [SiswaUserController::class, 'logout'])->name('logout');
     });

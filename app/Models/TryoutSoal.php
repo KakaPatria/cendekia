@@ -22,4 +22,9 @@ class TryoutSoal extends Model
     public function jawaban(){
         return $this->hasMany(TryoutJawaban::class,'tryout_soal_id','tryout_soal_id');
     }
+
+    public function pengerjaan()
+    {
+        return $this->hasOne(TryoutPengerjaan::class,  'tryout_soal_id', 'tryout_soal_id');
+    }
 }
