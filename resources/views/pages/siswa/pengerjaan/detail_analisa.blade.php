@@ -50,7 +50,13 @@
                             </a>
                         </div>
                     </div>
+                    @else
+                    <div class="container-fluid overflow-auto">
+                        {!! $pengerjaan->soal->tryout_soal !!}
+
+                    </div>
                     @endif
+
 
                     <div class="col-lg-6">
                         <h5 class="mb-2"> <small class="text-muted">Jawaban</small></h5>

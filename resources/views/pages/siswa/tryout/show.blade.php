@@ -173,6 +173,7 @@
                     </div>
                     <div class="tab-pane " id="tryout-hasil-summary" role="tabpanel">
                         <h5 class="card-title mb-4">Rangking Rata Rata</h5>
+                         
                         <div class="table-responsive table-card">
                             <table class="table align-middle mb-0">
                                 <thead class="table-light text-muted">

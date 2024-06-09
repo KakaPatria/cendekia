@@ -44,7 +44,7 @@ class PengerjaanController extends Controller
             $nilai->tryout_id = $tryoutMateri->tryout_id;
             $nilai->tryout_materi_id = $id;
             $nilai->user_id = auth()->user()->id;
-            $nilai->soal_total = $tryoutMateri->soal->count();
+            $nilai->soal_total = $tryoutMateri->jumlah_soal;
             $nilai->soal_dijekerjakan = 0;
             $nilai->status = 'Proses';
             $nilai->mulai_pengerjaan = now();

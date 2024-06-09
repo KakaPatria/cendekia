@@ -114,7 +114,13 @@ class TryoutController extends Controller
         $tryout = Tryout::whereHas('peserta', function ($q) use ($user) {
             return $q->where('user_id', $user->id);
         })
-            ->where('tryout_id', $id)->first()->load('materi.refMateri');
+            ->where('tryout_id', $id)->first();
+        if (!$tryout) {
+            return redirect()->back()
+                    ->withErrors(('Anda tidak memiliki akses di tryout ini'));
+        }
+        $tryout = $tryout->load('materi.refMateri');
+        //dd($tryout->getAverageNilai());
         $load['tryout'] = $tryout;
         $load['tryout_peserta'] = TryoutPeserta::where('user_id', $user->id)
             ->where('tryout_id', $tryout->tryout_id)->first();

@@ -21,6 +21,7 @@ class TryoutMateri extends Model
         'pengajar_id',
         'tryout_materi_deskripsi',
         'jenis_soal',
+        'jumlah_soal',
         'periode_mulai',
         'periode_selesai',
         'safe_mode',

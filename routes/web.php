@@ -37,6 +37,7 @@ Route::get('ajax/materi-tryout',[AjaxController::class,'materiTryout'])->name('a
 Route::get('ajax/cari-sekolah',[AjaxController::class,'cariSekolah'])->name('ajax.cari-sekolah');
 Route::get('ajax/cari-siwa',[AjaxController::class,'cariSiswa'])->name('ajax.cari-siswa');
 Route::get('ajax/get-jawaban',[AjaxController::class,'getJawaban'])->name('ajax.get-jawaban');
+Route::post('ajax/upload-img-soal',[AjaxController::class,'uploadImgSoal'])->name('ajax.upload-img-soal');
 /* Route Admin & Pengajar */
 Route::name('panel.')->prefix('panel')->group(function () {
     Route::get('/', [PanelUserController::class, 'login'])->name('login');

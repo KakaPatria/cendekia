@@ -191,6 +191,7 @@
 
                     <div class="tab-pane active show " id="tryout-hasil-summary" role="tabpanel">
                         <h5 class="card-title mb-4">Rangking Rata Rata</h5>
+                          
                         <div class="table-responsive table-card">
                             <table class="table align-middle mb-0">
                                 <thead class="table-light text-muted">
@@ -208,7 +209,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach($tryout->getAverageNilai() as $value)
-                                    @if($value['average'])
+                                    @if($value['siswa'])
                                     <tr>
                                         <td>{{ $loop->iteration}}</td>
                                         <td>{{ $value['siswa']->name}}</td>

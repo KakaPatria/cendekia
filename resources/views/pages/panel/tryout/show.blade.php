@@ -97,7 +97,7 @@
                             </li>
                             @foreach($tryout->materi as $materi)
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" data-bs-toggle="tab" href="#tryout-hasil-{{ $materi->materi_tryout_id}}" role="tab" aria-selected="false" tabindex="-1">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tryout-hasil-{{ $materi->tryout_materi_id}}" role="tab" aria-selected="false" tabindex="-1">
                                     Hasil {{ $materi->refMateri->ref_materi_judul}}
                                 </a>
                             </li>
@@ -173,7 +173,7 @@
                                         <td>{{ $value['siswa']->asal_sekolah}}</td>
                                         <td>{{ $value['average']}}</td>
                                         @foreach($tryout->materi as $materi)
-                                        <td> 
+                                        <td>
                                             @if(isset($value['list'][$materi->tryout_materi_id]))
                                             {{ $value['list'][$materi->tryout_materi_id]['nilai'] }}
                                             @endif
@@ -187,7 +187,7 @@
                         </div>
                     </div>
                     @foreach($tryout->materi as $materi)
-                    <div class="tab-pane " id="tryout-hasil-{{$materi->materi_tryout_id}}" role="tabpanel">
+                    <div class="tab-pane " id="tryout-hasil-{{$materi->tryout_materi_id}}" role="tabpanel">
                         <h5 class="card-title mb-4">Rangking {{ $materi->refMateri->ref_materi_judul}}</h5>
                         <div class="table-responsive table-card">
                             <table class="table align-middle mb-0">

@@ -7,6 +7,7 @@ use App\Models\TryoutJawaban;
 use App\Models\TryoutSoal;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AjaxController extends Controller
 {
@@ -96,5 +97,33 @@ class AjaxController extends Controller
         }
 
         return response()->json(['results' => $results]);
+    }
+
+    public function uploadImgSoal(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+
+            // Buat direktori jika belum ada
+            $directory = 'public/uploads/soal';
+            if (!Storage::exists($directory)) {
+                Storage::makeDirectory($directory);
+            }
+
+            // Rename file
+            $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Simpan file
+            $file->storeAs($directory, $fileName);
+
+            $file = $directory . '/' . $fileName; 
+
+            return response()->json([
+                'uploaded' => true,
+                'url' => Storage::url($file)
+            ]);
+        }
+
+        return response()->json(['uploaded' => false, 'error' => ['message' => 'File upload failed.']]);
     }
 }

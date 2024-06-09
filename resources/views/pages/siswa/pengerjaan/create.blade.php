@@ -50,6 +50,11 @@ Tryout
                             </a>
                         </div>
                     </div>
+                    @else
+                    <div class="container-fluid overflow-auto">
+                        {!! $soal->tryout_soal !!}
+
+                    </div>
                     @endif
 
                     <div class="text-center">

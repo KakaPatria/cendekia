@@ -58,9 +58,9 @@ class TryoutMateriController extends Controller
         $tryoutMateri->safe_mode = $request->safe_mode;
         if ($request->soal_jenis == 'PDF') {
             $request->validate([
-                'soal' => 'required|mimes:pdf|max:10000', 
+                'soal' => 'required|mimes:pdf|max:10000',
             ]);
-    
+
             if ($request->file('soal')) {
                 $file = $request->file('soal');
 
@@ -93,12 +93,27 @@ class TryoutMateriController extends Controller
                     ];
                     $nomorSoal++;
                 }
-
+                $tryoutMateri->jumlah_soal =  $nomorSoal;
                 TryoutSoal::insert($postSoal);
                 //dd($result);
             }
+        } else {
+            $request->validate([
+                'jumlah_soal' => 'required',
+            ]);
+            $tryoutMateri->jumlah_soal =  $request->jumlah_soal;
+
+            $postSoal = [];
+            $nomorSoal = 1;
+            for ($i=1; $i <= $request->jumlah_soal ; $i++) { 
+                $postSoal[] = [
+                    'tryout_materi_id' => $tryoutMateri->tryout_materi_id,
+                    'tryout_nomor' => $i, 
+                ];
+            }   
+            TryoutSoal::insert($postSoal);
+
         }
-        //dd($request->all());
         $tryoutMateri->update();
 
         return redirect()->route('panel.tryout_materi.createJawaban', $tryoutMateri->tryout_materi_id);
@@ -190,6 +205,7 @@ class TryoutMateriController extends Controller
             'opsi_jawaban' => 'required',
             'jawaban' => 'required'
         ]);
+        
 
         $tryoutSaol = TryoutSoal::find($id);
         $tryoutSaol->tryout_kunci_jawaban = $request->opsi_jawaban;
@@ -211,7 +227,6 @@ class TryoutMateriController extends Controller
      */
     public function storeJawaban($id, Request $request)
     {
-
         $tryoutMateri = TryoutMateri::find($id);
 
         $susunJawaban = [];
@@ -234,8 +249,15 @@ class TryoutMateriController extends Controller
             $tryoutSaol->tryout_kunci_jawaban = $value;
             $tryoutSaol->update();
         }
+        if ($request->soal) {
+            foreach ($request->soal as $key => $value) {
+                $tryoutSaol = TryoutSoal::find($key);
+                $tryoutSaol->tryout_soal = $value;
+                $tryoutSaol->update();
+            }
+        }
         //dd($request->all());
-       
+
         TryoutJawaban::insert($susunJawaban);
 
         return redirect()->route('panel.tryout_materi.show', $id);

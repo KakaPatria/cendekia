@@ -87,6 +87,7 @@
             <div class="tab-content">
                 <div class="tab-pane active show" id="tab-saol" role="tabpanel">
                     @foreach($tryout_materi->soal as $soal)
+                    <h5 class="fs-14">{{ $soal->tryout_nomor}}</h5>
 
                     <div class="row">
                         @if($tryout_materi->jenis_soal == 'PDF')
@@ -104,6 +105,13 @@
                                 <img class="gallery-img img-fluid mx-auto w-50 border border-dark" src="{{ Storage::url($soal->tryout_penyelesaian) }}" alt="">
                             </a>
 
+                        </div>
+                        @else
+                        <div class="col-lg-6">
+                            <div class="container-fluid overflow-auto">
+                                {!! $soal->tryout_soal !!}
+
+                            </div>
                         </div>
                         @endif
 
@@ -194,10 +202,16 @@
                         </div>
                     </div>
 
-                    <div class="form-group mb-3 d-none" id="file-soal-input">
+                    <div class="form-group mb-3 " id="file-soal-input">
                         <label class="col-form-label ">File Soal</label>
                         <div class="">
                             <input type="file" class="form-control mb-2" name="soal" id="file-soal">
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 d-none" id="jumlah-soal-input">
+                        <label class="col-form-label ">Jumlah Soal</label>
+                        <div class="">
+                            <input type="number" class="form-control mb-2" name="jumlah_soal" id="jumlah-soal">
                         </div>
                     </div>
                     <div class="form-group  mb-3">
@@ -367,13 +381,16 @@
         }
     });
 
+    $('#soal-jenis').val('PDF').change()
     $('#soal-jenis').change(function() {
         var val = $(this).val()
         console.log(val)
         if (val == 'PDF') {
             $('#file-soal-input').removeClass('d-none');
+            $('#jumlah-soal-input').addClass('d-none');
         } else {
             $('#file-soal-input').addClass('d-none');
+            $('#jumlah-soal-input').removeClass('d-none');
         }
     })
 
