@@ -101,6 +101,11 @@ class PengerjaanController extends Controller
     public function selesai($id)
     {
         $nilai = TryoutNilai::find($id);
+
+        if ($nilai->status == 'Selesai') {
+            return redirect()->intended(route('siswa.tryout.detail', $nilai->tryout_id))
+                ->withSuccess('Tryout sudah selesaikan nilai tidak bisa diperbarui');
+        }
         $pengerjaan = TryoutPengerjaan::where('tryout_materi_id', $nilai->tryout_materi_id)
             ->where('user_id', auth()->user()->id);
 
