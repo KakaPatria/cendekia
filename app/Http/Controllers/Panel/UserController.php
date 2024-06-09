@@ -88,7 +88,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email:rfc,dns|unique:users,email,' . $user->id,
+            'email' => 'required|unique:users,email,' . $user->id,
             'telepon' => 'required|numeric',
             'asal_sekolah' => 'required|string|max:255',
             'jenjang' => 'required|string|in:SD,SMP,SMA',
@@ -99,7 +99,10 @@ class UserController extends Controller
         $validated = $validator->validated();
 
         if ($request->password) {
-            $validated['password'] = $request->password;
+            $request->validate([
+                'password'=> 'min:8'
+            ]);
+            $validated['password'] = Hash::make($request->password);
         }
 
         //dd($validated);

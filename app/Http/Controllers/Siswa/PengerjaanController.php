@@ -50,6 +50,7 @@ class PengerjaanController extends Controller
             $nilai->mulai_pengerjaan = now();
             $nilai->save();
         }
+
         $nilai->lanjutkan_pengerjaan = now();
         $nilai->save();
         //dd($nilai);
@@ -124,5 +125,15 @@ class PengerjaanController extends Controller
         $nilai->update();
 
         return redirect()->intended(route('siswa.tryout.detail', $nilai->tryout_id))->withSuccess('Tryout Selesai');
+    }
+
+    public function analisa($id){
+
+        $pengerjaan = TryoutPengerjaan::with('soal')->find($id);
+        $load['pengerjaan']  = $pengerjaan;
+        
+        return view('pages.siswa.pengerjaan.detail_analisa', $load);
+
+
     }
 }

@@ -182,7 +182,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
 
             'name' => 'required|string|max:255',
-            //'email' => 'required|email:rfc,dns|unique:users,email,' . $user->id,
+            'email' => 'required|unique:users,email,' . $user->id,
             'telepon' => 'required|numeric',
             'asal_sekolah' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
@@ -204,10 +204,14 @@ class UserController extends Controller
             'alamat' => $request->alamat,
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
-            'kelas' => $request->kelas,
-            'password' => Hash::make($request->password),
+            'kelas' => $request->kelas, 
         ]);
 
+        if ($request->password) {
+            $user = User::find($user->id);
+            $user->password =  Hash::make($request->password);
+            $user->update(); 
+        }
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
 

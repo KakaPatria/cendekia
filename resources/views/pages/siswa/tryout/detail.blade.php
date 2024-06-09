@@ -66,9 +66,20 @@
     </div>
     <div class="col-xxl-9">
         <div class="card">
+            <div class="card-header">
+                <div class="align-items-center d-flex mb-2">
+                    <div class="flex-grow-1">
+                        <h6 class=" fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <div>
+                            <a href="javascript:history.back()" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 <div class="text-muted">
-                    <h6 class="mb-2 fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
                     <div class="mb-2">
                         {!! $tryout->tryout_deskripsi!!}
                     </div>
@@ -123,7 +134,7 @@
                                     <div class="text-center">
                                         @if(!$materi->in_periode)
                                         <div class="alert alert-danger mb-xl-0" role="alert">
-                                            Belum dalam periode tryout
+                                            Tidak dalam periode tryout
                                         </div>
                                         @else
                                         @if($materi->nilaiUser)
@@ -268,8 +279,8 @@
                                         <td>{{ $soal->pengerjaan->tryout_jawaban}}</td>
                                         <td>{{ $soal->tryout_kunci_jawaban}}</td>
                                         <td>{!! $soal->pengerjaan->status_badge !!}</td>
-                                        <td> 
-                                            <a href="" class="btn rounded-pill btn-info btn-sm" >
+                                        <td>
+                                            <a href="{{ route('siswa.tryout.pengerjaan.analisa',$soal->pengerjaan->tryout_pengerjaan_id) }}" class="btn rounded-pill btn-info btn-sm">
                                                 <i class="fa fa-edit"></i> Detail
                                             </a>
                                         </td>
@@ -279,6 +290,10 @@
                                 </tbody>
                             </table>
                             <!--end table-->
+                        </div>
+                        @else
+                        <div class="alert alert-warning" role="alert">
+                            Tryout belum dikerjakan
                         </div>
                         @endif
                     </div>

@@ -68,9 +68,20 @@
     </div>
     <div class="col-xxl-9">
         <div class="card">
+            <div class="card-header">
+                <div class="align-items-center d-flex mb-2">
+                    <div class="flex-grow-1">
+                        <h6 class=" fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <div>
+                            <a href="javascript:history.back()" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
-                <div class="text-muted">
-                    <h6 class="mb-3 fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
+                <div class="text-muted"> 
                     {!! $tryout->tryout_deskripsi!!}
 
                     <h6 class="mb-3 fw-bold text-uppercase">Materi</h6>
@@ -121,7 +132,7 @@
                             </a>
                         </li>
                         @endforeach
-                        
+
                     </ul>
                     <!--end nav-->
                 </div>
@@ -185,7 +196,7 @@
                                         <td>{{ $value['siswa']->asal_sekolah}}</td>
                                         <td>{{ $value['average']}}</td>
                                         @foreach($tryout->materi as $materi)
-                                        <td> 
+                                        <td>
                                             @if(isset($value['list'][$materi->tryout_materi_id]))
                                             {{ $value['list'][$materi->tryout_materi_id]['nilai'] }}
                                             @endif

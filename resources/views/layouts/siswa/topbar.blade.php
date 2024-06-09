@@ -4,7 +4,7 @@
             <div class="d-flex">
                 <!-- LOGO -->
                 <div class="navbar-brand-box horizontal-logo">
-                    <a href="index" class="logo logo-dark">
+                    <a href="{{ route('siswa.dashboard')}}" class="logo logo-dark">
                     <span class="logo-sm">
                 <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="17">
             </span>
@@ -13,7 +13,7 @@
             </span>
                     </a>
 
-                    <a href="index" class="logo logo-light">
+                    <a href="{{ route('siswa.dashboard')}}" class="logo logo-light">
                         <span class="logo-sm">
                 <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="17">
             </span>

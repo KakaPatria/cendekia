@@ -20,6 +20,11 @@ class TryoutPengerjaan extends Model
         'status', 
     ];
 
+    public function soal(){
+
+        return $this->hasOne(TryoutSoal::class,'tryout_soal_id','tryout_soal_id');
+    }
+
     public function getStatusBadgeAttribute(){
 
         if ($this->status == 'Benar') {

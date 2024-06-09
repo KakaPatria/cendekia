@@ -62,7 +62,7 @@
             <div class="card-body mb-2">
                 <div class="live-preview">
                     <div class="table-responsive  table-card mb-2">
-                        <table class="table align-middle table-nowrap table-striped mb-2">
+                        <table class="table align-middle  table-striped mb-2">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col" width="1%">#</th>
@@ -96,7 +96,7 @@
                                     <td>
                                         <div class="flex-shrink-0">
                                             @if($user->avatar)
-                                            <img src="{{ $user->avatar }}" alt="" class="avatar-xs rounded-circle" />
+                                            <img src="{{ Storage::url($user->avatar) }}" alt="" class="avatar-xs rounded-circle" />
                                             @endif
                                         </div>
                                     </td>

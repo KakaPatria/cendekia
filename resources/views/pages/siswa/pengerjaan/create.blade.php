@@ -5,14 +5,16 @@ Tryout
 @section('css')
 <link href="https://unpkg.com/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{ URL::asset('assets/libs/glightbox/glightbox.min.css') }}">
+
 @endsection
 @section('content')
 <div class="align-items-center d-flex mb-2">
     <div class="flex-grow-1">
 
         <div class="text-center">
-            <h2 class="">{{$tryout_materi->tryoutMaster->tryout_judul}}</h2>
-            <h2 class="mb-2"> <small class="text-muted">{{$tryout_materi->refMateri->ref_materi_judul}}</small></h2>
+            <h3 class="">{{$tryout_materi->tryoutMaster->tryout_judul}}</h2>
+                <h3 class="mb-2"> <small class="text-muted">{{$tryout_materi->refMateri->ref_materi_judul}}</small></h2>
         </div>
     </div>
     <div class="flex-shrink-0">
@@ -41,11 +43,15 @@ Tryout
                 @foreach($tryout_materi->soal as $key => $soal)
                 <div id="step-{{ $key }}" class="tab-pane" role="tabpanel" aria-labelledby="step-{{ $key }}">
                     @if($tryout_materi->jenis_soal == 'PDF')
-                    <div class="d-flex justify-content-center mb-2">
-                        <img class="img-fluid mx-auto w-50 border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
-
+                    <div class="overflow-auto h-10">
+                        <div class="d-flex mb-2 text-center">
+                            <a class="image-popup " href="{{ Storage::url($soal->tryout_soal) }}" title="">
+                                <img class="gallery-img img-fluid mx-auto w-50 border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
+                            </a>
+                        </div>
                     </div>
                     @endif
+
                     <div class="text-center">
                         <h4 class="card-title mb-2 flex-grow-1">Jawaban Soal No. {{ $soal->tryout_nomor}}</h4>
                     </div>
@@ -99,9 +105,13 @@ Tryout
 <!-- SmartWizard JavaScript -->
 <script src="https://unpkg.com/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
 <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ URL::asset('/assets/libs/glightbox/glightbox.min.js') }}"></script>
+<script src="{{ URL::asset('/assets/js/pages/gallery.init.js') }}"></script>
+
 
 <script>
     $('#smartwizard').smartWizard({
+        theme: 'dots',
         toolbar: {
             showNextButton: false, // show/hide a Next button
             showPreviousButton: false, // show/hide a Previous button
@@ -138,7 +148,7 @@ Tryout
             }
         }
     });
- 
+
     <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
         <?php if ($soal->pengerjaan) { ?>
             $('#jawaban-{{ $soal->tryout_soal_id}}-{{ $soal->pengerjaan->tryout_jawaban}}').prop('checked', true);

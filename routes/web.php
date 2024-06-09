@@ -116,6 +116,8 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
         Route::get('tryout/{nilai}/leave',[SiswaasPengerjaanController::class,'leave'])->name('tryout.pengerjaan.leave'); 
         Route::get('tryout/{nilai}/selesai',[SiswaasPengerjaanController::class,'selesai'])->name('tryout.pengerjaan.selesai'); 
 
+        Route::get('analisa/{pengerjaan_id}/detail',[SiswaasPengerjaanController::class,'analisa'])->name('tryout.pengerjaan.analisa'); 
+
         Route::post('logout', [SiswaUserController::class, 'logout'])->name('logout');
     });
 });
