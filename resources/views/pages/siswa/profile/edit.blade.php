@@ -17,50 +17,50 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xxl-3">
-        <div class="card mt-n5">
-            <div class="card-body p-4">
-                <div class="text-center">
-                    <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                        <img src="@if ($user->avatar != '') {{ URL::asset('images/' . $user->avatar) }}@else{{ URL::asset('assets/images/users/user-dummy-img.jpg') }} @endif" class="  rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
-                        <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                            <input id="profile-img-file-input" type="file" class="profile-img-file-input">
-                            <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                <span class="avatar-title rounded-circle bg-light text-body">
-                                    <i class="ri-camera-fill"></i>
-                                </span>
-                            </label>
+<form action="{{ route('siswa.profile.update')}}" method="POST" id="edit-profile-form" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+
+    <div class="row">
+        <div class="col-xxl-3">
+            <div class="card mt-n5">
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
+                            <img src="@if ($user->avatar != '') {{ Storage::url( $user->avatar) }}@else{{ URL::asset('assets/images/users/user-dummy-img.jpg') }} @endif" class="  rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image" id="profile-img-file">
+                            <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                                <input id="profile-img-file-input" type="file" class="profile-img-file-input" name="avatar">
+                                <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                    <span class="avatar-title rounded-circle bg-light text-body">
+                                        <i class="ri-camera-fill"></i>
+                                    </span>
+                                </label>
+                            </div>
                         </div>
+                        <h5 class="fs-16 mb-1">{{ $user->name}}</h5>
+                        <p class="text-muted mb-0">{{ $user->asal_sekolah}}</p>
                     </div>
-                    <h5 class="fs-16 mb-1">{{ $user->name}}</h5>
-                    <p class="text-muted mb-0">{{ $user->asal_sekolah}}</p>
                 </div>
             </div>
+
         </div>
+        <!--end col-->
+        <div class="col-xxl-9">
+            <div class="card mt-xxl-n5">
+                <div class="card-header">
+                    <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
+                                <i class="fas fa-home"></i>
+                                Personal Details
+                            </a>
+                        </li>
 
-    </div>
-    <!--end col-->
-    <div class="col-xxl-9">
-        <div class="card mt-xxl-n5">
-            <div class="card-header">
-                <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
-                            <i class="fas fa-home"></i>
-                            Personal Details
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-            <div class="card-body p-4">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                        <form action="{{ route('siswa.profile.update')}}" method="POST">
-                            @csrf
-                            @method('PUT')
-
+                    </ul>
+                </div>
+                <div class="card-body p-4">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="personalDetails" role="tabpanel">
                             <div class="mb-3">
                                 <label for="nama " class="form-label">Nama Lengkap</label>
                                 <input type="text" class="form-control bg-light" id="nama" name="name" placeholder="Masukan Nama Lengkap" required value="{{ old('name',$user->name) }}" readonly>
@@ -75,11 +75,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="telepon" class="form-label">Alamat</label>
-                                <input type="number" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat" required value="{{ old('alamat',$user->alamat) }}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="telepon" class="form-label">Telepon</label>
-                                <input type="number" class="form-control" id="telepon" name="telepon" placeholder="Masukan Telepon" required value="{{ old('telepon',$user->telepon) }}">
+                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat" required value="{{ old('alamat',$user->alamat) }}">
                             </div>
 
                             <div class="mb-3">
@@ -131,24 +127,39 @@
                                 </div>
                             </div>
 
-                        </form>
+
+                        </div>
+                        <!--end tab-pane-->
 
                     </div>
-                    <!--end tab-pane-->
-
                 </div>
             </div>
         </div>
+        <!--end col-->
     </div>
-    <!--end col-->
-</div>
-<!--end row-->
+    <!--end row-->
+</form>
+
 @endsection
 @section('script')
 <script src="{{ URL::asset('assets/js/pages/profile.init.js') }}"></script>
 
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 <script>
+    $('#profile-img-file-input').change(function() {
+        var file = event.target.files[0];
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#profile-img-file').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+
     $('#asal_sekolah').select2({
         placeholder: "Cari Asal Sekolah",
         allowClear: true,

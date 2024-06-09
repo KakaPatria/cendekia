@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use App\Providers\RouteServiceProvider;
-
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -160,7 +160,7 @@ class UserController extends Controller
         return redirect()->route('siswa.dashboard')->with('success', 'Profile berhasil diupdate!');
     }
 
-     
+
 
     public function profile()
     {
@@ -177,16 +177,18 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+
         $user = User::find(Auth::user()->id);
         $validator = Validator::make($request->all(), [
 
             'name' => 'required|string|max:255',
-            'email' => 'required|email:rfc,dns|unique:users,email,' . $user->id,
+            //'email' => 'required|email:rfc,dns|unique:users,email,' . $user->id,
             'telepon' => 'required|numeric',
             'asal_sekolah' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'jenjang' => 'required|string|in:SD,SMP,SMA',
             'kelas' => 'required|integer|min:1|max:12',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -195,7 +197,7 @@ class UserController extends Controller
                 ->withInput();
         }
 
-        $user = User::find($user->id)->update([
+        User::find($user->id)->update([
             'name' => $request->name,
             'email' => $request->email,
             'telepon' => $request->telepon,
@@ -204,8 +206,29 @@ class UserController extends Controller
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
             'password' => Hash::make($request->password),
-
         ]);
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+
+            // Buat direktori jika belum ada
+            $directory = 'public/uploads/avatar';
+            if (!Storage::exists($directory)) {
+                Storage::makeDirectory($directory);
+            }
+
+            // Rename file
+            $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Simpan file
+            $file->storeAs($directory, $fileName);
+
+            $file = $directory . '/' . $fileName;
+
+            $user = User::find($user->id);
+            $user->avatar =  $file;
+            $user->update();
+        }
 
         //Mail::to($user->email)->send(new WelcomeMail($user));
 

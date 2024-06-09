@@ -11,22 +11,26 @@
 
 <div class="profile-foreground position-relative mx-n4 mt-n4">
     <div class="profile-wid-bg">
-    <div class="bg-overlay" style="background-color : #f5e38f;"></div>
+        <div class="bg-overlay" style="background-color : #f5e38f;"></div>
         <img src="{{ URL::asset('assets/images/profile-bg.jpg') }}" alt="" class="profile-wid-img" />
     </div>
 </div>
 <div class="pt-4 mb-4 mb-lg-3 pb-lg-4">
     <div class="row g-4">
         <div class="col-auto">
-            <div class="avatar-lg">
-                <img src="@if (Auth::user()->avatar != '') {{ URL::asset('images/' . Auth::user()->avatar) }}@else{{ URL::asset('assets/images/users/user-dummy-img.jpg') }} @endif" alt="user-img" class="img-thumbnail rounded-circle" />
+             
+            <div class="text-center">
+                <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
+                    <img src="@if (Auth::user()->avatar != '') {{ Storage::url( Auth::user()->avatar) }}@else{{ URL::asset('assets/images/users/user-dummy-img.jpg') }} @endif" class="  rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image" id="profile-img-file">
+                    
+                </div>
             </div>
         </div>
         <!--end col-->
         <div class="col">
             <div class="p-2">
                 <h3 class="text-white mb-1">{{ Auth::user()->name}}</h3>
-                <p class="text-white-75">Kelas {{ Auth::user()->kelas.' '.Auth::user()->jenjang}}</p>
+                <p class="text-white-75">Kelas {{ Auth::user()->kelas.' '.Auth::user()->jenjang}} <br> {{ Auth::user()->telepon}} <br> {{ Auth::user()->email}}</p>
                 <div class="hstack text-white-50 gap-1">
                     <div class="me-2"><i class="ri-map-pin-user-line me-1 text-white-75 fs-16 align-middle"></i>{{ Auth::user()->alamat}}</div>
                     <div><i class="ri-building-line me-1 text-white-75 fs-16 align-middle"></i>{{ Auth::user()->asal_sekolah}}
@@ -34,7 +38,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!--end col-->
 
     </div>
@@ -46,20 +50,21 @@
         <div>
             <div class="d-flex">
                 <!-- Nav tabs -->
-                <ul class="nav nav-pills animation-nav profile-nav gap-2 gap-lg-3 flex-grow-1" role="tablist">
+                {{--<ul class="nav nav-pills animation-nav profile-nav gap-2 gap-lg-3 flex-grow-1" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link fs-14 active" data-bs-toggle="tab" href="#overview-tab" role="tab">
                             <i class="ri-airplay-fill d-inline-block d-md-none"></i> <span class="d-none d-md-inline-block">About</span>
                         </a>
                     </li>
                      
-                </ul>
+                </ul>--}}
+                <div></div>
                 <div class="flex-shrink-0">
                     <a href="{{ route('siswa.profile.edit')}}" class="btn btn-warning"><i class="ri-edit-box-line align-bottom"></i> Edit Profile</a>
                 </div>
             </div>
             <!-- Tab panes -->
-            <div class="tab-content pt-4 text-muted">
+            {{--<div class="tab-content pt-4 text-muted">
                 <div class="tab-pane active" id="overview-tab" role="tabpanel">
                     <div class="row">
                  
@@ -112,7 +117,7 @@
                 </div>
 
                 <!--end tab-pane-->
-            </div>
+            </div>--}}
             <!--end tab-content-->
         </div>
     </div>
