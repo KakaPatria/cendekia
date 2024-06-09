@@ -4,6 +4,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Panel\UserController as PanelUserController;
 use App\Http\Controllers\Panel\DashboardController as PanelDashboardController;
+use App\Http\Controllers\Panel\PendaftaranController;
 use App\Http\Controllers\Panel\PermissionController;
 use App\Http\Controllers\Panel\Referensi\MateriController;
 use App\Http\Controllers\Panel\RoleController;
@@ -68,6 +69,10 @@ Route::name('panel.')->prefix('panel')->group(function () {
 
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
+
+        Route::get('pendaftaran',[PendaftaranController::class,'index'])->name('pendaftaran.index');
+        Route::get('pendaftaran/{tryout_peserta_id}',[PendaftaranController::class,'show'])->name('pendaftaran.show');
+        Route::post('pendaftaran/{tryout_peserta_id}/approve',[PendaftaranController::class,'approve'])->name('pendaftaran.approve');
 
         Route::post('logout', [PanelUserController::class, 'logout'])->name('logout');
     });

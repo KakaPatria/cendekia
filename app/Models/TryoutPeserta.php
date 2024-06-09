@@ -42,4 +42,13 @@ class TryoutPeserta extends Model
          
         return Carbon::parse($this->created_at)->format('d M Y H:i');
     }
+
+    public function getStatusBadgeAttribute(){
+
+        if ($this->tryout_peserta_status) {
+            return '<span class="badge text-bg-success">Terdaftar</span>';
+        }else{
+            return '<span class="badge text-bg-warning">Pending</span>';
+        }
+    }
 }

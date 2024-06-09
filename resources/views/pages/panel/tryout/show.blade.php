@@ -12,7 +12,7 @@
 @include('components.message')
 
 <div class="row">
-    <div class="col-xxl-9">
+    <div class="col-xl-9">
         <div class="card">
             <div class="card-body">
                 <div class="text-muted">

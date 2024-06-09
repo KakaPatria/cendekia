@@ -36,7 +36,7 @@
                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$tryout_materi->tryout_materi_id}}" data-name="{{$tryout_materi->refMateri->ref_materi_judul}}"><i class="fa fa-trash"></i> Hapus</a>
                         </div>
                     </div>
-                 
+
                     <div class="row mb-2">
                         <div class="col-2">
                             <p class="text-muted mb-1">Pengajar</p>
@@ -89,15 +89,24 @@
                     @foreach($tryout_materi->soal as $soal)
 
                     <div class="row">
-                        <div class="col-lg-6">
-                            @if($tryout_materi->jenis_soal == 'PDF')
+                        @if($tryout_materi->jenis_soal == 'PDF')
+
+                        <div class="col-lg-3">
 
                             <a class="image-popup w-20" href="{{ Storage::url($soal->tryout_soal) }}" title="">
                                 <img class="gallery-img img-fluid mx-auto w-50 border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
                             </a>
-                            @endif
 
                         </div>
+                        <div class="col-lg-3">
+
+                            <a class="image-popup w-20" href="{{ Storage::url($soal->tryout_penyelesaian) }}" title="">
+                                <img class="gallery-img img-fluid mx-auto w-50 border border-dark" src="{{ Storage::url($soal->tryout_penyelesaian) }}" alt="">
+                            </a>
+
+                        </div>
+                        @endif
+
                         <div class="col-lg-6">
                             <div class="flex-shrink-0">
 

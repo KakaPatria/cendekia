@@ -34,7 +34,12 @@ class PengerjaanController extends Controller
             ->where('user_id', auth()->user()->id)
             ->first();
 
-        if (!$nilai) {
+        if ($nilai) {
+            if ($nilai->status  == 'Selesai') {
+                return redirect()->route('siswa.tryout.show', $tryoutMateri->tryout_id)
+                    ->withSuccess(('Teyout sudah selesai di kerjakan'));
+            }
+        } else {
             $nilai = new TryoutNilai();
             $nilai->tryout_id = $tryoutMateri->tryout_id;
             $nilai->tryout_materi_id = $id;
@@ -64,7 +69,7 @@ class PengerjaanController extends Controller
         ]);
         $nilai = TryoutNilai::find($id);
         $nilai->soal_dijekerjakan = $request->soal_nomor;
-        $nilai->last_soal_id = $request->tryout_soal_id ;
+        $nilai->last_soal_id = $request->tryout_soal_id;
         $nilai->save();
 
         $soal = TryoutSoal::find($request->tryout_soal_id);

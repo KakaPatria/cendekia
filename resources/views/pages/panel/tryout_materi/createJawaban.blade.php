@@ -76,7 +76,7 @@
                                             <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][C]"></td>
                                         </tr>
                                         <tr>
-                                            <td><input class="form-check-input" type="radio" name="opsi_jawaban" value="D" id=""></td>
+                                            <td><input class="form-check-input" type="radio" name="opsi_jawaban[{{$soal->tryout_soal_id}}]" value="D" id=""></td>
                                             <td>D.</td>
                                             <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][D]"></td>
                                         </tr>

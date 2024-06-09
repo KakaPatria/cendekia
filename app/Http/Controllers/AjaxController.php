@@ -62,6 +62,7 @@ class AjaxController extends Controller
         $search = $request->input('q');
 
         $users = User::where('name', 'LIKE', "%{$search}%")
+            ->orWhere('email', 'LIKE', "%{$search}%")
             ->whereHas(
                 'roles',
                 function ($q) {

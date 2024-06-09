@@ -52,11 +52,15 @@ class TryoutMateriController extends Controller
         ]);
 
         $tryoutMateri = TryoutMateri::find($request->tyout_materi_id);
-        $tryoutMateri->jenis_soal = $request->jenis_soal;
+        $tryoutMateri->jenis_soal = $request->soal_jenis;
         $tryoutMateri->periode_mulai = $request->periode_mulai;
         $tryoutMateri->periode_selesai = $request->periode_selesai;
         $tryoutMateri->safe_mode = $request->safe_mode;
         if ($request->soal_jenis == 'PDF') {
+            $request->validate([
+                'soal' => 'required|mimes:pdf|max:10000', 
+            ]);
+    
             if ($request->file('soal')) {
                 $file = $request->file('soal');
 
@@ -75,7 +79,6 @@ class TryoutMateriController extends Controller
                 $fileSoal = $directory . '/' . $fileName;
 
                 $tryoutMateri->master_soal =  $fileSoal;
-
 
 
                 $result = $this->convertPdfToImage(($fileName));
@@ -231,8 +234,9 @@ class TryoutMateriController extends Controller
             $tryoutSaol->tryout_kunci_jawaban = $value;
             $tryoutSaol->update();
         }
-
-        //TryoutJawaban::insert($susunJawaban);
+        //dd($request->all());
+       
+        TryoutJawaban::insert($susunJawaban);
 
         return redirect()->route('panel.tryout_materi.show', $id);
     }
@@ -258,7 +262,7 @@ class TryoutMateriController extends Controller
                     ->saveImage(public_path('storage/uploads/soal/image/' . $fileName));
                 $susunJawaban[] =  'public/uploads/soal/image/' . $fileName;
             } else {
-                $fileName = 'jawaban_' . $i . '_' . time() . '.jpg';
+                $fileName = 'soal_' . $i . '_' . time() . '.jpg';
                 $pdf->setPage($i)
                     ->saveImage(public_path('storage/uploads/soal/image/' . $fileName));
                 $susunSoal[] = 'public/uploads/soal/image/' . $fileName;
