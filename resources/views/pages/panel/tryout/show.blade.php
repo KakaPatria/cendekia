@@ -12,7 +12,7 @@
 @include('components.message')
 
 <div class="row">
-    <div class="col-xl-9">
+    <div class="col-lg-9">
         <div class="card">
             <div class="card-body">
                 <div class="text-muted">
@@ -23,9 +23,12 @@
                             <h6 class="mb-3 fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
                         </div>
                         <div class="flex-shrink-0">
+                            @if(Auth::user()->hasRole(['Admin']))
+
                             <a href="{{ route('panel.tryout.edit',$tryout->tryout_id)}}" class="btn rounded-pill btn-info btn-sm">
                                 <i class="fa fa-edit"></i> Edit</a>
                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$tryout->tryout_id}}" data-name="{{$tryout->tryout_judul}}"><i class="fa fa-trash"></i> Hapus</a>
+                            @endif
                         </div>
                     </div>
 
@@ -38,10 +41,13 @@
                         </div>
                         <div class="flex-shrink-0">
 
+                            @if(Auth::user()->hasRole(['Admin']))
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-materi-modal">
                                 <i class="fa fa-edit"></i> Tambah Materi
                             </a>
+                            @endif
                         </div>
+
                     </div>
 
                     <div class="accordion" id="default-accordion-example">
@@ -107,9 +113,12 @@
                         <!--end nav-->
                         <div class="flex-shrink-0">
 
+                            @if(Auth::user()->hasRole(['Admin']))
+
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-peserta-modal">
                                 <i class="fa fa-edit"></i> Tambah Peserta
                             </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -225,7 +234,7 @@
         <!--end card-->
     </div>
     <!--end col-->
-    <div class="col-xxl-3">
+    <div class="col-lg-3">
         <div class="row g-4 mb-3">
             <div class="col-sm">
                 <div class="d-flex justify-content-sm-end gap-2">

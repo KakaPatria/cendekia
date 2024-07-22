@@ -22,9 +22,14 @@
                 <div class="table-card">
                     <table class="table mb-0">
                         <tbody>
+
                             <tr>
                                 <td class="fw-medium">Pendaftaran Dibuka s/d</td>
                                 <td>{{ $tryout->tryout_register_due}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-medium">Jenjang</td>
+                                <td>{{ $tryout->tryout_jenjang.' kelas '.$tryout->tryout_kelas}}</td>
                             </tr>
                             <tr>
                                 <td class="fw-medium">Status</td>
@@ -132,6 +137,7 @@
                                 <!-- end card body -->
                                 <div class="card-footer bg-transparent border-top-dashed py-2">
                                     <div class="text-center">
+
                                         @if(!$materi->in_periode)
                                         <div class="alert alert-danger mb-xl-0" role="alert">
                                             Tidak dalam periode tryout
@@ -191,7 +197,7 @@
 
                     <div class="tab-pane active show " id="tryout-hasil-summary" role="tabpanel">
                         <h5 class="card-title mb-4">Rangking Rata Rata</h5>
-                          
+
                         <div class="table-responsive table-card">
                             <table class="table align-middle mb-0">
                                 <thead class="table-light text-muted">
@@ -214,15 +220,15 @@
                                         <td>{{ $loop->iteration}}</td>
                                         <td>{{ $value['siswa']->name}}</td>
                                         <td>{{ $value['siswa']->asal_sekolah}}</td>
-                                        <td>{{ $value['average']}}</td>
+                                        <td>{{ round($value['average'],2)}}</td>
                                         @foreach($tryout->materi as $materi)
                                         <td>
                                             @if(isset($value['list'][$materi->tryout_materi_id]))
-                                            {{ $value['list'][$materi->tryout_materi_id]['nilai'] }}
+                                            {{ round($value['list'][$materi->tryout_materi_id]['nilai'],2) }}
                                             @endif
                                         </td>
                                         @endforeach
-                                        <td>{{ $value['sum']}}</td>
+                                        <td>{{ round($value['sum'],2)}}</td>
                                     </tr>
                                     @endif
                                     @endforeach
@@ -233,7 +239,8 @@
                     @foreach($tryout->materi as $materi)
                     <div class="tab-pane " id="tryout-hasil-{{$materi->tryout_materi_id}}" role="tabpanel">
                         <h5 class="card-title mb-4">Analisa Pengerjaan {{ $materi->refMateri->ref_materi_judul}}</h5>
-                        @if($materi->nilaiSiswa)
+                        @if($materi->nilaiUser && $materi->nilaiUser->status == 'Selesai')
+
                         <div class="row p-2">
                             <div class="col-3">
                                 <div>

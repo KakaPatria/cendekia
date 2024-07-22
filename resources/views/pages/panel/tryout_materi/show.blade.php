@@ -31,9 +31,12 @@
 
                         </div>
                         <div class="flex-shrink-0">
+                            @if(Auth::user()->hasRole(['Admin']))
+
                             <a href="javascript:;" class="btn rounded-pill btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#edit-materi-modal">
                                 <i class="fa fa-edit"></i> Edit</a>
                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$tryout_materi->tryout_materi_id}}" data-name="{{$tryout_materi->refMateri->ref_materi_judul}}"><i class="fa fa-trash"></i> Hapus</a>
+                            @endif
                         </div>
                     </div>
 
@@ -75,9 +78,15 @@
                     <!--end nav-->
                     <div class="flex-shrink-0">
 
-                        @if($tryout_materi->soal->count() ==0)
+                        @if($tryout_materi->soal->count() == 0)
+                        @if(Auth::user()->hasRole('Admin'))
                         <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-soal-modal">
                             <i class="fa fa-edit"></i> Tambah Soal</a>
+                        @endif
+                        @if(!Auth::user()->hasRole('Admin') && $tryout_materi->pengajar_id == Auth::user()->id)
+                        <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-soal-modal">
+                            <i class="fa fa-edit"></i> Tambah Soal</a>
+                        @endif
                         @endif
                     </div>
                 </div>

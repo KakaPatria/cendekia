@@ -19,9 +19,11 @@
 
                 <form action="">
                     <div class="row g-2">
+                        @if(Auth::user()->hasRole(['Admin']))
                         <div class="col-lg-2">
                             <a href="{{ route('panel.tryout.create')}}" class="btn btn-primary btn-label waves-effect waves-light w-100"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Tryout</a>
                         </div>
+                        @endif
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
                                 <input type="text" class="form-control search" id="search-task-options" placeholder="Search ..." name="keyword" value="{{ $keyword }}">
@@ -69,7 +71,7 @@
                                     <th scope="col">Kelas</th>
                                     <th scope="col">Jenis</th>
                                     <th scope="col">Materi</th>
-                                    <th scope="col"   width="10%" class="text-center">Action</th>
+                                    <th scope="col" width="10%" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -149,7 +151,7 @@
 
 
 
-   
+
     <?php if ($filter_jenjang) { ?>
         $('#filter-jenjang').val('<?= $filter_jenjang ?>').change()
 

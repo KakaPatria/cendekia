@@ -15,6 +15,7 @@ Tryout
         <div class="text-center">
             <h3 class="">{{$tryout_materi->tryoutMaster->tryout_judul}}</h2>
                 <h3 class="mb-2"> <small class="text-muted">{{$tryout_materi->refMateri->ref_materi_judul}}</small></h2>
+                    <p>Anda akan dialihkan dalam <span id="timer"></span>.</p>
         </div>
     </div>
     <div class="flex-shrink-0">
@@ -43,17 +44,16 @@ Tryout
                 @foreach($tryout_materi->soal as $key => $soal)
                 <div id="step-{{ $key }}" class="tab-pane" role="tabpanel" aria-labelledby="step-{{ $key }}">
                     @if($tryout_materi->jenis_soal == 'PDF')
-                    <div class="overflow-auto h-10">
-                        <div class="d-flex mb-2 text-center">
+                    <div class="overflow-auto h-5 ">
+                        <div class="d-flex mb-2 text-center border border-dark" style="height: 300px;">
                             <a class="image-popup " href="{{ Storage::url($soal->tryout_soal) }}" title="">
-                                <img class="gallery-img img-fluid mx-auto w-50 border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
+                                <img class="gallery-img img-fluid mx-auto  border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
                             </a>
                         </div>
                     </div>
                     @else
-                    <div class="container-fluid overflow-auto">
+                    <div class="overflow-auto h-5">
                         {!! $soal->tryout_soal !!}
-
                     </div>
                     @endif
 
@@ -203,6 +203,36 @@ Tryout
         });
     })
 
+    function startCountdown(duration) {
+        var timer = duration,
+            hours, minutes, seconds;
+        var timerInterval = setInterval(function() {
+            hours = Math.floor((timer / 3600));
+            minutes = Math.floor((timer % 3600) / 60);
+            seconds = timer % 60;
+
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            document.getElementById('timer').textContent = hours + "h " + minutes + "m " + seconds + "s ";
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',$tryout_nilai->tryout_nilai_id )}}";
+            }
+        }, 1000);
+    }
+
+    window.onload = function() {
+        <?php if ($sisa_waktu) { ?>
+            var batasWaktu = parseInt('<?= $sisa_waktu ?>');
+            startCountdown(batasWaktu);
+        <?php } else { ?>
+            document.getElementById('timer').textContent = 'Tidak ada batas waktu.';
+        <?php } ?>
+    };
+
     $('#back-btn').click(function() {
         Swal.fire({
             title: "Tinggalkan tryout ??",
@@ -221,5 +251,24 @@ Tryout
             }
         });
     })
+
+    $(window).on('popstate', function(event) {
+        Swal.fire({
+            title: "Tinggalkan tryout ??",
+            text: "Apakah anda yakin meninggalakn tryout ?",
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonText: "kembali",
+            confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
+            cancelButtonClass: 'btn btn-danger w-xs mt-2',
+            confirmButtonText: "Ya !",
+            buttonsStyling: false,
+            showCloseButton: true
+        }).then(function(result) {
+            if (result.value) {
+                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',$tryout_nilai->tryout_nilai_id )}}";
+            }
+        });
+    });
 </script>
 @endsection

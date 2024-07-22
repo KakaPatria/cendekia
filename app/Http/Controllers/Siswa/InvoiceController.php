@@ -18,7 +18,7 @@ class InvoiceController extends Controller
         $user = auth()->user();
 
         $invoice = Invoice::where('user_id',$user->id)->paginate(10);
-
+        //dd($invoice); 
         $load['invoices'] = $invoice;
         return view('pages.siswa.invoice.index',$load);
     }

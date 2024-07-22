@@ -42,6 +42,12 @@
                         <i class="ri-file-edit-line "></i> <span>Tryout</span>
                     </a>
                 </li>
+                @if(Auth::user()->hasRole(['Admin']))
+                <li class="nav-item">
+                    <a class="nav-link menu-link " href="{{route('panel.pendaftaran.index')}}" id="nav-tryout">
+                        <i class=" ri-newspaper-line "></i> <span>Pendaftaran</span>
+                    </a>
+                </li>
                 <li class="nav-item ">
                     <a class="nav-link menu-link " href="#sidebar-referensi" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-setting" id="nav-setting">
                         <i class="ri-database-line   "></i>Referensi</span>
@@ -88,6 +94,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
             </ul>
         </div>
         <!-- Sidebar -->

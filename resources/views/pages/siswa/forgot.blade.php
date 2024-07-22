@@ -1,6 +1,6 @@
 @extends('layouts.master-without-nav')
 @section('title')
-Daftar
+Lupa Password
 @endsection
 @section('content')
 <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
@@ -30,83 +30,27 @@ Daftar
                             <div class="col-lg-6">
                                 <div class="p-lg-5 p-4">
                                     <div>
-                                        <h5 class="text-primary">Daftar Akun LBB CENDIKIA!</h5>
+                                        <h5 class="text-primary">Lupa Password?</h5>
                                     </div>
 
                                     @include('components.message')
-
+                                    <div class="alert alert-borderless alert-warning text-center mb-2 mx-2" role="alert">
+                                        Masukan Email atau Nomor Telpon yang Terdaftar
+                                    </div>
                                     <div class="mt-4">
-                                        <form action="{{ route('siswa.doRegister')}}" method="POST">
+                                        <form action="{{ route('siswa.doForgotPassword')}}" method="POST">
                                             @csrf
 
-                                            <div class="mb-3">
-                                                <label for="nama " class="form-label">Nama Lengkap</label>
-                                                <input type="text" class="form-control" id="nama" name="name" placeholder="Masukan Nama Lengkap" required value="{{ old('name') }}">
-                                            </div>
+
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email</label>
                                                 <input type="text" class="form-control" id="email" name="email" placeholder="Masukan Email" required value="{{ old('email') }}">
                                             </div>
-                                            <div class="mb-3">
-                                                <label for="telepon" class="form-label">Telepon</label>
-                                                <input type="number" class="form-control" id="telepon" name="telepon" placeholder="Masukan Telepon" required value="{{ old('telepon') }}">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="telepon" class="form-label">Alamat</label>
-                                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat" required value="{{ old('alamat') }}">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
 
-                                                <select class="form-control select2" name="asal_sekolah" id="asal_sekolah">
-
-                                                </select>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="jenjang" class="form-label">Jenjang</label>
-                                                <select id="jenjang" class="form-control" name="jenjang">
-                                                    <option value="">Pilih Jenjang</option>
-                                                    <option value="SD">SD</option>
-                                                    <option value="SMP">SMP</option>
-                                                    <option value="SMA">SMA</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="kelas" class="form-label">Kelas</label>
-                                                <select id="kelas" class="form-control" name="kelas">
-                                                    <option value="">Pilih Jenjang Terlebih dahulu</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="kelas" class="form-label">Kode Referal <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="telepon" name="referal_code" value="{{ old('referal_code') }}" placeholder="Isi kodereferal jika ada">
-                                                
-                                            </div>
-
-
-                                            <div class="mb-3">
-
-                                                <label class="form-label" for="password-input">Password</label>
-                                                <div class="position-relative auth-pass-inputgroup mb-3">
-                                                    <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" name="password">
-                                                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                                </div>
-                                            </div>
-
-                                            <div class="mb-3">
-
-                                                <label class="form-label" for="password-input">Ulangi Password</label>
-                                                <div class="position-relative auth-pass-inputgroup mb-3">
-                                                    <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input" name="password_confirmation">
-                                                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                                </div>
-                                            </div>
 
 
                                             <div class="mt-4">
-                                                <button class="btn btn-danger w-100" type="submit">Daftar</button>
+                                                <button class="btn btn-danger w-100" type="submit">Reset Password</button>
                                             </div>
 
 
@@ -115,7 +59,7 @@ Daftar
                                     </div>
 
                                     <div class="mt-5 text-center">
-                                        <p class="mb-0">Sudah Punya Akun ? <a href="{{ route('login')}}" class="fw-semibold text-primary text-decoration-underline"> Masuk</a> </p>
+                                        <p class="mb-0"><a href="{{ route('login')}}" class="fw-semibold text-primary text-decoration-underline"> Kembali</a> </p>
                                     </div>
                                 </div>
                             </div>

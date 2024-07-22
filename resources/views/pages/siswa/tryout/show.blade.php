@@ -31,6 +31,10 @@
                                 <td>{{ $tryout->tryout_register_due}}</td>
                             </tr>
                             <tr>
+                                <td class="fw-medium">Jenjang</td>
+                                <td>{{ $tryout->tryout_jenjang.' kelas '.$tryout->tryout_kelas}}</td>
+                            </tr>
+                            <tr>
                                 <td class="fw-medium">Status</td>
                                 <td>{{ $tryout->tryout_status}}</td>
                             </tr>

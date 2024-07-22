@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Siswa;
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeMail;
 use App\Models\User;
+use App\Models\ReferalCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
@@ -56,6 +59,66 @@ class UserController extends Controller
 
 
 
+    public function forgotPassword()
+    {
+
+        return view('pages.siswa.forgot');
+    }
+
+    public function doForgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|',
+        ]);
+
+        $user = User::where('email', $request->email)
+            ->orWhere('telepon', $request->email)
+            ->first();
+
+        if ($user) {
+            $token = Str::random(60);
+            $user->update(['remember_token' => $token]);
+
+            // Generate reset link
+            $resetLink = URL::route('siswa.password.reset', ['token' => $token, 'email' => $request->email]);
+
+            // Redirect to the reset link
+            return redirect($resetLink);
+        } else {
+            return redirect()->back()->with('error', 'Akun tidak ditemukan');
+        }
+    }
+
+    public function passwordReset(Request $request, $token = null)
+    {
+
+        return view('pages.siswa.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );;
+    }
+
+    public function doPasswordReset(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || $user->remember_token !== $request->token) {
+            return redirect()->route('siswa.password.reset')->with('error', 'Invalid reset password, mohon ulangi.');
+        }
+
+        // Reset the user's password
+        $user->password = Hash::make($request->password);
+        $user->setRememberToken(Str::random(60));
+        $user->save();
+
+        return redirect()->route('login')->with('success', 'Password anda sudah direset, silahkan login.');
+    }
+
     public function register()
     {
 
@@ -94,6 +157,15 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
 
         ]);
+
+        if ($request->referal_code) {
+            $refCode = ReferalCode::find($refCode);
+
+            if ($refCode) {
+                $user->referal_code = $refCode->code;
+                $user->update();
+            }
+        }
 
         $user->assignRole('Siswa');
         //Mail::to($user->email)->send(new WelcomeMail($user));
@@ -204,13 +276,13 @@ class UserController extends Controller
             'alamat' => $request->alamat,
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
-            'kelas' => $request->kelas, 
+            'kelas' => $request->kelas,
         ]);
 
         if ($request->password) {
             $user = User::find($user->id);
             $user->password =  Hash::make($request->password);
-            $user->update(); 
+            $user->update();
         }
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');

@@ -54,12 +54,17 @@
                             @endif
 
                             <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> 10 </p>
-                            <h5 class="mb-1"><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
-                            <div class="hstack flex-wrap gap-2 fs-16">
+                            <div class="hstack flex-wrap gap-2 fs-16 mb-2">
                                 @foreach($data->materi as $materi)
                                 <div class="badge fw-medium badge-soft-info">{{ $materi->refMateri->ref_materi_judul}}</div>
                                 @endforeach
                             </div>
+                            <h5 class="mb-1"><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
+                                <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                            </ul>
+                            
                         </div>
                         <div class="card-footer border-top border-top-dashed">
                             <div class="d-flex align-items-center">

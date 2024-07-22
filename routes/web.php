@@ -87,7 +87,10 @@ Route::get('/google/callback', [SiswaUserController::class, 'handleGoogleCallbac
 Route::name('siswa.')->prefix('siswa')->group(function () {
 
     Route::post('login', [SiswaUserController::class, 'doLogin'])->name('doLogin');
-
+    Route::get('forgot_password', [SiswaUserController::class, 'forgotPassword'])->name('forgotPassword');
+    Route::post('forgot_password', [SiswaUserController::class, 'doForgotPassword'])->name('doForgotPassword');
+    Route::get('reset_password', [SiswaUserController::class, 'passwordReset'])->name('password.reset');
+    Route::post('reset_password', [SiswaUserController::class, 'doPasswordReset'])->name('do.password.reset');
     Route::get('register', [SiswaUserController::class, 'register'])->name('register');
     Route::post('register', [SiswaUserController::class, 'doRegister'])->name('doRegister');
 

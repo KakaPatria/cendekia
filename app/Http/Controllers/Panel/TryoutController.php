@@ -23,7 +23,8 @@ class TryoutController extends Controller
      */
     public function index(Request $request)
     {
-        $load['tryout'] = Tryout::when($request->keyword, function ($query) use ($request) {
+        $user = auth()->user();
+        $tryout =  Tryout::when($request->keyword, function ($query) use ($request) {
             return $query->where('tryout_judul', 'like', "%{$request->keyword}%")
                 ->where('tryout_deskripsi', 'like', "%{$request->keyword}%");
         })
@@ -32,7 +33,13 @@ class TryoutController extends Controller
             })
             ->when($request->kelas, function ($query) use ($request) {
                 return $query->where('tryout_kelas', $request->kelas);
-            })->paginate(10);
+            });
+        if (!$user->hasRole(['Admin'])) {
+            $tryout->whereHas('materi', function ($q1) use ($user) {
+                $q1->where('pengajar_id', $user->id);
+            });
+        }
+        $load['tryout'] = $tryout->paginate(10);
 
 
         $load['keyword'] = $request->keyword;
@@ -284,7 +291,7 @@ class TryoutController extends Controller
         $tryoutMateri->periode_selesai = $request->periode_selesai;
         $tryoutMateri->safe_mode = $request->safe_mode;
         $tryoutMateri->update();
-        
+
 
         return redirect()->route('panel.tryout_materi.show', $id)
             ->withSuccess(('Materi Tryout Berhasil diupdate.'));

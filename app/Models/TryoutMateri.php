@@ -24,6 +24,9 @@ class TryoutMateri extends Model
         'jumlah_soal',
         'periode_mulai',
         'periode_selesai',
+        'waktu_mulai',
+        'waktu_selesai',
+        'duration',
         'safe_mode',
         'master_soal',
     ];
@@ -76,18 +79,38 @@ class TryoutMateri extends Model
                 $end = $temp;
             }
         
-            // Periksa apakah tanggal sekarang berada dalam rentang tanggal
-            return $now->between($start, $end);
+            if ($now->between($start, $end)) {
+                if ($this->waktu_mulai && $this->waktu_selesai) {
+                    $now = Carbon::now();
+                    $startTime = Carbon::createFromTimeString($this->waktu_mulai);
+                    $endTime = Carbon::createFromTimeString($this->waktu_selesai);
+                    $nowTime = Carbon::createFromTime($now->hour, $now->minute, $now->second);
+            
+                    // Jika waktu mulai lebih besar dari waktu selesai, tukar nilainya
+                    if ($startTime->greaterThan($endTime)) {
+                        $temp = $startTime;
+                        $startTime = $endTime;
+                        $endTime = $temp;
+                    }
+            
+                    // Periksa apakah waktu sekarang berada dalam rentang waktu
+                    return $nowTime->between($startTime, $endTime);
+                }            
+                return  true;
+            }else{
+                return false;
+            }
         }
-
         return $status;
     }
+
+    
     public function getPeriodeAttribute()
     {
         if (!$this->periode_mulai && !$this->periode_selesai) {
             return '';
         } else {
-            return Carbon::parse($this->periode_mulai)->format('d') . ' s/d ' . Carbon::parse($this->periode_selesai)->format('d M y');
+            return Carbon::parse($this->periode_mulai)->format('d M') . ' s/d ' . Carbon::parse($this->periode_selesai)->format('d M y');
         }
     }
 }

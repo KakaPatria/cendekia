@@ -53,9 +53,14 @@ class PengerjaanController extends Controller
 
         $nilai->lanjutkan_pengerjaan = now();
         $nilai->save();
-        //dd($nilai);
+
         $load['tryout_materi'] = $tryoutMateri;
         $load['tryout_nilai'] = $nilai;
+
+        //$sisaWaktu = 300;
+        $sisaWaktu = $tryoutMateri->durasi;
+        $load['sisa_waktu'] = $sisaWaktu;
+
 
         return view('pages.siswa.pengerjaan.create', $load);
     }

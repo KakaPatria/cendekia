@@ -32,7 +32,7 @@ class TryoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function library()
+    public function library(Request $request)
     {
         $user = auth()->user();
 
@@ -41,8 +41,34 @@ class TryoutController extends Controller
             ->get();
         $load['tryout_rekomendasi'] = $tryoutRekomendasi;
 
-        $tryoutAll = Tryout::get()->groupBy('tryout_jenjang');
+        $tryoutAll = Tryout::where('tryout_status', 'Aktif')
+        ->get()
+             ->groupBy('tryout_jenjang');
+
         $load['tryout_all'] = $tryoutAll;
+
+        if ($request->jenjang == 'SD') {
+            $tryoutSD = Tryout::where('tryout_status', 'Aktif')
+                ->when($request->kelas, function ($q, $kelas) {
+                    return $q->whereIn('tryout_kelas', $kelas);
+                })->paginate(5);
+            $load['tryout_sd'] = $tryoutSD;
+        }
+        if ($request->jenjang == 'SMP') {
+            $tryoutSD = Tryout::where('tryout_status', 'Aktif')
+                ->when($request->kelas, function ($q, $kelas) {
+                    return $q->whereIn('tryout_kelas', $kelas);
+                })->paginate(5);
+            $load['tryout_smp'] = $tryoutSD;
+        }
+        if ($request->jenjang == 'SMA') {
+            $tryoutSD = Tryout::where('tryout_status', 'Aktif')
+                ->when($request->kelas, function ($q, $kelas) {
+                    return $q->whereIn('tryout_kelas', $kelas);
+                })->paginate(5);
+            $load['tryout_sma'] = $tryoutSD;
+        }
+
         return view('pages.siswa.tryout.library', $load);
     }
 
@@ -117,7 +143,7 @@ class TryoutController extends Controller
             ->where('tryout_id', $id)->first();
         if (!$tryout) {
             return redirect()->back()
-                    ->withErrors(('Anda tidak memiliki akses di tryout ini'));
+                ->withErrors(('Anda tidak memiliki akses di tryout ini'));
         }
         $tryout = $tryout->load('materi.refMateri');
         //dd($tryout->getAverageNilai());

@@ -62,5 +62,5 @@ class TryoutNilai extends Model
         $formattedDurasi = $durasi->format('%H jam %I menit %S detik');
 
         return $formattedDurasi;
-    }
+    } 
 }
