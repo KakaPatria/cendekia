@@ -37,7 +37,7 @@ Masuk
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">LBB CENDIKIA !</h5>  
+                                <h5 class="text-primary">LBB CENDEKIA !</h5>  
                             </div>
                             @include('components.message')
 

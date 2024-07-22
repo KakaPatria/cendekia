@@ -213,7 +213,7 @@
             }
         },
         title: {
-            text: 'Grafik Siswa Berdasarkan Jenajng',
+            text: 'Grafik Siswa Berdasarkan Jenjang',
             align: 'left'
         },
 

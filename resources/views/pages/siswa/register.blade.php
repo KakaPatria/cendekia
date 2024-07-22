@@ -30,7 +30,7 @@ Daftar
                             <div class="col-lg-6">
                                 <div class="p-lg-5 p-4">
                                     <div>
-                                        <h5 class="text-primary">Daftar Akun LBB CENDIKIA!</h5>
+                                        <h5 class="text-primary">Daftar Akun LBB CENDEKIA!</h5>
                                     </div>
 
                                     @include('components.message')
@@ -143,7 +143,7 @@ Daftar
                         <p class="mb-0">&copy;
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> LBB CENDIKIA
+                            </script> LBB CENDEKIA
                         </p>
                     </div>
                 </div>

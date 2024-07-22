@@ -100,7 +100,7 @@ Masuk
                         <p class="mb-0">&copy;
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> LBB CENDIKIA
+                            </script> LBB CENDEKIA
                         </p>
                     </div>
                 </div>
