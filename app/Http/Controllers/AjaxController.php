@@ -30,7 +30,7 @@ class AjaxController extends Controller
         $element .=    '<tbody>';
         foreach ($soal->jawaban as $key => $value) {
             $element .=        '<tr>';
-            $element .=            '<td><input class="form-check-input" type="radio" name="opsi_jawaban" value="' . $value->tryout_jawaban_prefix . '" id="" ' . ($soal->tryout_kunci_jawaban == $value->tryout_jawaban_prefix ? 'selected' : '') . '></td>';
+            $element .=            '<td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="' . $value->tryout_jawaban_prefix . '" id="" ' . (in_array($value->tryout_jawaban_prefix, json_decode($soal->tryout_kunci_jawaban)) ? 'selected' : '') . '></td>';
             $element .=            '<td>' . $value->tryout_jawaban_prefix . '.</td>';
             $element .=            '<td><input type="text" class="form-control" name="jawaban[' . $value->tryout_jawaban_id . ']" value="' . $value->tryout_jawaban_isi . '"></td>';
             $element .=        '</tr>';
@@ -62,8 +62,11 @@ class AjaxController extends Controller
     {
         $search = $request->input('q');
 
-        $users = User::where('name', 'LIKE', "%{$search}%")
-            ->orWhere('email', 'LIKE', "%{$search}%")
+        $users = User::where(function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('email', 'LIKE', "%{$search}%");
+        })
+            ->whereNotIn('id', json_decode($request->list))
             ->whereHas(
                 'roles',
                 function ($q) {
@@ -75,7 +78,7 @@ class AjaxController extends Controller
         foreach ($users as $user) {
             $response[] = [
                 'id' => $user->id,
-                'text' => $user->name,
+                'text' => $user->name . ' (' . $user->email . ')',
             ];
         }
 
@@ -116,11 +119,11 @@ class AjaxController extends Controller
             // Simpan file
             $file->storeAs($directory, $fileName);
 
-            $file = $directory . '/' . $fileName; 
+            $file = $directory . '/' . $fileName;
 
             return response()->json([
-                'uploaded' => true,
-                'url' => Storage::url($file)
+                'success' => true,
+                'image_url' => Storage::url($file)
             ]);
         }
 

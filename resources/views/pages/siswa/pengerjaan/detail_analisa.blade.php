@@ -60,12 +60,13 @@
 
                     <div class="col-lg-6">
                         <h5 class="mb-2"> <small class="text-muted">Jawaban</small></h5>
+                        <h5 class="mb-2"> <small class="">Point : {{ $pengerjaan->soal->point}}</small></h5>
                         <h5 class="mb-2"> <small class=" ">Jawaban Anda {{ $pengerjaan->tryout_jawaban}}</small></h5>
                         <table class="table table-responsive">
                             <tbody>
                                 @foreach($pengerjaan->soal->jawaban as $jawaban)
                                 <tr>
-                                    <td class="col-1"><input class="form-check-input" type="radio" name="" value="A" id="" @if ($pengerjaan->soal->tryout_kunci_jawaban == $jawaban->tryout_jawaban_prefix){{ 'checked'}}@endif disabled></td>
+                                    <td class="col-1"><input class="form-check-input" type="radio" name="" value="A" id="" @if (in_array($jawaban->tryout_jawaban_prefix,json_decode($pengerjaan->soal->tryout_kunci_jawaban) )){{ 'checked'}}@endif disabled></td>
                                     <td class="col-1">{{$jawaban->tryout_jawaban_prefix}}.</td>
                                     <td>{{$jawaban->tryout_jawaban_isi}}</td>
                                 </tr>

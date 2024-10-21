@@ -1,12 +1,12 @@
 @extends('layouts.panel.master')
-@section('title') Tryout @endsection
+@section('title') Bank SOAL @endsection
 @section('css')
 
 @endsection
 @section('content')
 @component('components.breadcrumb')
-@slot('li_1') Admin @endslot
-@slot('title') Tryout @endslot
+@slot('li_1') Referensi @endslot
+@slot('title') Bank SOAL @endslot
 @endcomponent
 
 @include('components.message')
@@ -19,11 +19,7 @@
 
                 <form action="">
                     <div class="row g-2">
-                        @if(Auth::user()->hasRole(['Admin']))
-                        <div class="col-lg-2">
-                            <a href="{{ route('panel.tryout.create')}}" class="btn btn-primary w-100"><i class="ri-add-circle-line"></i> Tambah Tryout</a>
-                        </div>
-                        @endif
+
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
                                 <input type="text" class="form-control search" id="search-task-options" placeholder="Search ..." name="keyword" value="{{ $keyword }}">
@@ -45,7 +41,7 @@
                             </select>
                         </div>
                         <div class="col-lg-2 col-sm-4">
-                            <a href="{{ route('panel.tryout.index')}}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
+                            <a href="{{ route('panel.user.index')}}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
                                 Reset
                             </a>
                         </div>
@@ -69,60 +65,52 @@
                                     <th scope="col">Judul Materi</th>
                                     <th scope="col">Jenjang</th>
                                     <th scope="col">Kelas</th>
-                                    <th scope="col">Jenis</th>
-                                    <th scope="col">Materi</th>
-                                    <th scope="col">Dibuka Sampai</th>
-                                    <th scope="col" width="10%" class="text-center">Action</th>
+                                    <th scope="col">Jenis Soal</th>
+                                    <th scope="col">Jumlah Soal</th>
+                                    <th scope="col" colspan="3" width="10%" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($tryout as $data)
+                                @forelse($bank_soal as $data)
                                 <tr>
-                                    <td>{{ ($tryout->currentpage()-1) * $tryout->perpage() + $loop->index + 1 }}</td>
+                                    <td>{{ ($bank_soal->currentpage()-1) * $bank_soal->perpage() + $loop->index + 1 }}</td>
 
-                                    <td>{{ $data->tryout_judul }}</td>
+                                    <td>{{ $data->tryout_materi_deskripsi }}</td>
 
-                                    <td>{{ $data->tryout_jenjang }}</td>
-                                    <td>{{ $data->tryout_kelas }}</td>
-                                    <td>{{ $data->tryout_jenis }}</td>
+                                    <td>{{ $data->refMateri->ref_materi_jenjang }}</td>
+                                    <td>{{ $data->refMateri->ref_materi_kelas }}</td>
+                                    <td>{{ $data->jenis_soal }}</td>
+                                    <td>{{ $data->soal->count() }}</td>
                                     <td>
-                                        <div class="hstack flex-wrap gap-2 fs-16">
-                                            @foreach($data->materi as $materi)
-                                            <div class="badge fw-medium badge-soft-info">{{ $materi->refMateri->ref_materi_judul}}</div>
-                                            @endforeach
-                                        </div>
-                                    </td>
-                                    <td>{{ $data->tryout_register_due }}</td>
-
-                                    <td class="text-center">
-                                        <a href="{{ route('panel.tryout.show',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm">
+                                        <a href="{{ route('panel.bank_soal.show',$data->tryout_materi_id)}}" class="btn rounded-pill btn-primary btn-sm">
                                             <i class="fa fa-edit"></i> Detail</a>
                                     </td>
+
                                 </tr>
                                 @empty
-                                <div class="alert alert-danger">
-                                    Belum ada data tryout
+                                <!-- warning Alert -->
+                                <div class="alert alert-warning" role="alert">
+                                    <strong> Data belum tersedia
                                 </div>
+
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-                {{ $tryout->withQueryString()->links() }}
-
+                {{ $bank_soal->withQueryString()->links() }}
             </div><!-- end card-body -->
         </div><!-- end card -->
     </div><!-- end col -->
 </div>
 
-
-
 @endsection
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    $('#nav-tryout').addClass('active')
+    $('#nav-referensi').addClass('active')
+    $('#sidebar-referensi').addClass('show')
+    $('#nav-bank-soal').addClass('active')
 
 
 
@@ -152,8 +140,20 @@
         $classLevel.trigger('change'); // Trigger change to update select2
     });
 
-
-
+    $('#add-jenjang').change(function() {
+        var schoolLevel = $(this).val();
+        var $classLevel = $('#add-kelas');
+        $classLevel.empty().append('<option value="">Pilih Kelas</option>'); // Reset class level options
+        if (schoolLevel) {
+            $classLevel.prop('disabled', false);
+            classes[schoolLevel].forEach(function(classItem) {
+                $classLevel.append('<option value="' + classItem + '">' + classItem + '</option>');
+            });
+        } else {
+            $classLevel.prop('disabled', true);
+        }
+        $classLevel.trigger('change'); // Trigger change to update select2
+    });
 
     <?php if ($filter_jenjang) { ?>
         $('#filter-jenjang').val('<?= $filter_jenjang ?>').change()

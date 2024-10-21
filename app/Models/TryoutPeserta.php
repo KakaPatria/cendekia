@@ -30,25 +30,40 @@ class TryoutPeserta extends Model
     }
     public function invoice()
     {
-        return $this->hasOne(Invoice::class,  'tryout_id', 'tryout_id')->where(DB::raw('invoice.user_id'),auth()->user()->id);
+        return $this->hasOne(Invoice::class,  'tryout_id', 'tryout_id')->where(DB::raw('invoice.user_id'), auth()->user()->id);
     }
 
-    public function siswa(){
+    public function siswa()
+    {
         return $this->hasOne(User::class,  'id', 'user_id');
     }
 
     public function getTanggalDaftarAttribute($value)
     {
-         
+
         return Carbon::parse($this->created_at)->format('d M Y H:i');
     }
 
-    public function getStatusBadgeAttribute(){
+    public function getStatusBadgeAttribute()
+    {
 
         if ($this->tryout_peserta_status) {
             return '<span class="badge text-bg-success">Terdaftar</span>';
-        }else{
+        } else {
             return '<span class="badge text-bg-warning">Pending</span>';
+        }
+    }
+
+    function getWaNumberAttribute()
+    {
+        $nomor = trim($this->tryout_peserta_telpon); // Menghapus spasi yang tidak diinginkan di awal dan akhir
+
+        if (substr($this->tryout_peserta_telpon, 0, 2) === '08') {
+            return '628' . substr($nomor, 2); // Menghapus '085' dari awal nomor
+        } elseif (substr($this->tryout_peserta_telpon, 0, 3) === '628') {
+            return $nomor; // Sudah dalam format yang benar
+        } else {
+            return $nomor; // Nomor tidak berubah jika tidak sesuai dengan format yang diberikan
         }
     }
 }

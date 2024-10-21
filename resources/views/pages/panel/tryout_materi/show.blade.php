@@ -43,11 +43,25 @@
                     <div class="row mb-2">
                         <div class="col-2">
                             <p class="text-muted mb-1">Pengajar</p>
-                            <h5 class="fs-14">{{ $tryout_materi->pengajar->name}}</h5>
+                            <h5 class="fs-14">{{ $tryout_materi->pengajar->name ?? ''}}</h5>
                         </div>
                         <div class="col-2">
                             <p class="text-muted mb-1">Periode Pengerjaan</p>
                             <h5 class="fs-14">{{ $tryout_materi->periode}}</h5>
+                        </div>
+                        <div class="col-2">
+                            <p class="text-muted mb-1">Waktu Pengerjaan</p>
+                            <h5 class="fs-14">{{ $tryout_materi->waktu}}</h5>
+                        </div>
+                        <div class="col-2">
+                            <p class="text-muted mb-1">Durasi Pengerjaan</p>
+                            <h5 class="fs-14">
+                                @if($tryout_materi->durasi)
+                                {{ $tryout_materi->durasi}} Menit
+                                @else
+                                Tidak ada batan waktu
+                                @endif
+                            </h5>
                         </div>
                         <div class="col-2">
                             <p class="text-muted mb-1">Safe Mode</p>
@@ -125,16 +139,24 @@
                         @endif
 
                         <div class="col-lg-6">
-                            <div class="flex-shrink-0">
-
-                                <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm edit-jawaban-btn" data-bs-toggle="modal" data-bs-target="#edit-jawaban-modal" data-id="{{ $soal->tryout_soal_id}}" data-action="{{route('panel.tryout_materi.updateJawaban',$soal->tryout_soal_id)}}">
-                                    <i class="fa fa-edit"></i> Edit Jawaban</a>
+                            <div class="align-items-center d-flex mb-2">
+                                <div class="flex-grow-1">
+                                    <h5 class="fs-14">Point Nilai :{{ $soal->point}}</h5>
+                                </div>
+                                <div class="flex-shrink-0 mb-2">
+                                    <a href="{{route('panel.tryout_jawaban.edit',$soal->tryout_soal_id)}}" class="btn rounded-pill btn-primary btn-sm ">
+                                        <i class="fa fa-edit"></i> Edit Soal
+                                    </a>
+                                    {{--<a href="javascript:;" class="btn rounded-pill btn-warning btn-sm edit-jawaban-btn" data-bs-toggle="modal" data-bs-target="#edit-jawaban-modal" data-id="{{ $soal->tryout_soal_id}}" data-action="{{route('panel.tryout_materi.updateJawaban',$soal->tryout_soal_id)}}">
+                                    <i class="fa fa-edit"></i> Edit Jawaban</a>--}}
+                                </div>
                             </div>
+
                             <table class="table table-responsive">
                                 <tbody>
                                     @foreach($soal->jawaban as $jawaban)
                                     <tr>
-                                        <td class="col-1"><input class="form-check-input" type="radio" name="" value="A" id="" @if ($soal->tryout_kunci_jawaban == $jawaban->tryout_jawaban_prefix){{ 'checked'}}@endif disabled></td>
+                                        <td class="col-1"><input class="form-check-input" type="checkbox" name="" value="A" id=""  @if(($soal->tryout_kunci_jawaban) && in_array($jawaban->tryout_jawaban_prefix,json_decode($soal->tryout_kunci_jawaban) )){{ 'checked'}}@endif disabled></td>
                                         <td class="col-1">{{$jawaban->tryout_jawaban_prefix}}.</td>
                                         <td>{{$jawaban->tryout_jawaban_isi}}</td>
                                     </tr>
@@ -156,7 +178,6 @@
         </div>
     </div>
     <!--end card-->
-</div>
 </div>
 
 <div class="modal fade" id="edit-jawaban-modal" tabindex="-1" aria-labelledby="add-soal-label" aria-hidden="true">
@@ -223,16 +244,50 @@
                             <input type="number" class="form-control mb-2" name="jumlah_soal" id="jumlah-soal">
                         </div>
                     </div>
-                    <div class="form-group  mb-3">
-                        <label class="form-label">Periode Mulai</label>
-                        <div class="">
-                            <input type="text" class="form-control mb-2" data-provider="flatpickr" data-date-format="Y-m-d" name="periode_mulai" value="">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Tanggal Mulai</label>
+                                <div class="">
+                                    <input type="text" class="form-control mb-2" data-provider="flatpickr" data-date-format="Y-m-d" name="periode_mulai" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group  mb-3">
+                                <label class="form-label">Tanggal Selesai</label>
+                                <div class="">
+                                    <input type="text" class="form-control mb-2" data-provider="flatpickr" data-date-format="Y-m-d" name="periode_selesai" value="">
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Jam Mulai</label>
+                                <div class="">
+                                    <input type="text" class="form-control mb-2" data-provider="timepickr" data-time-hrs="true" name="waktu_mulai" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group  mb-3">
+                                <label class="form-label">Jam Selesai</label>
+                                <div class="">
+                                    <input type="text" class="form-control mb-2" data-provider="timepickr" data-time-hrs="true" name="waktu_selesai" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group  mb-3">
-                        <label class="form-label">Periode Selesai</label>
+                        <label class="form-label ">Durasi Pengerjaan</label>
                         <div class="">
-                            <input type="text" class="form-control mb-2" data-provider="flatpickr" data-date-format="Y-m-d" name="periode_selesai" value="">
+                            <div class="input-group">
+                                <input type="number" class="form-control" placeholder="" name="durasi">
+                                <span class="input-group-text" id="basic-addon2">Menit</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group  mb-3">
@@ -286,7 +341,7 @@
     <div class="modal-dialog modal-lg ">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="add-invoice-label">Tambah Materi</h5>
+                <h5 class="modal-title" id="add-invoice-label">Edit Materi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -332,6 +387,34 @@
                         <label class="form-label">Periode Selesai</label>
                         <div class="">
                             <input type="text" class="form-control mb-2" data-provider="flatpickr" data-date-format="Y-m-d" name="periode_selesai" value="{{ $tryout_materi->periode_selesai }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="form-label">Jam Mulai</label>
+                                <div class="">
+                                    <input type="text" class="form-control mb-2" data-provider="timepickr" data-time-hrs="true" name="waktu_mulai" value="{{ $tryout_materi->waktu_mulai}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group  mb-3">
+                                <label class="form-label">Jam Selesai</label>
+                                <div class="">
+                                    <input type="text" class="form-control mb-2" data-provider="timepickr" data-time-hrs="true" name="waktu_selesai" value="{{ $tryout_materi->waktu_selesai}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group  mb-3">
+                        <label class="form-label ">Durasi Pengerjaan</label>
+                        <div class="">
+                            <div class="input-group">
+                                <input type="number" class="form-control" placeholder="" value="{{ $tryout_materi->durasi}}" name="durasi">
+                                <span class="input-group-text" id="basic-addon2">Menit</span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group  mb-3">

@@ -86,12 +86,13 @@ class Tryout extends Model
             $susunNilai[$key]['siswa'] = $value[0]->siswa;
             $susunNilai[$key]['average'] = $value->avg('nilai');
             $susunNilai[$key]['sum'] = $value->sum('nilai');
+            $susunNilai[$key]['total_point'] = $value->sum('total_point');
             $susunNilai[$key]['list'] = $value->keyBy('tryout_materi_id')->toArray();
         }
  
         // Mengurutkan array berdasarkan key 'usia' secara ascending
         usort($susunNilai, function ($a, $b) {
-            return $a['average'] < $b['average'];
+            return $a['total_point'] < $b['total_point'];
         });
 
         return $susunNilai;

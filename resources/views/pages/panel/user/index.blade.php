@@ -62,7 +62,7 @@
             <div class="card-body mb-2">
                 <div class="live-preview">
                     <div class="table-responsive  table-card mb-2">
-                        <table class="table align-middle  table-striped mb-2">
+                        <table class="table align-middle   table-striped mb-2">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col" width="1%">#</th>
@@ -73,6 +73,9 @@
                                     @if($roleX == 'Siswa')
                                     <th scope="col">Jenjang</th>
                                     <th scope="col">Kelas</th>
+                                    <th scope="col">Alamat</th>
+                                    <th scope="col">Nama Orangtua</th>
+                                    <th scope="col">Telepon Orangtua</th>
                                     @endif
                                     <th scope="col">Avatar</th>
                                     <th scope="col">Roles</th>
@@ -92,6 +95,9 @@
                                     @if($roleX == 'Siswa')
                                     <td>{{ $user->jenjang }}</td>
                                     <td>{{ $user->kelas }}</td>
+                                    <td>{{ $user->alamat }}</td>
+                                    <td>{{ $user->nama_orang_tua }}</td>
+                                    <td>{{ $user->telp_orang_tua }}</td>
                                     @endif
                                     <td>
                                         <div class="flex-shrink-0">
@@ -185,6 +191,24 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Alamat</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control mb-2" name="alamat" value="{{old('alamat')}}" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Nama Orangtua</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control mb-2" name="nama_orang_tua" value="{{old('nama_orang_tua')}}" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Telepon Orangtua</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control mb-2" name="telp_orang_tua" value="{{old('telp_orang_tua')}}" />
+                        </div>
+                    </div>
                     @endif
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Password</label>
@@ -193,6 +217,9 @@
 
                         </div>
                     </div>
+
+                    @if($roleX != 'Siswa')
+
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Role</label>
                         <div class="col-md-9">
@@ -217,6 +244,8 @@
                             </select>
                         </div>
                     </div>
+                    @endif
+
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Avatar</label>
                         <div class="col-md-9">

@@ -1,12 +1,10 @@
 @extends('layouts.panel.master')
 @section('title') Soal Tryout @endsection
 @section('css')
-<meta name="csrf-token" content="{{ csrf_token() }}">
-
 <link rel="stylesheet" href="{{ URL::asset('assets/libs/glightbox/glightbox.min.css') }}">
 <link href="https://unpkg.com/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{ URL::asset('assets/libs/glightbox/glightbox.min.css') }}">
-<link rel="stylesheet" href="https://cdn.quilljs.com/1.2.2/quill.snow.css">
+
 @endsection
 @section('content')
 @component('components.breadcrumb')
@@ -29,7 +27,7 @@
         <!--end card-->
         <div class="card">
             <div class="card-body">
-                <form action="{{route('panel.tryout_materi.storeJawaban',$tryout_materi->tryout_materi_id)}}" method="post">
+                <form action="{{route('panel.tryout_materi.storeJawaban',$tryout_materi->tryout_materi_id)}}" method="post" name="form-soal">
                     @csrf
                     <div id="smartwizard">
                         <ul class="nav">
@@ -52,16 +50,15 @@
                                     <img class="gallery-img img-fluid mx-auto w-50" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
                                 </a>
                                 @else
-                                <div id="editor-{{ $key}}" style="height:300px" class="mb-2">
-                                </div>
-                                <input type="hidden" name="soal[{{$soal->tryout_soal_id}}]" id="soal-{{ $key}}">
+                                <textarea name="soal[{{$soal->tryout_soal_id}}]" id="editor-{{ $key}}" class="form-control"></textarea>
+
                                 @endif
                                 <div class="overflow-auto">
                                     <h4 class="card-title mb-0 flex-grow-1">Jawaban Soal No. {{ $soal->tryout_nomor}}</h4>
                                     <div class="form-group row">
                                         <label for="staticEmail" class="col-sm-2 col-form-label">Point Nilai</label>
                                         <div class="col-sm-10">
-                                            <input type="number" class="form-control" placeholder="" value="1" name="point[{{$soal->tryout_soal_id}}]">
+                                            <input type="number" class="form-control" placeholder="" name="point[{{$soal->tryout_soal_id}}]">
 
                                         </div>
                                     </div>
@@ -99,7 +96,7 @@
                                     <div class="text-center ">
                                         @if ($loop->last)
                                         <button type="button" class="btn rounded-pill btn-warning  back-btn">Kembali</button>
-                                        <button type="submit" class="btn rounded-pill btn-primary ">Simpan</button>
+                                        <button type="submit" id="submit-btn" class="btn rounded-pill btn-primary ">Simpan</button>
                                         @else
                                         <button type="button" class="btn rounded-pill btn-warning back-btn">Kembali</button>
                                         <button type="button" class="btn rounded-pill btn-success next-btn">Selanjutnya</button>
@@ -132,8 +129,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- SmartWizard JavaScript -->
 <script src="https://unpkg.com/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
-<script src="https://cdn.quilljs.com/1.2.2/quill.min.js"></script>
-<script src="https://cdn.rawgit.com/kensnyder/quill-image-resize-module/3411c9a7/image-resize.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/nbw604ybayer8g6kfspfwkndpm3tz6lngp2nkdwwzctcc70x/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 
 
@@ -156,93 +152,19 @@
     })
 
     <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
-        var quill<?= $key ?> = new Quill('#editor-<?= $key ?>', {
-            theme: 'snow',
-            modules: {
-                imageResize: {
-                    displaySize: true
-                },
-                toolbar: [
-                    [{
-                        'header': [1, 2, 3, 4, 5, 6, false]
-                    }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{
-                        'list': 'ordered'
-                    }, {
-                        'list': 'bullet'
-                    }],
-                    [{
-                        'color': []
-                    }, {
-                        'background': []
-                    }],
-                    [{
-                        'align': []
-                    }],
-                    ['link', 'image'],
-
-                    ['clean']
-                ]
-            }
+        tinymce.init({
+            selector: '#editor-<?= $key ?>',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("")),
         });
-
-        quill<?= $key ?>.getModule('toolbar').addHandler('image', imageHandlerquill<?= $key ?>);
-
-        function imageHandlerquill<?= $key ?>() {
-            const input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*');
-            input.click();
-
-            input.onchange = function() {
-                const file = input.files[0];
-
-                if (/^image\//.test(file.type)) {
-                    uploadImage(file, quill<?= $key ?>);
-                } else {
-                    console.warn('Hanya gambar yang diizinkan');
-                }
-            };
-        }
     <?php } ?>
 
-    $('form').on('submit', function(e) {
-        e.preventDefault(); // Mencegah submit form langsung
+    $('#form-soal').on('submit', function(e) {
         <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
-            $('#soal-<?= $key ?>').val(quill<?= $key ?>.root.innerHTML)
+            var myContent = tinymce.get("editor-<?= $key ?>").getContent();
+            $('#editor-<?= $key ?>').html(myContent)
         <?php } ?>
-
-
-        setTimeout(function() {
-            $('form').off('submit').submit(); // Submit form setelah delay
-        }, 500); //
-    });
-
-    // Upload gambar ke server
-    function uploadImage(file, quilKey) {
-        const formData = new FormData();
-        formData.append('upload', file);
-
-        fetch('<?= route('ajax.upload-img-soal') ?>', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-
-                },
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    // Tambahkan gambar ke editor Quill
-                    const range = quilKey.getSelection();
-                    quilKey.insertEmbed(range.index, 'image', result.image_url);
-                }
-            })
-            .catch(error => {
-                console.log('Error:', error);
-            });
-    }
+    })
 </script>
 @endsection

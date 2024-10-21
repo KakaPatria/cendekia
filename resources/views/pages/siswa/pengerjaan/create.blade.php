@@ -15,7 +15,7 @@ Tryout
         <div class="text-center">
             <h3 class="">{{$tryout_materi->tryoutMaster->tryout_judul}}</h2>
                 <h3 class="mb-2"> <small class="text-muted">{{$tryout_materi->refMateri->ref_materi_judul}}</small></h2>
-                    <p>Anda akan dialihkan dalam <span id="timer"></span>.</p>
+                    {{-- <p>Anda akan dialihkan dalam <span id="timer"></span>.</p> --}}
         </div>
     </div>
     <div class="flex-shrink-0">
@@ -28,7 +28,7 @@ Tryout
 <div class="card">
     <div class="card-body">
         <div id="smartwizard">
-            <ul class="nav">
+            <ul class="nav d-none">
                 @foreach($tryout_materi->soal as $key => $soal)
                 <li class="nav-item">
                     <a class="nav-link" href="#step-{{ $key }}">
@@ -43,8 +43,9 @@ Tryout
             <div class="tab-content">
                 @foreach($tryout_materi->soal as $key => $soal)
                 <div id="step-{{ $key }}" class="tab-pane" role="tabpanel" aria-labelledby="step-{{ $key }}">
+                    <h5 class="mb-2  d-block"> No. {{ $soal->tryout_nomor}}</h5>
                     @if($tryout_materi->jenis_soal == 'PDF')
-                    <div class="overflow-auto h-5 ">
+                    <div class="overflow-auto">
                         <div class="d-flex mb-2 text-center border border-dark" style="height: 300px;">
                             <a class="image-popup " href="{{ Storage::url($soal->tryout_soal) }}" title="">
                                 <img class="gallery-img img-fluid mx-auto  border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
@@ -52,16 +53,16 @@ Tryout
                         </div>
                     </div>
                     @else
-                    <div class="overflow-auto h-5">
+                    <div class="overflow-auto h-5 border border-dark p-3" style="height: 300px;">
                         {!! $soal->tryout_soal !!}
                     </div>
                     @endif
 
-                    <div class="text-center">
+                    <div class="text-center mt-2">
                         <h4 class="card-title mb-2 flex-grow-1">Jawaban Soal No. {{ $soal->tryout_nomor}}</h4>
                     </div>
                     <div class="d-flex justify-content-center mb-2">
-                        <div class="w-50">
+                        <div class="w-100">
                             <div class="list-group">
                                 <form action="{{ route('siswa.tryout.pengerjaan.jawab',$tryout_nilai->tryout_nilai_id) }}" id="form-{{ $key}}">
                                     @csrf
@@ -104,7 +105,7 @@ Tryout
 </div>
 @endsection
 @section('script')
-
+<audio id="alert-sound" src="{{ URL::asset('/assets/alert.mp3') }}"></audio>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- SmartWizard JavaScript -->
@@ -164,9 +165,11 @@ Tryout
 
     $('.back-btn').click(function() {
         $('#smartwizard').smartWizard("prev");
-
     })
+
+    const audioPlayer = $('#alert-sound')[0];
     $('.next-btn').click(function() {
+        audioPlayer.muted = false;
         $('#smartwizard').smartWizard("next");
 
     })
@@ -215,11 +218,9 @@ Tryout
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
 
-            document.getElementById('timer').textContent = hours + "h " + minutes + "m " + seconds + "s ";
-
             if (--timer < 0) {
                 clearInterval(timerInterval);
-                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',$tryout_nilai->tryout_nilai_id )}}";
+                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,'type=1'] )}}";
             }
         }, 1000);
     }
@@ -270,5 +271,27 @@ Tryout
             }
         });
     });
+    <?php if ($tryout_materi->safe_mode) { ?>
+        $(document).on('visibilitychange', function() {
+            if (document.hidden) {
+                console.log('Tab atau jendela lain sedang aktif.');
+                $('#alert-sound')[0].play();
+                Swal.fire({
+                    title: "Peringatan !!",
+                    text: "Jangan meninggalkan halaman tryout",
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
+                    cancelButtonClass: 'btn btn-danger w-xs mt-2',
+                    confirmButtonText: "Lanjutkan",
+                    buttonsStyling: false,
+                    showCloseButton: true
+                });
+            } else {
+                $('#alert-sound')[0].pause();
+
+            }
+        });
+    <?php } ?>
 </script>
 @endsection

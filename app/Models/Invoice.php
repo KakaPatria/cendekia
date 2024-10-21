@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class Invoice extends Model
 {
@@ -33,16 +35,25 @@ class Invoice extends Model
     {
         return number_format($this->amount, 0, ',', '.');
     }
-    
+
+    public function getDueDateFormatAttribute()
+    {
+        return Carbon::parse($this->due_date)->format('d M Y');
+    }
+    public function getInvDateFormatAttribute()
+    {
+        return Carbon::parse($this->created_at)->format('d M Y');
+    }
+
     public function getStatusBadgeAttribute()
     {
 
         if ($this->status == 1) {
-            return ' <span class="badge badge-soft-info fs-11" id="payment-status">Lunas</span>';
+            return ' <span class="badge badge-soft-info fs-11" id="payment-status">Dikonfirmasi</span>';
         } elseif ($this->status == 0) {
-            return ' <span class="badge badge-soft-warning fs-11" id="payment-status">Belum Bayar</span>';
+            return ' <span class="badge badge-soft-warning fs-11" id="payment-status">Menunggu Konfirmasi</span>';
         } else {
-            return '<span class="badge badge-warning fs-11" id="payment-status">Belum Bayar</span>';
+            return '<span class="badge badge-warning fs-11" id="payment-status">Menggu Konfirmasi</span>';
         }
     }
 }

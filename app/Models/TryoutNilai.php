@@ -18,6 +18,7 @@ class TryoutNilai extends Model
         'tryout_id',
         'tryout_materi_id',
         'user_id',
+        'total_point',
         'nilai',
         'soal_dijekerjakan',
         'soal_total',
@@ -28,6 +29,7 @@ class TryoutNilai extends Model
         'stop_pengerjaan',
         'lanjutkan_pengerjaan',
         'selesai_pengerjaan',
+        'durasi_berjalan',
     ];
 
 
@@ -42,6 +44,10 @@ class TryoutNilai extends Model
     public function masterTryout()
     {
         return $this->hasOne(Tryout::class,  'tryout_id', 'tryout_id');
+    }
+    public function tryoutMateri()
+    {
+        return $this->hasOne(TryoutMateri::class,  'tryout_materi_id', 'tryout_materi_id');
     }
 
     public function siswa()

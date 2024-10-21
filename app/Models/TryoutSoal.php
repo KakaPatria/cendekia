@@ -32,4 +32,5 @@ class TryoutSoal extends Model
     {
         return $this->hasOne(TryoutPengerjaan::class,  'tryout_soal_id', 'tryout_soal_id')->where('user_id', Auth::user()->id);
     }
+ 
 }

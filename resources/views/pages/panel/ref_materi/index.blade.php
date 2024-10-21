@@ -71,7 +71,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($materi as $data)
+                                @forelse($materi as $data)
                                 <tr>
                                     <td>{{ ($materi->currentpage()-1) * $materi->perpage() + $loop->index + 1 }}</td>
 
@@ -80,12 +80,18 @@
                                     <td>{{ $data->ref_materi_jenjang }}</td>
                                     <td>{{ $data->ref_materi_kelas }}</td>
                                     <td>
-                                        <a href="javascript:;"  class="btn rounded-pill btn-warning btn-sm editBtn" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{route('panel.materi.update', $data->ref_materi_id)}}" data-name="{{$data->ref_materi_judul}}" data-jenjang="{{$data->ref_materi_jenjang}}" data-kelas="{{$data->ref_materi_kelas}}">
-                                            <i class="fa fa-edit" ></i> Edit</a>
+                                        <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm editBtn" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{route('panel.materi.update', $data->ref_materi_id)}}" data-name="{{$data->ref_materi_judul}}" data-jenjang="{{$data->ref_materi_jenjang}}" data-kelas="{{$data->ref_materi_kelas}}">
+                                            <i class="fa fa-edit"></i> Edit</a>
                                     </td>
                                     <td><a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$data->ref_materi_id}}" data-name="{{$data->ref_materi_judul}}"><i class="fa fa-trash"></i> Hapus</a></td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <!-- warning Alert -->
+                                <div class="alert alert-warning" role="alert">
+                                    <strong> Data belum tersedia
+                                </div>
+
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -299,7 +305,7 @@
         var jenjang = $(this).data('jenjang');
         var kelas = $(this).data('kelas');
         $('#edit-form').attr('action', action)
-       
+
         $('#edit-judul').val(name);
         $('#edit-jenjang').val(jenjang).change()
         $('#edit-kelas').val(kelas).change()

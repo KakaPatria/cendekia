@@ -98,18 +98,17 @@
                     </div>
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Biaya</label>
-                        
+
                         <div class="col-md-9">
                             <div class="input-group ">
                                 <span class="input-group-text" id="">Rp</span>
-                                <input type="text" class="form-control mb-2" placeholder="" name="tryout_nominal" id="tryout-nominal"  value="{{ old('tryout_nominal',$tryout->tryout_nominal)}}" />
+                                <input type="text" class="form-control mb-2" placeholder="" name="tryout_nominal" id="tryout-nominal" value="{{ old('tryout_nominal',$tryout->tryout_nominal)}}" />
 
-                                  
+
                             </div>
                         </div>
-                    </div>
-                   
 
+                    </div> 
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
@@ -130,8 +129,8 @@
 
 <script>
     $('#nav-tryout').addClass('active')
-    $('#tryout-nominal').on('change',function(){
-         
+    $('#tryout-nominal').on('change', function() {
+
         $('#tryout-nominal').val(formatRupiah($(this).val()))
     })
 
@@ -152,7 +151,7 @@
         return rupiah;
     }
 
-     
+
     ClassicEditor
         .create(document.querySelector('#editor'))
         .then(editor => {
@@ -234,7 +233,7 @@
             $('#tryout-nominal').val(0);
         }
     });
-  
+
     $('#add-jenjang').change(function() {
         var schoolLevel = $(this).val();
         var $classLevel = $('#add-kelas');
@@ -250,10 +249,9 @@
         $classLevel.trigger('change'); // Trigger change to update select2
     });
 
-    $('#add-jenjang').val('<?= $tryout->tryout_jenjang?>').change()
-    $('#add-kelas').val('<?= $tryout->tryout_kelas?>').change()
-    $('#add-jenis').val('<?= $tryout->tryout_jenis?>').change()
-    $('#add-status').val('<?= $tryout->tryout_status?>').change()
-    
+    $('#add-jenjang').val('<?= $tryout->tryout_jenjang ?>').change()
+    $('#add-kelas').val('<?= $tryout->tryout_kelas ?>').change()
+    $('#add-jenis').val('<?= $tryout->tryout_jenis ?>').change()
+    $('#add-status').val('<?= $tryout->tryout_status ?>').change()
 </script>
 @endsection

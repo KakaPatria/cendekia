@@ -48,6 +48,15 @@ Daftar
                                                 <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat" required value="{{ old('alamat') }}">
                                             </div>
                                             <div class="mb-3">
+                                                <label for="nama_orang_tua" class="form-label">Nama Orangtua</label>
+                                                <input type="text" class="form-control" id="nama_orang_tua" name="nama_orang_tua" placeholder="Masukan Nama Orangtua" required value="{{ old('nama_orang_tua') }}">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="telp_orang_tua" class="form-label">Telepon Orangtua</label>
+                                                <input type="number" class="form-control" id="telp_orang_tua" name="telp_orang_tua" placeholder="Masukan Telepon Orangtua" required value="{{ old('telp_orang_tua') }}">
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
 
                                                 <select class="form-control select2" name="asal_sekolah" id="asal_sekolah">

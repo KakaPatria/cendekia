@@ -18,11 +18,11 @@
 <div class="pt-4 mb-4 mb-lg-3 pb-lg-4">
     <div class="row g-4">
         <div class="col-auto">
-             
+
             <div class="text-center">
                 <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
                     <img src="@if (Auth::user()->avatar != '') {{ Storage::url( Auth::user()->avatar) }}@else{{ URL::asset('assets/images/users/user-dummy-img.jpg') }} @endif" class="  rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image" id="profile-img-file">
-                    
+
                 </div>
             </div>
         </div>
@@ -30,7 +30,12 @@
         <div class="col">
             <div class="p-2">
                 <h3 class="text-white mb-1">{{ Auth::user()->name}}</h3>
-                <p class="text-white-75">Kelas {{ Auth::user()->kelas.' '.Auth::user()->jenjang}} <br> {{ Auth::user()->telepon}} <br> {{ Auth::user()->email}}</p>
+                <p class="text-white-75">Kelas {{ Auth::user()->kelas.' '.Auth::user()->jenjang}}
+                    <br> Telepon : {{ Auth::user()->telepon}}
+                    <br> Email : {{ Auth::user()->email}}
+                    <br> Nama Orangtua : {{ Auth::user()->nama_orang_tua}}
+                    <br> Telepon Orangtua : {{ Auth::user()->tlp_orang_tua}}
+                </p> 
                 <div class="hstack text-white-50 gap-1">
                     <div class="me-2"><i class="ri-map-pin-user-line me-1 text-white-75 fs-16 align-middle"></i>{{ Auth::user()->alamat}}</div>
                     <div><i class="ri-building-line me-1 text-white-75 fs-16 align-middle"></i>{{ Auth::user()->asal_sekolah}}

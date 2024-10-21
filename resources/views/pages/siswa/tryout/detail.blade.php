@@ -108,12 +108,24 @@
                                                 <p class="text-muted text-truncate-two-lines mb-3">{{ $materi->tryout_materi_deskripsi}}</p>
                                                 <div>
                                                     <p class="text-muted mb-1">Pengajar</p>
-                                                    <h5 class="fs-14">{{ $materi->pengajar->name}}</h5>
+                                                    <h5 class="fs-14">{{ $materi->pengajar->name ?? ''}}</h5>
                                                 </div>
                                                 <div>
                                                     <p class="text-muted mb-1">Periode Pengerjaan</p>
                                                     <h5 class="fs-14">{{ $materi->periode}}</h5>
                                                 </div>
+                                                @if($materi->periode_mulai && $tryout)
+                                                <div>
+                                                    <p class="text-muted mb-1">Jam Pengerjaan</p>
+                                                    <h5 class="fs-14">{{ $materi->waktu}}</h5>
+                                                </div>
+                                                @endif
+                                                @if($materi->durasi)
+                                                <div>
+                                                    <p class="text-muted mb-1">Durasi Pengerjaan</p>
+                                                    <h5 class="fs-14">{{ $materi->durasi / 60}} Menit</h5>
+                                                </div>
+                                                @endif
                                             </div>
                                         </div>
                                         @if($materi->nilaiUser)
@@ -138,6 +150,7 @@
                                 <div class="card-footer bg-transparent border-top-dashed py-2">
                                     <div class="text-center">
 
+                                        @if($tryout->tryout_status == 'Aktif')
                                         @if(!$materi->in_periode)
                                         <div class="alert alert-danger mb-xl-0" role="alert">
                                             Tidak dalam periode tryout
@@ -153,6 +166,7 @@
                                         <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',$materi->tryout_materi_id)}}">
                                             <i class="fa fa-edit"></i> Kerjakan
                                         </a>
+                                        @endif
                                         @endif
                                         @endif
                                     </div>
@@ -210,6 +224,7 @@
                                         <th scope="col">{{ $materi->refMateri->ref_materi_judul}}</th>
                                         @endforeach
                                         <th>Total Nilai</th>
+                                        <th>Total Point</th>
 
                                     </tr>
                                 </thead>
@@ -229,6 +244,7 @@
                                         </td>
                                         @endforeach
                                         <td>{{ round($value['sum'],2)}}</td>
+                                        <td>{{ round($value['total_point'],2)}}</td>
                                     </tr>
                                     @endif
                                     @endforeach
@@ -244,8 +260,14 @@
                         <div class="row p-2">
                             <div class="col-3">
                                 <div>
+                                    <p class="text-muted mb-1">Total Point</p>
+                                    <h5 class="fs-14">{{$materi->nilaiSiswa->total_point}}</h5>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
                                     <p class="text-muted mb-1">Nilai</p>
-                                    <h5 class="fs-14">{{$materi->nilaiSiswa->nilai}}</h5>
+                                    <h5 class="fs-14">{{round($materi->nilaiSiswa->nilai,2)}}</h5>
                                 </div>
                             </div>
                             <div class="col-3">
@@ -275,6 +297,7 @@
                                         <th scope="col">No. </th>
                                         <th scope="col">Jawaban </th>
                                         <th scope="col">Kunci Jawaban</th>
+                                        <th scope="col">Point</th>
                                         <th scope="col">Status</th>
                                         <th scope="col"></th>
                                     </tr>
@@ -284,13 +307,16 @@
                                     <tr>
 
                                         <td>{{ $soal->tryout_nomor}}</td>
-                                        <td>{{ $soal->pengerjaan->tryout_jawaban}}</td>
-                                        <td>{{ $soal->tryout_kunci_jawaban}}</td>
-                                        <td>{!! $soal->pengerjaan->status_badge !!}</td>
+                                        <td>{{ $soal->pengerjaan->tryout_jawaban ?? ''}}</td>
+                                        <td>{{ implode(', ', json_decode($soal->tryout_kunci_jawaban))}}</td>
+                                        <td>{{ $soal->point}}</td>
+                                        <td>{!! $soal->pengerjaan->status_badge ?? '' !!}</td>
                                         <td>
+                                            @if($soal->pengerjaan)
                                             <a href="{{ route('siswa.tryout.pengerjaan.analisa',$soal->pengerjaan->tryout_pengerjaan_id) }}" class="btn rounded-pill btn-info btn-sm">
                                                 <i class="fa fa-edit"></i> Detail
                                             </a>
+                                            @endif
                                         </td>
 
                                     </tr>

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class TryoutMateri extends Model
 {
     use HasFactory;
-
+    
     protected $table = 'tryout_materi';
     protected $primaryKey = 'tryout_materi_id';
     public $incrementing = false;
@@ -26,7 +26,7 @@ class TryoutMateri extends Model
         'periode_selesai',
         'waktu_mulai',
         'waktu_selesai',
-        'duration',
+        'durasi',
         'safe_mode',
         'master_soal',
     ];
@@ -92,9 +92,9 @@ class TryoutMateri extends Model
                         $startTime = $endTime;
                         $endTime = $temp;
                     }
-            
                     // Periksa apakah waktu sekarang berada dalam rentang waktu
                     return $nowTime->between($startTime, $endTime);
+                    //return true;
                 }            
                 return  true;
             }else{
@@ -105,6 +105,15 @@ class TryoutMateri extends Model
     }
 
     
+    public function getWaktuAttribute()
+    {
+        if (!$this->waktu_mulai && !$this->waktu_selesai) {
+            return '';
+        } else {
+            return Carbon::parse($this->waktu_mulai)->format('H:i') . ' s/d ' . Carbon::parse($this->waktu_selesai)->format('H:i');
+        }
+    }
+
     public function getPeriodeAttribute()
     {
         if (!$this->periode_mulai && !$this->periode_selesai) {

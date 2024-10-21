@@ -39,23 +39,29 @@
                             <tbody>
                                 <tr>
                                     <td class="fw-medium">Nama</td>
-                                    <td>{{ $peserta->tryout_peserta_name}}</td>
+                                    <td colspan="2">{{ $peserta->tryout_peserta_name}}</td>
                                 </tr>
                                 <tr>
                                     <td class="fw-medium">Telepon</td>
                                     <td>{{ $peserta->tryout_peserta_telpon}}</td>
+                                    <td class="text-end">
+                                        @if($peserta->tryout_peserta_status)
+                                        <a href="{{ $wa_link}}" target="_blank" class="btn rounded-pill btn-success btn-sm" >
+                                            <i class="fa fa-edit"></i> Kirim Konfrimasi</a>
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="fw-medium">Email</td>
-                                    <td>{{ $peserta->tryout_peserta_email}}</td>
+                                    <td colspan="2">{{ $peserta->tryout_peserta_email}}</td>
                                 </tr>
                                 <tr>
                                     <td class="fw-medium">Alamat</td>
-                                    <td>{{ $peserta->tryout_peserta_alamat}}</td>
+                                    <td colspan="2">{{ $peserta->tryout_peserta_alamat}}</td>
                                 </tr>
                                 <tr>
                                     <td class="fw-medium">Status</td>
-                                    <td>{{ $peserta->status_bagde}}</td>
+                                    <td colspan="2">{!! $peserta->status_badge !!}</td>
                                 </tr>
 
                             </tbody>

@@ -35,8 +35,8 @@ class UserController extends Controller
                     function ($q) use ($role) {
                         if ($role == 'Siswa') {
                             $q->where('id', 1);
-                        }else{
-                            $q->where('id', '!=',1);
+                        } else {
+                            $q->where('id', '!=', 1);
                         }
                     }
                 );
@@ -93,6 +93,9 @@ class UserController extends Controller
             'asal_sekolah' => 'required|string|max:255',
             'jenjang' => 'required|string|in:SD,SMP,SMA',
             'kelas' => 'required|integer|min:1|max:12',
+            'nama_orang_tua' => 'required|string',
+            'telp_orang_tua' => 'required|numeric',
+            'alamat' => 'required|string|max:255',
 
         ]);
 
@@ -100,7 +103,7 @@ class UserController extends Controller
 
         if ($request->password) {
             $request->validate([
-                'password'=> 'min:8'
+                'password' => 'min:8'
             ]);
             $validated['password'] = Hash::make($request->password);
         }
@@ -147,6 +150,9 @@ class UserController extends Controller
             'asal_sekolah' => 'required|string|max:255',
             'jenjang' => 'required|string|in:SD,SMP,SMA',
             'kelas' => 'required|integer|min:1|max:12',
+            'nama_orang_tua' => 'required|string',
+            'telp_orang_tua' => 'required|numeric',
+            'alamat' => 'required|string|max:255',
             'password' => 'required|string|min:8',
         ]);
 
@@ -157,6 +163,9 @@ class UserController extends Controller
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
+            'alamat' => $request->alamat,
+            'nama_orang_tua' => $request->nama_orang_tua,
+            'telp_orang_tua' => $request->telp_orang_tua,
             'password' => Hash::make($request->password),
 
         ]);
@@ -174,7 +183,8 @@ class UserController extends Controller
         }
         //die;
 
-        $user->syncRoles($request->get('role'));
+        $role = $request->get('role') ?? 'Siswa';
+        $user->syncRoles($role);
         $user->syncPermissions($request->get('permissions'));
 
         return redirect()->route('panel.user.index')
@@ -199,6 +209,10 @@ class UserController extends Controller
     public function login()
     {
         if (Auth::check()) {
+            if (Auth::user()->hasRole('Siswa')) {
+                Auth::logout();
+                return redirect('/')->with('error', 'Anda tidak memiliki akses.');
+            }
             return redirect()->route('panel.dashboard')->with('info', 'Anda sudah logged in.');
         }
 
@@ -230,6 +244,6 @@ class UserController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/')->with('success', 'anda berhasil logout.');
+        return redirect(route('panel.login'))->with('success', 'anda berhasil logout.');
     }
 }

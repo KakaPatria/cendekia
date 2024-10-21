@@ -87,7 +87,7 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('siswa.tryout.detail',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm editBtn">
+                            <a href="{{ route('siswa.tryout.detail',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm {{--@if($data->tryout_status != 'Aktif'){{'disabled'}}@endif--}}">
                                 <i class="fa fa-edit"></i> Detail
                             </a>
                         </td>

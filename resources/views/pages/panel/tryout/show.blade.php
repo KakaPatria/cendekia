@@ -25,13 +25,17 @@
                         <div class="flex-shrink-0">
                             @if(Auth::user()->hasRole(['Admin']))
 
+                            <a href="{{ route('panel.tryout.exportPeserta',$tryout->tryout_id)}}" class="btn rounded-pill btn-warning btn-sm">
+                                <i class="fa fa-edit"></i> Export Data</a>
                             <a href="{{ route('panel.tryout.edit',$tryout->tryout_id)}}" class="btn rounded-pill btn-info btn-sm">
                                 <i class="fa fa-edit"></i> Edit</a>
                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$tryout->tryout_id}}" data-name="{{$tryout->tryout_judul}}"><i class="fa fa-trash"></i> Hapus</a>
                             @endif
                         </div>
                     </div>
-
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><i class="ri-building-line text-success align-middle me-1"></i> {{ $tryout->tryout_jenjang.' Kelas '.$tryout->tryout_kelas}}</li>
+                    </ul>
                     {!! $tryout->tryout_deskripsi!!}
 
                     <!-- Base Example -->
@@ -126,17 +130,24 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="tab-pane active show" id="tryout-soal" role="tabpanel">
-                        <h5 class="card-title mb-4">Daftar Peserta</h5>
+                        <div class="align-items-center d-flex mb-2">
+                            <h5 class="card-title mb-4">Daftar Peserta</h5>
+
+                        </div>
+
+
                         <div class="table-responsive table-card">
                             <table class="table align-middle mb-0">
                                 <thead class="table-light text-muted">
                                     <tr>
                                         <th scope="col">No. </th>
                                         <th scope="col">Nama </th>
+                                        <th scope="col">Email</th>
                                         <th scope="col">Asal Sekolah</th>
                                         <th scope="col">Jenjang</th>
                                         <th scope="col">Kelas</th>
                                         <th scope="col">Tanggal Pendaftaran</th>
+                                        <th scope="col">#</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -145,10 +156,15 @@
 
                                         <td>{{ $loop->iteration}}</td>
                                         <td>{{ $peserta->siswa->name}}</td>
+                                        <td>{{ $peserta->siswa->email}}</td>
                                         <td>{{ $peserta->siswa->asal_sekolah}}</td>
                                         <td>{{ $peserta->siswa->jenjang}}</td>
                                         <td>{{ $peserta->siswa->kelas}}</td>
                                         <td>{{ $peserta->tanggal_daftar}}</td>
+                                        <td class="text-center">
+                                            <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deletePesertaBtn" data-bs-toggle="modal" data-bs-target="#deletePesertaModal" data-id="{{$peserta->tryout_peserta_id }}" data-name="{{$peserta->siswa->name}}">
+                                                <i class="fa fa-edit"></i> Hapus</a>
+                                        </td>
 
                                     </tr>
                                     @endforeach
@@ -171,6 +187,7 @@
                                         <th scope="col">{{ $materi->refMateri->ref_materi_judul}}</th>
                                         @endforeach
                                         <th>Total Nilai</th>
+                                        <th>Total Point</th>
 
                                     </tr>
                                 </thead>
@@ -180,15 +197,16 @@
                                         <td>{{ $loop->iteration}}</td>
                                         <td>{{ $value['siswa']->name}}</td>
                                         <td>{{ $value['siswa']->asal_sekolah}}</td>
-                                        <td>{{ $value['average']}}</td>
+                                        <td>{{ round($value['average'],2)}}</td>
                                         @foreach($tryout->materi as $materi)
                                         <td>
                                             @if(isset($value['list'][$materi->tryout_materi_id]))
-                                            {{ $value['list'][$materi->tryout_materi_id]['nilai'] }}
+                                            {{ round($value['list'][$materi->tryout_materi_id]['nilai'],2) }}
                                             @endif
                                         </td>
                                         @endforeach
-                                        <td>{{ $value['sum']}}</td>
+                                        <td>{{ round($value['sum'],2)}}</td>
+                                        <td>{{ $value['total_point']}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -206,6 +224,7 @@
                                         <th scope="col">Nama </th>
                                         <th scope="col">Asal Sekolah </th>
                                         <th scope="col">Nilai </th>
+                                        <th scope="col">Point </th>
 
                                     </tr>
                                 </thead>
@@ -215,7 +234,8 @@
                                         <td>{{ $loop->iteration}}</td>
                                         <td>{{ $value->siswa->name}}</td>
                                         <td>{{ $value->siswa->asal_sekolah}}</td>
-                                        <td>{{ $value->nilai}}</td>
+                                        <td>{{ round($value->nilai,2)}}</td>
+                                        <td>{{ $value->total_point}}</td>
 
                                     </tr>
                                     @endforeach
@@ -392,6 +412,29 @@
     </div>
 </div>
 
+<div class="modal fade" id="deletePesertaModal" tabindex="-1" aria-labelledby="deletePesertaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePesertaModalLabel">Hapus Peserta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Apakah anda yakin menghapus <strong id="deletePesertName"></strong>
+                <form action="" method="POST" id="deletePesertForm">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" form="deletePesertForm" class="btn btn-danger">Hapus</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script')
 <script src="{{ URL::asset('/assets/libs/glightbox/glightbox.min.js') }}"></script>
@@ -439,7 +482,8 @@
             delay: 250,
             data: function(params) {
                 return {
-                    q: params.term // search term
+                    q: params.term ,
+                    list: '<?= $tryout->peserta->pluck('user_id') ?>'
                 };
             },
             processResults: function(data) {
@@ -452,5 +496,11 @@
 
 
     });
+    $('.deletePesertaBtn').click(function() {
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        $('#deletePesertForm').attr('action', '<?php echo route('panel.tryout.deletePeserta', '') ?>/' + id)
+        $('#deletePesertName').html(name);
+    })
 </script>
 @endsection

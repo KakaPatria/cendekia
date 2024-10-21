@@ -1,6 +1,7 @@
 @extends('layouts.panel.master')
 @section('title') Pendafataran @endsection
 @section('css')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 @endsection
 @section('content')
@@ -19,12 +20,31 @@
 
                 <form action="">
                     <div class="row g-2">
-                         
+
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
-                                <input type="text" class="form-control search" id="search-task-options" placeholder="Search ..." name="keyword" value="{{ $keyword }}">
+                                <input type="text" class="form-control search" id="search-task-options" placeholder="Cari ..." name="keyword" value="{{ $keyword }}">
                                 <i class="ri-search-line search-icon"></i>
                             </div>
+                        </div>
+                        <div class="col-lg-2 col-auto">
+                            <select class="form-select" id="selct-tryout" name="tryout">
+                                <option value=""></option>
+                                @foreach($tryout as $key=> $value)
+                                <option value="{{ $key}}">{{ $value}}</option>
+                                @endforeach
+                            </select>
+
+                        </div>
+                        <div class="col-lg-2 col-sm-4">
+                            <a href="{{ route('panel.pendaftaran.index')}}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
+                                Reset
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-sm-4">
+                            <button type="submit" class="btn btn-primary w-100"> <i class="ri-search-line me-1 align-bottom"></i>
+                                Cari
+                            </button>
                         </div>
 
                     </div>
@@ -56,7 +76,7 @@
 
                                     <td>{{ $data->siswa->kelas }}</td>
                                     <td>{{ $data->siswa->asal_sekolah }}</td>
-                                    <td>{{ $data->masterTryout->tryout_judul }}</td>
+                                    <td>{{ $data->masterTryout->tryout_judul ?? '' }}</td>
                                     <td>{!! $data->status_badge !!}</td>
                                     <td class="text-center">
                                         <a href="{{ route('panel.pendaftaran.show',$data->tryout_peserta_id)}}" class="btn rounded-pill btn-primary btn-sm">
@@ -87,6 +107,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $('#nav-pendaftaran').addClass('active')
-
+    $('#selct-tryout').select2({
+        placeholder: 'Cari judul',
+    })
 </script>
 @endsection

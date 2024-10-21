@@ -42,12 +42,16 @@
                                 <h5 class="fs-14 mb-0">#VL<span id="invoice-no">{{ $inv->inv_id}}</span></h5>
                             </div>
                             <!--end col-->
-                            <div class="col-lg-3 col-6">
+                            <div class="col-lg-2 col-6">
                                 <p class="text-muted mb-2 text-uppercase fw-semibold">Tanggal</p>
-                                <h5 class="fs-14 mb-0"><span id="invoice-date">{{ $inv->created_at}}</span> <small class="text-muted" id="invoice-time">02:36PM</small></h5>
+                                <h5 class="fs-14 mb-0"><span id="invoice-date">{{ $inv->inv_date_format}}</span> </h5>
+                            </div>
+                            <div class="col-lg-2 col-6">
+                                <p class="text-muted mb-2 text-uppercase fw-semibold">Expired</p>
+                                <h5 class="fs-14 mb-0"><span id="invoice-date">{{ $inv->due_date_format}}</span> </h5>
                             </div>
                             <!--end col-->
-                            <div class="col-lg-3 col-6">
+                            <div class="col-lg-2 col-6">
                                 <p class="text-muted mb-2 text-uppercase fw-semibold"> Status Invoice</p> 
                                 {!! $inv->status_badge !!}
 

@@ -11,7 +11,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-
         $user = Auth::user();
         $load['tryout'] = Tryout::where('tryout_kelas', $user->kelas)
         ->where('tryout_status','Aktif')

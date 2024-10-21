@@ -8,11 +8,20 @@ use App\Models\PrefixNumber;
 use App\Models\Tryout;
 use App\Models\TryoutMateri;
 use App\Models\TryoutPeserta;
+use App\Models\TryoutSoal;
+use App\Models\TryoutJawaban;
+use App\Models\TryoutPengerjaan;
+use App\Models\TryoutNilai;
 use Illuminate\Support\Str;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class TryoutController extends Controller
 {
@@ -39,6 +48,7 @@ class TryoutController extends Controller
                 $q1->where('pengajar_id', $user->id);
             });
         }
+        $tryout = $tryout->orderByDesc('tryout_register_due');
         $load['tryout'] = $tryout->paginate(10);
 
 
@@ -118,7 +128,7 @@ class TryoutController extends Controller
         }
 
 
-        $postMateri = [];
+        /*$postMateri = [];
         foreach ($request->materi_data['materi_data'] as $key => $value) {
             if ($value['materi_id']) {
                 $postMateri[] = [
@@ -131,7 +141,10 @@ class TryoutController extends Controller
             }
         }
 
-        TryoutMateri::insert($postMateri);
+        if ($postMateri) {
+            TryoutMateri::insert($postMateri);
+        }*/
+
 
         return redirect()->route('panel.tryout.show', $tryout->tryout_id)
             ->withSuccess(('Tryout Berhasil ditambahkan.'));
@@ -240,6 +253,18 @@ class TryoutController extends Controller
     public function destroy($id)
     {
         Tryout::where('tryout_id', $id)->delete();
+        TryoutPeserta::where('tryout_id', $id)->delete();
+        $materi = TryoutMateri::where('tryout_id', $id)->get();
+
+        foreach ($materi as $key => $value) {
+            TryoutSoal::where('tryout_materi_id', $value->tryout_materi_id)->delete();
+            TryoutJawaban::where('tryout_materi_id', $value->tryout_materi_id)->delete();
+            TryoutPengerjaan::where('tryout_materi_id', $value->tryout_materi_id)->delete();
+            TryoutNilai::where('tryout_materi_id', $value->tryout_materi_id)->delete();
+            $value->delete();
+        }
+
+
 
         return redirect()->route('panel.tryout.index')
             ->withSuccess(('Tryout Berhasil dihapus.'));
@@ -290,6 +315,9 @@ class TryoutController extends Controller
         $tryoutMateri->periode_mulai = $request->periode_mulai;
         $tryoutMateri->periode_selesai = $request->periode_selesai;
         $tryoutMateri->safe_mode = $request->safe_mode;
+        $tryoutMateri->waktu_mulai = $request->waktu_mulai;
+        $tryoutMateri->waktu_selesai = $request->waktu_selesai;
+        $tryoutMateri->durasi = $request->durasi * 60;
         $tryoutMateri->update();
 
 
@@ -341,5 +369,144 @@ class TryoutController extends Controller
         }
         return redirect()->route('panel.tryout.show', $tryout->tryout_id)
             ->withSuccess(('Siswa Berhasil ditambahkan.'));
+    }
+
+    public function exportPeserta($id)
+    {
+
+        $tryout = Tryout::where('tryout_id', $id)->first()->load('materi.refMateri');
+
+        //$spreadsheet = new Spreadsheet();
+        //$pegawaiSheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, 'Data Peserta tryout');
+        //$spreadsheet->addSheet($pegawaiSheet, 0);
+
+        //$activeSheet = $spreadsheet->getSheetByName('Data Peserta tryout');
+        $spreadsheet = new Spreadsheet();
+        $activeSheet = $spreadsheet->getActiveSheet();
+        $activeSheet->getColumnDimension('A')->setAutoSize(true);
+        $activeSheet->getColumnDimension('B')->setAutoSize(true);
+        $activeSheet->getColumnDimension('C')->setAutoSize(true);
+        $activeSheet->getColumnDimension('D')->setAutoSize(true);
+        $activeSheet->getColumnDimension('E')->setAutoSize(true);
+        $activeSheet->getColumnDimension('F')->setAutoSize(true);
+        $activeSheet->getColumnDimension('G')->setAutoSize(true);
+
+
+        $activeSheet->mergeCells('A1:H1');
+        $activeSheet->getStyle('A1')->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('A1')->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $activeSheet->getStyle('A1')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $activeSheet->setCellValue('A1', $tryout->tryout_judul);
+
+        $activeSheet->mergeCells('A2:H2');
+        $activeSheet->getStyle('A2')->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('A2')->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $activeSheet->getStyle('A2')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $activeSheet->setCellValue('A2', $tryout->tryout_jenjang . ' Kelas ' . $tryout->tryout_kelas);
+
+        $activeSheet->getStyle('A3')->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('A3')->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('A3', 'Materi');
+        $activeSheet->getStyle('B3')->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('B3')->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('B3', 'Pengajar');
+        $activeSheet->getStyle('C3')->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('C3')->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('C3', 'Periode');
+        $activeSheet->getStyle('D3')->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('D3')->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('D3', 'Waktu Pengerjaan');
+        $activeSheet->getStyle('E3')->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('E3')->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('E3', 'Durasi Pegerjaan');
+
+        $rowMateri = 4;
+        foreach ($tryout->materi as $materi) {
+            $activeSheet->setCellValue('A' . $rowMateri, $materi->refMateri->ref_materi_judul);
+            $activeSheet->setCellValue('B' . $rowMateri, $materi->pengajar->name ?? '');
+            $activeSheet->setCellValue('C' . $rowMateri, $materi->periode);
+            if ($materi->periode_mulai && $tryout) {
+                $activeSheet->setCellValue('D' . $rowMateri, $materi->waktu);
+            }
+            if ($materi->durasi) {
+                $activeSheet->setCellValue('E' . $rowMateri, ($materi->durasi / 60) . ' Menit');
+            }
+            $rowMateri++;
+        }
+        $activeSheet->getStyle('A3:E' . ($rowMateri - 1))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+        $activeSheet->getStyle('A3:E' . ($rowMateri - 1))->getBorders()->getAllBorders()->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('FF000000')); // Warna hitam
+
+
+        $rowPesertaTitle  = $rowMateri + 1;
+
+        $activeSheet->getStyle('A' . $rowPesertaTitle)->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('A' . $rowPesertaTitle)->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('A' . $rowPesertaTitle, 'Nama');
+
+        $activeSheet->getStyle('B' . $rowPesertaTitle)->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('B' . $rowPesertaTitle)->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('B' . $rowPesertaTitle, 'Jenjang');
+
+        $activeSheet->getStyle('C' . $rowPesertaTitle)->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('C' . $rowPesertaTitle)->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('C' . $rowPesertaTitle, 'Kelas');
+
+        $activeSheet->getStyle('D' . $rowPesertaTitle)->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('D' . $rowPesertaTitle)->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('D' . $rowPesertaTitle, 'Asal Sekolah');
+
+        $activeSheet->getStyle('E' . $rowPesertaTitle)->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('E' . $rowPesertaTitle)->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('E' . $rowPesertaTitle, 'Telepon');
+
+        $activeSheet->getStyle('F' . $rowPesertaTitle)->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('F' . $rowPesertaTitle)->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('F' . $rowPesertaTitle, 'Alamat');
+
+        $activeSheet->getStyle('G' . $rowPesertaTitle)->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('G' . $rowPesertaTitle)->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('G' . $rowPesertaTitle, 'Nama Orangtua');
+
+        $activeSheet->getStyle('H' . $rowPesertaTitle)->getFont()->setSize(14);  // Mengatur ukuran font
+        $activeSheet->getStyle('H' . $rowPesertaTitle)->getFont()->setBold(true);  // Mengatur bold
+        $activeSheet->setCellValue('H' . $rowPesertaTitle, 'Telepon Orangtua');
+
+
+        $rowPeserta = $rowPesertaTitle + 1;
+        foreach ($tryout->peserta as $peserta) {
+            $activeSheet->setCellValue('A' . $rowPeserta, $peserta->siswa->nama);
+            $activeSheet->setCellValue('B' . $rowPeserta, $peserta->siswa->jenjang);
+            $activeSheet->setCellValue('C' . $rowPeserta, $peserta->siswa->kelas);
+            $activeSheet->setCellValue('D' . $rowPeserta, $peserta->siswa->asal_sekolah);
+            $activeSheet->setCellValue('E' . $rowPeserta, $peserta->siswa->telepon);
+            $activeSheet->setCellValue('F' . $rowPeserta, $peserta->siswa->alamat);
+            $activeSheet->setCellValue('G' . $rowPeserta, $peserta->siswa->nama_orang_tua);
+            $activeSheet->setCellValue('H' . $rowPeserta, $peserta->siswa->telp_orang_tua);
+            $rowPeserta++;
+        }
+        $writer = new Xlsx($spreadsheet);
+
+        $activeSheet->getStyle('A' . $rowPesertaTitle . ':H' . ($rowPeserta - 1))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+        $activeSheet->getStyle('A' . $rowPesertaTitle . ':H' . ($rowPeserta - 1))->getBorders()->getAllBorders()->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('FF000000')); // Warna hitam
+
+
+        $dirPath = 'app/public/exports/';
+        $filePath = storage_path($dirPath . 'Data Peserta tryout ' . $tryout->tryout_judul . '.xlsx');
+        if (!file_exists(storage_path($dirPath))) {
+            Storage::disk('public')->makeDirectory('template_jadwal');
+        }
+        $writer->save($filePath);
+
+        return response()->download($filePath)->deleteFileAfterSend(true);
+    }
+
+    public function deletePeserta($id)
+    {
+        TryoutPeserta::where('tryout_peserta_id', $id)->delete();
+
+        return redirect()->back()
+            ->withSuccess(('Peserta Berhasil dihapus.'));
     }
 }

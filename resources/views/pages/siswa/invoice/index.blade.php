@@ -77,7 +77,7 @@
                                     <td>Rp. {{ $inv->amount_rp }}</td>
 
                                     <td>{!! $inv->status_badge !!}</td>
-                                    <td>{{ $inv->due_date }}</td>
+                                    <td>{{ $inv->due_date_format }}</td>
                                     <td>
                                         <a href="{{ route('siswa.invoice.show',$inv->inv_id)}}" class="btn rounded-pill btn-primary btn-sm editBtn">
                                             <i class="fa fa-edit"></i> Detail</a>

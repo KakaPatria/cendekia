@@ -28,12 +28,17 @@ class TryoutNilaiSeeder extends Seeder
 
 
             TryoutNilai::create([
-                'tryout_materi_id' => 'zrwvFOZiDas',
+                'tryout_materi_id' => 'l8vPy9Tt9t',
                 'user_id' => $index,
-                'tryout_id' => '12',
+                'tryout_id' => '3',
                 'nilai' => $nilai,
+                'total_point' => rand(50,200),
+                'soal_dijekerjakan' => 3,
+                'soal_total' => 3,
                 'jumlah_salah' => $jumlah_salah,
-                'jumlah_benar' => $jumlah_benar,
+                'jumlah_benar' => $jumlah_benar, 
+                'last_soal_id' => 13, 
+                'status' => "Selesai", 
             ]);
         }
     }

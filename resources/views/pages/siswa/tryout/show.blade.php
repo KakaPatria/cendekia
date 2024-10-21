@@ -199,15 +199,15 @@
                                         <td>{{ $loop->iteration}}</td>
                                         <td>{{ $value['siswa']->name}}</td>
                                         <td>{{ $value['siswa']->asal_sekolah}}</td>
-                                        <td>{{ $value['average']}}</td>
+                                        <td>{{ round($value['average'],2)}}</td>
                                         @foreach($tryout->materi as $materi)
                                         <td>
                                             @if(isset($value['list'][$materi->tryout_materi_id]))
-                                            {{ $value['list'][$materi->tryout_materi_id]['nilai'] }}
+                                            {{ round($value['list'][$materi->tryout_materi_id]['nilai'],2) }}
                                             @endif
                                         </td>
                                         @endforeach
-                                        <td>{{ $value['sum']}}</td>
+                                        <td>{{ round($value['sum'],2)}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -234,7 +234,7 @@
                                         <td>{{ $loop->iteration}}</td>
                                         <td>{{ $value->siswa->name}}</td>
                                         <td>{{ $value->siswa->asal_sekolah}}</td>
-                                        <td>{{ $value->nilai}}</td>
+                                        <td>{{ round($value->nilai,2)}}</td>
 
                                     </tr>
                                     @endforeach

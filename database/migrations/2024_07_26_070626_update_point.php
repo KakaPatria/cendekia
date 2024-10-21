@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('tryout_nilai', function (Blueprint $table) {
-            //$table->integer('durasi_berjalan')->after('durasi_berjalan')->nullable();
+        Schema::table('tryout_soal', function (Blueprint $table) {
+            $table->integer('point')->after('tryout_nomor')->default(1);
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('tryout_soal', function (Blueprint $table) {
             //
         });
     }

@@ -23,6 +23,10 @@ class UserController extends Controller
     public function login()
     {
         if (Auth::check()) {
+            if (!Auth::user()->hasRole('Siswa')) {
+                Auth::logout();
+                return redirect(route('login'))->with('error', 'Anda tidak memiliki akses.');
+            }
             return redirect()->route('siswa.dashboard')->with('info', 'Anda sudah logged in.');
         }
 
@@ -31,11 +35,19 @@ class UserController extends Controller
 
     public function doLogin(Request $request)
     {
-
+        $messages = [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+        
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.string' => 'Kata sandi harus berupa teks.',
+            'password.min' => 'Kata sandi minimal harus 8 karakter.',
+        ];
+        
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:8',
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -99,11 +111,20 @@ class UserController extends Controller
 
     public function doPasswordReset(Request $request)
     {
+        $messages = [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.string' => 'Kata sandi harus berupa teks.',
+            'password.min' => 'Kata sandi minimal harus 8 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+        ];
+        
         $validator = Validator::make($request->all(), [
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|string|min:8|confirmed',
-        ]);
+        ],$messages);
 
         $user = User::where('email', $request->email)->first();
 
@@ -128,17 +149,61 @@ class UserController extends Controller
     public function doRegister(Request $request)
     {
 
+        $messages = [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama maksimal 255 karakter.',
+            
+            'email.required' => 'Email wajib diisi.',
+            'email.string' => 'Email harus berupa teks.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email maksimal 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+        
+            'telepon.required' => 'Nomor telepon wajib diisi.',
+            'telepon.numeric' => 'Nomor telepon harus berupa angka.',
+        
+            'nama_orang_tua.required' => 'Nama orang tua wajib diisi.',
+            'nama_orang_tua.string' => 'Nama orang tua harus berupa teks.',
+        
+            'telp_orang_tua.required' => 'Nomor telepon orang tua wajib diisi.',
+            'telp_orang_tua.numeric' => 'Nomor telepon orang tua harus berupa angka.',
+        
+            'alamat.required' => 'Alamat wajib diisi.',
+            'alamat.string' => 'Alamat harus berupa teks.',
+            'alamat.max' => 'Alamat maksimal 255 karakter.',
+        
+            'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
+            'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
+            'asal_sekolah.max' => 'Asal sekolah maksimal 255 karakter.',
+        
+            'jenjang.required' => 'Jenjang wajib diisi.',
+            'jenjang.string' => 'Jenjang harus berupa teks.',
+            'jenjang.in' => 'Jenjang harus salah satu dari SD, SMP, atau SMA.',
+        
+            'kelas.required' => 'Kelas wajib diisi.',
+            'kelas.integer' => 'Kelas harus berupa angka.',
+            'kelas.min' => 'Kelas minimal harus 1.',
+            'kelas.max' => 'Kelas maksimal harus 12.',
+        
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.string' => 'Kata sandi harus berupa teks.',
+            'password.min' => 'Kata sandi minimal harus 8 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+        ];
         //dd($request);
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'telepon' => 'required|numeric',
+            'nama_orang_tua' => 'required|string',
+            'telp_orang_tua' => 'required|numeric',
             'alamat' => 'required|string|max:255',
             'asal_sekolah' => 'required|string|max:255',
             'jenjang' => 'required|string|in:SD,SMP,SMA',
             'kelas' => 'required|integer|min:1|max:12',
             'password' => 'required|string|min:8|confirmed',
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -151,6 +216,8 @@ class UserController extends Controller
             'email' => $request->email,
             'telepon' => $request->telepon,
             'alamat' => $request->alamat,
+            'nama_orang_tua' => $request->nama_orang_tua,
+            'telp_orang_tua' => $request->telp_orang_tua,
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
@@ -203,15 +270,45 @@ class UserController extends Controller
 
     public function doProfileComplete(Request $request)
     {
+        $messages = [
+            'telepon.required' => 'Nomor telepon wajib diisi.',
+            'telepon.numeric' => 'Nomor telepon harus berupa angka.',
+        
+            'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
+            'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
+            'asal_sekolah.max' => 'Asal sekolah maksimal 255 karakter.',
+        
+            'alamat.required' => 'Alamat wajib diisi.',
+            'alamat.string' => 'Alamat harus berupa teks.',
+            'alamat.max' => 'Alamat maksimal 255 karakter.',
+        
+            'jenjang.required' => 'Jenjang wajib diisi.',
+            'jenjang.string' => 'Jenjang harus berupa teks.',
+            'jenjang.in' => 'Jenjang harus salah satu dari SD, SMP, atau SMA.',
+        
+            'kelas.required' => 'Kelas wajib diisi.',
+            'kelas.integer' => 'Kelas harus berupa angka.',
+            'kelas.min' => 'Kelas minimal harus 1.',
+            'kelas.max' => 'Kelas maksimal harus 12.',
+        
+            'nama_orang_tua.required' => 'Nama orang tua wajib diisi.',
+            'nama_orang_tua.string' => 'Nama orang tua harus berupa teks.',
+        
+            'telp_orang_tua.required' => 'Nomor telepon orang tua wajib diisi.',
+            'telp_orang_tua.numeric' => 'Nomor telepon orang tua harus berupa angka.',
+        ];
+
+        
         $user = User::find(Auth::user()->id);
         $validator = Validator::make($request->all(), [
-
             'telepon' => 'required|numeric',
             'asal_sekolah' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'jenjang' => 'required|string|in:SD,SMP,SMA',
             'kelas' => 'required|integer|min:1|max:12',
-        ]);
+            'nama_orang_tua' => 'required|string',
+            'telp_orang_tua' => 'required|numeric',
+        ],$messages);
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -222,6 +319,8 @@ class UserController extends Controller
         $user = User::find($user->id)->update([
             'telepon' => $request->telepon,
             'alamat' => $request->alamat,
+            'nama_orang_tua' => $request->nama_orang_tua,
+            'telp_orang_tua' => $request->telp_orang_tua,
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
@@ -250,6 +349,39 @@ class UserController extends Controller
     public function update(Request $request)
     {
 
+        $messages = [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
+            'name.max' => 'Nama maksimal 255 karakter.',
+            
+            'email.required' => 'Email wajib diisi.',
+            'email.unique' => 'Email sudah terdaftar, gunakan email yang berbeda.',
+        
+            'telepon.required' => 'Nomor telepon wajib diisi.',
+            'telepon.numeric' => 'Nomor telepon harus berupa angka.',
+        
+            'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
+            'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
+            'asal_sekolah.max' => 'Asal sekolah maksimal 255 karakter.',
+        
+            'alamat.required' => 'Alamat wajib diisi.',
+            'alamat.string' => 'Alamat harus berupa teks.',
+            'alamat.max' => 'Alamat maksimal 255 karakter.',
+        
+            'jenjang.required' => 'Jenjang wajib diisi.',
+            'jenjang.string' => 'Jenjang harus berupa teks.',
+            'jenjang.in' => 'Jenjang harus salah satu dari SD, SMP, atau SMA.',
+        
+            'kelas.required' => 'Kelas wajib diisi.',
+            'kelas.integer' => 'Kelas harus berupa angka.',
+            'kelas.min' => 'Kelas minimal harus 1.',
+            'kelas.max' => 'Kelas maksimal harus 12.',
+        
+            'image.image' => 'File yang diunggah harus berupa gambar.',
+            'image.mimes' => 'Gambar harus memiliki format jpeg, png, jpg, gif, atau svg.',
+            'image.max' => 'Gambar maksimal 2MB.',
+        ];
+        
         $user = User::find(Auth::user()->id);
         $validator = Validator::make($request->all(), [
 
@@ -258,22 +390,26 @@ class UserController extends Controller
             'telepon' => 'required|numeric',
             'asal_sekolah' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
+            'nama_orang_tua' => 'required|string',
+            'telp_orang_tua' => 'required|numeric',
             'jenjang' => 'required|string|in:SD,SMP,SMA',
             'kelas' => 'required|integer|min:1|max:12',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        ],$messages);
 
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
-
+ 
         User::find($user->id)->update([
             'name' => $request->name,
             'email' => $request->email,
             'telepon' => $request->telepon,
             'alamat' => $request->alamat,
+            'nama_orang_tua' => $request->nama_orang_tua,
+            'telp_orang_tua' => $request->telp_orang_tua,
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,

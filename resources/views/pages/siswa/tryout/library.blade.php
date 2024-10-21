@@ -28,6 +28,7 @@
                 <form action="{{route('siswa.tryout.library')}}" method="get" id="filter-form">
                     <input type="hidden" name="jenjang" value="{{ request('jenjang')}}">
                     <div class="card-body border-bottom">
+
                         <div>
                             <p class="text-muted text-uppercase fs-12 fw-medium mb-2">Jenjang</p>
                             <ul class="list-unstyled mb-0 filter-list">
@@ -71,56 +72,20 @@
                             </ul>
                         </div>
                     </div>
-
-
-                   {{-- <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingBrands">
-                            <button class="accordion-button bg-transparent shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseBrands" aria-expanded="true" aria-controls="flush-collapseBrands">
-                                <span class="text-muted text-uppercase fs-12 fw-medium">Materi</span>
-                            </button>
-                        </h2>
-
+                    @if(request('jenjang'))
+                    <div class="accordion-item mt-2">
                         <div id="flush-collapseBrands" class="accordion-collapse collapse show" aria-labelledby="flush-headingBrands">
                             <div class="accordion-body text-body pt-0">
                                 <div class="search-box search-box-sm">
-                                    <input type="text" class="form-control bg-light border-0" id="searchBrandsList" placeholder="Cari Materi...">
+                                    <input type="text" class="form-control bg-light border-0" id="searchBrandsList" name="q" placeholder="Cari Materi..." value="{{ request('q')}}">
                                     <i class="ri-search-line search-icon"></i>
-                                </div>
-                                <div class="d-flex flex-column gap-2 mt-3 filter-check">
-                                    <div class="form-check" style="display: block;">
-                                        <input class="form-check-input" type="checkbox" value="Boat" id="productBrandRadio5" checked="">
-                                        <label class="form-check-label" for="productBrandRadio5">Boat</label>
-                                    </div>
-                                    <div class="form-check" style="display: block;">
-                                        <input class="form-check-input" type="checkbox" value="OnePlus" id="productBrandRadio4">
-                                        <label class="form-check-label" for="productBrandRadio4">OnePlus</label>
-                                    </div>
-                                    <div class="form-check" style="display: block;">
-                                        <input class="form-check-input" type="checkbox" value="Realme" id="productBrandRadio3">
-                                        <label class="form-check-label" for="productBrandRadio3">Realme</label>
-                                    </div>
-                                    <div class="form-check" style="display: block;">
-                                        <input class="form-check-input" type="checkbox" value="Sony" id="productBrandRadio2">
-                                        <label class="form-check-label" for="productBrandRadio2">Sony</label>
-                                    </div>
-                                    <div class="form-check" style="display: block;">
-                                        <input class="form-check-input" type="checkbox" value="JBL" id="productBrandRadio1" checked="">
-                                        <label class="form-check-label" for="productBrandRadio1">JBL</label>
-                                    </div>
-
-                                    <div>
-                                        <button type="button" class="btn btn-link text-decoration-none text-uppercase fw-medium p-0">1,235
-                                            More</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
-                    <!-- end accordion-item -->
-
-                    @if(request('jenjang'))
+                    </div>
                     @php
                     $selectedClasses = request()->input('kelas', []);
+                    $selectedJenis = request()->input('jenis', []);
                     @endphp
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="flush-headingDiscount">
@@ -196,14 +161,38 @@
                         </div>
                     </div>
                     <!-- end accordion-item -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingDiscount">
+                            <button class="accordion-button bg-transparent shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseDiscount" aria-expanded="true" aria-controls="flush-collapseDiscount">
+                                <span class="text-muted text-uppercase fs-12 fw-medium">Jenis Tryout</span> <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge" style="display: none;">0</span>
+                            </button>
+                        </h2>
+                        <div id="flush-collapseDiscount" class="accordion-collapse collapse show" aria-labelledby="flush-headingDiscount" style="">
+                            <div class="accordion-body text-body pt-1">
+                                <div class="d-flex flex-column gap-2 filter-check">
+                                    <div class="input-jenis-tryout">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Gratis" id="input-gratis" name="jenis[]" {{ in_array('Gratis', $selectedJenis) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="input-gratis">Gratis</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="Berbayar" id="input-berbayar" name="jenis[]" {{ in_array('Berbayar', $selectedJenis) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="input-berbayar">Berbayar</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endif
+
                 </form>
             </div>
         </div>
     </div>
     <div class="col-xl-9 col-lg-8">
         <div class="h-100">
-            @if($tryout_rekomendasi)
+            @if($tryout_rekomendasi && !request('jenjang'))
             <div class="row">
                 <div class="d-flex align-items-center mb-2">
                     <h2 class="mb-0 fw-semibold lh-base flex-grow-1">Rekomendasi Untuk Anda</h2>
@@ -211,7 +200,7 @@
                 @forelse($tryout_rekomendasi as $data)
                 <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
-                        @if($data->is_gratis)
+                        @if(!$data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
                         @if($data->is_can_register)
@@ -258,7 +247,7 @@
                 @forelse($tryout_sd as $data)
                 <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
-                        @if($data->is_gratis)
+                        @if(!$data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
                         @if($data->is_can_register)
@@ -503,7 +492,7 @@
                 @endif
 
 
-                
+
             </div>
         </div> <!-- end .h-100-->
     </div> <!-- end col -->

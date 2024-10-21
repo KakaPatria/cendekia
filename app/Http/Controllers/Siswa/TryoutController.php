@@ -42,8 +42,9 @@ class TryoutController extends Controller
         $load['tryout_rekomendasi'] = $tryoutRekomendasi;
 
         $tryoutAll = Tryout::where('tryout_status', 'Aktif')
-        ->get()
-             ->groupBy('tryout_jenjang');
+            ->get()
+            ->groupBy('tryout_jenjang');
+
 
         $load['tryout_all'] = $tryoutAll;
 
@@ -51,21 +52,42 @@ class TryoutController extends Controller
             $tryoutSD = Tryout::where('tryout_status', 'Aktif')
                 ->when($request->kelas, function ($q, $kelas) {
                     return $q->whereIn('tryout_kelas', $kelas);
-                })->paginate(5);
+                })
+                ->when($request->jenis, function ($q, $jenis) {
+                    return $q->whereIn('tryout_jenis', $jenis);
+                })
+                ->when($request->q, function ($q, $keyword) {
+                    return $q->where('tryout_judul', 'like', "%".$keyword."%");
+                })
+                ->paginate(5);
             $load['tryout_sd'] = $tryoutSD;
         }
         if ($request->jenjang == 'SMP') {
             $tryoutSD = Tryout::where('tryout_status', 'Aktif')
                 ->when($request->kelas, function ($q, $kelas) {
                     return $q->whereIn('tryout_kelas', $kelas);
-                })->paginate(5);
+                })
+                ->when($request->jenis, function ($q, $jenis) {
+                    return $q->whereIn('tryout_jenis', $jenis);
+                })
+                ->when($request->q, function ($q, $keyword) {
+                    return $q->where('tryout_judul', 'like', "%$keyword%");
+                })
+                ->paginate(5);
             $load['tryout_smp'] = $tryoutSD;
         }
         if ($request->jenjang == 'SMA') {
             $tryoutSD = Tryout::where('tryout_status', 'Aktif')
                 ->when($request->kelas, function ($q, $kelas) {
                     return $q->whereIn('tryout_kelas', $kelas);
-                })->paginate(5);
+                })
+                ->when($request->jenis, function ($q, $jenis) {
+                    return $q->whereIn('tryout_jenis', $jenis);
+                })
+                ->when($request->q, function ($q, $keyword) {
+                    return $q->where('tryout_judul', 'like', "%$keyword%");
+                })
+                ->paginate(5);
             $load['tryout_sma'] = $tryoutSD;
         }
 
@@ -122,6 +144,10 @@ class TryoutController extends Controller
     public function show($id)
     {
         $tryout = Tryout::where('tryout_id', $id)->first()->load('materi.refMateri');
+
+        if ($tryout->tryout_status != 'Aktif') {
+            return redirect(route('siswa.tryout.library'))->with('error', "Tryout tidak dapat diakses");
+        }
         $load['tryout'] = $tryout;
         //dd($tryout->getAverageNilai());
 
@@ -141,10 +167,15 @@ class TryoutController extends Controller
             return $q->where('user_id', $user->id);
         })
             ->where('tryout_id', $id)->first();
+
+        /*if ($tryout->tryout_status != 'Aktif') {
+            return redirect(route('siswa.tryout.index'))->with('error', "Tryout tidak dapat diakses");
+        }*/
         if (!$tryout) {
             return redirect()->back()
                 ->withErrors(('Anda tidak memiliki akses di tryout ini'));
         }
+
         $tryout = $tryout->load('materi.refMateri');
         //dd($tryout->getAverageNilai());
         $load['tryout'] = $tryout;

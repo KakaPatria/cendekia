@@ -22,7 +22,7 @@
             <div class="card-body">
                 <form action="{{ route('panel.tryout.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <h4 class="card-title mb-0">Detail Tryout</h4>
+                    {{--<h4 class="card-title mb-0">Detail Tryout</h4>--}}
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Judul Tryout</label>
                         <div class="col-md-9">
@@ -101,13 +101,11 @@
                         <div class="col-md-9">
                             <div class="input-group ">
                                 <span class="input-group-text" id="">Rp</span>
-                                <input type="text" class="form-control mb-2" placeholder="" name="tryout_nominal" id="tryout-nominal" value="{{ old('tryout_banner')}}" value="{{ old('tryout_nominal')}}" />
-
-                                  
+                                <input type="text" class="form-control mb-2" placeholder="" name="tryout_nominal" id="tryout-nominal" value="{{ old('tryout_nominal')}}" value="{{ old('tryout_nominal')}}" />
                             </div>
                         </div>
                     </div>
-                    <h4 class="card-title mb-2">Materi Tryout</h4>
+                    {{--<h4 class="card-title mb-2">Materi Tryout</h4>
                     <div class="form-group">
                         <div class="Row">
                             <label class="col-form-label col-md-3">Materi</label>
@@ -143,7 +141,7 @@
                                 <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm btn-edit" id="minus5">hapus</a>
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
 
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Simpan</button>

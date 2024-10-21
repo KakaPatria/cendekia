@@ -72,6 +72,24 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Alamat</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control mb-2" name="alamat" value="{{old('alamat',$user->alamat)}}" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Nama Orangtua</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control mb-2" name="nama_orang_tua" value="{{old('nama_orang_tua',$user->nama_orang_tua)}}" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Telepon Orangtua</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control mb-2" name="telp_orang_tua" value="{{old('telp_orang_tua',$user->tel_orang_tua)}}" />
+                        </div>
+                    </div>
                     @endif
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Password</label>

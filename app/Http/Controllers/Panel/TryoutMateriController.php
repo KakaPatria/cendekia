@@ -7,6 +7,8 @@ use App\Models\Tryout;
 use App\Models\TryoutJawaban;
 use App\Models\TryoutMateri;
 use App\Models\TryoutSoal;
+use App\Models\TryoutPengerjaan;
+use App\Models\TryoutNilai;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -48,6 +50,9 @@ class TryoutMateriController extends Controller
             'tyout_materi_id' => 'required',
             'periode_mulai' => 'required',
             'periode_selesai' => 'required',
+            'waktu_mulai' => 'nullable',
+            'waktu_selesai' => 'nullable',
+            'durasi' => 'nullable',
             'safe_mode' => 'required|integer',
         ]);
 
@@ -55,6 +60,9 @@ class TryoutMateriController extends Controller
         $tryoutMateri->jenis_soal = $request->soal_jenis;
         $tryoutMateri->periode_mulai = $request->periode_mulai;
         $tryoutMateri->periode_selesai = $request->periode_selesai;
+        $tryoutMateri->waktu_mulai = $request->waktu_mulai;
+        $tryoutMateri->waktu_selesai = $request->waktu_selesai;
+        $tryoutMateri->durasi = $request->durasi;
         $tryoutMateri->safe_mode = $request->safe_mode;
         if ($request->soal_jenis == 'PDF') {
             $request->validate([
@@ -105,14 +113,13 @@ class TryoutMateriController extends Controller
 
             $postSoal = [];
             $nomorSoal = 1;
-            for ($i=1; $i <= $request->jumlah_soal ; $i++) { 
+            for ($i = 1; $i <= $request->jumlah_soal; $i++) {
                 $postSoal[] = [
                     'tryout_materi_id' => $tryoutMateri->tryout_materi_id,
-                    'tryout_nomor' => $i, 
+                    'tryout_nomor' => $i,
                 ];
-            }   
+            }
             TryoutSoal::insert($postSoal);
-
         }
         $tryoutMateri->update();
 
@@ -174,6 +181,11 @@ class TryoutMateriController extends Controller
     {
         $tryoutMateri = TryoutMateri::find($id);
         $tryoutMateri->delete();
+        TryoutSoal::where('tryout_materi_id', $tryoutMateri->tryout_materi_id)->delete();
+        TryoutJawaban::where('tryout_materi_id', $tryoutMateri->tryout_materi_id)->delete();
+        TryoutPengerjaan::where('tryout_materi_id', $tryoutMateri->tryout_materi_id)->delete();
+        TryoutNilai::where('tryout_materi_id', $tryoutMateri->tryout_materi_id)->delete();
+
 
         return redirect()->route('panel.tryout.show', $tryoutMateri->tryout_id)
             ->withSuccess(('Materi Tryout Berhasil dihapus.'));
@@ -205,10 +217,10 @@ class TryoutMateriController extends Controller
             'opsi_jawaban' => 'required',
             'jawaban' => 'required'
         ]);
-        
+
 
         $tryoutSaol = TryoutSoal::find($id);
-        $tryoutSaol->tryout_kunci_jawaban = $request->opsi_jawaban;
+        $tryoutSaol->tryout_kunci_jawaban = json_encode($request->opsi_jawaban);
         $tryoutSaol->update();
 
         foreach ($request->jawaban as $key => $value) {
@@ -244,9 +256,14 @@ class TryoutMateriController extends Controller
             }
             $urutan = 1;
         }
+        foreach ($request->point as $key => $value) {
+            $tryoutSaol = TryoutSoal::find($key);
+            $tryoutSaol->point = $value;
+            $tryoutSaol->update();
+        }
         foreach ($request->opsi_jawaban as $key => $value) {
             $tryoutSaol = TryoutSoal::find($key);
-            $tryoutSaol->tryout_kunci_jawaban = $value;
+            $tryoutSaol->tryout_kunci_jawaban = json_encode($value);
             $tryoutSaol->update();
         }
         if ($request->soal) {
