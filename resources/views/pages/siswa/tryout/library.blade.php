@@ -37,7 +37,7 @@
                                         <div class="flex-grow-1">
                                             <h5 class="fs-13 mb-0 listname">SD</h5>
                                         </div>
-                                        @if(count($tryout_all['SD']))
+                                        @if(isset($tryout_all['SD']))
                                         <div class="flex-shrink-0 ms-2">
                                             <span class="badge bg-light text-muted">{{ count($tryout_all['SD'])}}</span>
                                         </div>
@@ -49,7 +49,7 @@
                                         <div class="flex-grow-1">
                                             <h5 class="fs-13 mb-0 listname">SMP</h5>
                                         </div>
-                                        @if(count($tryout_all['SMP']))
+                                        @if(isset($tryout_all['SMP']))
                                         <div class="flex-shrink-0 ms-2">
                                             <span class="badge bg-light text-muted">{{ count($tryout_all['SMP'])}}</span>
                                         </div>
@@ -61,7 +61,7 @@
                                         <div class="flex-grow-1">
                                             <h5 class="fs-13 mb-0 listname">SMA</h5>
                                         </div>
-                                        @if(count($tryout_all['SMA']))
+                                        @if(isset($tryout_all['SMA']))
                                         <div class="flex-shrink-0 ms-2">
                                             <span class="badge bg-light text-muted">{{ count($tryout_all['SMA'])}}</span>
                                         </div>
@@ -283,6 +283,7 @@
                 @endforelse
                 {{$tryout_sd->withQueryString()->links()}}
                 @else
+                @if(isset($tryout_all['SD']))
                 @forelse($tryout_all['SD'] as $data)
                 <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
@@ -320,6 +321,7 @@
                     Tryout belum tersedia untuk anda
                 </div>
                 @endforelse
+                @endif
                 @endif
                 @endif
 
@@ -367,6 +369,7 @@
                 @endforelse
                 {{$tryout_smp->withQueryString()->links()}}
                 @else
+                @if(isset($tryout_all['SMP']))
                 @forelse($tryout_all['SMP'] as $data)
                 <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
@@ -404,6 +407,7 @@
                     Tryout belum tersedia untuk anda
                 </div>
                 @endforelse
+                @endif
                 @endif
                 @endif
 
@@ -451,6 +455,8 @@
                 @endforelse
                 {{$tryout_sma->withQueryString()->links()}}
                 @else
+                @if(isset($tryout_all['SD']))
+
                 @forelse($tryout_all['SMA'] as $data)
                 <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
@@ -488,6 +494,7 @@
                     Tryout belum tersedia untuk anda
                 </div>
                 @endforelse
+                @endif
                 @endif
                 @endif
 

@@ -7,6 +7,7 @@ use App\Models\TryoutJawaban;
 use App\Models\TryoutSoal;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class AjaxController extends Controller
@@ -46,13 +47,13 @@ class AjaxController extends Controller
     {
         $search = $request->input('q');
 
-        $users = User::where('asal_sekolah', 'LIKE', "%{$search}%")->get();
+        $users = DB::table('asal_sekolah')->where('nama_sekolah', 'LIKE', "%{$search}%")->get();
 
         $response = [];
         foreach ($users as $user) {
             $response[] = [
-                'id' => $user->asal_sekolah,
-                'text' => $user->asal_sekolah,
+                'id' => $user->nama_sekolah,
+                'text' => $user->nama_sekolah,
             ];
         }
 
