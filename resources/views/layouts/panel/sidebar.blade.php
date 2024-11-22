@@ -43,6 +43,13 @@
                     </a>
                 </li>
                 @if(Auth::user()->hasRole(['Admin']))
+                
+                <li class="nav-item">
+                    <a class="nav-link menu-link " href="{{route('panel.tryout_open.index')}}" id="nav-tryout-open">
+                        <i class="ri-file-paper-line"></i> <span>Tryout Umum</span>
+                    </a>
+                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link menu-link " href="{{route('panel.pendaftaran.index')}}" id="nav-tryout">
                         <i class=" ri-newspaper-line "></i> <span>Pendaftaran</span>

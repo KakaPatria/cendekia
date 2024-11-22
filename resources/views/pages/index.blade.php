@@ -59,7 +59,7 @@
                         <div>
                             <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">Lembaga Bimbingan Belajar Cendekia Yogyakarta</h1>
                             <p class="lead text-muted lh-base mb-4">Lembaga Bimbingan Belajar Cendekia, Bimbel yang melayani kebutuhan belajar kurikulum Merdeka & kurikulum 13 (K13), serta mengembangkan tipe-tipe soal menuju sukses assesmen daerah.Menekankan penguasaan konsep dan juga cara praktis dalam penyelesaian soal.Dibimbing oleh tentor senior yang sudah berpengalaman dalam menulis soal ujian nasional mulai dari tingkat provinsi sampai dengan nasional.</p>
-                             
+
                         </div>
                     </div>
                     <!--end col-->
@@ -72,11 +72,13 @@
                                             <i class="ri-whatsapp-line"></i>
                                         </div>
                                     </div>
-                                    <a href="https://wa.me/c/6281272139500"><h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5></a>
+                                    <a href="https://wa.me/c/6281272139500">
+                                        <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
+                                    </a>
                                 </div>
                             </div>
 
-                            
+
                             <img src="{{URL::asset('assets/images/job-profile2.png')}}" alt="" class="user-img">
 
                             <div class="circle-effect">
@@ -100,7 +102,7 @@
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
                             <h1 class="mb-3 ff-secondary fw-semibold lh-base">HASIL TRYOUT PENILAIAN AKHIR SEMESTER SMP NEGERI 9 YOGYAKARTA</h1>
-                            
+
                         </div>
                     </div>
                     <!-- end col -->
@@ -156,13 +158,13 @@
                             </div>
                         </div>
                     </div>
-                     
+
                 </div>
             </div>
             <!--end container-->
         </section>
 
-       
+
         <!-- start services -->
         <section class="section bg-light" id="hubungi">
             <div class="container">
@@ -170,7 +172,7 @@
                     <div class="col-lg-7">
                         <div class="text-center mb-5">
                             <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">HUBUNGI KAMI DI : </h1>
-                             
+
                         </div>
                     </div>
                     <!-- end col -->
@@ -189,7 +191,7 @@
                                 </div>
                                 <a href="#!" class="stretched-link">
                                     <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
-                                </a> 
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -204,7 +206,7 @@
                                 </div>
                                 <a href="#!" class="stretched-link">
                                     <h5 class="fs-17 pt-1">WHATSAPP KAK YENI</h5>
-                                </a> 
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -219,7 +221,7 @@
                                 </div>
                                 <a href="#!" class="stretched-link">
                                     <h5 class="fs-17 pt-1">WHATSAPP KAK LIA</h5>
-                                </a> 
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -234,7 +236,7 @@
                                 </div>
                                 <a href="instagram.com/lbbcendekia/" class="stretched-link">
                                     <h5 class="fs-17 pt-1">instagram.com/lbbcendekia/</h5>
-                                </a> 
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -249,7 +251,7 @@
                                 </div>
                                 <a href="bit.ly/ALAMATLBBC" class="stretched-link">
                                     <h5 class="fs-17 pt-1">Alamat</h5>
-                                </a> 
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -264,11 +266,11 @@
                                 </div>
                                 <a href="https://sites.google.com/view/rekrutmenlbbcendekiayk/lbb-cendekia-yogyakarta" class="stretched-link">
                                     <h5 class="fs-17 pt-1">Recruitmen</h5>
-                                </a> 
+                                </a>
                             </div>
                         </div>
                     </div>
-                   
+
                 </div>
                 <!-- end row -->
             </div>
@@ -283,7 +285,7 @@
                 <div class="row align-items-center gy-4">
                     <div class="col-sm">
                         <div>
-                            <h4 class="text-white mb-2">Siap untuk memulai?</h4> 
+                            <h4 class="text-white mb-2">Siap untuk memulai?</h4>
                         </div>
                     </div>
                     <!-- end col -->
@@ -300,24 +302,8 @@
         </section>
         <!-- end cta -->
 
-        <section class="section" id="promo">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-7">
-                        <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">PROMO</h1>
-                            <p class="text-muted">Temukan Promo Menarik.</p>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
 
-                
-            </div>
-        </section>
 
-      
         <!-- start tryout -->
         <section class="section bg-light" id="tryout">
             <div class="bg-overlay bg-overlay-pattern"></div>
@@ -331,13 +317,58 @@
                     </div>
                     <!-- end col -->
                 </div>
-              
+                <div class="row">
+                    @foreach($tryout as $key => $value)
+                    <div class="col-lg-4 product-item artwork crypto-card 3d-style">
+                        <div class="card explore-box card-animate">
+                            <div class="bookmark-icon position-absolute top-0 end-0 p-2">
+                                <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
+                            </div>
+                            <div class="explore-place-bid-img">
+                                <img src="{{ Storage::url($value->tryout_banner) }}" alt="" class="card-img-top explore-img">
+                                <div class="bg-overlay"></div>
+
+                            </div>
+                            <div class="card-body">
+                                {{--<p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> 19.29k </p>--}}
+                                <h5 class="mb-1"><a href="apps-nft-item-details.html" class="link-dark">{{ $value->tryout_judul}}</a></h5>
+                                <p class="text-muted mb-0">{{ $value->tryout_jenjang.' Kelas '.$value->tryout_kelas}}</p>
+
+                            </div>
+                            <div class="card-footer border-top border-top-dashed">
+                                <div class="text-center">
+                                    <a href="{{ route('daftar_tryout',$value->tryout_id)}}" class="btn btn-primary waves-effect waves-light">Daftar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+
+                </div>
+
             </div>
             <!-- end container -->
         </section>
         <!-- end tryout -->
 
 
+
+        {{--<section class="section" id="promo">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="text-center mb-5">
+                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">PROMO</h1>
+                            <p class="text-muted">Temukan Promo Menarik.</p>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+
+
+            </div>
+        </section>--}}
 
 
         <!-- Start footer -->
@@ -453,9 +484,10 @@
 
     </div>
     <!-- end layout wrapper -->
+</body>
 
-    @endsection
-    @section('script')
-    <script src="{{ URL::asset('assets/libs/swiper/swiper.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/pages/job-lading.init.js') }}"></script>
-    @endsection
+@endsection
+@section('script')
+<script src="{{ URL::asset('assets/libs/swiper/swiper.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/pages/job-lading.init.js') }}"></script>
+@endsection

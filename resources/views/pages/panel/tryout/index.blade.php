@@ -70,6 +70,7 @@
                                     <th scope="col">Jenjang</th>
                                     <th scope="col">Kelas</th>
                                     <th scope="col">Jenis</th>
+                                    <th scope="col">Umum</th>
                                     <th scope="col">Materi</th>
                                     <th scope="col">Dibuka Sampai</th>
                                     <th scope="col" width="10%" class="text-center">Action</th>
@@ -85,6 +86,7 @@
                                     <td>{{ $data->tryout_jenjang }}</td>
                                     <td>{{ $data->tryout_kelas }}</td>
                                     <td>{{ $data->tryout_jenis }}</td>
+                                    <td>{{ $data->is_open }}</td>
                                     <td>
                                         <div class="hstack flex-wrap gap-2 fs-16">
                                             @foreach($data->materi as $materi)

@@ -35,7 +35,7 @@ class TryoutController extends Controller
         $user = auth()->user();
         $tryout =  Tryout::when($request->keyword, function ($query) use ($request) {
             return $query->where('tryout_judul', 'like', "%{$request->keyword}%")
-                ->where('tryout_deskripsi', 'like', "%{$request->keyword}%");
+                ->orWhere('tryout_deskripsi', 'like', "%{$request->keyword}%");
         })
             ->when($request->jenjang, function ($query) use ($request) {
                 return $query->where('tryout_jenjang', $request->jenjang);
@@ -95,6 +95,7 @@ class TryoutController extends Controller
             'tryout_status' => 'required',
             'tryout_jenis' => 'required',
             'tryout_nominal' => 'required',
+            'is_open' => 'required',
         ]);
 
         $tryout = new Tryout();
@@ -106,6 +107,7 @@ class TryoutController extends Controller
         $tryout->tryout_status = $request->tryout_status;
         $tryout->tryout_jenis = $request->tryout_jenis;
         $tryout->tryout_nominal = $request->tryout_nominal;
+        $tryout->is_open = $request->is_open;
         $tryout->save();
 
         if ($request->file('tryout_banner')) {
@@ -206,6 +208,7 @@ class TryoutController extends Controller
             'tryout_status' => 'required',
             'tryout_jenis' => 'required',
             'tryout_nominal' => 'required',
+            'is_open' => 'required',
         ]);
 
         $tryout = Tryout::find($id);
@@ -217,6 +220,7 @@ class TryoutController extends Controller
         $tryout->tryout_status = $request->tryout_status;
         $tryout->tryout_jenis = $request->tryout_jenis;
         $tryout->tryout_nominal = $request->tryout_nominal;
+        $tryout->is_open = $request->is_open;
         $tryout->update();
 
         if ($request->file('tryout_banner')) {

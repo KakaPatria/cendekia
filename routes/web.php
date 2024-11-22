@@ -10,6 +10,7 @@ use App\Http\Controllers\Panel\Referensi\MateriController;
 use App\Http\Controllers\Panel\Referensi\BankSoalController;
 use App\Http\Controllers\Panel\RoleController;
 use App\Http\Controllers\Panel\TryoutController;
+use App\Http\Controllers\Panel\TryoutOpenController;
 use App\Http\Controllers\Panel\TryoutJawabanController;
 use App\Http\Controllers\Panel\TryoutMateriController;
 use App\Http\Controllers\Panel\TryoutSoalController;
@@ -33,6 +34,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/daftar_tryout/{tryoutId}', [HomeController::class, 'daftarTryout'])->name('daftar_tryout');
+Route::post('/daftar_tryout/{tryoutId}', [HomeController::class, 'daftarTryoutStore'])->name('daftar_tryout.store');
+Route::get('/daftar_tryout_success', function(){
+    return view('pages.daftar_tryout_success');
+})->name('daftar_tryout.success');
 
 Route::get('ajax/materi-tryout', [AjaxController::class, 'materiTryout'])->name('ajax.materi-tryout');
 Route::get('ajax/cari-sekolah', [AjaxController::class, 'cariSekolah'])->name('ajax.cari-sekolah');
@@ -58,6 +64,8 @@ Route::name('panel.')->prefix('panel')->group(function () {
         });
 
         Route::resource('tryout', TryoutController::class);
+        Route::resource('tryout_open', TryoutOpenController::class);
+
         Route::post('tryout/{tryout_id}/addPeserta', [TryoutController::class, 'addPeserta'])->name('tryout.addPeserta');
         Route::delete('tryout/deletePeserta/{tryout_id}', [TryoutController::class, 'deletePeserta'])->name('tryout.deletePeserta');
         Route::post('tryout/{tryout_id}/addMateri', [TryoutController::class, 'addMateri'])->name('tryout.addMateri');

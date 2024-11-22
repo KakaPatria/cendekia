@@ -23,6 +23,8 @@ class Tryout extends Model
         'tryout_status',
         'tryout_jenis',
         'tryout_nominal',
+        'tryout_nominal',
+        'is_open',
     ];
 
     public function materi()

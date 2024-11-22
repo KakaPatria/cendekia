@@ -20,7 +20,7 @@
 
                         <div class="flex-grow-1">
 
-                            <h6 class="mb-3 fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
+                            <h6 class="mb-3 fw-bold text-uppercase">{{ $tryout->tryout_judul}} <b>{{ $tryout->is_open == 'Ya'? '(Umum)' : ''}}</b></h6>
                         </div>
                         <div class="flex-shrink-0">
                             @if(Auth::user()->hasRole(['Admin']))

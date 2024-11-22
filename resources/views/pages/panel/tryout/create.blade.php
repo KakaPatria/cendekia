@@ -96,6 +96,17 @@
                         </div>
                     </div>
                     <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Umum</label>
+                        <div class="col-md-9">
+                            <select id="add-is-open" class="form-control" name="is_open">
+                                <option value="">Pilih Jenis</option>
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak">Tidak</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Biaya</label>
                         
                         <div class="col-md-9">
