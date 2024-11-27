@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -86,18 +87,27 @@ class UserController extends Controller
      */
     public function update(User $user, Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|unique:users,email,' . $user->id,
-            'telepon' => 'required|numeric',
-            'asal_sekolah' => 'required|string|max:255',
-            'jenjang' => 'required|string|in:SD,SMP,SMA',
-            'kelas' => 'required|integer|min:1|max:12',
-            'nama_orang_tua' => 'required|string',
-            'telp_orang_tua' => 'required|numeric',
-            'alamat' => 'required|string|max:255',
 
-        ]);
+        if ($request->rolex == 'Siswa') {
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|unique:users,email,' . $user->id,
+                'telepon' => 'required|numeric',
+                'asal_sekolah' => 'required|string|max:255',
+                'jenjang' => 'required|string|in:SD,SMP,SMA',
+                'kelas' => 'required|integer|min:1|max:12',
+                'nama_orang_tua' => 'required|string',
+                'telp_orang_tua' => 'required|numeric',
+                'alamat' => 'required|string|max:255',
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|unique:users,email,' . $user->id,
+                'telepon' => 'required|numeric',
+            ]);
+        }
 
         $validated = $validator->validated();
 
@@ -115,13 +125,22 @@ class UserController extends Controller
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
 
-            $nama_file = time() . "_" . $file->getClientOriginalName();
+            // Buat direktori jika belum ada
+            $directory = 'public/uploads/avatar';
+            if (!Storage::exists($directory)) {
+                Storage::makeDirectory($directory);
+            }
 
-            // isi dengan nama folder tempat kemana file diupload
-            $tujuan_upload = 'uploaded/images/avatar';
-            $upload = $file->move($tujuan_upload, $nama_file);
+            // Rename file
+            $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Simpan file
+            $file->storeAs($directory, $fileName);
+
+            $file = $directory . '/' . $fileName;
+
             //dd($upload);
-            $user->update(['avatar' => $tujuan_upload . '/' . $nama_file]);
+            $user->update(['avatar' => $file]);
         }
         if ($user->hasRole(['Admin'])) {
             $user->syncRoles($request->get('role'));
@@ -129,7 +148,7 @@ class UserController extends Controller
         }
 
 
-        return redirect(route('panel.user.index'))
+        return redirect()->route('panel.user.index', 'rule=' . $request->rolex)
             ->withSuccess(('User berhasil diupdate.'));
     }
 
@@ -143,18 +162,28 @@ class UserController extends Controller
     {
 
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'telepon' => 'required|numeric',
-            'asal_sekolah' => 'required|string|max:255',
-            'jenjang' => 'required|string|in:SD,SMP,SMA',
-            'kelas' => 'required|integer|min:1|max:12',
-            'nama_orang_tua' => 'required|string',
-            'telp_orang_tua' => 'required|numeric',
-            'alamat' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
-        ]);
+        if ($request->rolex == 'Siswa') {
+
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'telepon' => 'required|numeric',
+                'asal_sekolah' => 'required|string|max:255',
+                'jenjang' => 'required|string|in:SD,SMP,SMA',
+                'kelas' => 'required|integer|min:1|max:12',
+                'nama_orang_tua' => 'required|string',
+                'telp_orang_tua' => 'required|numeric',
+                'alamat' => 'required|string|max:255',
+                'password' => 'required|string|min:8',
+            ]);
+        } else {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'telepon' => 'required|numeric',
+                'password' => 'required|string|min:8',
+            ]);
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -173,13 +202,21 @@ class UserController extends Controller
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
 
-            $nama_file = time() . "_" . $file->getClientOriginalName();
+            // Buat direktori jika belum ada
+            $directory = 'public/uploads/avatar';
+            if (!Storage::exists($directory)) {
+                Storage::makeDirectory($directory);
+            }
 
-            // isi dengan nama folder tempat kemana file diupload
-            $tujuan_upload = 'uploaded/images/avatar';
-            $upload = $file->move($tujuan_upload, $nama_file);
+            // Rename file
+            $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Simpan file
+            $file->storeAs($directory, $fileName);
+
+            $file = $directory . '/' . $fileName;
             //dd($upload);
-            $user->update(['avatar' => $tujuan_upload . '/' . $nama_file]);
+            $user->update(['avatar' => $file]);
         }
         //die;
 
@@ -187,7 +224,7 @@ class UserController extends Controller
         $user->syncRoles($role);
         $user->syncPermissions($request->get('permissions'));
 
-        return redirect()->route('panel.user.index')
+        return redirect()->route('panel.user.index', 'rule=' . $request->rolex)
             ->withSuccess(('User Berhasil ditambahkan.'));
     }
 
@@ -202,7 +239,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('panel.user.index')
+        return redirect()->back()
             ->withSuccess(('User Berhasil dihapus.'));
     }
 

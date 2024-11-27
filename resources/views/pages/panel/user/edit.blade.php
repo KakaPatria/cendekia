@@ -21,7 +21,7 @@
                 <form action="{{ route('panel.user.update',$user->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-
+                    <input type="hidden" name="rolex" value="{{ $roleX}}">
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Email</label>
                         <div class="col-md-9">
@@ -87,7 +87,7 @@
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Telepon Orangtua</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control mb-2" name="telp_orang_tua" value="{{old('telp_orang_tua',$user->tel_orang_tua)}}" />
+                            <input type="text" class="form-control mb-2" name="telp_orang_tua" value="{{old('telp_orang_tua',$user->telp_orang_tua)}}" />
                         </div>
                     </div>
                     @endif
