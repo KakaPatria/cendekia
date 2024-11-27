@@ -141,6 +141,7 @@
             <div class="modal-body">
                 <form action="{{route('panel.user.store')}}" method="POST" id="create-form" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="rolex" value="{{ $roleX}}">
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Email</label>
                         <div class="col-md-9">
@@ -226,7 +227,7 @@
                             <select class="form-control" name="role">
                                 <option value="">Select role</option>
                                 @foreach($roles as $role)
-                                <option value="{{ $role->id }}" {{ $role->name == old('role') 
+                                <option value="{{ $role->name }}" {{ $role->name == old('role') 
                                     ? 'selected'
                                     : '' }}>{{ $role->name }}</option>
                                 @endforeach
