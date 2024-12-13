@@ -354,7 +354,7 @@ class TryoutController extends Controller
             $peserta->save();
 
             if ($tryout->tryout_jenis != 'Gratis') {
-                $prefix = PrefixNumber::find('Invoice')->first();
+                $prefix = PrefixNumber::find('Invoice')->first() ?? 1;
                 $prefix->value = $prefix->value + 1;
                 $prefix->update();
 

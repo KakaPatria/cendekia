@@ -5,7 +5,7 @@ Masuk
 @section('content')
 <div class="auth-page-wrapper pt-5">
     <!-- auth page bg -->
-    <div class="auth-one-bg-position auth-one-bg"  id="auth-particles">
+    <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
         <div class="bg-overlay" style="background: linear-gradient(90deg,#e2b602,#f5e38f);opacity: .9;"></div>
 
         <div class="shape">
@@ -25,7 +25,7 @@ Masuk
                             <a href="index" class="d-inline-block auth-logo">
                                 <img src="{{ URL::asset('assets/images/logo-cendikia.png')}}" alt="" height="50">
                             </a>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@ Masuk
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">LBB CENDEKIA !</h5>  
+                                <h5 class="text-primary">LBB CENDEKIA !</h5>
                             </div>
                             @include('components.message')
 
@@ -48,30 +48,33 @@ Masuk
                                         <label for="username" class="form-label">Email</label>
                                         <input type="text" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" id="username" name="email" placeholder="Enter username">
                                         @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="float-end">
+                                            <a href="auth-pass-reset-basic.html" class="text-muted">Forgot password?</a>
+                                        </div>
+                                        <label class="form-label" for="password-input">Password</label>
+                                        <div class="position-relative auth-pass-inputgroup mb-3">
+                                            <input type="password" class="form-control pe-5 password-input @error('password') is-invalid @enderror" placeholder="Enter password" name="password" id="password-input">
+                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                        </div>
+                                        @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                         @enderror
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label class="form-label" for="password-input">Password</label>
-                                        <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input type="password" class="form-control pe-5 @error('password') is-invalid @enderror" name="password" placeholder="Enter password" id="password-input" value="">
-                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                                            @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
- 
+
                                     <div class="mt-4">
                                         <button class="btn btn-danger w-100" type="submit">Masuk</button>
                                     </div>
 
-                                     
+
                                 </form>
                             </div>
                         </div>
@@ -79,7 +82,7 @@ Masuk
                     </div>
                     <!-- end card -->
 
-                   
+
 
                 </div>
             </div>
@@ -95,7 +98,9 @@ Masuk
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center">
-                        <p class="mb-0 text-muted">&copy; <script>document.write(new Date().getFullYear())</script> LBB Cendekia</p>
+                        <p class="mb-0 text-muted">&copy; <script>
+                                document.write(new Date().getFullYear())
+                            </script> LBB Cendekia</p>
                     </div>
                 </div>
             </div>
@@ -105,7 +110,14 @@ Masuk
 </div>
 @endsection
 @section('script')
-<script src="{{ URL::asset('assets/libs/particles.js/particles.js.min.js') }}"></script>
+
+
+<script src="{{ URL::asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/node-waves/waves.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/feather-icons/feather.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/particles.js/particles.js') }}"></script>
 <script src="{{ URL::asset('assets/js/pages/particles.app.js') }}"></script>
 <script src="{{ URL::asset('assets/js/pages/password-addon.init.js') }}"></script>
 

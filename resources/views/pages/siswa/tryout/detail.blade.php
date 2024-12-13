@@ -51,7 +51,7 @@
                     <div class="m-2 p-2">
                         <!-- Primary Alert -->
                         <div class="alert alert-primary" role="alert">
-                            Anda sudah terdaftar selihkan mengerjakan tryout!
+                            Anda sudah terdaftar silahkan mengerjakan tryout!
                         </div>
 
                     </div>

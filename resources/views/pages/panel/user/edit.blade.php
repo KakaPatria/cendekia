@@ -46,8 +46,9 @@
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Asal Sekolah</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control mb-2" name="asal_sekolah" value="{{old('asal_sekolah',$user->asal_sekolah)}}" />
-
+                            <select class="form-control" name="asal_sekolah" id="asal_sekolah">
+                                <option value="{{$user->asal_sekolah}}" selected>{{$user->asal_sekolah}}</option>
+                            </select>
                         </div>
                     </div>
                     @if($roleX == 'Siswa')
@@ -189,5 +190,31 @@
 
         $('#add-kelas').val('<?= $user->kelas ?>').change()
     <?php } ?>
+
+    $('#asal_sekolah').select2({
+        placeholder: "Cari Asal Sekolah",
+        allowClear: true,
+        tags: true,
+        minimumInputLength: 1,
+        ajax: {
+            url: '<?= route('ajax.cari-sekolah') ?>',
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return {
+                    q: params.term // search term
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+
+    });
+
+    
 </script>
 @endsection

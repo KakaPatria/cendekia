@@ -6,7 +6,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Users @endslot
-@slot('title') {{ $roleX}} @endslot
+@slot('title') {{ $roleX == 'Siswa' ? 'Siswa' : "Admin & Pengajar"}} @endslot
 @endcomponent
 
 @include('components.message')
@@ -20,7 +20,7 @@
                 <form action="">
                     <div class="row g-2">
                         <div class="col-lg-2">
-                            <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah {{ $roleX }}</a>
+                            <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah {{ $roleX == 'Siswa' ? 'Siswa' : "Admin & Pengajar"}}</a>
                         </div>
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
@@ -133,7 +133,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="create-modal-label">Tambah {{$roleX }}</h5>
+                <h5 class="modal-title" id="create-modal-label">Tambah {{ $roleX == 'Siswa' ? 'Siswa' : "Admin & Pengajar"}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -166,8 +166,8 @@
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Asal Sekolah</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control mb-2" name="asal_sekolah" value="{{old('asal_sekolah')}}" />
-
+                            <select class="form-control"   name="asal_sekolah" id="asal_sekolah">
+                            </select>
                         </div>
                     </div>
                     @if($roleX == 'Siswa')
@@ -360,5 +360,30 @@
         $('#deleteForm').attr('action', '<?php echo route('panel.user.destroy', '') ?>/' + id)
         $('#deleteName').html(name);
     })
+
+    $('#asal_sekolah').select2({
+        placeholder: "Cari Asal Sekolah",
+        allowClear: true,
+        tags: true,
+        dropdownParent: $('#create-modal'),
+        minimumInputLength: 1,
+        ajax: {
+            url: '<?= route('ajax.cari-sekolah') ?>',
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return {
+                    q: params.term // search term
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+
+    });
 </script>
 @endsection

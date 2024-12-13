@@ -198,12 +198,12 @@
                     <h2 class="mb-0 fw-semibold lh-base flex-grow-1">Rekomendasi Untuk Anda</h2>
                 </div>
                 @forelse($tryout_rekomendasi as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
+                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
                         @if(!$data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
-                        @if($data->is_can_register)
+                        @if(!$data->is_can_register)
                         <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
                         @endif
 
@@ -245,12 +245,12 @@
                 </div>
                 @if(request('jenjang') == 'SD')
                 @forelse($tryout_sd as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
+                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
                         @if(!$data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
-                        @if($data->is_can_register)
+                        @if(!$data->is_can_register)
                         <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
                         @endif
 
@@ -290,7 +290,7 @@
                         @if($data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
-                        @if($data->is_can_register)
+                        @if(!$data->is_can_register)
                         <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
                         @endif
 
@@ -331,12 +331,12 @@
                 </div>
                 @if(request('jenjang') == 'SMP')
                 @forelse($tryout_smp as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
+                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
                         @if($data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
-                        @if($data->is_can_register)
+                        @if(!$data->is_can_register)
                         <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
                         @endif
 
@@ -371,12 +371,12 @@
                 @else
                 @if(isset($tryout_all['SMP']))
                 @forelse($tryout_all['SMP'] as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
+                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
                         @if($data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
-                        @if($data->is_can_register)
+                        @if(!$data->is_can_register)
                         <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
                         @endif
 
@@ -417,12 +417,12 @@
                 </div>
                 @if(request('jenjang') == 'SMA')
                 @forelse($tryout_sma as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
+                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
                         @if($data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
-                        @if($data->is_can_register)
+                        @if(!$data->is_can_register)
                         <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
                         @endif
 
@@ -458,12 +458,12 @@
                 @if(isset($tryout_all['SD']))
 
                 @forelse($tryout_all['SMA'] as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
+                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
                     <div class="card-body">
                         @if($data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
-                        @if($data->is_can_register)
+                        @if(!$data->is_can_register)
                         <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
                         @endif
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Panel\UserController as PanelUserController;
 use App\Http\Controllers\Panel\DashboardController as PanelDashboardController;
 use App\Http\Controllers\Panel\PendaftaranController;
 use App\Http\Controllers\Panel\PermissionController;
+use App\Http\Controllers\Panel\Referensi\AsalSekolahController;
 use App\Http\Controllers\Panel\Referensi\MateriController;
 use App\Http\Controllers\Panel\Referensi\BankSoalController;
 use App\Http\Controllers\Panel\RoleController;
@@ -78,6 +79,7 @@ Route::name('panel.')->prefix('panel')->group(function () {
         Route::resource('tryout_jawaban', TryoutSoalController::class);
 
         Route::resource('referensi/materi', MateriController::class);
+        Route::resource('referensi/asal_sekolah', AsalSekolahController::class);
         Route::get('referensi/bank_soal', [BankSoalController::class,'index'])->name('bank_soal.index');
         Route::get('referensi/bank_soal/{id}', [BankSoalController::class,'show'])->name('bank_soal.show');
 

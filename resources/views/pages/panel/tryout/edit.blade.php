@@ -77,7 +77,7 @@
                         <label class="col-form-label col-md-3">Status</label>
                         <div class="col-md-9">
                             <select id="add-status" class="form-control" name="tryout_status">
-                                <option value="">Pilih Jenjang</option>
+                                <option value="">Pilih Status</option>
                                 <option value="Aktif">Aktif</option>
                                 <option value="Tidak Aktif">Tidak Aktif</option>
                             </select>
@@ -100,7 +100,7 @@
                         <label class="col-form-label col-md-3">Umum</label>
                         <div class="col-md-9">
                             <select id="add-is-open" class="form-control" name="is_open">
-                                <option value="">Pilih Jenis</option>
+                                <option value="">Pilih Umum / Tidak</option>
                                 <option value="Ya">Ya</option>
                                 <option value="Tidak">Tidak</option>
                             </select>

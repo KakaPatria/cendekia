@@ -68,6 +68,10 @@
                                 <a href="{{ route('panel.materi.index')}}" class="nav-link " id="nav-materi">Materi</a>
                             </li>
                            
+                            <li class="nav-item ">
+                                <a href="{{ route('panel.asal_sekolah.index')}}" class="nav-link " id="nav-asal_sekolah">Asal Sekolah</a>
+                            </li>
+                           
                             
                         </ul>
                     </div>

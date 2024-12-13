@@ -24,6 +24,21 @@ class PendaftaranController extends Controller
             ->when($request->tryout, function ($query) use ($request) {
                 return $query->where('tryout_id',  "$request->tryout");
             })
+            ->when($request->asal_sekolah, function ($query) use ($request) {
+                return $query->whereHas('siswa',  function ($q) use ($request) {
+                    return $q->where('asal_sekolah', $request->asal_sekolah);
+                });
+            })
+            ->when($request->jenjang, function ($query) use ($request) {
+                return $query->whereHas('siswa',  function ($q) use ($request) {
+                    return $q->where('jenjang', $request->jenjang);
+                });
+            })
+            ->when($request->kelas, function ($query) use ($request) {
+                return $query->whereHas('siswa',  function ($q) use ($request) {
+                    return $q->where('kelas', $request->kelas);
+                });
+            })
             ->orderBy('tryout_peserta_status')
             ->orderByDesc('created_at')
             ->paginate(10);

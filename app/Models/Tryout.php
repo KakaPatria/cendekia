@@ -76,6 +76,7 @@ class Tryout extends Model
     {
 
         return $this->getRawOriginal('tryout_register_due') <= date('Y-m-d') ? true : false;
+        //return true;
     }
 
     public function getAverageNilai()

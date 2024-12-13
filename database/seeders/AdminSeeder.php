@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
     {
         $user = User::create([
             'name' => 'Super Admin',
-            'email' => 'lms@cendikia.com',
+            'email' => 'admin@cendekia.com',
             'telepon' =>'085600200913',
             'asal_sekolah' =>'-',
             'jenjang' => '',

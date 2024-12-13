@@ -36,6 +36,26 @@
                             </select>
 
                         </div>
+                        <div class="col-lg-2 col-auto">
+                            <select class="form-control select2" name="asal_sekolah" id="asal_sekolah">
+                            </select>
+
+                        </div>
+                        <div class="col-lg-2 col-auto">
+                            <select id="jenjang" class="form-control" name="jenjang">
+                                <option value="">Cari Jenjang</option>
+                                <option value="SD">SD</option>
+                                <option value="SMP">SMP</option>
+                                <option value="SMA">SMA</option>
+                            </select>
+                            </select>
+
+                        </div>
+                        <div class="col-lg-2 col-auto">
+                            <select id="kelas" class="form-control" name="kelas">
+                                <option value="">Pilih Jenjang Terlebih dahulu</option>
+                            </select>
+                        </div>
                         <div class="col-lg-2 col-sm-4">
                             <a href="{{ route('panel.pendaftaran.index')}}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
                                 Reset
@@ -108,7 +128,50 @@
 <script>
     $('#nav-pendaftaran').addClass('active')
     $('#selct-tryout').select2({
-        placeholder: 'Cari judul',
+        placeholder: 'Cari judul Tryout',
     })
+    $('#asal_sekolah').select2({
+        placeholder: "Cari Asal Sekolah",
+        allowClear: true,
+        tags: true,
+        minimumInputLength: 1,
+        ajax: {
+            url: '<?= route('ajax.cari-sekolah') ?>',
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return {
+                    q: params.term // search term
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+
+    });
+    const classes = {
+        SD: ['1', '2', '3', '4', '5', '6'],
+        SMP: ['7', '8', '9'],
+        SMA: ['10', '11', '12']
+    };
+
+    $('#jenjang').change(function() {
+        var schoolLevel = $(this).val();
+        var $classLevel = $('#kelas');
+        $classLevel.empty().append('<option value="">Pilih Kelas</option>'); // Reset class level options
+        if (schoolLevel) {
+            $classLevel.prop('disabled', false);
+            classes[schoolLevel].forEach(function(classItem) {
+                $classLevel.append('<option value="' + classItem + '">' + classItem + '</option>');
+            });
+        } else {
+            $classLevel.prop('disabled', true);
+        }
+        $classLevel.trigger('change'); // Trigger change to update select2
+    });
 </script>
 @endsection

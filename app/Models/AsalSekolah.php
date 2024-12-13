@@ -11,4 +11,8 @@ class AsalSekolah extends Model
 
     protected $table = 'asal_sekolah';
     protected $primaryKey = 'nama_sekolah';
+    public $incrementing = false;
+    public $timestamps = false;
+
+    protected $fillable = ['nama_sekolah'];
 }
