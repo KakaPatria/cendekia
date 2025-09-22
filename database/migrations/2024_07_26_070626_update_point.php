@@ -11,12 +11,13 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::table('tryout_soal', function (Blueprint $table) {
-            $table->integer('point')->after('tryout_nomor')->default(1);
-        });
-    }
+public function up()
+{
+    Schema::table('tryout_soal', function (Blueprint $table) {
+        $table->integer('point')->default(1);
+    });
+}
+
 
     /**
      * Reverse the migrations.

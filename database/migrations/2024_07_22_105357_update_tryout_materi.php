@@ -11,15 +11,15 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::table('tryout_materi', function (Blueprint $table) {
-            $table->time('waktu_mulai')->after('periode_selesai')->nullable();
-            $table->time('waktu_selesai')->after('waktu_mulai')->nullable();
-            $table->integer('durasi')->after('waktu_selesai')->nullable();
+public function up()
+{
+    Schema::table('tryout_materi', function (Blueprint $table) {
+        $table->time('waktu_mulai')->nullable();   // hapus after()
+        $table->time('waktu_selesai')->nullable();
+        $table->integer('durasi')->nullable();
+    });
+}
 
-        });
-    }
 
     /**
      * Reverse the migrations.
