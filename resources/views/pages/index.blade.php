@@ -52,7 +52,7 @@
         <!-- end navbar -->
 
         <!-- start hero section -->
-        <section class="section job-hero-section bg-light pb-0" id="hero">
+        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:60px;">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-lg-6">
@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none">
+                        <div class="card shadow-lg">
                             <div class="card-body p-4">
                                 <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
                                     <div class="job-icon-effect"></div>
@@ -134,7 +134,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none">
+                        <div class="card shadow-lg">
                             <div class="card-body p-4">
                                 <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
                                     <div class="job-icon-effect"></div>
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none">
+                        <div class="card shadow-lg">
                             <div class="card-body p-4">
                                 <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
                                     <div class="job-icon-effect"></div>
@@ -181,7 +181,7 @@
 
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3">
+                        <div class="card shadow-none text-center py-3 h-100 w-100">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
@@ -196,7 +196,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3">
+                        <div class="card shadow-none text-center py-3 h-100 w-100">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
@@ -211,9 +211,9 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3">
+                        <div class="card shadow-none text-center py-3 h-100 w-100">
                             <div class="card-body py-4">
-                                <div class="avatar-sm mb-4 mx-auto position-relative">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle">
                                         <i class="ri-whatsapp-line  fs-1"></i>
@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3">
+                        <div class="card shadow-none text-center py-3 h-100 w-100">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
@@ -240,8 +240,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3">
+                    <div class="col-lg-3 col-md-6 d-flex mt-4">
+                        <div class="card shadow-none text-center py-3 h-100 w-100">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
@@ -255,8 +255,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3">
+                    <div class="col-lg-3 col-md-6 d-flex mt-4">
+                        <div class="card shadow-none text-center py-3 h-100 w-100">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
@@ -278,34 +278,8 @@
         </section>
         <!-- end services -->
 
-        <!-- start cta -->
-        <section class="py-5 bg-warning position-relative">
-            <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
-            <div class="container">
-                <div class="row align-items-center gy-4">
-                    <div class="col-sm">
-                        <div>
-                            <h4 class="text-white mb-2">Siap untuk memulai?</h4>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                    <div class="col-sm-auto">
-                        <div>
-                            <a href="{{ route('siswa.register') }}" class="btn bg-gradient btn-danger">Daftar akun geratis</a>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </section>
-        <!-- end cta -->
-
-
-
         <!-- start tryout -->
-        <section class="section bg-light" id="tryout">
+        <section class="section bg-white" id="tryout">
             <div class="bg-overlay bg-overlay-pattern"></div>
             <div class="container">
                 <div class="row justify-content-center">
