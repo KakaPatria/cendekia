@@ -3,6 +3,15 @@
 @section('css')
 <link href="{{ URL::asset('assets/libs/swiper/swiper.min.css') }}" rel="stylesheet" type="text/css" />
 
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+</style>
 @endsection
 @section('body')
 
@@ -14,7 +23,7 @@
     <div class="layout-wrapper landing">
         <nav class="navbar navbar-expand-lg navbar-landing fixed-top job-navbar" id="navbar">
             <div class="container-fluid custom-container">
-                <a class="navbar-brand" href="index">
+                <a class="navbar-brand" href="https://instagram.com/lbbcendekia" target="_blank">
                     <img src="{{URL::asset('assets/images/logo-cendikia.png')}}" class="card-logo card-logo-dark" alt="logo dark" height="40">
                     <img src="{{URL::asset('assets/images/logo-cendikia.png')}}" class="card-logo card-logo-light" alt="logo light" height="40">
                 </a>
@@ -204,7 +213,7 @@
                                         <i class="ri-whatsapp-line  fs-1"></i>
                                     </div>
                                 </div>
-                                <a href="#!" class="stretched-link">
+                                <a href="https://bit.ly/WA-CENDEKIA-YENI" target="_blank" class="stretched-link">
                                     <h5 class="fs-17 pt-1">WHATSAPP KAK YENI</h5>
                                 </a>
                             </div>
@@ -219,7 +228,7 @@
                                         <i class="ri-whatsapp-line  fs-1"></i>
                                     </div>
                                 </div>
-                                <a href="#!" class="stretched-link">
+                                <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="stretched-link">
                                     <h5 class="fs-17 pt-1">WHATSAPP KAK LIA</h5>
                                 </a>
                             </div>
@@ -234,8 +243,8 @@
                                         <i class="ri-focus-2-line fs-1"></i>
                                     </div>
                                 </div>
-                                <a href="instagram.com/lbbcendekia/" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">instagram.com/lbbcendekia/</h5>
+                                <a href="https://instagram.com/lbbcendekia" target="_blank" class="stretched-link">
+                                    <h5 class="fs-17 pt-1">instagram.com/lbbcendekia</h5>
                                 </a>
                             </div>
                         </div>
@@ -249,7 +258,7 @@
                                         <i class="ri-map-pin-line  fs-1"></i>
                                     </div>
                                 </div>
-                                <a href="bit.ly/ALAMATLBBC" class="stretched-link">
+                                <a href="https://bit.ly/ALAMATLBBC" target="_blank" class="stretched-link">
                                     <h5 class="fs-17 pt-1">Alamat</h5>
                                 </a>
                             </div>
@@ -277,6 +286,30 @@
             <!-- end container -->
         </section>
         <!-- end services -->
+
+        <!-- start cta -->
+        <section class="py-5 bg-warning position-relative">
+            <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
+            <div class="container">
+                <div class="row align-items-center gy-4">
+                    <div class="col-sm">
+                        <div>
+                            <h4 class="text-white mb-2">Siap untuk memulai?</h4>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-sm-auto">
+                        <div>
+                            <a href="{{ route('siswa.register') }}" class="btn bg-gradient btn-danger">Daftar akun gratis</a>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end cta -->
 
         <!-- start tryout -->
         <section class="section bg-white" id="tryout">
@@ -360,7 +393,7 @@
                                     Dibimbing oleh tentor senior yang sudah berpengalaman dalam menulis soal ujian nasional mulai dari tingkat provinsi sampaidengan nasional..</p>
                                 <ul class="list-inline mb-0 footer-social-link">
                                     <li class="list-inline-item">
-                                        <a href="javascript: void(0);" class="avatar-xs d-block">
+                                        <a href="https://www.facebook.com/profile.php?id=100070975055336" target="_blank" class="avatar-xs d-block">
                                             <div class="avatar-title rounded-circle">
                                                 <i class="ri-facebook-fill"></i>
                                             </div>
@@ -368,7 +401,7 @@
                                     </li>
 
                                     <li class="list-inline-item">
-                                        <a href="javascript: void(0);" class="avatar-xs d-block">
+                                        <a href="https://instagram.com/lbbcendekia" target="_blank" class="avatar-xs d-block">
                                             <div class="avatar-title rounded-circle">
                                                 <i class="ri-instagram-line"></i>
                                             </div>
