@@ -22,6 +22,7 @@ use App\Http\Controllers\Siswa\TryoutPesertaController as SiswaaasTryoutPesertaC
 use App\Http\Controllers\Siswa\InvoiceController as SiswaaasInvoiceController;
 use App\Http\Controllers\Siswa\PengerjaanController as SiswaasPengerjaanController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiswaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,7 +96,7 @@ Route::name('panel.')->prefix('panel')->group(function () {
 });
 
 /* Route Siswa */
-
+Route::get('/siswa', [App\Http\Controllers\SiswaController::class, 'index'])->name('siswa.index');
 Route::get('/login', [SiswaUserController::class, 'login'])->name('login');
 Route::get('/google/redirect', [SiswaUserController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [SiswaUserController::class, 'handleGoogleCallback'])->name('google.callback');

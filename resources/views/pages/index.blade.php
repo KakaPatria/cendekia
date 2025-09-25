@@ -243,7 +243,7 @@
         </section>
         <!-- end hero section -->
 
-        <section class="section" id="informasi">
+        <section class="section" id="informasi" style="padding-top:160px; padding-bottom:160px;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -336,8 +336,8 @@
                                         <i class="ri-pencil-ruler-2-line fs-1"></i>
                                     </div>
                                 </div>
-                                <a href="#!" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
+                                <a href="{{ route('siswa.index') }}" class="stretched-link">
+                                <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
                                 </a>
                             </div>
                         </div>
