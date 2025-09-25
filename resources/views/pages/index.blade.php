@@ -4,15 +4,18 @@
 <link href="{{ URL::asset('assets/libs/swiper/swiper.min.css') }}" rel="stylesheet" type="text/css" />
 
 <style>
+
+    /* Animasi kartu umum */
     .card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    
     .card:hover {
         transform: translateY(-8px) scale(1.03);
         box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     }
 
-    /* Simple and compatible contact animations */
+    /* Animasi & styling bagian contact */
     .contact-title {
         position: relative;
     }
@@ -67,9 +70,10 @@
 
     .contact-item {
         margin-bottom: 20px;
+        animation: fadeInUp 0.6s ease-out both;
     }
 
-    /* Simple fade in animation */
+    /* Animasi fade in */
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -79,10 +83,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-    }
-
-    .contact-item {
-        animation: fadeInUp 0.6s ease-out both;
     }
 
     .contact-item:nth-child(1) { animation-delay: 0.1s; }
@@ -98,6 +98,145 @@
             transform: translateY(-4px) scale(1.01);
         }
     }
+
+    /* Styling tambahan untuk footer */
+    .footer-title {
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        color: white !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+        margin-bottom: 1.2rem !important;
+    }
+    
+    .footer-content-text {
+        font-size: 0.85rem !important;
+        line-height: 1.4 !important;
+        color: rgba(255,255,255,0.9) !important;
+    }
+    
+    .contact-label {
+        font-size: 0.75rem !important;
+        color: rgba(255,255,255,0.7) !important;
+        margin-bottom: 0.1rem !important;
+        text-transform: uppercase !important;
+    }
+    
+    .contact-value {
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        color: white !important;
+    }
+    
+    .hours-day {
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+    }
+    
+    .hours-time {
+        font-size: 0.8rem !important;
+        color: rgba(255,255,255,0.9) !important;
+    }
+    
+    .address-label {
+        font-size: 0.75rem !important;
+        color: rgba(255,255,255,0.7) !important;
+        margin-bottom: 0.2rem !important;
+        text-transform: uppercase !important;
+    }
+    
+    .address-value {
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        line-height: 1.3 !important;
+        color: white !important;
+    }
+    
+    .map-hint {
+        font-size: 0.7rem !important;
+        color: rgba(255,255,255,0.6) !important;
+        margin-top: 0.2rem !important;
+        font-style: italic !important;
+        text-transform: uppercase !important;
+    }
+
+    /* Animasi pulse */
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 10px rgba(255,255,255,0.1);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(255,255,255,0);
+        }
+    }
+
+    .phone-contact {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .phone-contact::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .phone-contact:hover::after {
+        left: 100%;
+    }
+
+    .address-item {
+        position: relative;
+    }
+
+    .address-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background: rgba(255,255,255,0.1);
+        transition: width 0.3s ease;
+    }
+
+    .address-item:hover::before {
+        width: 100%;
+    }
+
+    .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .contact-item:hover {
+        background: rgba(255,255,255,0.2) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
+        border-color: rgba(255,255,255,0.3) !important;
+    }
+
 </style>
 @endsection
 @section('body')
@@ -192,7 +331,7 @@
         </section>
         <!-- end hero section -->
 
-        <section class="section" id="informasi">
+        <section class="section" id="informasi" style="padding-top:160px; padding-bottom:160px;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -284,8 +423,8 @@
                                         <i class="ri-pencil-ruler-2-line fs-1"></i>
                                     </div>
                                 </div>
-                                <a href="#!" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
+                                <a href="{{ route('siswa.index') }}" class="stretched-link">
+                                <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
                                 </a>
                             </div>
                         </div>
@@ -472,55 +611,103 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-7 ms-lg-auto">
-                        <div class="row">
-                            <div class="col-sm-4 mt-4">
-                                <h5 class="text-white mb-0">HUBUNGI KAMI</h5>
-                                <div class="text-white mt-3">
-                                    <ul class="list-unstyled ff-secondary footer-list">
-                                        <li><strong>Telfon / WhatsApp :</strong>
-
-                                        </li>
-                                        <li><strong><a href="https://bit.ly/WA-CENDEKIA-LIA" class="text-white">Kak Lia : 081272139500&nbsp;</a></strong></li>
-                                        <li> <strong><a href="https://bit.ly/WA-CENDEKIA-YENI" class="text-white">Kak Yeni : 082323356415</a></strong></li>
-                                    </ul>
-                                </div>
-                                <hr>
-
-                            </div>
-                            <div class="col-sm-4 mt-4">
-                                <h5 class="text-white mb-0">Jam Kerja</h5>
-                                <div class="text-white mt-3">
-                                    <ul class="list-unstyled ff-secondary footer-list">
-
-                                        <li>Senin - Jumat : 09.00 - 20.00</li>
-                                        <li>Sabtu : 09.00 - 17.00</li>
-                                        <li>Ahad : Libur</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 mt-4">
-                                <h5 class="text-white mb-0">Alamat</h5>
-                                <div class="text-muted mt-3">
-                                    <ul class="list-unstyled ff-secondary footer-list">
-                                        <li class="text-white">Barat Gedung SMPN 9 Yogyakarta</li>
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    
+<div class="col-lg-8 ms-lg-auto">
+    <div class="row">
+        <!-- Contact Section with Animation -->
+        <div class="col-sm-4 mt-4">
+            <h5 class="footer-title">HUBUNGI KAMI</h5>
+            
+            <!-- Phone Contact 1 with Animation -->
+            <div class="contact-item phone-contact" onclick="callPhone('081272139500')" 
+                 style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden;">
+                <div class="contact-icon" 
+                     style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; animation: pulse 2s infinite;">
+                    <i class="ri-phone-line" style="color: white;"></i>
                 </div>
+                <div class="contact-info" style="flex: 1; text-align: left;">
+                    <div class="contact-label">TELP/WHATSAPP</div>
+                    <div class="contact-value"><strong>Kak Lia : 081272139500</strong></div>
+                </div>
+            </div>
 
-                <div class="row text-center text-sm-start align-items-center mt-5">
-                    <div class="col-sm-6">
-                        <div>
-                            <p class="copy-rights mb-0">
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> © LBB Cendekia
-                            </p>
+            <!-- Phone Contact 2 with Animation -->
+            <div class="contact-item phone-contact" onclick="callPhone('082323356415')"
+                 style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden;">
+                <div class="contact-icon" 
+                     style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; animation: pulse 2s infinite;">
+                    <i class="ri-phone-line" style="color: white;"></i>
+                </div>
+                <div class="contact-info" style="flex: 1; text-align: left;">
+                    <div class="contact-label">TELP/WHATSAPP</div>
+                    <div class="contact-value"><strong>Kak Yeni : 082323356415</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Working Hours -->
+        <div class="col-sm-4 mt-4">
+            <h5 class="footer-title">JAM KERJA</h5>
+            <div class="text-white mt-3">
+                <div class="hours-item" style="background: rgba(255,255,255,0.1); padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
+                     onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.transform='translateX(5px)';"
+                     onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(0)';">
+                    <span class="hours-day">SENIN - JUMAT</span>
+                    <span class="hours-time">09.00 - 20.00</span>
+                </div>
+                
+                <div class="hours-item" style="background: rgba(255,255,255,0.1); padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
+                     onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.transform='translateX(5px)';"
+                     onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(0)';">
+                    <span class="hours-day">SABTU</span>
+                    <span class="hours-time">09.00 - 17.00</span>
+                </div>
+                
+                <div class="hours-item" style="background: rgba(255,255,255,0.1); padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
+                     onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.transform='translateX(5px)';"
+                     onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(0)';">
+                    <span class="hours-day">AHAD</span>
+                    <span class="hours-time">LIBUR</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Section with Maps Integration -->
+        <div class="col-sm-4 mt-4">
+            <h5 class="footer-title">ALAMAT</h5>
+            
+            <div class="address-item" onclick="openMaps(event)" 
+                 style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; text-decoration: none; color: white; border: 2px solid transparent; position: relative; overflow: hidden;"
+                 onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.4)';"
+                 onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='transparent';">
+                <div class="address-icon" 
+                     style="width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; position: relative; z-index: 1; animation: bounce 2s infinite;">
+                    <i class="ri-map-pin-line" style="color: white;"></i>
+                </div>
+                <div class="address-info" style="flex: 1; text-align: left; position: relative; z-index: 1;">
+                    <div class="address-label">LOKASI KAMI</div>
+                    <div class="address-value">BARAT GEDUNG SMPN 9<br>YOGYAKARTA</div>
+                    <div class="map-hint">KLIK UNTUK BUKA PETA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="row text-center text-sm-start align-items-center mt-5">
+    <div class="col-sm-6">
+        <div>
+            <p class="copy-rights mb-0">
+                <script>
+                 document.write(new Date().getFullYear())
+                </script> © LBB Cendekia
+            </p>
+        </div>
+    </div>
+</div>
+                            
                         </div>
                     </div>
                     {{-- <div class="col-sm-6">
@@ -551,10 +738,64 @@
 
     </div>
     <!-- end layout wrapper -->
+
+
 </body>
 
 @endsection
 @section('script')
 <script src="{{ URL::asset('assets/libs/swiper/swiper.min.js') }}"></script>
 <script src="{{ URL::asset('assets/js/pages/job-lading.init.js') }}"></script>
+
+<script>
+// Phone Call Functionality - Langsung ke WhatsApp
+function callPhone(number) {
+    const clickedElement = event.currentTarget;
+    const icon = clickedElement.querySelector('.contact-icon i');
+    
+    // Add click animation
+    clickedElement.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        clickedElement.style.transform = 'translateY(-2px)';
+    }, 150);
+    
+    // Change icon temporarily
+    const originalClass = icon.className;
+    icon.className = 'loading';
+    
+    setTimeout(() => {
+        icon.className = originalClass;
+        
+        // Langsung ke WhatsApp tanpa confirm dialog
+        const whatsappURL = `https://wa.me/+62${number.substring(1)}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20LBB%20Cendekia`;
+        window.open(whatsappURL, '_blank');
+    }, 800);
+}
+
+// Maps Functionality - Langsung ke alamat spesifik
+function openMaps(event) {
+    event.preventDefault();
+    
+    const addressElement = event.currentTarget;
+    const icon = addressElement.querySelector('.address-icon i');
+    
+    // Add click animation
+    addressElement.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        addressElement.style.transform = 'translateY(-2px)';
+    }, 150);
+    
+    // Change icon temporarily
+    const originalClass = icon.className;
+    icon.className = 'loading';
+    
+    setTimeout(() => {
+        icon.className = originalClass;
+        
+        // Langsung ke alamat Maps yang spesifik
+        const mapsURL = "https://maps.app.goo.gl/b7vKStGm4U2x2iFY7";
+        window.open(mapsURL, '_blank');
+    }, 600);
+}
+</script>
 @endsection
