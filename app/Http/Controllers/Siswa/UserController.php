@@ -222,7 +222,7 @@ class UserController extends Controller
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
             'password' => Hash::make($request->password),
-
+            'role_id' => 1, // 👈 otomatis isi siswa
         ]);
 
         if ($request->referal_code) {
@@ -233,9 +233,6 @@ class UserController extends Controller
                 $user->update();
             }
         }
-
-        $user->assignRole('Siswa');
-        //Mail::to($user->email)->send(new WelcomeMail($user));
 
         return redirect()->route('login')->with('success', 'Pendaftaran Berhasil Silahkan Login!');
     }

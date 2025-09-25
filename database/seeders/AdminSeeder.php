@@ -19,6 +19,8 @@ class AdminSeeder extends Seeder
     public function run()
     {
         $user = User::create([
+            User::factory()->create(['roles_id' => 2]),
+            'roles_id' => 2,
             'name' => 'Super Admin',
             'email' => 'admin@cendekia.com',
             'telepon' =>'085600200913',
