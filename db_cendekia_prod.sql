@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `asal_sekolah` (
   `nama_sekolah` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `asal_sekolah`
@@ -229,7 +229,7 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `prefix_number` (
   `id` varchar(55) NOT NULL,
   `value` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `prefix_number`

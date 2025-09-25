@@ -4,7 +4,102 @@
 <link href="{{ URL::asset('assets/libs/swiper/swiper.min.css') }}" rel="stylesheet" type="text/css" />
 
 <style>
-    /* Perbaikan font size untuk footer */
+
+    /* Animasi kartu umum */
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Animasi & styling bagian contact */
+    .contact-title {
+        position: relative;
+    }
+
+    .contact-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: #28a745;
+        border-radius: 2px;
+    }
+
+    .contact-card {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .contact-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        border-color: #28a745;
+    }
+
+    .contact-icon {
+        transition: all 0.3s ease;
+    }
+
+    .contact-card:hover .contact-icon {
+        transform: scale(1.1);
+        color: #28a745 !important;
+    }
+
+    .contact-card:hover .contact-icon i {
+        animation: bounce 0.6s ease;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 60%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-10px);
+        }
+        80% {
+            transform: translateY(-5px);
+        }
+    }
+
+    .contact-item {
+        margin-bottom: 20px;
+        animation: fadeInUp 0.6s ease-out both;
+    }
+
+    /* Animasi fade in */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .contact-item:nth-child(1) { animation-delay: 0.1s; }
+    .contact-item:nth-child(2) { animation-delay: 0.2s; }
+    .contact-item:nth-child(3) { animation-delay: 0.3s; }
+    .contact-item:nth-child(4) { animation-delay: 0.4s; }
+    .contact-item:nth-child(5) { animation-delay: 0.5s; }
+    .contact-item:nth-child(6) { animation-delay: 0.6s; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .contact-card:hover {
+            transform: translateY(-4px) scale(1.01);
+        }
+    }
+
+    /* Styling tambahan untuk footer */
     .footer-title {
         font-size: 1.1rem !important;
         font-weight: 700 !important;
@@ -66,7 +161,7 @@
         text-transform: uppercase !important;
     }
 
-    /* Animasi yang sudah ada */
+    /* Animasi pulse */
     @keyframes pulse {
         0% {
             transform: scale(1);
@@ -79,18 +174,6 @@
         100% {
             transform: scale(1);
             box-shadow: 0 0 0 0 rgba(255,255,255,0);
-        }
-    }
-
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0);
-        }
-        40% {
-            transform: translateY(-5px);
-        }
-        60% {
-            transform: translateY(-3px);
         }
     }
 
@@ -112,6 +195,10 @@
 
     .phone-contact:hover::after {
         left: 100%;
+    }
+
+    .address-item {
+        position: relative;
     }
 
     .address-item::before {
@@ -149,6 +236,7 @@
         box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
         border-color: rgba(255,255,255,0.3) !important;
     }
+
 </style>
 @endsection
 @section('body')
@@ -180,7 +268,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#hubungi">Hubungi</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="display: none;">
                             <a class="nav-link" href="#promo">Promo</a>
                         </li>
                         <li class="nav-item">
@@ -205,7 +293,7 @@
                     <div class="col-lg-6">
                         <div>
                             <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">Lembaga Bimbingan Belajar Cendekia Yogyakarta</h1>
-                            <p class="lead text-muted lh-base mb-4">Lembaga Bimbingan Belajar Cendekia, Bimbel yang melayani kebutuhan belajar kurikulum Merdeka & kurikulum 13 (K13), serta mengembangkan tipe-tipe soal menuju sukses assesmen daerah.Menekankan penguasaan konsep dan juga cara praktis dalam penyelesaian soal.Dibimbing oleh tentor senior yang sudah berpengalaman dalam menulis soal ujian nasional mulai dari tingkat provinsi sampai dengan nasional.</p>
+                            <p class="lead text-muted lh-base mb-4">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
 
                         </div>
                     </div>
@@ -318,8 +406,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
                         <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">HUBUNGI KAMI DI : </h1>
-
+                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base contact-title">HUBUNGI KAMI DI : </h1>
                         </div>
                     </div>
                     <!-- end col -->
@@ -327,12 +414,12 @@
                 <!-- end row -->
 
                 <div class="row justify-content-center">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3 h-100 w-100">
+                    <div class="col-lg-3 col-md-6 contact-item">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
-                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-pencil-ruler-2-line fs-1"></i>
                                     </div>
                                 </div>
@@ -342,13 +429,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3 h-100 w-100">
+                    <div class="col-lg-3 col-md-6 contact-item">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
-                                    <div class="avatar-title bg-transparent text-success rounded-circle">
-                                        <i class="ri-whatsapp-line  fs-1"></i>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
+                                        <i class="ri-whatsapp-line fs-1"></i>
                                     </div>
                                 </div>
                                 <a href="https://bit.ly/WA-CENDEKIA-YENI" target="_blank" class="stretched-link">
@@ -357,13 +444,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3 h-100 w-100">
+                    <div class="col-lg-3 col-md-6 contact-item">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
-                                    <div class="avatar-title bg-transparent text-success rounded-circle">
-                                        <i class="ri-whatsapp-line  fs-1"></i>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
+                                        <i class="ri-whatsapp-line fs-1"></i>
                                     </div>
                                 </div>
                                 <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="stretched-link">
@@ -372,13 +459,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-none text-center py-3 h-100 w-100">
+                    <div class="col-lg-3 col-md-6 contact-item">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
-                                    <div class="avatar-title bg-transparent text-success rounded-circle">
-                                        <i class="ri-focus-2-line fs-1"></i>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
+                                        <i class="ri-instagram-line fs-1"></i>
                                     </div>
                                 </div>
                                 <a href="https://instagram.com/lbbcendekia" target="_blank" class="stretched-link">
@@ -387,13 +474,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 d-flex mt-4">
-                        <div class="card shadow-none text-center py-3 h-100 w-100">
+                    <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
-                                    <div class="avatar-title bg-transparent text-success rounded-circle">
-                                        <i class="ri-map-pin-line  fs-1"></i>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
+                                        <i class="ri-map-pin-line fs-1"></i>
                                     </div>
                                 </div>
                                 <a href="https://bit.ly/ALAMATLBBC" target="_blank" class="stretched-link">
@@ -402,13 +489,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 d-flex mt-4">
-                        <div class="card shadow-none text-center py-3 h-100 w-100">
+                    <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
                             <div class="card-body py-4">
                                 <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
-                                    <div class="avatar-title bg-transparent text-success rounded-circle">
-                                        <i class="ri-bookmark-2-line  fs-1"></i>
+                                    <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
+                                        <i class="ri-bookmark-2-line fs-1"></i>
                                     </div>
                                 </div>
                                 <a href="https://sites.google.com/view/rekrutmenlbbcendekiayk/lbb-cendekia-yogyakarta" class="stretched-link">
@@ -417,7 +504,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- end row -->
             </div>
@@ -502,9 +588,8 @@
                                 <img src="{{URL::asset('assets/images/logo-cendikia.png')}}" alt="logo light" height="40" />
                             </div>
                             <div class="mt-4 fs-13">
-                                <p>Selamat datang di LBB Cendekia!</p>
-                                <p>Lembaga Bimbingan Belajar Cendekia, Bimbel yang melayani kebutuhan belajar kurikulum Merdeka & kurikulum 13 (K13), serta mengembangkan tipe-tipe soal menuju sukses assesmen daerah.Menekankan penguasaan konsep dan juga cara praktis dalam penyelesaian soal.
-                                    Dibimbing oleh tentor senior yang sudah berpengalaman dalam menulis soal ujian nasional mulai dari tingkat provinsi sampaidengan nasional..</p>
+                                <p style="text-align: justify;">Selamat datang di LBB Cendekia!</p>
+                                <p style="text-align: justify;">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
                                 <ul class="list-inline mb-0 footer-social-link">
                                     <li class="list-inline-item">
                                         <a href="https://www.facebook.com/profile.php?id=100070975055336" target="_blank" class="avatar-xs d-block">
