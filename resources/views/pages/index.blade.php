@@ -105,7 +105,7 @@
         </section>
         <!-- end hero section -->
 
-        <section class="section" id="informasi">
+        <section class="section" id="informasi" pb-0" style="padding-top:160px; padding-bottom:160px;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
