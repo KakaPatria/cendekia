@@ -287,30 +287,6 @@
         </section>
         <!-- end services -->
 
-        <!-- start cta -->
-        <section class="py-5 bg-warning position-relative">
-            <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
-            <div class="container">
-                <div class="row align-items-center gy-4">
-                    <div class="col-sm">
-                        <div>
-                            <h4 class="text-white mb-2">Siap untuk memulai?</h4>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                    <div class="col-sm-auto">
-                        <div>
-                            <a href="{{ route('siswa.register') }}" class="btn bg-gradient btn-danger">Daftar akun gratis</a>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </section>
-        <!-- end cta -->
-
         <!-- start tryout -->
         <section class="section bg-white" id="tryout">
             <div class="bg-overlay bg-overlay-pattern"></div>
