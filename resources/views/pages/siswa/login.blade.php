@@ -40,7 +40,7 @@ Masuk
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email</label>
-                                                <input type="text" class="form-control" id="email" name="email" placeholder="Masukan Email" value="{{ old('email') }}">
+                                                <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan Email" value="{{ old('email') }}">
                                             </div>
 
                                             <div class="mb-3">
@@ -49,7 +49,7 @@ Masuk
                                                 </div>
                                                 <label class="form-label" for="password-input">Password</label>
                                                 <div class="position-relative auth-pass-inputgroup mb-3">
-                                                    <input type="password" class="form-control pe-5 password-input" name="password" placeholder="Enter password" id="password-input">
+                                                    <input type="password" class="form-control pe-5 password-input" name="password" placeholder="Masukkan password" id="password-input">
                                                     <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                 </div>
                                             </div>
