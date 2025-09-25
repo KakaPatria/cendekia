@@ -268,7 +268,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#hubungi">Hubungi</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="display: none;">
                             <a class="nav-link" href="#promo">Promo</a>
                         </li>
                         <li class="nav-item">
