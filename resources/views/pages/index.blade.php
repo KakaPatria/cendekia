@@ -198,8 +198,8 @@
                                         <i class="ri-pencil-ruler-2-line fs-1"></i>
                                     </div>
                                 </div>
-                                <a href="#!" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
+                                <a href="{{ route('siswa.index') }}" class="stretched-link">
+                                <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
                                 </a>
                             </div>
                         </div>
