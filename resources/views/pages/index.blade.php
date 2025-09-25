@@ -214,7 +214,7 @@
                                     </div>
                                 </div>
                                 <a href="https://bit.ly/WA-CENDEKIA-YENI" target="_blank" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">WHATSAPP KAK YENI</h5>
+                                    <h5 class="fs-17 pt-1">Whatsapp Kak Yeni</h5>
                                 </a>
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                                     </div>
                                 </div>
                                 <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">WHATSAPP KAK LIA</h5>
+                                    <h5 class="fs-17 pt-1">Whatsapp Kak Lia</h5>
                                 </a>
                             </div>
                         </div>
@@ -244,7 +244,7 @@
                                     </div>
                                 </div>
                                 <a href="https://instagram.com/lbbcendekia" target="_blank" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">instagram.com/lbbcendekia</h5>
+                                    <h5 class="fs-17 pt-1">Instagram</h5>
                                 </a>
                             </div>
                         </div>
@@ -274,7 +274,7 @@
                                     </div>
                                 </div>
                                 <a href="https://sites.google.com/view/rekrutmenlbbcendekiayk/lbb-cendekia-yogyakarta" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">Recruitmen</h5>
+                                    <h5 class="fs-17 pt-1">Rekrutmen</h5>
                                 </a>
                             </div>
                         </div>
