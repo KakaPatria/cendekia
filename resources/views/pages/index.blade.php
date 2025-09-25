@@ -3,7 +3,19 @@
 @section('css')
 <link href="{{ URL::asset('assets/libs/swiper/swiper.min.css') }}" rel="stylesheet" type="text/css" />
 
+
 <style>
+
+    /*Animasi hubungi*/
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+
     /* Perbaikan font size untuk footer */
     .footer-title {
         font-size: 1.1rem !important;
