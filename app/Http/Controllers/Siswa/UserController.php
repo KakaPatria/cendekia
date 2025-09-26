@@ -16,6 +16,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -35,157 +36,115 @@ class UserController extends Controller
 
     public function doLogin(Request $request)
     {
-        $messages = [
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-        
-            'password.required' => 'Kata sandi wajib diisi.',
-            'password.string' => 'Kata sandi harus berupa teks.',
-            'password.min' => 'Kata sandi minimal harus 8 karakter.',
-        ];
-        
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
-        ],$messages);
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('siswa.dashboard'));
         }
 
-        // Attempt to log the user in
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-            // Authentication passed...
-            return redirect()->intended(route('siswa.dashboard'))->with('success', 'Login berhasil!');
-        }
-
-        // If the login attempt was unsuccessful
-        return redirect()->back()->with('error', 'Login gagal periksa kembali username dan password.')->withInput();
+        return back()->withErrors([
+            'email' => 'Email atau Password yang Anda masukkan salah.',
+        ])->onlyInput('email');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/')->with('success', 'anda berhasil logout.');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/')->with('success', 'Anda berhasil logout.');
     }
 
-
+    // ... SISA FUNGSI LAINNYA TIDAK PERLU DIUBAH ...
+    // (doRegister, forgotPassword, dll. biarkan seperti semula)
+    // Cukup salin dan tempel semua fungsi di bawah ini dari file asli Anda
 
     public function forgotPassword()
     {
-
         return view('pages.siswa.forgot');
     }
 
     public function doForgotPassword(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|',
-        ]);
+        $request->validate(['email' => 'required|email']);
 
-        $user = User::where('email', $request->email)
-            ->orWhere('telepon', $request->email)
-            ->first();
+        // Gunakan sistem bawaan Laravel untuk mengirim link reset
+        $status = Password::sendResetLink($request->only('email'));
 
-        if ($user) {
-            $token = Str::random(60);
-            $user->update(['remember_token' => $token]);
-
-            // Generate reset link
-            $resetLink = URL::route('siswa.password.reset', ['token' => $token, 'email' => $request->email]);
-
-            // Redirect to the reset link
-            return redirect($resetLink);
-        } else {
-            return redirect()->back()->with('error', 'Akun tidak ditemukan');
-        }
+        return $status == Password::RESET_LINK_SENT
+                    ? back()->with('status', __($status))
+                    : back()->withErrors(['email' => __($status)]);
     }
 
-    public function passwordReset(Request $request, $token = null)
+    public function passwordReset(Request $request)
     {
-
-        return view('pages.siswa.reset')->with(
-            ['token' => $token, 'email' => $request->email]
-        );;
+        return view('pages.siswa.reset', ['request' => $request]);
     }
 
     public function doPasswordReset(Request $request)
     {
-        $messages = [
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'password.required' => 'Kata sandi wajib diisi.',
-            'password.string' => 'Kata sandi harus berupa teks.',
-            'password.min' => 'Kata sandi minimal harus 8 karakter.',
-            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
-        ];
-        
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|string|min:8|confirmed',
-        ],$messages);
+        ]);
 
-        $user = User::where('email', $request->email)->first();
+        // Gunakan sistem bawaan Laravel untuk mereset password
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+                $user->save();
+            }
+        );
 
-        if (!$user || $user->remember_token !== $request->token) {
-            return redirect()->route('siswa.password.reset')->with('error', 'Invalid reset password, mohon ulangi.');
-        }
-
-        // Reset the user's password
-        $user->password = Hash::make($request->password);
-        $user->setRememberToken(Str::random(60));
-        $user->save();
-
-        return redirect()->route('login')->with('success', 'Password anda sudah direset, silahkan login.');
+        return $status == Password::PASSWORD_RESET
+                    ? redirect()->route('login')->with('success', __($status))
+                    : back()->withErrors(['email' => __($status)]);
     }
 
     public function register()
     {
-
         return view('pages.siswa.register');
     }
 
     public function doRegister(Request $request)
     {
-
         $messages = [
             'name.required' => 'Nama wajib diisi.',
             'name.string' => 'Nama harus berupa teks.',
             'name.max' => 'Nama maksimal 255 karakter.',
-            
             'email.required' => 'Email wajib diisi.',
             'email.string' => 'Email harus berupa teks.',
             'email.email' => 'Format email tidak valid.',
             'email.max' => 'Email maksimal 255 karakter.',
             'email.unique' => 'Email sudah terdaftar.',
-        
             'telepon.required' => 'Nomor telepon wajib diisi.',
             'telepon.numeric' => 'Nomor telepon harus berupa angka.',
-        
             'nama_orang_tua.required' => 'Nama orang tua wajib diisi.',
             'nama_orang_tua.string' => 'Nama orang tua harus berupa teks.',
-        
             'telp_orang_tua.required' => 'Nomor telepon orang tua wajib diisi.',
             'telp_orang_tua.numeric' => 'Nomor telepon orang tua harus berupa angka.',
-        
             'alamat.required' => 'Alamat wajib diisi.',
             'alamat.string' => 'Alamat harus berupa teks.',
             'alamat.max' => 'Alamat maksimal 255 karakter.',
-        
             'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
             'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
             'asal_sekolah.max' => 'Asal sekolah maksimal 255 karakter.',
-        
             'jenjang.required' => 'Jenjang wajib diisi.',
             'jenjang.string' => 'Jenjang harus berupa teks.',
             'jenjang.in' => 'Jenjang harus salah satu dari SD, SMP, atau SMA.',
-        
             'kelas.required' => 'Kelas wajib diisi.',
             'kelas.integer' => 'Kelas harus berupa angka.',
             'kelas.min' => 'Kelas minimal harus 1.',
             'kelas.max' => 'Kelas maksimal harus 12.',
-        
             'password.required' => 'Kata sandi wajib diisi.',
             'password.string' => 'Kata sandi harus berupa teks.',
             'password.min' => 'Kata sandi minimal harus 8 karakter.',
@@ -222,7 +181,7 @@ class UserController extends Controller
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
             'password' => Hash::make($request->password),
-
+            'role_id' => 1, // 👈 otomatis isi siswa
         ]);
 
         if ($request->referal_code) {
@@ -234,9 +193,6 @@ class UserController extends Controller
             }
         }
 
-        $user->assignRole('Siswa');
-        //Mail::to($user->email)->send(new WelcomeMail($user));
-
         return redirect()->route('login')->with('success', 'Pendaftaran Berhasil Silahkan Login!');
     }
 
@@ -244,7 +200,6 @@ class UserController extends Controller
     {
         return Socialite::driver('google')->redirect();
     }
-
 
     public function handleGoogleCallback()
     {
@@ -259,11 +214,8 @@ class UserController extends Controller
         return redirect()->intended(route('siswa.dashboard'))->with('success', 'Login berhasil!');
     }
 
-
-
     public function profileComplete()
     {
-
         $user = Auth::user();
         return view('pages.siswa.profile.complete', compact('user'));
     }
@@ -273,32 +225,25 @@ class UserController extends Controller
         $messages = [
             'telepon.required' => 'Nomor telepon wajib diisi.',
             'telepon.numeric' => 'Nomor telepon harus berupa angka.',
-        
             'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
             'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
             'asal_sekolah.max' => 'Asal sekolah maksimal 255 karakter.',
-        
             'alamat.required' => 'Alamat wajib diisi.',
             'alamat.string' => 'Alamat harus berupa teks.',
             'alamat.max' => 'Alamat maksimal 255 karakter.',
-        
             'jenjang.required' => 'Jenjang wajib diisi.',
             'jenjang.string' => 'Jenjang harus berupa teks.',
             'jenjang.in' => 'Jenjang harus salah satu dari SD, SMP, atau SMA.',
-        
             'kelas.required' => 'Kelas wajib diisi.',
             'kelas.integer' => 'Kelas harus berupa angka.',
             'kelas.min' => 'Kelas minimal harus 1.',
             'kelas.max' => 'Kelas maksimal harus 12.',
-        
             'nama_orang_tua.required' => 'Nama orang tua wajib diisi.',
             'nama_orang_tua.string' => 'Nama orang tua harus berupa teks.',
-        
             'telp_orang_tua.required' => 'Nomor telepon orang tua wajib diisi.',
             'telp_orang_tua.numeric' => 'Nomor telepon orang tua harus berupa angka.',
         ];
 
-        
         $user = User::find(Auth::user()->id);
         $validator = Validator::make($request->all(), [
             'telepon' => 'required|numeric',
@@ -326,57 +271,43 @@ class UserController extends Controller
             'kelas' => $request->kelas,
         ]);
 
-        //Mail::to($user->email)->send(new WelcomeMail($user));
-
         return redirect()->route('siswa.dashboard')->with('success', 'Profile berhasil diupdate!');
     }
 
-
-
     public function profile()
     {
-
         return view('pages.siswa.profile.index');
     }
 
     public function edit()
     {
-
         $user = Auth::user();
         return view('pages.siswa.profile.edit', compact('user'));
     }
 
     public function update(Request $request)
     {
-
         $messages = [
             'name.required' => 'Nama wajib diisi.',
             'name.string' => 'Nama harus berupa teks.',
             'name.max' => 'Nama maksimal 255 karakter.',
-            
             'email.required' => 'Email wajib diisi.',
             'email.unique' => 'Email sudah terdaftar, gunakan email yang berbeda.',
-        
             'telepon.required' => 'Nomor telepon wajib diisi.',
             'telepon.numeric' => 'Nomor telepon harus berupa angka.',
-        
             'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
             'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
             'asal_sekolah.max' => 'Asal sekolah maksimal 255 karakter.',
-        
             'alamat.required' => 'Alamat wajib diisi.',
             'alamat.string' => 'Alamat harus berupa teks.',
             'alamat.max' => 'Alamat maksimal 255 karakter.',
-        
             'jenjang.required' => 'Jenjang wajib diisi.',
             'jenjang.string' => 'Jenjang harus berupa teks.',
             'jenjang.in' => 'Jenjang harus salah satu dari SD, SMP, atau SMA.',
-        
             'kelas.required' => 'Kelas wajib diisi.',
             'kelas.integer' => 'Kelas harus berupa angka.',
             'kelas.min' => 'Kelas minimal harus 1.',
             'kelas.max' => 'Kelas maksimal harus 12.',
-        
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'Gambar harus memiliki format jpeg, png, jpg, gif, atau svg.',
             'image.max' => 'Gambar maksimal 2MB.',
@@ -384,7 +315,6 @@ class UserController extends Controller
         
         $user = User::find(Auth::user()->id);
         $validator = Validator::make($request->all(), [
-
             'name' => 'required|string|max:255',
             'email' => 'required|unique:users,email,' . $user->id,
             'telepon' => 'required|numeric',
@@ -402,7 +332,7 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
- 
+
         User::find($user->id)->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -441,8 +371,6 @@ class UserController extends Controller
             $user->avatar =  $file;
             $user->update();
         }
-
-        //Mail::to($user->email)->send(new WelcomeMail($user));
 
         return redirect()->route('siswa.dashboard')->with('success', 'Profile berhasil diupdate!');
     }

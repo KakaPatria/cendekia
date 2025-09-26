@@ -19,6 +19,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'roles_id',
         'name',
         'email',
         'password',
@@ -54,5 +55,15 @@ class User extends Authenticatable
         } else {
             return false;
         }
+    }
+
+    public function profilSiswa()
+    {
+        return $this->hasOne(ProfilSiswa::class, 'user_id');
+    }
+
+    public function profilPengajar()
+    {
+        return $this->hasOne(ProfilPengajar::class, 'user_id');
     }
 }

@@ -20,6 +20,9 @@ class SiswaSeeder extends Seeder
      */
     public function run()
     {
+{
+        User::factory()->count(5000)->create(['roles_id' => 1]);
+    }
 
         $faker = Faker::create('id_ID');
 
@@ -81,6 +84,7 @@ class SiswaSeeder extends Seeder
         ];
         for ($i = 0; $i < 30; $i++) {
             $user = User::create([
+            $user->roles_id = 1, // siswa
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'telepon' => $faker->phoneNumber,
