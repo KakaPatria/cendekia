@@ -264,16 +264,16 @@
 
 /* Active State dengan Gradient */
 .navbar-nav .nav-link.active {
-    background: linear-gradient(135deg, #e2b602 0%, #f7c52d 100%) !important;
-    color: white !important;
-    box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;
+    background: linear-gradient(135deg, ##2c2b29ff 0%, #2c2b29ff 100%) !important;
+    color: #2c2b29ff !important;
+    box-shadow: 0 4px 15px rgba(32, 30, 30, 0.2) !important;
     transform: translateY(-2px) !important;
 }
 
 /* Hover Effect */
 .navbar-nav .nav-link:hover:not(.active) {
-    background: rgba(226, 182, 2, 0.1) !important;
-    color: #e2b602 !important;
+    background: rgba(46, 54, 57, 0.1) !important;
+    color: #000000ff !important;
     transform: translateY(-1px) !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
@@ -311,7 +311,7 @@
 
 /* ========== HERO SECTION UPGRADE ========== */
 .job-hero-section.bg-light {
-    background: linear-gradient(135deg, #e2b602 0%, #f7c52d 100%) !important;
+    background: linear-gradient(135deg, #F3F6F9 0%, #F3F6F9 100%) !important;
     position: relative !important;
     overflow: hidden !important;
 }
@@ -345,18 +345,18 @@
 
 /* Hero Text Styling */
 .job-hero-section .display-6 {
-    color: white !important;
+    color: light grey !important;
     font-weight: 700 !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2) !important;
     line-height: 1.2 !important;
     margin-bottom: 2rem !important;
 }
 
 .job-hero-section .lead {
-    color: rgba(255, 255, 255, 0.95) !important;
+    color: light grey !important;
     font-size: 1.1rem !important;
     line-height: 1.6 !important;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+    text-shadow: 0 0px 1px rgba(0,0,0,0.2) !important;
     text-align: justify !important;
 }
 
@@ -443,7 +443,7 @@ html {
 
 /* Enhanced Back to Top Button */
 .landing-back-top {
-    background: linear-gradient(135deg, #e2b602 0%, #f7c52d 100%) !important;
+    background: linear-gradient(135deg, #E2B602 0%, #E2B602 100%) !important;
     border: none !important;
     box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;
     transition: all 0.3s ease !important;
@@ -456,9 +456,9 @@ html {
 
 /* WHATSAPP ICON - HIJAU KONTRAS TANPA GRADIENT */
 .inquiry-box .avatar-title.bg-soft-warning {
-    background: #8B2E2E !important; /* WhatsApp Green */
+    background: #28a745 !important; /* WhatsApp Green */
     color: white !important;
-    box-shadow: 0 4px 15px #8B2E2E !important;
+    box-shadow: 0 4px 15px #F3F6F9 !important;
 }
 
 .inquiry-box .avatar-title.bg-soft-warning i {
@@ -466,7 +466,7 @@ html {
 }
 
 .inquiry-box:hover .avatar-title.bg-soft-warning {
-    background: #8B2E2E !important; /* Darker WhatsApp Green */
+    background: #1b7e33ff !important; /* Darker WhatsApp Green */
     transform: scale(1.1) !important;
 }
 
@@ -474,17 +474,17 @@ html {
 
 /* Home/Hero Section - KUNING */
 .job-hero-section.bg-light {
-    background: linear-gradient(135deg, #e2b602 0%, #f7c52d 100%) !important;
+    background: linear-gradient(135deg, #F3F6F9 0%, #F3F6F9 100%) !important;
 }
 
 /* Hubungi Section - KUNING */
 #hubungi.bg-light {
-    background: linear-gradient(135deg, #e2b602 0%, #f7c52d 100%) !important;
+    background: linear-gradient(135deg, #F3F6F9 0%, #F3F6F9 100%) !important;
 }
 
 /* Ubah warna teks title di section hubungi jadi putih biar kontras */
 #hubungi .contact-title {
-    color: white !important;
+    color: light grey !important;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
 }
 
