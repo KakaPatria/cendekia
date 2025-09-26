@@ -56,4 +56,14 @@ class User extends Authenticatable
             return false;
         }
     }
+
+    public function profilSiswa()
+    {
+        return $this->hasOne(ProfilSiswa::class, 'user_id');
+    }
+
+    public function profilPengajar()
+    {
+        return $this->hasOne(ProfilPengajar::class, 'user_id');
+    }
 }

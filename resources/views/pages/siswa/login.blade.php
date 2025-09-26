@@ -72,7 +72,7 @@ Masuk
                                     </div>
 
                                     <div class="mt-5 text-center">
-                                        <p class="mb-0">Belum Punya Akun ? <a href="{{ route('siswa.register')}}" class="fw-semibold text-primary text-decoration-underline"> Daftar</a> </p>
+                                        <p class="mb-0">Belum Punya Akun ? <a href="{{ route('register.choice')}}" class="fw-semibold text-primary text-decoration-underline"> Daftar</a> </p>
                                     </div>
                                 </div>
                             </div>

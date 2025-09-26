@@ -23,16 +23,12 @@ use App\Http\Controllers\Siswa\InvoiceController as SiswaaasInvoiceController;
 use App\Http\Controllers\Siswa\PengerjaanController as SiswaasPengerjaanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
 Route::get('/', [HomeController::class, 'index']);
@@ -41,6 +37,18 @@ Route::post('/daftar_tryout/{tryoutId}', [HomeController::class, 'daftarTryoutSt
 Route::get('/daftar_tryout_success', function(){
     return view('pages.daftar_tryout_success');
 })->name('daftar_tryout.success');
+
+// =========================================================================
+// == PINDAHKAN GRUP REGISTRASI KE SINI (DI LUAR GRUP SISWA) ==
+// =========================================================================
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('/register', 'showChoiceForm')->name('register.choice');
+    Route::get('/register/siswa', 'showSiswaForm')->name('register.siswa');
+    Route::post('/register/siswa', 'registerSiswa');
+    Route::get('/register/pengajar', 'showPengajarForm')->name('register.pengajar');
+    Route::post('/register/pengajar', 'registerPengajar');
+});
+// =========================================================================
 
 Route::get('ajax/materi-tryout', [AjaxController::class, 'materiTryout'])->name('ajax.materi-tryout');
 Route::get('ajax/cari-sekolah', [AjaxController::class, 'cariSekolah'])->name('ajax.cari-sekolah');
@@ -107,8 +115,10 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
     Route::post('forgot_password', [SiswaUserController::class, 'doForgotPassword'])->name('doForgotPassword');
     Route::get('reset_password', [SiswaUserController::class, 'passwordReset'])->name('password.reset');
     Route::post('reset_password', [SiswaUserController::class, 'doPasswordReset'])->name('do.password.reset');
-    Route::get('register', [SiswaUserController::class, 'register'])->name('register');
-    Route::post('register', [SiswaUserController::class, 'doRegister'])->name('doRegister');
+    // Route::get('register', [SiswaUserController::class, 'register'])->name('register');
+    // Route::post('register', [SiswaUserController::class, 'doRegister'])->name('doRegister');
+
+    // == GRUP INI SUDAH DIPINDAH KELUAR ==
 
     Route::get('complete-profile/', [SiswaUserController::class, 'profileComplete'])->name('profile.complete');
     Route::put('complete-profile/', [SiswaUserController::class, 'doProfileComplete'])->name('profile.complete.update');
