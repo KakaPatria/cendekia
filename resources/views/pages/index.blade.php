@@ -389,9 +389,19 @@
     background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
 }
 
+/* Cuma untuk title "INFORMASI" */
+#informasi h1 {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
+}
+
 /* Tryout Section */
 #tryout {
     background: linear-gradient(135deg, #ffffff 0%, #f1f3f4 100%) !important;
+}
+
+/* Cuma untuk title "TRYOUT" */
+#tryout h1 {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
 }
 
 /* ========== RESPONSIVE IMPROVEMENTS ========== */
@@ -432,7 +442,7 @@ html {
 
 /* Focus States untuk Accessibility */
 .nav-link:focus, .btn:focus {
-    outline: 2px solid rgba(226, 182, 2, 0.5) !important;
+    outline: 2px solid rgba(255, 255, 255, 0.5) !important;
     outline-offset: 2px !important;
 }
 
@@ -485,7 +495,7 @@ html {
 /* Ubah warna teks title di section hubungi jadi putih biar kontras */
 #hubungi .contact-title {
     color: light grey !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
 }
 
 #hubungi .contact-title::after {
@@ -544,7 +554,7 @@ html {
         <!-- end navbar -->
 
         <!-- start hero section -->
-        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:60px;">
+        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:85px;">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-lg-6">
