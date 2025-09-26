@@ -221,58 +221,40 @@ class UserController extends Controller
     }
 
     public function doProfileComplete(Request $request)
-    {
-        $messages = [
-            'telepon.required' => 'Nomor telepon wajib diisi.',
-            'telepon.numeric' => 'Nomor telepon harus berupa angka.',
-            'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
-            'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
-            'asal_sekolah.max' => 'Asal sekolah maksimal 255 karakter.',
-            'alamat.required' => 'Alamat wajib diisi.',
-            'alamat.string' => 'Alamat harus berupa teks.',
-            'alamat.max' => 'Alamat maksimal 255 karakter.',
-            'jenjang.required' => 'Jenjang wajib diisi.',
-            'jenjang.string' => 'Jenjang harus berupa teks.',
-            'jenjang.in' => 'Jenjang harus salah satu dari SD, SMP, atau SMA.',
-            'kelas.required' => 'Kelas wajib diisi.',
-            'kelas.integer' => 'Kelas harus berupa angka.',
-            'kelas.min' => 'Kelas minimal harus 1.',
-            'kelas.max' => 'Kelas maksimal harus 12.',
-            'nama_orang_tua.required' => 'Nama orang tua wajib diisi.',
-            'nama_orang_tua.string' => 'Nama orang tua harus berupa teks.',
-            'telp_orang_tua.required' => 'Nomor telepon orang tua wajib diisi.',
-            'telp_orang_tua.numeric' => 'Nomor telepon orang tua harus berupa angka.',
-        ];
+{
+    // Validasi input (biarkan seperti kode asli Anda)
+    $request->validate([
+        'telepon' => 'required|numeric',
+        'asal_sekolah' => 'required|string|max:255',
+        'alamat' => 'required|string|max:255',
+        'jenjang' => 'required|string|in:SD,SMP,SMA',
+        'kelas' => 'required|string', // Sesuaikan validasi kelas jika perlu
+        'nama_orang_tua' => 'required|string',
+        'telp_orang_tua' => 'required|numeric',
+    ]);
 
-        $user = User::find(Auth::user()->id);
-        $validator = Validator::make($request->all(), [
-            'telepon' => 'required|numeric',
-            'asal_sekolah' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'jenjang' => 'required|string|in:SD,SMP,SMA',
-            'kelas' => 'required|integer|min:1|max:12',
-            'nama_orang_tua' => 'required|string',
-            'telp_orang_tua' => 'required|numeric',
-        ],$messages);
+    // Ambil user yang sedang login
+    $user = Auth::user();
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $user = User::find($user->id)->update([
-            'telepon' => $request->telepon,
-            'alamat' => $request->alamat,
-            'nama_orang_tua' => $request->nama_orang_tua,
-            'telp_orang_tua' => $request->telp_orang_tua,
+    // LOGIKA BARU: Simpan atau perbarui data di tabel profil_siswa
+    $user->profilSiswa()->updateOrCreate(
+        ['user_id' => $user->id], // Kunci untuk mencari data
+        [ // Data yang akan disimpan/diperbarui
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
-        ]);
+            'alamat' => $request->alamat,
+            'nama_orang_tua' => $request->nama_orang_tua,
+            'telp_orang_tua' => $request->telp_orang_tua,
+        ]
+    );
+    
+    // Perbarui juga nomor telepon di tabel users utama
+    $user->telepon = $request->telepon;
+    $user->save();
 
-        return redirect()->route('siswa.dashboard')->with('success', 'Profile berhasil diupdate!');
-    }
+    return redirect()->route('siswa.dashboard')->with('success', 'Profile berhasil dilengkapi!');
+}
 
     public function profile()
     {

@@ -37,17 +37,20 @@
                                     <div class="mt-4">
                                         <form method="POST" action="{{ route('register.siswa') }}">
                                             @csrf
-                                            <div class="mb-3"><label for="name" class="form-label">Nama Lengkap</label><input type="text" class="form-control" name="name" placeholder="Masukkan Nama Lengkap" value="{{ old('name') }}" required></div>
-                                            <div class="mb-3"><label for="email" class="form-label">Email</label><input type="email" class="form-control" name="email" placeholder="Masukkan Email" value="{{ old('email') }}" required></div>
-                                            <div class="mb-3"><label for="telepon" class="form-label">Telepon</label><input type="text" class="form-control" name="telepon" placeholder="Masukkan Telepon" value="{{ old('telepon') }}" required></div>
-                                            <div class="mb-3"><label for="nama_orang_tua" class="form-label">Nama Orangtua</label><input type="text" class="form-control" name="nama_orang_tua" placeholder="Masukkan Nama Orangtua" value="{{ old('nama_orang_tua') }}" required></div>
-                                            <div class="mb-3"><label for="telp_orang_tua" class="form-label">Telepon Orangtua</label><input type="text" class="form-control" name="telp_orang_tua" placeholder="Masukkan Telepon Orangtua" value="{{ old('telp_orang_tua') }}" required></div>
-                                            <div class="mb-3"><label for="alamat" class="form-label">Alamat</label><input type="text" class="form-control" name="alamat" placeholder="Masukkan alamat" value="{{ old('alamat') }}" required></div>
-                                            <div class="mb-3"><label for="asal_sekolah" class="form-label">Asal Sekolah</label><input type="text" class="form-control" name="asal_sekolah" placeholder="Cari Asal Sekolah" value="{{ old('asal_sekolah') }}" required></div>
+                                            {{-- Beri tanda bintang (*) pada label yang wajib --}}
+                                            <div class="mb-3"><label for="name" class="form-label">Nama Lengkap <span class="text-danger">*</span></label><input type="text" class="form-control" name="name" placeholder="Masukkan Nama Lengkap" value="{{ old('name') }}" required></div>
+                                            <div class="mb-3"><label for="email" class="form-label">Email <span class="text-danger">*</span></label><input type="email" class="form-control" name="email" placeholder="Masukkan Email" value="{{ old('email') }}" required></div>
+                                            
+                                            {{-- Hapus atribut 'required' dari field opsional --}}
+                                            <div class="mb-3"><label for="telepon" class="form-label">Telepon</label><input type="text" class="form-control" name="telepon" placeholder="Masukkan Telepon" value="{{ old('telepon') }}"></div>
+                                            <div class="mb-3"><label for="nama_orang_tua" class="form-label">Nama Orangtua</label><input type="text" class="form-control" name="nama_orang_tua" placeholder="Masukkan Nama Orangtua" value="{{ old('nama_orang_tua') }}"></div>
+                                            <div class="mb-3"><label for="telp_orang_tua" class="form-label">Telepon Orangtua</label><input type="text" class="form-control" name="telp_orang_tua" placeholder="Masukkan Telepon Orangtua" value="{{ old('telp_orang_tua') }}"></div>
+                                            <div class="mb-3"><label for="alamat" class="form-label">Alamat</label><input type="text" class="form-control" name="alamat" placeholder="Masukkan alamat" value="{{ old('alamat') }}"></div>
+                                            <div class="mb-3"><label for="asal_sekolah" class="form-label">Asal Sekolah</label><input type="text" class="form-control" name="asal_sekolah" placeholder="Cari Asal Sekolah" value="{{ old('asal_sekolah') }}"></div>
                                             
                                             <div class="mb-3">
                                                 <label for="jenjang" class="form-label">Jenjang</label>
-                                                <select class="form-select" name="jenjang" id="jenjang" required>
+                                                <select class="form-select" name="jenjang" id="jenjang">
                                                     <option value="" selected>Pilih Jenjang</option>
                                                     <option value="SD" {{ old('jenjang') == 'SD' ? 'selected' : '' }}>SD</option>
                                                     <option value="SMP" {{ old('jenjang') == 'SMP' ? 'selected' : '' }}>SMP</option>
@@ -55,22 +58,17 @@
                                                 </select>
                                             </div>
 
-                                            {{-- UBAH INPUT MENJADI DROPDOWN --}}
                                             <div class="mb-3">
                                                 <label for="kelas" class="form-label">Kelas</label>
-                                                <select class="form-select" name="kelas" id="kelas" required disabled>
+                                                <select class="form-select" name="kelas" id="kelas" disabled>
                                                     <option value="">Pilih Jenjang Terlebih dahulu</option>
                                                 </select>
                                             </div>
 
-                                            {{-- TAMBAHKAN FIELD KODE REFERAL --}}
-                                            <div class="mb-3">
-                                                <label for="kode_referal" class="form-label">Kode Referal</label>
-                                                <input type="text" class="form-control" name="kode_referal" placeholder="Isi kode referal jika ada" value="{{ old('kode_referal') }}">
-                                            </div>
+                                            <div class="mb-3"><label for="kode_referal" class="form-label">Kode Referal</label><input type="text" class="form-control" name="kode_referal" placeholder="Isi kode referal jika ada" value="{{ old('kode_referal') }}"></div>
 
-                                            <div class="mb-3"><label class="form-label" for="password">Password</label><input type="password" class="form-control" name="password" placeholder="Masukkan password" required></div>
-                                            <div class="mb-3"><label class="form-label" for="password_confirmation">Ulangi Password</label><input type="password" class="form-control" name="password_confirmation" placeholder="Ketik ulang password" required></div>
+                                            <div class="mb-3"><label class="form-label" for="password">Password <span class="text-danger">*</span></label><input type="password" class="form-control" name="password" placeholder="Masukkan password" required></div>
+                                            <div class="mb-3"><label class="form-label" for="password_confirmation">Ulangi Password <span class="text-danger">*</span></label><input type="password" class="form-control" name="password_confirmation" placeholder="Ketik ulang password" required></div>
                                             <div class="mt-4"><button class="btn btn-danger w-100" type="submit">Daftar</button></div>
                                         </form>
                                     </div>
@@ -90,28 +88,21 @@
 @endsection
 
 @section('script')
-{{-- LOGIKA JAVASCRIPT BARU UNTUK DROPDOWN KELAS --}}
+{{-- JavaScript untuk dropdown kelas (tidak ada perubahan) --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const jenjangDropdown = document.getElementById('jenjang');
         const kelasDropdown = document.getElementById('kelas');
-
         const kelasOptions = {
             'SD': ['Kelas 1', 'Kelas 2', 'Kelas 3', 'Kelas 4', 'Kelas 5', 'Kelas 6'],
             'SMP': ['Kelas 7', 'Kelas 8', 'Kelas 9'],
             'SMA': ['Kelas 10', 'Kelas 11', 'Kelas 12']
         };
-
         jenjangDropdown.addEventListener('change', function() {
             const selectedJenjang = this.value;
-            // Kosongkan pilihan kelas yang lama
             kelasDropdown.innerHTML = '<option value="">Pilih Kelas</option>';
-
             if (selectedJenjang && kelasOptions[selectedJenjang]) {
-                // Aktifkan dropdown kelas
                 kelasDropdown.disabled = false;
-                
-                // Isi dengan pilihan kelas yang baru
                 kelasOptions[selectedJenjang].forEach(function(kelas) {
                     const option = document.createElement('option');
                     option.value = kelas;
@@ -119,7 +110,6 @@
                     kelasDropdown.appendChild(option);
                 });
             } else {
-                // Nonaktifkan jika tidak ada jenjang yang dipilih
                 kelasDropdown.disabled = true;
                 kelasDropdown.innerHTML = '<option value="">Pilih Jenjang Terlebih dahulu</option>';
             }

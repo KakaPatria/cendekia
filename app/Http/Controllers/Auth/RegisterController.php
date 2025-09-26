@@ -17,50 +17,49 @@ class RegisterController extends Controller
 
     // --- LOGIKA UNTUK MENYIMPAN DATA SISWA ---
     public function registerSiswa(Request $request)
-    {
-        // Langkah 1: Validasi semua data yang masuk dari form
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'telepon' => 'required|string|max:15',
-            'nama_orang_tua' => 'required|string|max:255',
-            'telp_orang_tua' => 'required|string|max:15',
-            'alamat' => 'required|string',
-            'asal_sekolah' => 'required|string',
-            'jenjang' => 'required|string',
-            'kelas' => 'required|string',
-            'password' => 'required|string|min:8|confirmed',
+{
+    // Langkah 1: Validasi data. Hanya name, email, dan password yang 'required'.
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+        
+        // Sisanya dibuat 'nullable' yang artinya BOLEH KOSONG
+        'telepon' => 'nullable|string|max:15',
+        'nama_orang_tua' => 'nullable|string|max:255',
+        'telp_orang_tua' => 'nullable|string|max:15',
+        'alamat' => 'nullable|string',
+        'asal_sekolah' => 'nullable|string',
+        'jenjang' => 'nullable|string',
+        'kelas' => 'nullable|string',
+    ]);
+
+    // Langkah 2: Simpan data ke database (tidak ada perubahan di bagian ini)
+    DB::transaction(function () use ($request) {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'telepon' => $request->telepon,
+            'password' => Hash::make($request->password),
+            'status' => 'Aktif',
         ]);
 
-        // Langkah 2: Simpan data ke database dalam satu transaksi
-        DB::transaction(function () use ($request) {
-            // Buat user baru di tabel 'users'
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'telepon' => $request->telepon,
-                'password' => Hash::make($request->password),
-                'status' => 'Aktif',
-            ]);
+        $user->assignRole('Siswa');
 
-            // Beri peran 'Siswa'
-            $user->assignRole('Siswa');
+        $user->profilSiswa()->create([
+            'asal_sekolah' => $request->asal_sekolah,
+            'jenjang' => $request->jenjang,
+            'kelas' => $request->kelas,
+            'alamat' => $request->alamat,
+            'nama_orang_tua' => $request->nama_orang_tua,
+            'telp_orang_tua' => $request->telp_orang_tua,
+            'kode_referal' => $request->kode_referal,
+        ]);
+    });
 
-            // Simpan data spesifik siswa ke tabel 'profil_siswa'
-            $user->profilSiswa()->create([
-                'asal_sekolah' => $request->asal_sekolah,
-                'jenjang' => $request->jenjang,
-                'kelas' => $request->kelas,
-                'alamat' => $request->alamat,
-                'nama_orang_tua' => $request->nama_orang_tua,
-                'telp_orang_tua' => $request->telp_orang_tua,
-                'kode_referal' => $request->kode_referal, // <- Pastikan kode referal juga disimpan
-            ]);
-        });
-
-        // Langkah 3: Arahkan ke halaman login dengan pesan sukses
-        return redirect()->route('login')->with('success', 'Pendaftaran berhasil! Silakan masuk dengan akun baru Anda.');
-    }
+    // Langkah 3: Arahkan ke halaman login
+    return redirect()->route('login')->with('success', 'Pendaftaran berhasil! Silakan masuk dengan akun baru Anda.');
+}
 
     // --- LOGIKA UNTUK MENYIMPAN DATA PENGAJAR ---
     public function registerPengajar(Request $request)
