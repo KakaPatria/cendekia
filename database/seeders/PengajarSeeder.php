@@ -24,6 +24,7 @@ class PengajarSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             $user = User::create([
+            User::factory()->create(['roles_id' => 3]),
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'telepon' => $faker->phoneNumber, 
