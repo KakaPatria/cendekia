@@ -574,11 +574,11 @@ html {
                                             <i class="ri-whatsapp-line"></i>
                                         </div>
                                     </div>
-                                    <a href="https://wa.me/c/6281272139500">
+                                    <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="stretched-link">
                                         <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
                                     </a>
                                 </div>
-                            </div>
+                            </div>.
 
 
                             <img src="{{URL::asset('assets/images/job-profile2.png')}}" alt="" class="user-img">
@@ -619,7 +619,7 @@ html {
                                     <span>1</span>
                                 </h1>
                                 <h6 class="fs-17 mb-2">Syakira Marsya T</h6>
-                                <p class="text-muted mb-0 fs-15"> dari SD N 1 Godean dengan total nilai 276,67.</p>
+                                <p class="text-muted mb-0 fs-15"> dari SDN 1 Godean dengan total nilai 276,67.</p>
                             </div>
                         </div>
                     </div>
@@ -672,7 +672,7 @@ html {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
-                        <div class="text-center mb-5">
+                        <div class="text-center mb-3">
                             <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base contact-title">HUBUNGI KAMI DI : </h1>
                         </div>
                     </div>
@@ -682,9 +682,9 @@ html {
 
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6 contact-item">
-                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
-                            <div class="card-body py-4">
-                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
+                            <div class="card-body py-3">
+                                <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-pencil-ruler-2-line fs-1"></i>
@@ -697,9 +697,9 @@ html {
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
-                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
-                            <div class="card-body py-4">
-                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
+                            <div class="card-body py-3">
+                                <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-whatsapp-line fs-1"></i>
@@ -712,24 +712,24 @@ html {
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
-                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
-                            <div class="card-body py-4">
-                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
+                            <div class="card-body py-3">
+                                <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-whatsapp-line fs-1"></i>
                                     </div>
                                 </div>
                                 <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">Whatsapp Kak Lia</h5>
+                                    <h5 class="fs-17 pt-3">Whatsapp Kak Lia</h5>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
-                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
-                            <div class="card-body py-4">
-                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
+                            <div class="card-body py-3">
+                                <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-instagram-line fs-1"></i>
@@ -742,9 +742,9 @@ html {
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
-                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
-                            <div class="card-body py-4">
-                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
+                            <div class="card-body py-3">
+                                <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-map-pin-line fs-1"></i>
@@ -757,9 +757,9 @@ html {
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
-                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
-                            <div class="card-body py-4">
-                                <div class="avatar-sm position-relative mb-4 mx-auto">
+                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
+                            <div class="card-body py-3">
+                                <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-bookmark-2-line fs-1"></i>
@@ -1032,7 +1032,7 @@ function callPhone(number) {
         icon.className = originalClass;
         
         // Langsung ke WhatsApp tanpa confirm dialog
-        const whatsappURL = `https://wa.me/+62${number.substring(1)}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20LBB%20Cendekia`;
+        const whatsappURL = https://wa.me/+62${number.substring(1)}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20LBB%20Cendekia;
         window.open(whatsappURL, '_blank');
     }, 800);
 }
