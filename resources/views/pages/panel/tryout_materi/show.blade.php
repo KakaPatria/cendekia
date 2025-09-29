@@ -445,7 +445,7 @@
 <script src="{{ URL::asset('/assets/libs/glightbox/glightbox.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/libs/isotope-layout/isotope-layout.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/pages/gallery.init.js') }}"></script>
-<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+@{{-- app.min.js loaded globally in layouts.vendor-scripts --}}
 
 
 <script>

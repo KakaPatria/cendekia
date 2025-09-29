@@ -21,11 +21,18 @@ class isAdmin
             return redirect()->route('panel.login');
         }
 
-        if(Auth::user() && Auth::user()->hasRole(['Admin','Pengajar'])) 
-        {
+        $user = Auth::user();
+
+        // Accept users with Spatie roles Admin or Pengajar
+        if ($user && $user->hasRole(['Admin','Pengajar'])) {
             return $next($request);
         }
-        
+
+        // Fallback: accept legacy roles_id values for backward compatibility
+        if ($user && isset($user->roles_id) && in_array($user->roles_id, [2,3])) {
+            return $next($request);
+        }
+
         abort(403, 'Unauthorized');
     }
 }

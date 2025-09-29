@@ -548,10 +548,10 @@
                                 <div class="collapse menu-dropdown" id="sidebarProfile">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
-                                            <a href="pages-profile" class="nav-link">@lang('translation.simple-page')</a>
+                                            <a href="{{ route('panel.pages.profile') }}" class="nav-link">@lang('translation.simple-page')</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="pages-profile-settings" class="nav-link">@lang('translation.settings')</a>
+                                            <a href="{{ url('panel/pages-profile-settings') }}" class="nav-link">@lang('translation.settings')</a>
                                         </li>
                                     </ul>
                                 </div>

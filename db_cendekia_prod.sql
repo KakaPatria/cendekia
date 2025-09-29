@@ -2,8 +2,8 @@
 -- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Sep 25, 2025 at 03:03 AM
+-- Host: localhost
+-- Generation Time: Sep 29, 2025 at 06:06 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `asal_sekolah` (
   `nama_sekolah` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `asal_sekolah`
@@ -128,6 +128,14 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2025_09_25_114449_update_users_roles_id_column', 1),
+(2, '2025_09_29_000000_add_password_otp_to_users_table', 2);
 
 -- --------------------------------------------------------
 
@@ -229,7 +237,7 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `prefix_number` (
   `id` varchar(55) NOT NULL,
   `value` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `prefix_number`
@@ -581,8 +589,9 @@ INSERT INTO `tryout_soal` (`tryout_soal_id`, `tryout_materi_id`, `tryout_nomor`,
 --
 
 CREATE TABLE `users` (
+  `nomor_urut` int DEFAULT NULL,
   `id` bigint UNSIGNED NOT NULL,
-  `roles_id` bigint UNSIGNED DEFAULT NULL,
+  `roles_id` bigint UNSIGNED NOT NULL DEFAULT '1',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `telepon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -597,6 +606,8 @@ CREATE TABLE `users` (
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password_otp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password_otp_expires_at` timestamp NULL DEFAULT NULL,
   `status` enum('Aktif','Tidak Aktif') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_login` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -607,10 +618,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `roles_id`, `name`, `email`, `telepon`, `asal_sekolah`, `jenjang`, `kelas`, `alamat`, `nama_orang_tua`, `telp_orang_tua`, `avatar`, `referal_code`, `email_verified_at`, `password`, `remember_token`, `status`, `last_login`, `created_at`, `updated_at`) VALUES
-(8, 1, 'Faris Aizy', 'farisaizy12@gmail.com', '085600200913', 'SD Indonesia Merdeka', 'SD', '5', 'Jl ABc', 'Test', '9021830912830', 'public/uploads/avatar/1732698688_Screenshot 2024-06-27 215605.png', NULL, NULL, '$2y$10$TGwGBLBKFEvJluTvXw2IP.WFUKffqErHU4VC.dODSZ/lpAPO3wagi', NULL, 'Aktif', NULL, '2024-11-27 09:10:58', '2024-11-27 09:11:28'),
-(14, 2, 'Super Admin', 'admin@cendekia.com', '123456789', '-', 'SMA', '12', 'sonopakis', 'aya', '123456789', NULL, NULL, '2024-11-27 12:14:15', '$2y$10$.6poepR7Lj0AD3GjMiyl3ezkmgOBTy2CXeOAJiC/QV9pwcR9Rd5Oy', 'zvIQRnHus1DSmTLAZBwDjXsRM5fFMPvk36G0Brp6zf9QdtB7dzXFAgfxpDk6', 'Aktif', NULL, '2024-11-27 12:14:15', '2025-09-25 01:34:59'),
-(18, 3, 'Test Pengajar 1', 'pengajar1@gmail.com', '085600913', 'SD MUHAMMADIYAH BAUSASRAN 1', NULL, NULL, NULL, NULL, NULL, 'public/uploads/avatar/1733042407_Screenshot 2024-07-11 at 15.26.43.png', NULL, NULL, '$2y$10$UOBDX8Nzw1/.OniyOVruPeOilp4qcz/BcrGUEgd66lLJnel1Np2x.', NULL, 'Aktif', NULL, '2024-12-01 08:40:07', '2024-12-01 08:40:07');
+INSERT INTO `users` (`nomor_urut`, `id`, `roles_id`, `name`, `email`, `telepon`, `asal_sekolah`, `jenjang`, `kelas`, `alamat`, `nama_orang_tua`, `telp_orang_tua`, `avatar`, `referal_code`, `email_verified_at`, `password`, `remember_token`, `password_otp`, `password_otp_expires_at`, `status`, `last_login`, `created_at`, `updated_at`) VALUES
+(1, 8, 1, 'Faris Aizy', 'farisaizy12@gmail.com', '085600200913', 'SD Indonesia Merdeka', 'SD', '5', 'Jl ABc', 'Test', '9021830912830', 'public/uploads/avatar/1732698688_Screenshot 2024-06-27 215605.png', NULL, NULL, '$2y$10$TGwGBLBKFEvJluTvXw2IP.WFUKffqErHU4VC.dODSZ/lpAPO3wagi', NULL, NULL, NULL, 'Aktif', NULL, '2024-11-27 09:10:58', '2024-11-27 09:11:28'),
+(2, 14, 2, 'Super Admin', 'admin@cendekia.com', '123456789', '-', '', '', 'sonopakis', '', '', NULL, NULL, '2024-11-27 12:14:15', '$2y$10$.6poepR7Lj0AD3GjMiyl3ezkmgOBTy2CXeOAJiC/QV9pwcR9Rd5Oy', '8vdjBUIpnLcmOqLIjes6syeVlcL3iagpU1BZDaGULJbddUr533CUa3n360o8', NULL, NULL, 'Aktif', NULL, '2024-11-27 12:14:15', '2025-09-25 01:34:59'),
+(3, 18, 3, 'Test Pengajar 1', 'pengajar1@gmail.com', '085600913', 'SD MUHAMMADIYAH BAUSASRAN 1', NULL, NULL, NULL, NULL, NULL, 'public/uploads/avatar/1733042407_Screenshot 2024-07-11 at 15.26.43.png', NULL, NULL, '$2y$10$UOBDX8Nzw1/.OniyOVruPeOilp4qcz/BcrGUEgd66lLJnel1Np2x.', NULL, NULL, NULL, 'Aktif', NULL, '2024-12-01 08:40:07', '2024-12-01 08:40:07'),
+(4, 27, 1, 'pia santoso', 'pia69@gmail.com', '123456789', '-', 'SMA', '12', 'sonopakis', 'ayaaaaaa', '23546789', NULL, NULL, NULL, '$2y$10$ijrb3V3zUtL5Opo0JTtwFOyH3TUsO/wl0cDK58cBzu7VILbKV.LnS', NULL, NULL, NULL, 'Aktif', NULL, '2025-09-25 08:12:30', '2025-09-25 08:12:30'),
+(NULL, 28, 1, 'KakaPatria', 'kakapatria65@gmail.com', '', '', '', '', '', '', '', NULL, NULL, NULL, '$2y$10$2NQ3Z9mu0yn.4pXs7mfbkuMp.LoOIICGQVmwtYOgB3qZQ7FXDzIfS', 'jAi9YKxCbI9BqZM6RDMEmMXA0tZVPwjyy126W9lniSkBHzpGIly4yIdNoUBK', NULL, NULL, 'Aktif', NULL, '2025-09-26 03:58:43', '2025-09-29 05:03:50');
 
 --
 -- Indexes for dumped tables
@@ -766,7 +779,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -838,7 +851,7 @@ ALTER TABLE `tryout_soal`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
@@ -867,7 +880,7 @@ ALTER TABLE `role_has_permissions`
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `fk_users_roles` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `users_roles_id_foreign` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
