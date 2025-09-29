@@ -5,7 +5,7 @@
 
 <style>
 
-    /*Animasi hubungi*/
+    /* Animasi kartu umum */
     .card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -20,6 +20,17 @@
         position: relative;
     }
 
+    .contact-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: #28a745;
+        border-radius: 2px;
+    }
 
     .contact-card {
         transition: all 0.3s ease;
@@ -59,7 +70,7 @@
 
     .contact-item {
         margin-bottom: 20px;
-
+        animation: fadeInUp 0.6s ease-out both;
     }
 
     /* Animasi fade in */
@@ -226,273 +237,6 @@
         border-color: rgba(255,255,255,0.3) !important;
     }
 
-
-    /* ========== NAVBAR MODERN UPGRADE ========== */
-.navbar-landing {
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
-    transition: all 0.3s ease !important;
-}
-
-/* Modern Navigation Links */
-.navbar-nav .nav-link {
-    position: relative !important;
-    font-weight: 500 !important;
-    font-size: 0.95rem !important;
-    color: #2c3e50 !important;
-    padding: 0.8rem 1.2rem !important;
-    margin: 0 0.3rem !important;
-    border-radius: 25px !important;
-    transition: all 0.3s ease !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-}
-
-/* Active State dengan Gradient */
-.navbar-nav .nav-link.active {
-    background: linear-gradient(135deg, ##2c2b29ff 0%, #2c2b29ff 100%) !important;
-    color: #2c2b29ff !important;
-    box-shadow: 0 4px 15px rgba(32, 30, 30, 0.2) !important;
-    transform: translateY(-2px) !important;
-}
-
-/* Hover Effect */
-.navbar-nav .nav-link:hover:not(.active) {
-    background: rgba(46, 54, 57, 0.1) !important;
-    color: #000000ff !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Logo Enhancement */
-.navbar-brand img {
-    transition: transform 0.3s ease !important;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)) !important;
-}
-
-.navbar-brand:hover img {
-    transform: scale(1.1) !important;
-}
-
-/* Modern Login Button */
-.btn-soft-danger {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
-    border: none !important;
-    border-radius: 25px !important;
-    padding: 0.7rem 1.5rem !important;
-    font-weight: 600 !important;
-    color: white !important;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4) !important;
-    transition: all 0.3s ease !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-}
-
-.btn-soft-danger:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6) !important;
-    background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%) !important;
-    color: white !important;
-}
-
-/* ========== HERO SECTION UPGRADE ========== */
-.job-hero-section.bg-light {
-    background: linear-gradient(135deg, #F3F6F9 0%, #F3F6F9 100%) !important;
-    position: relative !important;
-    overflow: hidden !important;
-}
-
-/* Animated Background Particles */
-.job-hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-    animation: float 6s ease-in-out infinite;
-    z-index: 1;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(2deg); }
-}
-
-/* Hero Content Z-Index */
-.job-hero-section .container {
-    position: relative;
-    z-index: 2;
-}
-
-/* Hero Text Styling */
-.job-hero-section .display-6 {
-    color: light grey !important;
-    font-weight: 700 !important;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.2) !important;
-    line-height: 1.2 !important;
-    margin-bottom: 2rem !important;
-}
-
-.job-hero-section .lead {
-    color: light grey !important;
-    font-size: 1.1rem !important;
-    line-height: 1.6 !important;
-    text-shadow: 0 0px 1px rgba(0,0,0,0.2) !important;
-    text-align: justify !important;
-}
-
-/* Modern Inquiry Box */
-.inquiry-box {
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
-    border-radius: 20px !important;
-    transition: all 0.3s ease !important;
-}
-
-.inquiry-box:hover {
-    transform: translateY(-5px) scale(1.02) !important;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2) !important;
-}
-
-/* Avatar Title Modernisasi */
-.inquiry-box .avatar-title.bg-soft-warning {
-    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%) !important;
-    box-shadow: 0 4px 15px rgba(254, 202, 87, 0.4) !important;
-}
-
-/* ========== SECTION IMPROVEMENTS ========== */
-
-/* Informasi Section */
-#informasi {
-    position: relative;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
-}
-
-/* Cuma untuk title "INFORMASI" */
-#informasi h1 {
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
-}
-
-/* Tryout Section */
-#tryout {
-    background: linear-gradient(135deg, #ffffff 0%, #f1f3f4 100%) !important;
-}
-
-/* Cuma untuk title "TRYOUT" */
-#tryout h1 {
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
-}
-
-/* ========== RESPONSIVE IMPROVEMENTS ========== */
-@media (max-width: 768px) {
-    .navbar-nav .nav-link {
-        margin: 0.2rem 0 !important;
-        text-align: center !important;
-        border-radius: 15px !important;
-    }
-    
-    .navbar-collapse {
-        background: rgba(255, 255, 255, 0.98) !important;
-        backdrop-filter: blur(10px) !important;
-        border-radius: 15px !important;
-        margin-top: 1rem !important;
-        padding: 1rem !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
-        border: 1px solid rgba(226, 182, 2, 0.2) !important;
-    }
-    
-    .job-hero-section {
-        padding-top: 100px !important;
-    }
-    
-    .job-hero-section .display-6 {
-        font-size: 2rem !important;
-    }
-    
-    .job-hero-section .lead {
-        font-size: 1rem !important;
-    }
-}
-
-/* ========== ADDITIONAL MODERN TOUCHES ========== */
-html {
-    scroll-behavior: smooth !important;
-}
-
-/* Focus States untuk Accessibility */
-.nav-link:focus, .btn:focus {
-    outline: 2px solid rgba(255, 255, 255, 0.5) !important;
-    outline-offset: 2px !important;
-}
-
-/* Loading Animation untuk Elements */
-.navbar-brand, .nav-link, .btn {
-    will-change: transform !important;
-}
-
-/* Enhanced Back to Top Button */
-.landing-back-top {
-    background: linear-gradient(135deg, #E2B602 0%, #E2B602 100%) !important;
-    border: none !important;
-    box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;
-    transition: all 0.3s ease !important;
-}
-
-.landing-back-top:hover {
-    transform: translateY(-3px) scale(1.1) !important;
-    box-shadow: 0 6px 20px rgba(226, 182, 2, 0.6) !important;
-}
-
-/* WHATSAPP ICON - HIJAU KONTRAS TANPA GRADIENT */
-.inquiry-box .avatar-title.bg-soft-warning {
-    background: #28a745 !important; /* WhatsApp Green */
-    color: white !important;
-    box-shadow: 0 4px 15px #F3F6F9 !important;
-}
-
-.inquiry-box .avatar-title.bg-soft-warning i {
-    color: white !important;
-}
-
-.inquiry-box:hover .avatar-title.bg-soft-warning {
-    background: #1b7e33ff !important; /* Darker WhatsApp Green */
-    transform: scale(1.1) !important;
-}
-
-/* BACKGROUND SECTIONS - HOME KUNING, HUBUNGI KUNING (SISANYA TETAP) */
-
-/* Home/Hero Section - KUNING */
-.job-hero-section.bg-light {
-    background: linear-gradient(135deg, #F3F6F9 0%, #F3F6F9 100%) !important;
-}
-
-/* Hubungi Section - KUNING */
-#hubungi.bg-light {
-    background: linear-gradient(135deg, #F3F6F9 0%, #F3F6F9 100%) !important;
-}
-
-/* Ubah warna teks title di section hubungi jadi putih biar kontras */
-#hubungi .contact-title {
-    color: light grey !important;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
-}
-
-#hubungi .contact-title::after {
-    background: white !important;
-}
-
-
-
 </style>
 @endsection
 @section('body')
@@ -543,13 +287,13 @@ html {
         <!-- end navbar -->
 
         <!-- start hero section -->
-        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:85px;">
+        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:60px;">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-lg-6">
                         <div>
                             <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">Lembaga Bimbingan Belajar Cendekia Yogyakarta</h1>
-                            <p class="lead text-muted lh-base mb-4" style="text-align: justify;">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
+                            <p class="lead text-muted lh-base mb-4">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
 
                         </div>
                     </div>
@@ -563,7 +307,7 @@ html {
                                             <i class="ri-whatsapp-line"></i>
                                         </div>
                                     </div>
-                                    <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="stretched-link">
+                                    <a href="https://wa.me/c/6281272139500">
                                         <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
                                     </a>
                                 </div>
@@ -608,7 +352,7 @@ html {
                                     <span>1</span>
                                 </h1>
                                 <h6 class="fs-17 mb-2">Syakira Marsya T</h6>
-                                <p class="text-muted mb-0 fs-15"> dari SDN 1 Godean dengan total nilai 276,67.</p>
+                                <p class="text-muted mb-0 fs-15"> dari SD N 1 Godean dengan total nilai 276,67.</p>
                             </div>
                         </div>
                     </div>
@@ -620,7 +364,7 @@ html {
                                     <span>2</span>
                                 </h1>
                                 <h6 class="fs-17 mb-2">Fadlan Raya Efendi</h6>
-                                <p class="text-muted mb-0 fs-15">dari SDN Adisucipto 1 dengan total nilai 276,66.</p>
+                                <p class="text-muted mb-0 fs-15">dari SD N Adisucipto 1 dengan total nilai 276,66.</p>
                             </div>
                         </div>
                     </div>
@@ -661,7 +405,7 @@ html {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
-                        <div class="text-center mb-3">
+                        <div class="text-center mb-5">
                             <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base contact-title">HUBUNGI KAMI DI : </h1>
                         </div>
                     </div>
@@ -671,24 +415,24 @@ html {
 
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6 contact-item">
-                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
-                                <div class="avatar-sm position-relative mb-3 mx-auto">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-pencil-ruler-2-line fs-1"></i>
                                     </div>
                                 </div>
                                 <a href="{{ route('siswa.index') }}" class="stretched-link">
-                                <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2024-2025</h5>
+                                <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
-                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
-                                <div class="avatar-sm position-relative mb-3 mx-auto">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-whatsapp-line fs-1"></i>
@@ -701,24 +445,24 @@ html {
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
-                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
-                                <div class="avatar-sm position-relative mb-3 mx-auto">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-whatsapp-line fs-1"></i>
                                     </div>
                                 </div>
                                 <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="stretched-link">
-                                    <h5 class="fs-17 pt-3">Whatsapp Kak Lia</h5>
+                                    <h5 class="fs-17 pt-1">Whatsapp Kak Lia</h5>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
-                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
-                                <div class="avatar-sm position-relative mb-3 mx-auto">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-instagram-line fs-1"></i>
@@ -731,9 +475,9 @@ html {
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
-                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
-                                <div class="avatar-sm position-relative mb-3 mx-auto">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-map-pin-line fs-1"></i>
@@ -746,9 +490,9 @@ html {
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
-                        <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
-                                <div class="avatar-sm position-relative mb-3 mx-auto">
+                        <div class="card shadow-none text-center py-3 h-100 w-100 contact-card">
+                            <div class="card-body py-4">
+                                <div class="avatar-sm position-relative mb-4 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
                                         <i class="ri-bookmark-2-line fs-1"></i>
@@ -1023,7 +767,7 @@ function callPhone(number) {
         icon.className = originalClass;
         
         // Langsung ke WhatsApp tanpa confirm dialog
-        const whatsappURL = `https://wa.me/+62${number.substring(1)}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20LBB%20Cendekia`;
+        const whatsappURL = https://wa.me/+62${number.substring(1)}?text=Halo,%20saya%20tertarik%20dengan%20layanan%20LBB%20Cendekia;
         window.open(whatsappURL, '_blank');
     }, 800);
 }
