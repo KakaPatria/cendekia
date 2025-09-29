@@ -672,7 +672,7 @@ html {
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -687,7 +687,7 @@ html {
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -702,7 +702,7 @@ html {
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -717,7 +717,7 @@ html {
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -732,7 +732,7 @@ html {
                     </div>
                     <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -747,7 +747,7 @@ html {
                     </div>
                     <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
