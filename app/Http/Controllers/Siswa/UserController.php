@@ -16,6 +16,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
+use App\Mail\ForgotPasswordOtpMail;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -87,26 +89,82 @@ class UserController extends Controller
             ->orWhere('telepon', $request->email)
             ->first();
 
-        if ($user) {
-            $token = Str::random(60);
-            $user->update(['remember_token' => $token]);
-
-            // Generate reset link
-            $resetLink = URL::route('siswa.password.reset', ['token' => $token, 'email' => $request->email]);
-
-            // Redirect to the reset link
-            return redirect($resetLink);
-        } else {
+        if (!$user) {
             return redirect()->back()->with('error', 'Akun tidak ditemukan');
         }
+
+        // Generate numeric 6-digit OTP
+        $otp = mt_rand(100000, 999999);
+        $expiresAt = Carbon::now()->addMinutes(10);
+
+        $user->password_otp = (string) $otp;
+        $user->password_otp_expires_at = $expiresAt;
+        $user->save();
+
+        // Send OTP via email
+        try {
+            Mail::to($user->email)->send(new ForgotPasswordOtpMail($otp, $user));
+        } catch (\Exception $e) {
+            // Mail failed — return error with message for debugging
+            return redirect()->back()->with('error', 'Gagal mengirim email. Periksa konfigurasi SMTP: ' . $e->getMessage());
+        }
+
+        // Redirect to OTP entry page
+        return view('pages.siswa.enter_otp', ['email' => $user->email]);
+    }
+
+    public function enterOtp(Request $request)
+    {
+        $email = $request->email ?? null;
+        return view('pages.siswa.enter_otp', compact('email'));
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|digits:6',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Akun tidak ditemukan');
+        }
+
+        if (!$user->password_otp || !$user->password_otp_expires_at) {
+            return redirect()->back()->with('error', 'OTP tidak ditemukan, silakan minta ulang.');
+        }
+
+        if (Carbon::now()->greaterThan(Carbon::parse($user->password_otp_expires_at))) {
+            return redirect()->back()->with('error', 'OTP telah kadaluarsa, silakan minta ulang.');
+        }
+
+        if ($user->password_otp !== $request->otp) {
+            return redirect()->back()->with('error', 'Kode OTP salah.');
+        }
+
+        // OTP valid — generate a one-time token for the reset form and clear OTP
+        $token = Str::random(60);
+        $user->remember_token = $token;
+        $user->password_otp = null;
+        $user->password_otp_expires_at = null;
+        $user->save();
+
+        // Redirect to reset password form with token and email
+        return redirect()->route('siswa.password.reset', ['token' => $token, 'email' => $user->email]);
     }
 
     public function passwordReset(Request $request, $token = null)
     {
 
-        return view('pages.siswa.reset')->with(
-            ['token' => $token, 'email' => $request->email]
-        );;
+        // Support token passed either as route parameter or as query parameter
+        $token = $token ?? $request->query('token') ?? $request->token;
+        $email = $request->query('email') ?? $request->email;
+
+        return view('pages.siswa.reset')->with([
+            'token' => $token,
+            'email' => $email
+        ]);
     }
 
     public function doPasswordReset(Request $request)

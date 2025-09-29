@@ -16,9 +16,18 @@ class UserAktifMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->user()->status == 'Aktif') {
-            //echo 'sini';die;
-            return redirect()->route('siswa.profile.complete');
+        $user = $request->user();
+
+        // if not authenticated, skip
+        if (! $user) {
+            return $next($request);
+        }
+
+        // Only enforce 'Aktif' status for siswa (legacy roles_id == 1)
+        if (isset($user->roles_id) && $user->roles_id == 1) {
+            if ($user->status !== 'Aktif') {
+                return redirect()->route('siswa.profile.complete');
+            }
         }
         return $next($request);
     }

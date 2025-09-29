@@ -22,6 +22,7 @@ use App\Http\Controllers\Siswa\TryoutPesertaController as SiswaaasTryoutPesertaC
 use App\Http\Controllers\Siswa\InvoiceController as SiswaaasInvoiceController;
 use App\Http\Controllers\Siswa\PengerjaanController as SiswaasPengerjaanController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -62,6 +63,12 @@ Route::name('panel.')->prefix('panel')->group(function () {
 
     Route::group(['middleware' => ['admin']], function () {
         Route::get('dashboard', [PanelDashboardController::class, 'index'])->name('dashboard');
+
+        // Minimal admin profile page (panel)
+        Route::get('pages-profile', function () {
+            $user = Auth::user();
+            return view('pages.panel.pages-profile', compact('user'));
+        })->name('pages.profile');
 
         Route::name('user.')->prefix('user')->group(function () {
             Route::get('/', [PanelUserController::class, 'index'])->name('index');
@@ -113,6 +120,8 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
     Route::post('login', [SiswaUserController::class, 'doLogin'])->name('doLogin');
     Route::get('forgot_password', [SiswaUserController::class, 'forgotPassword'])->name('forgotPassword');
     Route::post('forgot_password', [SiswaUserController::class, 'doForgotPassword'])->name('doForgotPassword');
+    Route::get('enter-otp', [SiswaUserController::class, 'enterOtp'])->name('enterOtp');
+    Route::post('verify-otp', [SiswaUserController::class, 'verifyOtp'])->name('verifyOtp');
     Route::get('reset_password', [SiswaUserController::class, 'passwordReset'])->name('password.reset');
     Route::post('reset_password', [SiswaUserController::class, 'doPasswordReset'])->name('do.password.reset');
     // Route::get('register', [SiswaUserController::class, 'register'])->name('register');

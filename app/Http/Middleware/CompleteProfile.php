@@ -16,10 +16,18 @@ class CompleteProfile
      */
     public function handle(Request $request, Closure $next)
     {
-        //dd($request->user()->isComplete());
-        if (!$request->user()->isComplete()) {
-            //echo 'sini';die;
-            return redirect()->route('siswa.profile.complete');
+        $user = $request->user();
+
+        // if not authenticated, skip
+        if (!$user) {
+            return $next($request);
+        }
+
+        // Only enforce profile completion for siswa (legacy roles_id == 1)
+        if (isset($user->roles_id) && $user->roles_id == 1) {
+            if (! $user->isComplete()) {
+                return redirect()->route('siswa.profile.complete');
+            }
         }
 
         return $next($request);

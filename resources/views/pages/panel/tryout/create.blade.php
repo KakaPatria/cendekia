@@ -169,7 +169,7 @@
 <script src="{{ URL::asset('assets/js/pages/form-pickers.init.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/dynamic-form.js') }}"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+@{{-- app.min.js loaded globally in layouts.vendor-scripts --}}
 
 
 <script>
