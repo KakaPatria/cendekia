@@ -19,14 +19,26 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'nomor_urut',
         'roles_id',
         'name',
         'email',
         'password',
+        'telepon',
+        'asal_sekolah',
+        'jenjang',
+        'kelas',
         'alamat',
-        'telepon', 'asal_sekolah', 'jenjang', 'kelas', 'avatar',
         'nama_orang_tua',
-        'telp_orang_tua'
+        'telp_orang_tua',
+        'avatar',
+        'referal_code',
+        'email_verified_at',
+        'remember_token',
+        'password_otp',
+        'password_otp_expires_at',
+        'status',
+        'last_login'
     ];
 
     /**
@@ -50,11 +62,8 @@ class User extends Authenticatable
 
     public function isComplete()
     {
-        if ($this->asal_sekolah && $this->jenjang && $this->kelas) {
-            return true;
-        } else {
-            return false;
-        }
+        // treat profile as complete if siswa fields are set; null/empty otherwise
+        return ! (empty($this->asal_sekolah) || empty($this->jenjang) || empty($this->kelas));
     }
 
     public function profilSiswa()
@@ -66,4 +75,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(ProfilPengajar::class, 'user_id');
     }
+    // note: pengajar-specific fields moved out; profilPengajar relation still available if app uses it
 }
