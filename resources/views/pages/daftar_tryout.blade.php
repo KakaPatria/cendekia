@@ -556,7 +556,7 @@ html {
                         </div>
                         @include('components.message')
 
-                        <div class="mt-4">
+                        <div class="mt-4" style="display: none;">
                             
                             <form action="{{ route('daftar_tryout.store',$tryout->tryout_id)}}" method="POST" enctype="multipart/form-data">
                                 @csrf
