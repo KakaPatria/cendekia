@@ -35,14 +35,24 @@
                                     </div>
 
                                     <div class="mt-4">
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul class="mb-0">
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
                                         <form method="POST" action="{{ route('register.siswa') }}">
                                             @csrf
                                             {{-- Beri tanda bintang (*) pada label yang wajib --}}
-                                            <div class="mb-3"><label for="name" class="form-label">Nama Lengkap <span class="text-danger">*</span></label><input type="text" class="form-control" name="name" placeholder="Masukkan Nama Lengkap" value="{{ old('name') }}" required></div>
-                                            <div class="mb-3"><label for="email" class="form-label">Email <span class="text-danger">*</span></label><input type="email" class="form-control" name="email" placeholder="Masukkan Email" value="{{ old('email') }}" required></div>
+                                            <div class="mb-3"><label for="name" class="form-label">Nama Lengkap <span class="text-danger">*</span></label><input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Masukkan Nama Lengkap" value="{{ old('name') }}" required>@error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            <div class="mb-3"><label for="email" class="form-label">Email <span class="text-danger">*</span></label><input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Masukkan Email" value="{{ old('email') }}" required>@error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
                                             
                                             {{-- Hapus atribut 'required' dari field opsional --}}
-                                            <div class="mb-3"><label for="telepon" class="form-label">Telepon</label><input type="text" class="form-control" name="telepon" placeholder="Masukkan Telepon" value="{{ old('telepon') }}"></div>
+                                            <div class="mb-3"><label for="telepon" class="form-label">Telepon</label><input type="text" class="form-control @error('telepon') is-invalid @enderror" name="telepon" placeholder="Masukkan Telepon" value="{{ old('telepon') }}">@error('telepon')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
                                             <div class="mb-3"><label for="nama_orang_tua" class="form-label">Nama Orangtua</label><input type="text" class="form-control" name="nama_orang_tua" placeholder="Masukkan Nama Orangtua" value="{{ old('nama_orang_tua') }}"></div>
                                             <div class="mb-3"><label for="telp_orang_tua" class="form-label">Telepon Orangtua</label><input type="text" class="form-control" name="telp_orang_tua" placeholder="Masukkan Telepon Orangtua" value="{{ old('telp_orang_tua') }}"></div>
                                             <div class="mb-3"><label for="alamat" class="form-label">Alamat</label><input type="text" class="form-control" name="alamat" placeholder="Masukkan alamat" value="{{ old('alamat') }}"></div>
@@ -65,10 +75,10 @@
                                                 </select>
                                             </div>
 
-                                            <div class="mb-3"><label for="kode_referal" class="form-label">Kode Referal</label><input type="text" class="form-control" name="kode_referal" placeholder="Isi kode referal jika ada" value="{{ old('kode_referal') }}"></div>
+                                            <div class="mb-3"><label for="referal_code" class="form-label">Kode Referal</label><input type="text" class="form-control @error('referal_code') is-invalid @enderror" name="referal_code" placeholder="Isi kode referal jika ada" value="{{ old('referal_code') }}">@error('referal_code')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
 
-                                            <div class="mb-3"><label class="form-label" for="password">Password <span class="text-danger">*</span></label><input type="password" class="form-control" name="password" placeholder="Masukkan password" required></div>
-                                            <div class="mb-3"><label class="form-label" for="password_confirmation">Ulangi Password <span class="text-danger">*</span></label><input type="password" class="form-control" name="password_confirmation" placeholder="Ketik ulang password" required></div>
+                                            <div class="mb-3"><label class="form-label" for="password">Password <span class="text-danger">*</span></label><input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Masukkan password" required>@error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            <div class="mb-3"><label class="form-label" for="password_confirmation">Ulangi Password <span class="text-danger">*</span></label><input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" placeholder="Ketik ulang password" required>@error('password_confirmation')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
                                             <div class="mt-4"><button class="btn btn-danger w-100" type="submit">Daftar</button></div>
                                         </form>
                                     </div>

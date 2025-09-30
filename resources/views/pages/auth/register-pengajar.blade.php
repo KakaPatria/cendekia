@@ -34,15 +34,22 @@
                                     </div>
 
                                     <div class="mt-4">
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul class="mb-0">
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
                                         <form method="POST" action="{{ route('register.pengajar') }}">
                                             @csrf
-                                            <div class="mb-3"><label for="name" class="form-label">Nama Lengkap</label><input type="text" class="form-control" name="name" placeholder="Masukkan nama lengkap" value="{{ old('name') }}" required></div>
-                                            <div class="mb-3"><label for="email" class="form-label">Email</label><input type="email" class="form-control" name="email" placeholder="Masukkan email aktif" value="{{ old('email') }}" required></div>
-                                            <div class="mb-3"><label for="telepon" class="form-label">Nomor Telepon/WhatsApp</label><input type="text" class="form-control" name="telepon" placeholder="Contoh: 08123456789" value="{{ old('telepon') }}" required></div>
-                                            <div class="mb-3"><label for="lulusan_universitas" class="form-label">Lulusan Universitas</label><input type="text" class="form-control" name="lulusan_universitas" placeholder="Contoh: Universitas Gadjah Mada" value="{{ old('lulusan_universitas') }}"></div>
-                                            <div class="mb-3"><label for="jurusan" class="form-label">Jurusan</label><input type="text" class="form-control" name="jurusan" placeholder="Contoh: S1 Pendidikan Matematika" value="{{ old('jurusan') }}"></div>
-                                            <div class="mb-3"><label class="form-label" for="password">Password</label><input type="password" class="form-control" name="password" placeholder="Masukkan password" required></div>
-                                            <div class="mb-3"><label class="form-label" for="password_confirmation">Ulangi Password</label><input type="password" class="form-control" name="password_confirmation" placeholder="Ketik ulang password" required></div>
+                                            <div class="mb-3"><label for="email" class="form-label">Email</label><input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Masukkan email aktif" value="{{ old('email') }}" required>@error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            <div class="mb-3"><label for="telepon" class="form-label">Nomor Telepon/WhatsApp <small class="text-muted">(opsional)</small></label><input type="text" class="form-control @error('telepon') is-invalid @enderror" name="telepon" placeholder="Contoh: 08123456789" value="{{ old('telepon') }}">@error('telepon')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            <div class="mb-3"><label class="form-label" for="password">Password</label><input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Masukkan password" required>@error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            <div class="mb-3"><label class="form-label" for="password_confirmation">Ulangi Password</label><input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" placeholder="Ketik ulang password" required>@error('password_confirmation')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
                                             <div class="mt-4"><button class="btn btn-danger w-100" type="submit">Daftar</button></div>
                                         </form>
                                     </div>
