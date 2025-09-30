@@ -19,19 +19,7 @@
     .contact-title {
         position: relative;
     }
-
-    .contact-title::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
-        background: #28a745;
-        border-radius: 2px;
-    }
-
+ 
     .contact-card {
         transition: all 0.3s ease;
         border: 1px solid rgba(0,0,0,0.05);
@@ -683,7 +671,7 @@ html {
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-6 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -691,14 +679,14 @@ html {
                                     </div>
                                 </div>
                                 <a href="{{ route('siswa.index') }}" class="stretched-link">
-                                <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2023-2024</h5>
+                                <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2024-2025</h5>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -713,7 +701,7 @@ html {
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -728,7 +716,7 @@ html {
                     </div>
                     <div class="col-lg-3 col-md-6 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -743,7 +731,7 @@ html {
                     </div>
                     <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -758,7 +746,7 @@ html {
                     </div>
                     <div class="col-lg-3 col-md-6 d-flex mt-4 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
-                            <div class="card-body py-3">
+                            <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
                                 <div class="avatar-sm position-relative mb-3 mx-auto">
                                     <div class="job-icon-effect"></div>
                                     <div class="avatar-title bg-transparent text-success rounded-circle contact-icon">
@@ -1063,4 +1051,4 @@ function openMaps(event) {
     }, 600);
 }
 </script>
-@endsection
+
