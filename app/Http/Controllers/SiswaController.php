@@ -9,9 +9,9 @@ class SiswaController extends Controller
 {
     public function index()
     {
-        // ambil semua user (atau bisa ditambahkan filter kalau khusus siswa saja)
-        $siswa = User::paginate(10); // tampilkan 10 per halaman
-    return view('pages.siswa.index', compact('siswa'));
-
-}
+        // ambil hanya user dengan roles_id = 1
+        $siswa = User::where('roles_id', 1)->paginate(10);
+        
+        return view('pages.siswa.index', compact('siswa'));
+    }
 }
