@@ -29,7 +29,7 @@ class PengajarSeeder extends Seeder
                 'email' => $faker->unique()->safeEmail,
                 'telepon' => $faker->phoneNumber, 
                 'email_verified_at' => now(),
-                'password' => Hash::make('password'), // Use a static password for simplicity
+                'password' => Hash::make('12345678'), // Use a static password for simplicity
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),
