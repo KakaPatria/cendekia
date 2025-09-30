@@ -678,8 +678,14 @@ html {
                                         <i class="ri-pencil-ruler-2-line fs-1"></i>
                                     </div>
                                 </div>
+                                @php
+                                    $tahunAwal = now()->year;
+                                    $tahunAkhir = $tahunAwal + 1;
+                                @endphp
                                 <a href="{{ route('siswa.index') }}" class="stretched-link">
-                                <h5 class="fs-17 pt-1">Daftar Siswa Baru TA 2024-2025</h5>
+                                <h5 class="fs-17 pt-1">
+                                    Daftar Siswa Baru TA {{ $tahunAwal }}-{{ $tahunAkhir }}
+                                </h5>
                                 </a>
                             </div>
                         </div>
