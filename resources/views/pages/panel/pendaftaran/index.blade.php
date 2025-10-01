@@ -7,7 +7,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Tryout @endslot
-@slot('title') Pendafataran @endslot
+@slot('title') Pendaftaran @endslot
 @endcomponent
 
 @include('components.message')
@@ -27,34 +27,45 @@
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-auto">
-                            <select class="form-select" id="selct-tryout" name="tryout">
-                                <option value=""></option>
-                                @foreach($tryout as $key=> $value)
-                                <option value="{{ $key}}">{{ $value}}</option>
-                                @endforeach
-                            </select>
-
-                        </div>
-                        <div class="col-lg-2 col-auto">
-                            <select class="form-control select2" name="asal_sekolah" id="asal_sekolah">
-                            </select>
-
-                        </div>
-                        <div class="col-lg-2 col-auto">
-                            <select id="jenjang" class="form-control" name="jenjang">
-                                <option value="">Cari Jenjang</option>
-                                <option value="SD">SD</option>
-                                <option value="SMP">SMP</option>
-                                <option value="SMA">SMA</option>
-                            </select>
-                            </select>
-
-                        </div>
-                        <div class="col-lg-2 col-auto">
-                            <select id="kelas" class="form-control" name="kelas">
-                                <option value="">Pilih Jenjang Terlebih dahulu</option>
-                            </select>
+                        <div class="col-lg-4 col-auto">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="ri-filter-line me-1"></i> Filter
+                                </button>
+                                <div class="dropdown-menu p-3" aria-labelledby="filterDropdown" style="min-width:320px;">
+                                    <div class="mb-2">
+                                        <label class="form-label small">Judul Tryout</label>
+                                        <select class="form-select" id="selct-tryout" name="tryout">
+                                            <option value=""></option>
+                                            @foreach($tryout as $key=> $value)
+                                            <option value="{{ $key}}">{{ $value}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small">Asal Sekolah</label>
+                                        <select class="form-control select2" name="asal_sekolah" id="asal_sekolah">
+                                        </select>
+                                    </div>
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <label class="form-label small">Jenjang</label>
+                                            <select id="jenjang" class="form-control" name="jenjang">
+                                                <option value="">Cari Jenjang</option>
+                                                <option value="SD">SD</option>
+                                                <option value="SMP">SMP</option>
+                                                <option value="SMA">SMA</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small">Kelas</label>
+                                            <select id="kelas" class="form-control" name="kelas">
+                                                <option value="">Pilih Jenjang Terlebih dahulu</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-2 col-sm-4">
                             <a href="{{ route('panel.pendaftaran.index')}}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
