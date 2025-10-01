@@ -656,7 +656,7 @@ html {
 
 
         <!-- start services -->
-        <section class="section bg-light" id="hubungi">
+        <section class="section bg-light" id="hubungi" style="padding-top:110px; padding-bottom:160px;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
@@ -668,7 +668,7 @@ html {
                 </div>
                 <!-- end row -->
 
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" style="padding-top:25px; padding-bottom:160px;">
                     <div class="col-lg-3 col-md-6 contact-item">
                         <div class="card shadow-none text-center py-2 h-100 w-100 contact-card">
                             <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center">
@@ -773,7 +773,7 @@ html {
         <!-- end services -->
 
         <!-- start tryout -->
-        <section class="section bg-white" id="tryout">
+        <section class="section bg-white" id="tryout" style="padding-top:100px; padding-bottom:160px;">
             <div class="bg-overlay bg-overlay-pattern"></div>
             <div class="container">
                 <div class="row justify-content-center">
