@@ -94,8 +94,8 @@
 
                                     <td>{{ $data->tryout_peserta_name }}</td>
 
-                                    <td>{{ $data->siswa->kelas }}</td>
-                                    <td>{{ $data->siswa->asal_sekolah }}</td>
+                                    <td>{{ optional($data->siswa)->kelas ?? '-' }}</td>
+                                    <td>{{ optional($data->siswa)->asal_sekolah ?? '-' }}</td>
                                     <td>{{ $data->masterTryout->tryout_judul ?? '' }}</td>
                                     <td>{!! $data->status_badge !!}</td>
                                     <td class="text-center">

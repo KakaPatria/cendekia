@@ -19,10 +19,13 @@ class UserController extends Controller
         $role = $request->rule ?? 'Siswa';
 
         $load['users'] = User::when($request->keyword, function ($query) use ($request) {
-            return $query->where('name', 'like', "%{$request->keyword}%")
-                ->orWhere('email', 'like', "%{$request->keyword}%")
-                ->orWhere('telepon', 'like', "%{$request->keyword}%")
-                ->orWhere('asal_sekolah', 'like', "%{$request->keyword}%");
+            // Group keyword conditions so they won't bypass role-based filtering
+            return $query->where(function($q) use ($request) {
+                $q->where('name', 'like', "%{$request->keyword}%")
+                    ->orWhere('email', 'like', "%{$request->keyword}%")
+                    ->orWhere('telepon', 'like', "%{$request->keyword}%")
+                    ->orWhere('asal_sekolah', 'like', "%{$request->keyword}%");
+            });
         })
             ->when($request->jenjang, function ($query) use ($request) {
                 return $query->where('jenjang', $request->jenjang);
@@ -31,16 +34,23 @@ class UserController extends Controller
                 return $query->where('kelas', $request->kelas);
             })
             ->when($role, function ($query) use ($role) {
-                return $query->whereHas(
-                    'roles',
-                    function ($q) use ($role) {
-                        if ($role == 'Siswa') {
-                            $q->where('id', 1);
-                        } else {
-                            $q->where('id', '!=', 1);
-                        }
+                return $query->where(function($q) use ($role) {
+                    if ($role === 'Siswa') {
+                        // Only include users that are explicitly Siswa
+                        $q->where(function($qq) {
+                            $qq->whereHas('roles', function ($r) {
+                                $r->where('name', 'Siswa');
+                            })->orWhere('roles_id', 1);
+                        });
+                    } else {
+                        // Admin & Pengajar tab: only include Admin OR Pengajar (legacy ids 2 or 3)
+                        $q->where(function($qq) {
+                            $qq->whereHas('roles', function ($r) {
+                                $r->whereIn('name', ['Admin', 'Pengajar']);
+                            })->orWhereIn('roles_id', [2, 3]);
+                        });
                     }
-                );
+                });
             })
             ->paginate(10);
 
@@ -142,7 +152,8 @@ class UserController extends Controller
             //dd($upload);
             $user->update(['avatar' => $file]);
         }
-        if ($user->hasRole(['Admin'])) {
+        // Only allow the currently authenticated admin to change roles/permissions
+        if (Auth::user() && Auth::user()->hasRole('Admin')) {
             $user->syncRoles($request->get('role'));
             $user->syncPermissions($request->get('permissions'));
         }
