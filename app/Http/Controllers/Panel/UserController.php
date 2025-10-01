@@ -19,10 +19,13 @@ class UserController extends Controller
         $role = $request->rule ?? 'Siswa';
 
         $load['users'] = User::when($request->keyword, function ($query) use ($request) {
-            return $query->where('name', 'like', "%{$request->keyword}%")
-                ->orWhere('email', 'like', "%{$request->keyword}%")
-                ->orWhere('telepon', 'like', "%{$request->keyword}%")
-                ->orWhere('asal_sekolah', 'like', "%{$request->keyword}%");
+            // Group keyword conditions so they won't bypass role-based filtering
+            return $query->where(function($q) use ($request) {
+                $q->where('name', 'like', "%{$request->keyword}%")
+                    ->orWhere('email', 'like', "%{$request->keyword}%")
+                    ->orWhere('telepon', 'like', "%{$request->keyword}%")
+                    ->orWhere('asal_sekolah', 'like', "%{$request->keyword}%");
+            });
         })
             ->when($request->jenjang, function ($query) use ($request) {
                 return $query->where('jenjang', $request->jenjang);
@@ -33,18 +36,18 @@ class UserController extends Controller
             ->when($role, function ($query) use ($role) {
                 return $query->where(function($q) use ($role) {
                     if ($role === 'Siswa') {
-                        // include users that either have a 'Siswa' role via Spatie or legacy roles_id == 1
+                        // Only include users that are explicitly Siswa
                         $q->where(function($qq) {
                             $qq->whereHas('roles', function ($r) {
                                 $r->where('name', 'Siswa');
                             })->orWhere('roles_id', 1);
                         });
                     } else {
-                        // include users that either have a non-Siswa role via Spatie or legacy roles_id != 1
+                        // Admin & Pengajar tab: only include Admin OR Pengajar (legacy ids 2 or 3)
                         $q->where(function($qq) {
                             $qq->whereHas('roles', function ($r) {
-                                $r->where('name', '!=', 'Siswa');
-                            })->orWhere('roles_id', '!=', 1);
+                                $r->whereIn('name', ['Admin', 'Pengajar']);
+                            })->orWhereIn('roles_id', [2, 3]);
                         });
                     }
                 });

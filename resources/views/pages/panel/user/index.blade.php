@@ -18,6 +18,7 @@
                 <!-- Buttons with Label -->
 
                 <form action="">
+                    <input type="hidden" name="rule" value="{{ $roleX }}">
                     <div class="row g-2">
                         <div class="col-lg-2">
                             <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah {{ $roleX == 'Siswa' ? 'Siswa' : "Admin & Pengajar"}}</a>
@@ -45,7 +46,7 @@
                         </div>
                         @endif
                         <div class="col-lg-2 col-sm-4">
-                            <a href="{{ route('panel.user.index')}}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
+                            <a href="{{ route('panel.user.index', 'rule=' . $roleX) }}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
                                 Reset
                             </a>
                         </div>
@@ -84,7 +85,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($users as $user)
+                                @forelse($users as $user)
                                 <tr>
                                     <td>{{ ($users->currentpage()-1) * $users->perpage() + $loop->index + 1 }}</td>
 
@@ -107,19 +108,33 @@
                                         </div>
                                     </td>
                                     <td>
-                                        @if($user->roles->isNotEmpty())
-                                            @foreach($user->roles as $role)
+                                        @php
+                                            // Determine which roles to display depending on current tab
+                                            $displayRoles = collect();
+                                            if ($user->roles->isNotEmpty()) {
+                                                if ($roleX == 'Siswa') {
+                                                    $displayRoles = $user->roles->filter(function($r){ return $r->name == 'Siswa'; });
+                                                } else {
+                                                    $displayRoles = $user->roles->filter(function($r){ return in_array($r->name, ['Admin','Pengajar']); });
+                                                }
+                                            }
+                                        @endphp
+
+                                        @if($displayRoles->isNotEmpty())
+                                            @foreach($displayRoles as $role)
                                             <span class="label label-primary">{{ $role->name }}</span>
                                             @endforeach
                                         @else
                                             @php
-                                                // Fallback to legacy roles_id if roles relation is empty
-                                                $roleName = 'Unknown';
-                                                if ($user->roles_id == 1) $roleName = 'Siswa';
-                                                if ($user->roles_id == 2) $roleName = 'Admin';
-                                                if ($user->roles_id == 3) $roleName = 'Pengajar';
+                                                // Fallback to legacy roles_id if needed, but only show if it matches current tab
+                                                $roleName = null;
+                                                if ($user->roles_id == 1 && $roleX == 'Siswa') $roleName = 'Siswa';
+                                                if ($user->roles_id == 2 && $roleX != 'Siswa') $roleName = 'Admin';
+                                                if ($user->roles_id == 3 && $roleX != 'Siswa') $roleName = 'Pengajar';
                                             @endphp
-                                            <span class="label label-primary">{{ $roleName }}</span>
+                                            @if($roleName)
+                                                <span class="label label-primary">{{ $roleName }}</span>
+                                            @endif
                                         @endif
                                     </td>
                                     <td>{{ $user->status}}</td>
@@ -127,7 +142,19 @@
                                     <td><a href="{{ route('panel.user.edit', ['user'=>$user->id,'roleX'=>$roleX]) }}" class="btn rounded-pill btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a></td>
                                     <td><a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$user->id}}" data-name="{{$user->name}}"><i class="fa fa-trash"></i> Hapus</a></td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <tr>
+                                    @php
+                                        // count total columns to set proper colspan
+                                        $colspan = 7; // default columns for Admin & Pengajar
+                                        if ($roleX == 'Siswa') {
+                                            // email, name, telepon, asal_sekolah, jenjang, kelas, alamat, nama_orang_tua, telp_orang_tua, avatar, roles, status, actions
+                                            $colspan = 13;
+                                        }
+                                    @endphp
+                                    <td colspan="{{ $colspan }}" class="text-center text-muted">Belum ada data untuk {{ $roleX }}.</td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
