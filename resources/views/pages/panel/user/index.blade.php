@@ -20,8 +20,8 @@
                 <form action="">
                     <input type="hidden" name="rule" value="{{ $roleX }}">
                     <div class="row g-2">
-                        <div class="col-lg-2">
-                            <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah {{ $roleX == 'Siswa' ? 'Siswa' : "Admin & Pengajar"}}</a>
+                        <div class="col-auto">
+                            <a href="#" class="btn btn-primary btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah {{ $roleX == 'Siswa' ? 'Siswa' : "Admin & Pengajar"}}</a>
                         </div>
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
