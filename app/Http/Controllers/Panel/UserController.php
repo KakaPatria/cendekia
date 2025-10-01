@@ -31,16 +31,23 @@ class UserController extends Controller
                 return $query->where('kelas', $request->kelas);
             })
             ->when($role, function ($query) use ($role) {
-                return $query->whereHas(
-                    'roles',
-                    function ($q) use ($role) {
-                        if ($role == 'Siswa') {
-                            $q->where('id', 1);
-                        } else {
-                            $q->where('id', '!=', 1);
-                        }
+                return $query->where(function($q) use ($role) {
+                    if ($role === 'Siswa') {
+                        // include users that either have a 'Siswa' role via Spatie or legacy roles_id == 1
+                        $q->where(function($qq) {
+                            $qq->whereHas('roles', function ($r) {
+                                $r->where('name', 'Siswa');
+                            })->orWhere('roles_id', 1);
+                        });
+                    } else {
+                        // include users that either have a non-Siswa role via Spatie or legacy roles_id != 1
+                        $q->where(function($qq) {
+                            $qq->whereHas('roles', function ($r) {
+                                $r->where('name', '!=', 'Siswa');
+                            })->orWhere('roles_id', '!=', 1);
+                        });
                     }
-                );
+                });
             })
             ->paginate(10);
 
@@ -142,7 +149,8 @@ class UserController extends Controller
             //dd($upload);
             $user->update(['avatar' => $file]);
         }
-        if ($user->hasRole(['Admin'])) {
+        // Only allow the currently authenticated admin to change roles/permissions
+        if (Auth::user() && Auth::user()->hasRole('Admin')) {
             $user->syncRoles($request->get('role'));
             $user->syncPermissions($request->get('permissions'));
         }

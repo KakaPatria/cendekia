@@ -68,7 +68,7 @@
                                     <th scope="col" width="1%">#</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Nama</th>
-                                    <th scope="col">Telepom</th>
+                                    <th scope="col">Telepon</th>
                                     <th scope="col">Asal Sekolah</th>
                                     @if($roleX == 'Siswa')
                                     <th scope="col">Jenjang</th>
@@ -107,9 +107,20 @@
                                         </div>
                                     </td>
                                     <td>
-                                        @foreach($user->roles as $role)
-                                        <span class="label label-primary">{{ $role->name }}</span>
-                                        @endforeach
+                                        @if($user->roles->isNotEmpty())
+                                            @foreach($user->roles as $role)
+                                            <span class="label label-primary">{{ $role->name }}</span>
+                                            @endforeach
+                                        @else
+                                            @php
+                                                // Fallback to legacy roles_id if roles relation is empty
+                                                $roleName = 'Unknown';
+                                                if ($user->roles_id == 1) $roleName = 'Siswa';
+                                                if ($user->roles_id == 2) $roleName = 'Admin';
+                                                if ($user->roles_id == 3) $roleName = 'Pengajar';
+                                            @endphp
+                                            <span class="label label-primary">{{ $roleName }}</span>
+                                        @endif
                                     </td>
                                     <td>{{ $user->status}}</td>
                                     {{-- <td><a href="{{ route('panel.user.show', $user->id) }}" class="btn rounded-pill btn-info btn-sm"><i class="fa fa-search-plus"></i> Detail</a></td> --}}
