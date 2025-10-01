@@ -24,7 +24,7 @@
                             <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                         </div>
                         <div class="explore-place-bid-img">
-                            <img src="{{Storage::url($data->tryout_banner)}}" alt="" class="card-img-top explore-img">
+                            <img src="{{ asset('storage/' . $data->tryout_banner) }}" alt="" class="card-img-top explore-img">
                             <div class="bg-overlay"></div>
                             <div class="place-bid-btn">
                                 <a href="{{ route('siswa.tryout.show',$data->tryout_id)}}" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Daftar</a>
