@@ -34,9 +34,17 @@ class RegisterController extends Controller
         'kelas' => 'nullable|string',
     ]);
 
+    // Langkah 2: Normalisasi 'kelas' sehingga menyimpan hanya angka (contoh: 'Kelas 9' -> '9')
+    $kelasValue = null;
+    if (!empty($request->kelas)) {
+        if (preg_match('/\d+/', $request->kelas, $m)) {
+            $kelasValue = $m[0];
+        }
+    }
+
     // Langkah 2: Simpan data ke tabel 'users' — simpan juga profil siswa ke kolom users (nullable)
     try {
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request, $kelasValue) {
         // compute next nomor_urut (max existing + 1) — allow null if table empty
         $nextNomor = (int) optional(DB::table('users')->selectRaw('MAX(nomor_urut) as max')->first())->max;
         $nextNomor = $nextNomor > 0 ? $nextNomor + 1 : 1;
@@ -51,11 +59,12 @@ class RegisterController extends Controller
             // siswa fields (nullable)
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
-            'kelas' => $request->kelas,
+            'kelas' => $kelasValue,
             'alamat' => $request->alamat,
             'nama_orang_tua' => $request->nama_orang_tua,
             'telp_orang_tua' => $request->telp_orang_tua,
             'referal_code' => $request->referal_code ?? null,
+            'roles_id' => 1, // default role_id untuk Siswa
         ]);
 
         $user->assignRole('Siswa');

@@ -42,7 +42,6 @@
                         <i class="ri-file-edit-line "></i> <span>Tryout</span>
                     </a>
                 </li>
-                @if(Auth::user()->hasRole(['Admin']))
                 
                 <li class="nav-item">
                     <a class="nav-link menu-link " href="{{route('panel.tryout_open.index')}}" id="nav-tryout-open">
@@ -108,7 +107,6 @@
                         </ul>
                     </div>
                 </li>
-                @endif
             </ul>
         </div>
         <!-- Sidebar -->
