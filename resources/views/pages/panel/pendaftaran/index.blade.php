@@ -115,9 +115,7 @@
                                     </td>
                                 </tr>
                                 @empty
-                                <div class="alert alert-danger">
-                                    Belum ada data pendaftaran tryout
-                                </div>
+                                @component('components.table-empty', ['colspan' => 7, 'message' => 'Belum ada data pendaftaran tryout.'])@endcomponent
                                 @endforelse
                             </tbody>
                         </table>

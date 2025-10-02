@@ -101,11 +101,9 @@
                                             <i class="fa fa-edit"></i> Detail</a>
                                     </td>
                                 </tr>
-                                @empty
-                                <div class="alert alert-danger">
-                                    Belum ada data tryout
-                                </div>
-                                @endforelse
+                                    @empty
+                                    @component('components.table-empty', ['colspan' => 9, 'message' => 'Belum ada data tryout.'])@endcomponent
+                                    @endforelse
                             </tbody>
                         </table>
                     </div>

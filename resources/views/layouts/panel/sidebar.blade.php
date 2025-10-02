@@ -34,7 +34,7 @@
                 <li class="menu-title "><i class="ri-more-fill"></i> <span>admin</span></li>
                 <li class="nav-item">
                     <a class="nav-link menu-link " href="{{route('panel.dashboard')}}" id="nav-home">
-                        <i class="ri-dashboard-2-line"></i> <span>Daashboard</span>
+                        <i class="ri-dashboard-2-line"></i> <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">

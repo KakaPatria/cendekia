@@ -136,8 +136,13 @@
 
                         </div>
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    {{-- action buttons container: bottom-right inside card-body --}}
+                    <div class="position-relative">
+                        <div style="min-height:80px;"></div>
+                        <div class="position-absolute" style="right:16px; bottom:16px;">
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary me-2">Kembali</a>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
                     </div>
 
 
