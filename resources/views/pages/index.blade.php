@@ -656,7 +656,7 @@ html {
 
 
         <!-- start services -->
-        <section class="section bg-light" id="hubungi" style="padding-top:110px; padding-bottom:160px;">
+        <section class="section bg-light" id="hubungi" style="padding-top:110px; padding-bottom:10px;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
