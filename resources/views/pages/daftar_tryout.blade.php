@@ -591,21 +591,6 @@ html {
                                         </ol>
                                     </div>
                                 </div>
-                                <div class="border rounded p-3 bg-light mb-3">
-                                    <div class="d-flex align-items-center mb-2">
-                                        <span style="font-size:1.3rem;">📌</span>
-                                        <span class="ms-2 fw-semibold" style="font-size:1.1rem;">CATATAN :</span>
-                                    </div>
-                                    <div class="text-muted" style="font-size:1rem;">
-                                        <ul class="mb-2 ps-3">
-                                            <li>Pastikan setelah melakukan pembayaran anda mengisi link pendaftaran pada point 2.</li>
-                                            <li>Jika tidak mengisi link pendaftaran, maka dianggap tidak terdaftar sebagai peserta.</li>
-                                            <li>Adanya perubahan waktu Tryout menjadi SABTU, 25 November 2023, Bagi ananda yang sudah mendaftarkan diri sebelum tanggal 1 November 2023 dengan pembayaran yang SAH, tetap terverifikasi.</li>
-                                            <li>Perubahan cara membayar online untuk yang belum melakukan pembayaran dan pendaftaran dari An. Zulfa nur aulia menjadi RATIH PADMA SARI, yang sudah melakukan pembayaran menggunakan BRI An. Zulfa nur aulia tetap SAH.</li>
-                                            <li>Perubahan cara membayar offline dari Kantor Cendekia menjadi di SMP Negeri 9.</li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -738,7 +723,23 @@ html {
                         </div>
                     </div>
                 </div>
-            </div>
+                <!-- Kotak Catatan memanjang di bawah -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="p-4 rounded shadow bg-white w-100">
+                            <h4 class="fw-bold mb-3 text-center">CATATAN</h4>
+                            <div class="border rounded p-3 bg-light mb-3">
+                                <ul class="mb-2 ps-3">
+                                    <li>Pastikan setelah melakukan pembayaran anda mengisi link pendaftaran pada point 2.</li>
+                                    <li>Jika tidak mengisi link pendaftaran, maka dianggap tidak terdaftar sebagai peserta.</li>
+                                    <li>Adanya perubahan waktu Tryout menjadi SABTU, 25 November 2023, Bagi ananda yang sudah mendaftarkan diri sebelum tanggal 1 November 2023 dengan pembayaran yang SAH, tetap terverifikasi.</li>
+                                    <li>Perubahan cara membayar online untuk yang belum melakukan pembayaran dan pendaftaran dari An. Zulfa nur aulia menjadi RATIH PADMA SARI, yang sudah melakukan pembayaran menggunakan BRI An. Zulfa nur aulia tetap SAH.</li>
+                                    <li>Perubahan cara membayar offline dari Kantor Cendekia menjadi di SMP Negeri 9.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </section>
         <!-- end tryout -->
 
@@ -970,17 +971,57 @@ function openMaps(event) {
     }, 600);
 }
 
-function nextStep(step) {
-    document.getElementById('step1').style.display = (step === 1) ? 'block' : 'none';
-    document.getElementById('step2').style.display = (step === 2) ? 'block' : 'none';
-    document.getElementById('step3').style.display = (step === 3) ? 'block' : 'none';
-    // Step indicator
-    for (let i = 1; i <= 3; i++) {
-        document.getElementById('indicator-step-' + i).querySelector('.rounded-circle').classList.remove('bg-warning', 'bg-success');
-        document.getElementById('indicator-step-' + i).querySelector('.rounded-circle').classList.add(i === step ? 'bg-success' : 'bg-warning');
+    function setRequiredFields(step) {
+        // Step 1 fields
+        const step1Fields = [
+            'input-email',
+            'input-nama',
+            'input-telpon-siswa',
+            'input-nama-orang-tua',
+            'input-telpon-orang-tua'
+        ];
+        // Step 2 fields
+        const step2Fields = [
+            'input-tanggal-bayar',
+            'jenjang',
+            'input-bukti-bayar',
+            'input-nama-pembayar'
+        ];
+        // Remove required from all
+        step1Fields.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.removeAttribute('required');
+        });
+        step2Fields.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.removeAttribute('required');
+        });
+        // Add required only to visible step
+        if (step === 1) {
+            step1Fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.setAttribute('required', 'required');
+            });
+        } else if (step === 2) {
+            step2Fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.setAttribute('required', 'required');
+            });
+        }
     }
-}
-// Inisialisasi step indicator di awal
-nextStep(1);
+
+    function nextStep(step) {
+        document.getElementById('step1').style.display = (step === 1) ? 'block' : 'none';
+        document.getElementById('step2').style.display = (step === 2) ? 'block' : 'none';
+        document.getElementById('step3').style.display = (step === 3) ? 'block' : 'none';
+        // Step indicator
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById('indicator-step-' + i).querySelector('.rounded-circle').classList.remove('bg-warning', 'bg-success');
+            document.getElementById('indicator-step-' + i).querySelector('.rounded-circle').classList.add(i === step ? 'bg-success' : 'bg-warning');
+        }
+        setRequiredFields(step);
+    }
+    // Inisialisasi step indicator dan required fields di awal
+    nextStep(1);
 </script>
 @endsection
