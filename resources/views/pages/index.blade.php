@@ -5,6 +5,32 @@
 
 <style>
 
+.explore-place-bid-img img {
+    width: 100%;
+    height: 280px; /* atau sesuaikan */
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+    .img-wrapper {
+    background: white;        /* Biar ada background putih */
+    padding: 10px;           /* Kasih jarak dari tepi */
+    border-radius: 10px;     /* Biar sudutnya halus */
+    height: 280px;           /* Samain tinggi seperti sebelumnya */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;       /* Biar gak gepeng tapi tetap penuh */
+}
+
+
     /*Animasi hubungi*/
     .card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -793,8 +819,19 @@ html {
                                 <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                             </div>
                             <div class="explore-place-bid-img">
-                                <img src="{{ Storage::url($value->tryout_banner) }}" alt="" class="card-img-top explore-img">
-                                <div class="bg-overlay"></div>
+    <div class="explore-place-bid-img">
+    <img 
+        src="{{ $value->tryout_banner && Storage::exists($value->tryout_banner) 
+          ? Storage::url($value->tryout_banner) 
+          : asset('storage/uploads/tryout_banner/tryoutbanner-nataadibrata.jpg') }}" 
+        alt="" 
+        class="card-img-top explore-img">
+
+    <div class="bg-overlay"></div>
+</div>
+
+
+
 
                             </div>
                             <div class="card-body">

@@ -24,7 +24,7 @@
 
                         <div class="flex-grow-1">
 
-                            <h6 class="mb-3 fw-bold text-uppercase">Detial Peserta</h6>
+                            <h6 class="mb-3 fw-bold text-uppercase">Detail Peserta</h6>
                         </div>
                         <div class="flex-shrink-0">
                             @if(!$peserta->tryout_peserta_status)
