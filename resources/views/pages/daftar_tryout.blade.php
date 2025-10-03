@@ -693,10 +693,11 @@ html {
                                     </div>
                                     <div class="mb-3">
                                         <label for="input-bukti-bayar" class="form-label">Bukti Bayar</label>
-                                        <input type="file" class="form-control" id="input-bukti-bayar" name="top_bukti_bayar" placeholder="Upload Bukti Bayar" required value="{{ old('top_bukti_bayar') }}">
-                                        @if ($errors->has('top_bukti_bayar'))
-                                        <div class="text-danger">{{ $errors->first('top_bukti_bayar') }}</div>
-                                        @endif
+                                    <input type="file" class="form-control" id="input-bukti-bayar" name="top_bukti_bayar" placeholder="Upload Bukti Bayar" required value="{{ old('top_bukti_bayar') }}">
+                                    <div id="buktiBayarWarning"></div>
+                                    @if ($errors->has('top_bukti_bayar'))
+                                    <div class="text-danger">{{ $errors->first('top_bukti_bayar') }}</div>
+                                    @endif
                                     </div>
                                     <div class="mb-3">
                                         <label for="input-nama-pembayar" class="form-label">Pembayaran Atas Nama</label>
@@ -867,6 +868,31 @@ html {
                 <div>
                     <p class="copy-rights mb-0">
                         <script>
+// Validasi file bukti pembayaran
+document.getElementById('input-bukti-bayar').addEventListener('change', function() {
+    var el = this;
+    var warning = document.getElementById('buktiBayarWarning');
+    warning.innerHTML = '';
+    if (el.files && el.files.length > 0) {
+        var file = el.files[0];
+        var allowed = ['jpg','jpeg','png','pdf'];
+        var ext = file.name.split('.').pop().toLowerCase();
+        var maxSize = 2 * 1024 * 1024;
+        if (allowed.indexOf(ext) === -1) {
+            warning.innerHTML = '(Bukti pembayaran harus berupa file jpg, jpeg, png, atau pdf)';
+            el.classList.add('is-invalid');
+        } else if (file.size > maxSize) {
+            warning.innerHTML = '(Ukuran file maksimal 2MB)';
+            el.classList.add('is-invalid');
+        } else {
+            warning.innerHTML = '';
+            el.classList.remove('is-invalid');
+        }
+    } else {
+        warning.innerHTML = '';
+        el.classList.remove('is-invalid');
+    }
+});
                          document.write(new Date().getFullYear())
                         </script> © LBB Cendekia
                     </p>
@@ -1011,6 +1037,93 @@ function openMaps(event) {
     }
 
     function nextStep(step) {
+        // Validasi wajib isi identitas sebelum lanjut ke step 2
+        if (step === 2) {
+            var requiredIds = [
+                'input-email',
+                'input-nama',
+                'asal_sekolah',
+                'input-telpon-siswa',
+                'input-nama-orang-tua',
+                'input-telpon-orang-tua'
+            ];
+            var valid = true;
+            var filledCount = 0;
+            requiredIds.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) {
+                    if (el.value === '' || el.value === null) {
+                        valid = false;
+                        el.classList.add('is-invalid');
+                    } else {
+                        el.classList.remove('is-invalid');
+                        filledCount++;
+                    }
+                }
+            });
+            var modal = new bootstrap.Modal(document.getElementById('identitasModal'));
+            if (filledCount === 0) {
+                // Jika belum isi sama sekali
+                document.getElementById('identitasModalLabel').innerHTML = '<i class="ri-error-warning-line me-2"></i>Isi Data Identitas Dulu';
+                document.querySelector('#identitasModal .modal-body').innerHTML = '<p class="mb-0">Silakan isi data identitas terlebih dahulu sebelum lanjut ke pembayaran.<br><span class="text-danger">Semua kolom wajib diisi.</span></p>';
+                modal.show();
+                return;
+            } else if (!valid) {
+                // Jika ada yang belum diisi
+                document.getElementById('identitasModalLabel').innerHTML = '<i class="ri-error-warning-line me-2"></i>Lengkapi Data Identitas';
+                document.querySelector('#identitasModal .modal-body').innerHTML = '<p class="mb-0">Mohon lengkapi semua data identitas terlebih dahulu sebelum lanjut ke pembayaran.<br><span class="text-danger">Kolom yang belum diisi akan ditandai merah.</span></p>';
+                modal.show();
+                return;
+            }
+        }
+        // Validasi wajib isi pembayaran sebelum lanjut ke step 3
+        if (step === 3) {
+            var requiredPayIds = [
+                'input-tanggal-bayar',
+                'jenjang',
+                'input-bukti-bayar',
+                'input-nama-pembayar'
+            ];
+            var validPay = true;
+            var filledPayCount = 0;
+            requiredPayIds.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) {
+                    if (id === 'input-bukti-bayar') {
+                        // khusus input file
+                        if (!el.files || el.files.length === 0) {
+                            validPay = false;
+                            el.classList.add('is-invalid');
+                        } else {
+                            el.classList.remove('is-invalid');
+                            filledPayCount++;
+                        }
+                    } else {
+                        if (el.value === '' || el.value === null) {
+                            validPay = false;
+                            el.classList.add('is-invalid');
+                        } else {
+                            el.classList.remove('is-invalid');
+                            filledPayCount++;
+                        }
+                    }
+                }
+            });
+            var modal = new bootstrap.Modal(document.getElementById('identitasModal'));
+            if (filledPayCount === 0) {
+                // Jika belum isi sama sekali
+                document.getElementById('identitasModalLabel').innerHTML = '<i class="ri-error-warning-line me-2"></i>Isi Data Pembayaran Dulu';
+                document.querySelector('#identitasModal .modal-body').innerHTML = '<p class="mb-0">Silakan isi data pembayaran terlebih dahulu sebelum lanjut ke konfirmasi.<br><span class="text-danger">Semua kolom wajib diisi.</span></p>';
+                modal.show();
+                return;
+            } else if (!validPay) {
+                // Jika ada yang belum diisi
+                document.getElementById('identitasModalLabel').innerHTML = '<i class="ri-error-warning-line me-2"></i>Lengkapi Data Pembayaran';
+                document.querySelector('#identitasModal .modal-body').innerHTML = '<p class="mb-0">Mohon lengkapi semua data pembayaran terlebih dahulu sebelum lanjut ke konfirmasi.<br><span class="text-danger">Kolom yang belum diisi akan ditandai merah.</span></p>';
+                modal.show();
+                return;
+            }
+        }
         document.getElementById('step1').style.display = (step === 1) ? 'block' : 'none';
         document.getElementById('step2').style.display = (step === 2) ? 'block' : 'none';
         document.getElementById('step3').style.display = (step === 3) ? 'block' : 'none';
@@ -1023,5 +1136,24 @@ function openMaps(event) {
     }
     // Inisialisasi step indicator dan required fields di awal
     nextStep(1);
+
 </script>
+
+<!-- Modal Bootstrap untuk validasi identitas -->
+<div class="modal fade" id="identitasModal" tabindex="-1" aria-labelledby="identitasModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title" id="identitasModalLabel"><i class="ri-error-warning-line me-2"></i>Lengkapi Data Identitas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p class="mb-0">Mohon lengkapi semua data identitas terlebih dahulu sebelum lanjut ke pembayaran.<br><span class="text-danger">Kolom yang belum diisi akan ditandai merah.</span></p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal">OK, Saya Mengerti</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
