@@ -516,7 +516,7 @@ html {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#hero">Home</a>
+                                <a class="nav-link active" href="{{ url('/') }}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#informasi">Informasi</a>
@@ -542,129 +542,203 @@ html {
         <!-- start tryout -->
         <section class="section bg-light" id="tryout">
             <div class="bg-overlay bg-overlay-pattern"></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="text-center mb-5">
-                            <!-- Responsive Images -->
-                            <img src="{{ Storage::url($tryout->tryout_banner) }}" class="img-fluid mb-3 mt-6" alt="Responsive image">
-
-                            <h3 class="mb-3 ff-secondary fw-semibold text-capitalize m-0 lh-base">{{ $tryout->tryout_judul}}</h3>
-
-                            <p class="text-muted mb-4">{!! $tryout->tryout_deskripsi!!}</p>
-
+            <div class="container py-5">
+                <div class="row justify-content-center align-items-stretch">
+                    <!-- Kotak Kiri: Penjelasan -->
+                    <div class="col-lg-6 mb-4 mb-lg-0 d-flex align-items-center">
+                        <div class="p-4 rounded shadow bg-white w-100 h-100">
+                            <h2 class="fw-bold mb-3 text-center">PENDAFTARAN TRYOUT PERSIAPAN DINI ASPD SD/MI TA 2023-2024</h2>
+                            <div class="mb-3">
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="font-size:1.3rem;">✨</span>
+                                        <span class="ms-2 fw-semibold" style="font-size:1.1rem;">Halo adik-adik kelas 6 SD✨</span>
+                                    </div>
+                                    <div class="text-muted" style="font-size:1rem;">
+                                        Dalam rangka pemantapan persiapan ASPD, OSIS NATA ADIBRATA - SMP Negeri 9 Yogyakarta bekerjasama LBB Cendekia dengan mengadakan TRYOUT PERSIAPAN DINI ASPD SD di SMP Negeri 9 Yogyakarta, yang berlangsung pada <b>SABTU, 25 NOVEMBER 2023</b> dengan sesi pengerjaan <b>08.00-10.15 WIB</b>
+                                    </div>
+                                </div>
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="me-2" style="font-size:1.3rem;">
+                                            <i class="ri-smartphone-line"></i>
+                                        </span>
+                                        <span class="fw-semibold" style="font-size:1.1rem;">Ananda Wajib membawa HP yang berisikan Kuota</span>
+                                    </div>
+                                    <div class="text-muted" style="font-size:1rem;">
+                                        untuk mengisikan jawaban Try out pada lembar jawab google form.
+                                    </div>
+                                </div>
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="font-size:1.3rem;">❇️</span>
+                                        <span class="ms-2 fw-semibold" style="font-size:1.1rem;">CARA MENDAFTAR :</span>
+                                    </div>
+                                    <div class="text-muted" style="font-size:1rem;">
+                                        <ol class="mb-2 ps-3">
+                                            <li>Melakukan pembayaran dengan Biaya Rp20.000,- terlebih dahulu melalui:
+                                                <ul>
+                                                    <li>Transfer BRI : <b>117501003821538 RATIH PADMA SARI</b></li>
+                                                    <li>atau Datang langsung ke SMP Negeri 9 Yogyakarta pada jam kerja</li>
+                                                </ul>
+                                            </li>
+                                            <li>Mengisi link pendaftaran:<br>
+                                                <a href="https://lbbcendekia.com/to2023" target="_blank" class="fw-bold text-primary">🔗https://lbbcendekia.com/to2023</a>
+                                            </li>
+                                            <li>Kuitansi / bukti transfer difoto ataupun discreenshot kemudian unggah pada link pendaftaran (point 2). Kemudian submit jawaban anda.</li>
+                                            <li>Masuk pada Whatsapp Grup melalui link undangan di akhir pendaftaran (setelah submit).</li>
+                                            <li>Cek email yang terdaftar saat mengisikan link pendaftaran untuk mendapatkan kartu peserta (tidak perlu diprint).</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="font-size:1.3rem;">📌</span>
+                                        <span class="ms-2 fw-semibold" style="font-size:1.1rem;">CATATAN :</span>
+                                    </div>
+                                    <div class="text-muted" style="font-size:1rem;">
+                                        <ul class="mb-2 ps-3">
+                                            <li>Pastikan setelah melakukan pembayaran anda mengisi link pendaftaran pada point 2.</li>
+                                            <li>Jika tidak mengisi link pendaftaran, maka dianggap tidak terdaftar sebagai peserta.</li>
+                                            <li>Adanya perubahan waktu Tryout menjadi SABTU, 25 November 2023, Bagi ananda yang sudah mendaftarkan diri sebelum tanggal 1 November 2023 dengan pembayaran yang SAH, tetap terverifikasi.</li>
+                                            <li>Perubahan cara membayar online untuk yang belum melakukan pembayaran dan pendaftaran dari An. Zulfa nur aulia menjadi RATIH PADMA SARI, yang sudah melakukan pembayaran menggunakan BRI An. Zulfa nur aulia tetap SAH.</li>
+                                            <li>Perubahan cara membayar offline dari Kantor Cendekia menjadi di SMP Negeri 9.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        @include('components.message')
-
-                        <div class="mt-4" style="display: none;">
-                            
-                            <form action="{{ route('daftar_tryout.store',$tryout->tryout_id)}}" method="POST" enctype="multipart/form-data">
+                    </div>
+                    <!-- Kotak Kanan: Form Pendaftaran -->
+                    <div class="col-lg-6 d-flex align-items-center">
+                        <div class="p-4 rounded shadow bg-white w-100 h-100">
+                            <h2 class="fw-bold mb-3">Form Pendaftaran</h2>
+                            <!-- Step Indicator -->
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="step-indicator flex-fill text-center" id="indicator-step-1">
+                                        <div class="rounded-circle bg-warning text-white fw-bold mx-auto mb-1" style="width:32px;height:32px;line-height:32px;">1</div>
+                                        <div style="font-size:0.95rem;">Identitas</div>
+                                    </div>
+                                    <div class="flex-fill mx-2" style="height:2px;background:#eee;"></div>
+                                    <div class="step-indicator flex-fill text-center" id="indicator-step-2">
+                                        <div class="rounded-circle bg-warning text-white fw-bold mx-auto mb-1" style="width:32px;height:32px;line-height:32px;">2</div>
+                                        <div style="font-size:0.95rem;">Pembayaran</div>
+                                    </div>
+                                    <div class="flex-fill mx-2" style="height:2px;background:#eee;"></div>
+                                    <div class="step-indicator flex-fill text-center" id="indicator-step-3">
+                                        <div class="rounded-circle bg-warning text-white fw-bold mx-auto mb-1" style="width:32px;height:32px;line-height:32px;">3</div>
+                                        <div style="font-size:0.95rem;">Konfirmasi</div>
+                                    </div>
+                                </div>
+                            </div>
+                            @include('components.message')
+                            <form action="{{ route('daftar_tryout.store',$tryout->tryout_id)}}" method="POST" enctype="multipart/form-data" id="multiStepForm">
                                 @csrf
-                                <h4 class="card-title mb-0 flex-grow-1">IDENTITAS</h4>
-                                <div class="mb-3">
-                                    <label for="nama " class="form-label">Email Aktif</label>
-                                    <input type="text" class="form-control" id="input-email" name="top_email" placeholder="Masukan Nama Email" required value="{{ old('top_email') }}">
-                                    @if ($errors->has('top_email'))
-                                    <div class="text-danger">{{ $errors->first('top_email') }}</div>
-                                    @endif
+                                <!-- Step 1: Identitas -->
+                                <div id="step1">
+                                    <h4 class="card-title mb-0 flex-grow-1">IDENTITAS</h4>
+                                    <div class="mb-3">
+                                        <label for="input-email" class="form-label">Email Aktif</label>
+                                        <input type="text" class="form-control" id="input-email" name="top_email" placeholder="Masukan Nama Email" required value="{{ old('top_email') }}">
+                                        @if ($errors->has('top_email'))
+                                        <div class="text-danger">{{ $errors->first('top_email') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="input-nama" class="form-label">Nama Lengkap</label>
+                                        <input type="text" class="form-control" id="input-nama" name="top_nama_siswa" placeholder="Masukan Nama Email" required value="{{ old('top_nama_siswa') }}">
+                                        @if ($errors->has('top_nama_siswa'))
+                                        <div class="text-danger">{{ $errors->first('top_nama_siswa') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
+                                        <select class="form-control select2" name="top_asal_sekolah" id="asal_sekolah">
+                                        </select>
+                                        @if ($errors->has('top_asal_sekolah'))
+                                        <div class="text-danger">{{ $errors->first('top_asal_sekolah') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="input-telpon-siswa" class="form-label">Nomor HP/WA SISWA</label>
+                                        <input type="text" class="form-control" id="input-telpon-siswa" name="top_telpon_siswa" placeholder="Masukan Nama Telepon / Wa Siswa" required value="{{ old('top_telpon_siswa') }}">
+                                        @if ($errors->has('top_telpon_siswa'))
+                                        <div class="text-danger">{{ $errors->first('top_telpon_siswa') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="input-nama-orang-tua" class="form-label">Nama Orang Tua / Wali</label>
+                                        <input type="text" class="form-control" id="input-nama-orang-tua" name="top_nama_orang_tua" placeholder="Masukan Nama Nama Orang Tua / Wali" required value="{{ old('top_telpon_siswa') }}">
+                                        @if ($errors->has('top_nama_orang_tua'))
+                                        <div class="text-danger">{{ $errors->first('top_nama_orang_tua') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="input-telpon-orang-tua" class="form-label">Nomor HP/WA Orang Tua/ Wali</label>
+                                        <input type="text" class="form-control" id="input-telpon-orang-tua" name="top_telpon_orang_tua" placeholder="Masukan Nama Telepon / Wa Orang Tua / Wali" required value="{{ old('top_telpon_orang_tua') }}">
+                                        @if ($errors->has('top_telpon_orang_tua'))
+                                        <div class="text-danger">{{ $errors->first('top_telpon_orang_tua') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-warning" onclick="nextStep(2)">Lanjut ke Pembayaran</button>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="nama " class="form-label">Nama Lengkap</label>
-                                    <input type="text" class="form-control" id="input-nama" name="top_nama_siswa" placeholder="Masukan Nama Email" required value="{{ old('top_nama_siswa') }}">
-                                    @if ($errors->has('top_nama_siswa'))
-                                    <div class="text-danger">{{ $errors->first('top_nama_siswa') }}</div>
-                                    @endif
+                                <!-- Step 2: Pembayaran -->
+                                <div id="step2" style="display:none;">
+                                    <h4 class="card-title mb-0 flex-grow-1">PEMBAYARAN</h4>
+                                    <div class="mb-3">
+                                        <label for="input-tanggal-bayar" class="form-label">Tanggal Bayar</label>
+                                        <input type="date" class="form-control" id="input-tanggal-bayar" name="top_tanggal_bayar" data-provider="flatpickr" data-date-format="d M, Y" required value="{{ old('top_tanggal_bayar') }}">
+                                        @if ($errors->has('top_tanggal_bayar'))
+                                        <div class="text-danger">{{ $errors->first('top_tanggal_bayar') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="jenjang" class="form-label">Pembayaran Via</label>
+                                        <select id="jenjang" class="form-control" name="top_jenis_bayar">
+                                            <option value="">Pilih Jenis Pembayaran</option>
+                                            <option value="Bank Transfer" {{ old('top_jenis_bayar') == 'Bank Transfer' ? 'selected' : '' }}>Bank Transfer</option>
+                                            <option value="Datang Langsung Ke Kantor Cendekia" {{ old('top_jenis_bayar') == 'Datang Langsung Ke Kantor Cendekia' ? 'selected' : '' }}>Datang Langsung Ke Kantor Cendekia</option>
+                                        </select>
+                                        @if ($errors->has('top_jenis_bayar'))
+                                        <div class="text-danger">{{ $errors->first('top_jenis_bayar') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="input-bukti-bayar" class="form-label">Bukti Bayar</label>
+                                        <input type="file" class="form-control" id="input-bukti-bayar" name="top_bukti_bayar" placeholder="Upload Bukti Bayar" required value="{{ old('top_bukti_bayar') }}">
+                                        @if ($errors->has('top_bukti_bayar'))
+                                        <div class="text-danger">{{ $errors->first('top_bukti_bayar') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="input-nama-pembayar" class="form-label">Pembayaran Atas Nama</label>
+                                        <input type="text" class="form-control" id="input-nama-pembayar" name="top_nama_bayar" placeholder="Masukan Atas Nama Pembayar" required value="{{ old('top_nama_bayar') }}">
+                                        @if ($errors->has('top_nama_bayar'))
+                                        <div class="text-danger">{{ $errors->first('top_nama_bayar') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button type="button" class="btn btn-secondary" onclick="nextStep(1)">Kembali</button>
+                                        <button type="button" class="btn btn-warning" onclick="nextStep(3)">Lanjut ke Konfirmasi</button>
+                                    </div>
                                 </div>
-
-                                <div class="mb-3">
-                                    <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
-                                    <select class="form-control select2" name="top_asal_sekolah" id="asal_sekolah">
-                                    </select>
-                                    @if ($errors->has('top_asal_sekolah'))
-                                    <div class="text-danger">{{ $errors->first('top_asal_sekolah') }}</div>
-                                    @endif
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="nama " class="form-label">Nomor HP/WA SISWA</label>
-                                    <input type="text" class="form-control" id="input-telpon-siswa" name="top_telpon_siswa" placeholder="Masukan Nama Telepon / Wa Siswa" required value="{{ old('top_telpon_siswa') }}">
-                                    @if ($errors->has('top_telpon_siswa'))
-                                    <div class="text-danger">{{ $errors->first('top_telpon_siswa') }}</div>
-                                    @endif
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nama " class="form-label">Nama Orang Tua / Wali</label>
-                                    <input type="text" class="form-control" id="input-nama-orang-tua" name="top_nama_orang_tua" placeholder="Masukan Nama Nama Orang Tua / Wali" required value="{{ old('top_telpon_siswa') }}">
-                                    @if ($errors->has('top_nama_orang_tua'))
-                                    <div class="text-danger">{{ $errors->first('top_nama_orang_tua') }}</div>
-                                    @endif
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nama " class="form-label">Nomor HP/WA Orang Tua/ Wali</label>
-                                    <input type="text" class="form-control" id="input-telpon-orang-tua" name="top_telpon_orang_tua" placeholder="Masukan Nama Telepon / Wa Orang Tua / Wali" required value="{{ old('top_telpon_orang_tua') }}">
-                                    @if ($errors->has('top_telpon_orang_tua'))
-                                    <div class="text-danger">{{ $errors->first('top_telpon_orang_tua') }}</div>
-                                    @endif
-                                </div>
-                                <hr>
-
-                                <h4 class="card-title mb-0 flex-grow-1">PEMBAYARAN</h4>
-                                <div class="mb-3">
-                                    <label for="nama " class="form-label">Tanggal Bayar</label>
-                                    <input type="date" class="form-control" id="input-tanggal-bayar" name="top_tanggal_bayar" data-provider="flatpickr" data-date-format="d M, Y" required value="{{ old('top_tanggal_bayar') }}">
-                                    @if ($errors->has('top_tanggal_bayar'))
-                                    <div class="text-danger">{{ $errors->first('top_tanggal_bayar') }}</div>
-                                    @endif
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="jenjang" class="form-label">Pembayaran Via</label>
-                                    <select id="jenjang" class="form-control" name="top_jenis_bayar">
-                                        <option value="">Pilih Jenis Pembayaran</option>
-                                        <option value="Bank Transfer" {{ old('top_jenis_bayar') == 'Bank Transfer' ? 'selected' : '' }}>Bank Transfer</option>
-                                        <option value="Datang Langsung Ke Kantor Cendekia" {{ old('top_jenis_bayar') == 'Datang Langsung Ke Kantor Cendekia' ? 'selected' : '' }}>Datang Langsung Ke Kantor Cendekia</option>
-                                    </select>
-                                    @if ($errors->has('top_jenis_bayar'))
-                                    <div class="text-danger">{{ $errors->first('top_jenis_bayar') }}</div>
-                                    @endif
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="nama " class="form-label">Bukti Bayar</label>
-                                    <input type="file" class="form-control" id="input-bukti-bayar" name="top_bukti_bayar" placeholder="Upload Bukti Bayar" required value="{{ old('top_bukti_bayar') }}">
-                                    <!-- Default File Input Example -->
-                                     
-                                    @if ($errors->has('top_bukti_bayar'))
-                                    <div class="text-danger">{{ $errors->first('top_bukti_bayar') }}</div>
-                                    @endif
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nama " class="form-label">Pembayaran Atas Nama</label>
-                                    <input type="text" class="form-control" id="input-nama-pembayar" name="top_nama_bayar" placeholder="Masukan Atas Nama Pembayar" required value="{{ old('top_nama_bayar') }}">
-                                    @if ($errors->has('top_nama_bayar'))
-                                    <div class="text-danger">{{ $errors->first('top_nama_bayar') }}</div>
-                                    @endif
-                                </div>
-
-
-                                <div class="mt-4">
-                                    <button class="btn btn-danger w-100" type="submit">Daftar</button>
+                                <!-- Step 3: Konfirmasi -->
+                                <div id="step3" style="display:none;">
+                                    <h4 class="card-title mb-3">Konfirmasi & Submit</h4>
+                                    <p>Pastikan data yang kamu isi sudah benar sebelum mendaftar.</p>
+                                    <div class="d-flex justify-content-between">
+                                        <button type="button" class="btn btn-secondary" onclick="nextStep(2)">Kembali</button>
+                                        <button class="btn btn-danger" type="submit">Daftar</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
-
-
                     </div>
-                    <!-- end col -->
-
                 </div>
-                <div class="row">
-
-
-                </div>
-
             </div>
-            <!-- end container -->
         </section>
         <!-- end tryout -->
 
@@ -895,5 +969,18 @@ function openMaps(event) {
         window.open(mapsURL, '_blank');
     }, 600);
 }
+
+function nextStep(step) {
+    document.getElementById('step1').style.display = (step === 1) ? 'block' : 'none';
+    document.getElementById('step2').style.display = (step === 2) ? 'block' : 'none';
+    document.getElementById('step3').style.display = (step === 3) ? 'block' : 'none';
+    // Step indicator
+    for (let i = 1; i <= 3; i++) {
+        document.getElementById('indicator-step-' + i).querySelector('.rounded-circle').classList.remove('bg-warning', 'bg-success');
+        document.getElementById('indicator-step-' + i).querySelector('.rounded-circle').classList.add(i === step ? 'bg-success' : 'bg-warning');
+    }
+}
+// Inisialisasi step indicator di awal
+nextStep(1);
 </script>
 @endsection
