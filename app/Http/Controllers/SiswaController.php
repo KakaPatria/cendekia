@@ -7,11 +7,14 @@ use App\Models\User;
 
 class SiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // ambil hanya user dengan roles_id = 1
-        $siswa = User::where('roles_id', 1)->paginate(10);
-        
-        return view('pages.siswa.index', compact('siswa'));
+        $query = User::where('roles_id', 1);
+        $jenjang = $request->input('jenjang');
+        if ($jenjang) {
+            $query->whereRaw('LOWER(jenjang) = ?', [strtolower($jenjang)]);
+        }
+        $siswa = $query->paginate(10)->appends($request->except('page'));
+        return view('pages.siswa.index', compact('siswa', 'jenjang'));
     }
 }

@@ -3,9 +3,28 @@
 @section('content')
 <div class="container-fluid mt-5">
     <h3 class="mb-4 text-center fw-bold text-primary" style="font-size:2rem;">Daftar Seluruh Siswa</h3>
-    <div class="text-center mb-2 fw-semibold text-secondary">
-        Total Siswa: {{ $siswa->total() }}
+    <div class="row mb-3 align-items-center">
+        <div class="col-12 mb-2 text-end">
+            <a href="/" class="btn btn-outline-primary shadow-sm">
+                &larr; Kembali ke Home
+            </a>
+        </div>
+
+        <div class="col-md-3 col-12">
+            <form method="GET" action="{{ route('siswa.index') }}">
+                <select name="jenjang" id="filterJenjang" class="form-select shadow-sm mb-2 mb-md-0" style="max-width:180px;" onchange="this.form.submit()">
+                    <option value="">Semua Jenjang</option>
+                    <option value="sd" {{ (request('jenjang') == 'sd') ? 'selected' : '' }}>SD</option>
+                    <option value="smp" {{ (request('jenjang') == 'smp') ? 'selected' : '' }}>SMP</option>
+                    <option value="sma" {{ (request('jenjang') == 'sma') ? 'selected' : '' }}>SMA</option>
+                </select>
+            </form>
+        </div>
+        <div class="col-md-9 col-12 text-end">
+            <span class="fw-semibold text-secondary">Total Siswa: {{ $siswa->total() }}</span>
+        </div>
     </div>
+
     <div class="card shadow-lg border-0 rounded-3 animate-fadein">
         <div class="card-body p-0">
             <table class="table table-hover table-bordered align-middle text-center mb-0" id="siswaTable">
