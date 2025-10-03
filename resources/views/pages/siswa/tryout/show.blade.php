@@ -158,18 +158,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($tryout->peserta as $peserta)
-                                    <tr>
-
-                                        <td>{{ $loop->iteration}}</td>
-                                        <td>{{ $peserta->siswa->name}}</td>
-                                        <td>{{ $peserta->siswa->asal_sekolah}}</td>
-                                        <td>{{ $peserta->siswa->jenjang}}</td>
-                                        <td>{{ $peserta->siswa->kelas}}</td>
-                                        <td>{{ $peserta->tanggal_daftar}}</td>
-
-                                    </tr>
-                                    @endforeach
+                                @forelse($tryout->peserta as $peserta)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ optional($peserta->siswa)->name ?? $peserta->tryout_peserta_name ?? 'Nama tidak tersedia' }}</td>
+                                    <td>{{ optional($peserta->siswa)->asal_sekolah ?? '-' }}</td>
+                                    <td>{{ optional($peserta->siswa)->jenjang ?? '-' }}</td>
+                                    <td>{{ optional($peserta->siswa)->kelas ?? '-' }}</td>
+                                    <td>{{ $peserta->tanggal_daftar ?? '-' }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">Belum ada peserta.</td>
+                                </tr>
+                                @endforelse
                                 </tbody>
                             </table>
                             <!--end table-->

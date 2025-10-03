@@ -303,7 +303,10 @@ class UserController extends Controller
 
     public function handleGoogleCallback()
     {
-        $googleUser = Socialite::driver('google')->stateless()->user();
+    // Use session-based Socialite callback to preserve the state parameter
+    // generated during redirect. Using stateless() here can cause
+    // 'invalid_grant' when Google's returned state doesn't match.
+    $googleUser = Socialite::driver('google')->user();
         $user = User::where('email', $googleUser->email)->first();
         if (!$user) {
             $user = User::create(['name' => $googleUser->name, 'email' => $googleUser->email, 'password' => \Hash::make(rand(100000, 999999))]);
