@@ -23,7 +23,8 @@
                             <h6 class="mb-3 fw-bold text-uppercase">{{ $tryout->tryout_judul}} <b>{{ $tryout->is_open == 'Ya'? '(Umum)' : ''}}</b></h6>
                         </div>
                         <div class="flex-shrink-0">
-                            @if(Auth::user()->hasRole(['Admin']))
+                            {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
+                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
 
                             <a href="{{ route('panel.tryout.exportPeserta',$tryout->tryout_id)}}" class="btn rounded-pill btn-warning btn-sm">
                                 <i class="fa fa-edit"></i> Export Data</a>
@@ -45,7 +46,8 @@
                         </div>
                         <div class="flex-shrink-0">
 
-                            @if(Auth::user()->hasRole(['Admin']))
+                            {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
+                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-materi-modal">
                                 <i class="fa fa-edit"></i> Tambah Materi
                             </a>
@@ -117,7 +119,8 @@
                         <!--end nav-->
                         <div class="flex-shrink-0">
 
-                            @if(Auth::user()->hasRole(['Admin']))
+                            {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
+                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
 
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-peserta-modal">
                                 <i class="fa fa-edit"></i> Tambah Peserta
@@ -458,7 +461,8 @@
     $.ajax({
         url: '<?= route('ajax.materi-tryout') ?>',
         data: {
-            kelas: '<?= $tryout->tryout_kelas ?>'
+            kelas: '<?= $tryout->tryout_kelas ?>',
+            jenjang: '<?= $tryout->tryout_jenjang ?>'
         },
         dataType: 'json',
         success: function(data) {

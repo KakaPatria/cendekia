@@ -88,9 +88,17 @@ class AjaxController extends Controller
     public function materiTryout(Request $request)
     {
 
-        $materi = Materi::when($request->kelas, function ($q, $kelas) {
+        $kelas = $request->kelas;
+        $jenjang = $request->jenjang;
+
+        // First try to find by kelas (specific). If none found and jenjang provided, fallback to jenjang.
+        $materi = Materi::when($kelas, function ($q, $kelas) {
             return $q->where('ref_materi_kelas', $kelas);
         })->get();
+
+        if ($materi->isEmpty() && $jenjang) {
+            $materi = Materi::where('ref_materi_jenjang', $jenjang)->get();
+        }
 
         $results = [];
         foreach ($materi as $item) {
