@@ -31,7 +31,7 @@
 
                         </div>
                         <div class="flex-shrink-0">
-                            @if(Auth::user()->hasRole(['Admin']))
+                           @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
 
                             <a href="javascript:;" class="btn rounded-pill btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#edit-materi-modal">
                                 <i class="fa fa-edit"></i> Edit</a>
@@ -93,13 +93,14 @@
                     <div class="flex-shrink-0">
 
                         @if($tryout_materi->soal->count() == 0)
-                        @if(Auth::user()->hasRole('Admin'))
+                        @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                         <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-soal-modal">
                             <i class="fa fa-edit"></i> Tambah Soal</a>
                         @endif
-                        @if(!Auth::user()->hasRole('Admin') && $tryout_materi->pengajar_id == Auth::user()->id)
-                        <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-soal-modal">
-                            <i class="fa fa-edit"></i> Tambah Soal</a>
+                       @if(!Auth::user()->hasRole('Admin') && $tryout_materi->pengajar_id == Auth::user()->id && Auth::user()->roles_id == 2)
+                            <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-soal-modal">
+                                <i class="fa fa-edit"></i> Tambah Soal
+                            </a>
                         @endif
                         @endif
                     </div>
