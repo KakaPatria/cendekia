@@ -5,6 +5,53 @@
 
 <style>
 
+/* Section FAQ */
+#faq {
+  padding: 80px 0;
+}
+
+#faq h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+#faq p.text-muted {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+/* Accordion Style */
+.accordion-item {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.accordion-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.accordion-button {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #2c3e50;
+  background-color: #fff;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #0d6efd;
+  background-color: #e9f3ff;
+}
+
+.accordion-body {
+  background-color: #fff;
+  color: #555;
+  line-height: 1.6;
+}
+
 .explore-place-bid-img img {
     width: 100%;
     height: 280px; /* atau sesuaikan */
@@ -30,6 +77,21 @@
     object-fit: cover;       /* Biar gak gepeng tapi tetap penuh */
 }
 
+/* Biar section FAQ pas 1 layar penuh */
+#faq {
+  min-height: 100vh; /* setinggi layar */
+  display: flex;
+  align-items: center; /* biar konten di tengah vertikal */
+  justify-content: center;
+  flex-direction: column;
+  padding: 80px 0;
+  background-color: #f8f9fc; /* opsional: kasih warna lembut agar beda dari section lain */
+}
+
+#faq .container {
+  width: 100%;
+  max-width: 900px; /* biar lebar konten gak terlalu melebar */
+}
 
     /*Animasi hubungi*/
     .card {
@@ -957,9 +1019,39 @@ html {
           </div>
         </div>
       </div>
+      <!-- item 2 -->
+<div class="accordion-item mb-3">
+  <h2 class="accordion-header" id="faq2">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+      Apakah Tryout bisa diakses gratis?
+    </button>
+  </h2>
+  <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+    <div class="accordion-body">
+      Beberapa tryout disediakan gratis, sedangkan versi premium bisa diakses setelah login dan berlangganan.
+    </div>
+  </div>
+</div>
+
+<!-- item 3 -->
+<div class="accordion-item mb-3">
+  <h2 class="accordion-header" id="faq3">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+      Bagaimana jika lupa password akun?
+    </button>
+  </h2>
+  <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+    <div class="accordion-body">
+      Gunakan fitur “Lupa Password” di halaman login untuk mengatur ulang kata sandi kamu.
+    </div>
+  </div>
+</div>
+
     </div>
   </div>
 </section>
+
+
 <!-- end faq -->
 
         <!-- Start footer -->
