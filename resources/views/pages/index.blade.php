@@ -203,7 +203,7 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 1), transparent);
         transition: left 0.5s;
     }
 
@@ -324,11 +324,70 @@
 }
 
 /* ========== HERO SECTION UPGRADE ========== */
+/* === HERO SECTION === */
 .job-hero-section.bg-light {
-    background: linear-gradient(135deg, #F3F6F9 0%, #F3F6F9 100%) !important;
+    background: linear-gradient(180deg, #980000 0%, #7A0000 100%) !important;
     position: relative !important;
     overflow: hidden !important;
+    color: #ffffff !important;
 }
+
+/* Wave kuning atas (gradasi merah ke kuning, lebih tinggi & jelas) */
+.job-hero-section.bg-light::before {
+    content: '';
+    position: absolute;
+    top: 80px; /* dinaikkan sedikit biar ga ketutup header */
+    left: 0;
+    width: 100%;
+    height: 200px; /* lebih tinggi supaya gradasinya keliatan */
+    z-index: 1;
+    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='0%'><stop offset='0%' style='stop-color:%23980000;stop-opacity:1' /><stop offset='100%' style='stop-color:%23E2B602;stop-opacity:1' /></linearGradient></defs><path fill='url(%23grad)' d='M0,40 C300,60 800,0 1440,90 L1440,0 L0,0 Z'></path></svg>");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+
+/* Wave kuning bawah */
+.job-hero-section.bg-light::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 140px;
+    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23E2B602' fill-opacity='1' d='M0,64L120,80C240,96,480,128,720,144C960,160,1200,160,1320,154.7L1440,149L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z'></path></svg>");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* === NAVBAR === */
+.navbar, .header {
+    background-color: #ffffff !important;
+}
+
+.navbar a, .nav-link {
+    color: #980000 !important;
+    font-weight: 600;
+}
+
+.navbar a:hover, .nav-link.active {
+    color: #E2B602 !important;
+}
+
+/* === TOMBOL LOGIN & DAFTAR === */
+.btn-login {
+    background-color: #ffffff !important;
+    color: #980000 !important;
+    border: 2px solid #980000 !important;
+}
+
+.btn-daftar {
+    background-color: #E2B602 !important;
+    color: #980000 !important;
+    font-weight: 600 !important;
+}
+
 
 /* Animated Background Particles */
 .job-hero-section::before {
@@ -359,18 +418,18 @@
 
 /* Hero Text Styling */
 .job-hero-section .display-6 {
-    color: light grey !important;
+    color: white !important;
     font-weight: 700 !important;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.2) !important;
+    text-shadow: 0 1px 1px #f1f3f4!important;
     line-height: 1.2 !important;
     margin-bottom: 2rem !important;
 }
 
 .job-hero-section .lead {
-    color: light grey !important;
+    color: white !important;
     font-size: 1.1rem !important;
     line-height: 1.6 !important;
-    text-shadow: 0 0px 1px rgba(0,0,0,0.2) !important;
+    text-shadow: 0 0px 1px rgba(255, 255, 255, 1) !important;
     text-align: justify !important;
 }
 
@@ -389,6 +448,7 @@
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2) !important;
 }
 
+
 /* Avatar Title Modernisasi */
 .inquiry-box .avatar-title.bg-soft-warning {
     background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%) !important;
@@ -400,22 +460,22 @@
 /* Informasi Section */
 #informasi {
     position: relative;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+    background:  #980000 !important;
 }
 
 /* Cuma untuk title "INFORMASI" */
 #informasi h1 {
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
+    text-shadow: white !important;
 }
 
 /* Tryout Section */
 #tryout {
-    background: linear-gradient(135deg, #ffffff 0%, #f1f3f4 100%) !important;
+    background: #980000 !important;
 }
 
 /* Cuma untuk title "TRYOUT" */
 #tryout h1 {
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
+    text-shadow: 0 1px 1px white !important;
 }
 
 /* ========== RESPONSIVE IMPROVEMENTS ========== */
@@ -427,7 +487,7 @@
     }
     
     .navbar-collapse {
-        background: rgba(255, 255, 255, 0.98) !important;
+        background:#E2B602!important;
         backdrop-filter: blur(10px) !important;
         border-radius: 15px !important;
         margin-top: 1rem !important;
@@ -467,7 +527,7 @@ html {
 
 /* Enhanced Back to Top Button */
 .landing-back-top {
-    background: linear-gradient(135deg, #E2B602 0%, #E2B602 100%) !important;
+    background:  #980000 !important;
     border: none !important;
     box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;
     transition: all 0.3s ease !important;
@@ -494,26 +554,24 @@ html {
     transform: scale(1.1) !important;
 }
 
-/* BACKGROUND SECTIONS - HOME KUNING, HUBUNGI KUNING (SISANYA TETAP) */
-
 /* Home/Hero Section - KUNING */
 .job-hero-section.bg-light {
-    background: linear-gradient(135deg, #F3F6F9 0%, #F3F6F9 100%) !important;
+    background:#980000 !important;
 }
 
 /* Hubungi Section - KUNING */
 #hubungi.bg-light {
-    background: linear-gradient(135deg, #F3F6F9 0%, #F3F6F9 100%) !important;
+    background: #980000 !important;
 }
 
 /* Ubah warna teks title di section hubungi jadi putih biar kontras */
 #hubungi .contact-title {
-    color: light grey !important;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
+    color: white !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 1) !important;
 }
 
 #hubungi .contact-title::after {
-    background: white !important;
+    background: #980000 !important;
 }
 
 
