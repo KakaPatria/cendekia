@@ -61,7 +61,7 @@
                     <div class="collapse menu-dropdown" id="sidebar-referensi">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item ">
-                                <a href="{{ route('panel.bank_soal.index')}}" class="nav-link " id="nav-bank-soal">Bank Soal</a>
+                                <a href="{{ route('panel.bank_soal.index')}}" class="nav-link " id="nav-bank-soal"></a>
                             </li>
                             <li class="nav-item ">
                                 <a href="{{ route('panel.materi.index')}}" class="nav-link " id="nav-materi">Materi</a>

@@ -9,39 +9,117 @@
     <div class="bg-overlay" style="background-color : #fff7cc;"></div>
     <div class="auth-page-content overflow-hidden pt-lg-5">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6 col-xl-5">
-                    <div class="card overflow-hidden mt-5">
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <div class="mb-4">
-                                    <img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia" height="50">
+                    <div class="card overflow-hidden">
+                        <div class="row g-0">
+                            {{-- BAGIAN KIRI (GAMBAR & GRADIENT KUNING) --}}
+                            <div class="col-lg-6">
+                                <div class="p-lg-5 p-4 auth-one-bg h-100">
+                                    <div class="bg-overlay" style="background: linear-gradient(90deg,#e2b602,#f5e38f);opacity: .9;"></div>
+                                    <div class="position-relative h-100 d-flex flex-column">
+                                        <div class="mb-4">
+                                            <a href="#" class="d-block">
+                                                <img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="" height="50">
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <h5 class="text-primary">Selamat Datang di LBB Cendekia!</h5>
-                                <p class="text-muted">Pilih jenis pendaftaran yang sesuai dengan Anda.</p>
                             </div>
 
-                            <div class="p-2 mt-4">
-                                <div class="d-grid gap-3">
-                                    {{-- Tombol untuk Siswa, disamakan dengan warna tombol Daftar --}}
-                                    <a href="{{ route('register.siswa') }}" class="btn btn-danger btn-lg">
-                                        Daftar sebagai Siswa
-                                    </a>
+                            {{-- BAGIAN KANAN (FORM PENDAFTARAN) --}}
+                            <div class="col-lg-6">
+                                <div class="p-lg-5 p-4">
+                                    <div>
+                                        <h5 class="text-primary">Daftar Akun LBB CENDEKIA</h5>
+                                    </div>
 
-                                    {{-- Tombol untuk Pengajar, bisa disesuaikan warnanya --}}
-                                    <a href="{{ route('register.pengajar') }}" class="btn btn-warning btn-lg">
-                                        Daftar sebagai Pengajar
-                                    </a>
+                                    <div class="mt-4">
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul class="mb-0">
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
+                                        <form method="POST" action="{{ route('register.siswa') }}">
+                                            @csrf
+                                            {{-- Beri tanda bintang (*) pada label yang wajib --}}
+                                            <div class="mb-3"><label for="name" class="form-label">Nama Lengkap <span class="text-danger">*</span></label><input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Masukkan Nama Lengkap" value="{{ old('name') }}" required>@error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            <div class="mb-3"><label for="email" class="form-label">Email <span class="text-danger">*</span></label><input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Masukkan Email" value="{{ old('email') }}" required>@error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            
+                                            {{-- Hapus atribut 'required' dari field opsional --}}
+                                            <div class="mb-3"><label for="telepon" class="form-label">Telepon</label><input type="text" class="form-control @error('telepon') is-invalid @enderror" name="telepon" placeholder="Masukkan Telepon" value="{{ old('telepon') }}">@error('telepon')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            <div class="mb-3"><label for="nama_orang_tua" class="form-label">Nama Orangtua</label><input type="text" class="form-control" name="nama_orang_tua" placeholder="Masukkan Nama Orangtua" value="{{ old('nama_orang_tua') }}"></div>
+                                            <div class="mb-3"><label for="telp_orang_tua" class="form-label">Telepon Orangtua</label><input type="text" class="form-control" name="telp_orang_tua" placeholder="Masukkan Telepon Orangtua" value="{{ old('telp_orang_tua') }}"></div>
+                                            <div class="mb-3"><label for="alamat" class="form-label">Alamat</label><input type="text" class="form-control" name="alamat" placeholder="Masukkan alamat" value="{{ old('alamat') }}"></div>
+                                            <div class="mb-3"><label for="asal_sekolah" class="form-label">Asal Sekolah</label><input type="text" class="form-control" name="asal_sekolah" placeholder="Cari Asal Sekolah" value="{{ old('asal_sekolah') }}"></div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="jenjang" class="form-label">Jenjang</label>
+                                                <select class="form-select" name="jenjang" id="jenjang">
+                                                    <option value="" selected>Pilih Jenjang</option>
+                                                    <option value="SD" {{ old('jenjang') == 'SD' ? 'selected' : '' }}>SD</option>
+                                                    <option value="SMP" {{ old('jenjang') == 'SMP' ? 'selected' : '' }}>SMP</option>
+                                                    <option value="SMA" {{ old('jenjang') == 'SMA' ? 'selected' : '' }}>SMA</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="kelas" class="form-label">Kelas</label>
+                                                <select class="form-select" name="kelas" id="kelas" disabled>
+                                                    <option value="">Pilih Jenjang Terlebih dahulu</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="mb-3"><label class="form-label" for="password">Password <span class="text-danger">*</span></label><input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Masukkan password" required>@error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            <div class="mb-3"><label class="form-label" for="password_confirmation">Ulangi Password <span class="text-danger">*</span></label><input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" placeholder="Ketik ulang password" required>@error('password_confirmation')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                                            <div class="mt-4"><button class="btn btn-danger w-100" type="submit">Daftar</button></div>
+                                        </form>
+                                    </div>
+
+                                    <div class="mt-5 text-center">
+                                        <p class="mb-0">Sudah Punya Akun ? <a href="{{ route('login') }}" class="fw-semibold text-primary text-decoration-underline"> Masuk</a> </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                     <div class="mt-4 text-center">
-                        <p class="mb-0">Sudah punya akun? <a href="{{ route('login') }}" class="fw-semibold text-primary text-decoration-underline"> Masuk di sini</a> </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+{{-- JavaScript untuk dropdown kelas (disalin dari register-siswa) --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const jenjangDropdown = document.getElementById('jenjang');
+        const kelasDropdown = document.getElementById('kelas');
+        const kelasOptions = {
+            'SD': ['Kelas 1', 'Kelas 2', 'Kelas 3', 'Kelas 4', 'Kelas 5', 'Kelas 6'],
+            'SMP': ['Kelas 7', 'Kelas 8', 'Kelas 9'],
+            'SMA': ['Kelas 10', 'Kelas 11', 'Kelas 12']
+        };
+        jenjangDropdown.addEventListener('change', function() {
+            const selectedJenjang = this.value;
+            kelasDropdown.innerHTML = '<option value="">Pilih Kelas</option>';
+            if (selectedJenjang && kelasOptions[selectedJenjang]) {
+                kelasDropdown.disabled = false;
+                kelasOptions[selectedJenjang].forEach(function(kelas) {
+                    const option = document.createElement('option');
+                    option.value = kelas;
+                    option.text = kelas;
+                    kelasDropdown.appendChild(option);
+                });
+            } else {
+                kelasDropdown.disabled = true;
+                kelasDropdown.innerHTML = '<option value="">Pilih Jenjang Terlebih dahulu</option>';
+            }
+        });
+    });
+</script>
 @endsection

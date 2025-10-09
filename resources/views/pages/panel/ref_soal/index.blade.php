@@ -1,12 +1,12 @@
 @extends('layouts.panel.master')
-@section('title') Bank SOAL @endsection
+@section('title')  @endsection
 @section('css')
 
 @endsection
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Referensi @endslot
-@slot('title') Bank SOAL @endslot
+@slot('title')  @endslot
 @endcomponent
 
 @include('components.message')
