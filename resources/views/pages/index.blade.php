@@ -85,7 +85,7 @@
   justify-content: center;
   flex-direction: column;
   padding: 80px 0;
-  background-color: #f8f9fc; /* opsional: kasih warna lembut agar beda dari section lain */
+  background-color: #980000; /* opsional: kasih warna lembut agar beda dari section lain */
 }
 
 #faq .container {
@@ -739,7 +739,7 @@ html {
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">HASIL TRYOUT PENILAIAN AKHIR SEMESTER SMP NEGERI 9 YOGYAKARTA</h1>
+                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">TOP 3 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
 
                         </div>
                     </div>
@@ -804,7 +804,7 @@ html {
 
 
         <!-- start services -->
-        <section class="section bg-light" id="hubungi" style="padding-top:110px; padding-bottom:10px;">
+        <section class="section bg-light" id="hubungi" style="padding-top:110px; padding-bottom:10px; display:none;">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
