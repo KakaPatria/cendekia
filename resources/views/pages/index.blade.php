@@ -604,7 +604,7 @@ html {
                         <li class="nav-item">
                             <a class="nav-link" href="#informasi">Informasi</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="display: none;">
                             <a class="nav-link" href="#hubungi">Hubungi</a>
                         </li>
                         <li class="nav-item" style="display: none;">
@@ -613,7 +613,9 @@ html {
                         <li class="nav-item">
                             <a class="nav-link" href="#tryout">Tryout</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="#faq">FAQ</a>
+                        </li>
                     </ul>
 
                     <div class="">
@@ -933,6 +935,32 @@ html {
             </div>
         </section>--}}
 
+<!-- start faq -->
+<section id="faq" class="section bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-semibold text-uppercase">FAQ</h2>
+      <p class="text-muted">Pertanyaan yang sering diajukan</p>
+    </div>
+    
+    <div class="accordion" id="faqAccordion">
+      <!-- item 1 -->
+      <div class="accordion-item mb-3">
+        <h2 class="accordion-header" id="faq1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+            Bagaimana cara mengikuti tryout?
+          </button>
+        </h2>
+        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Kamu bisa mendaftar akun terlebih dahulu, lalu pilih tryout yang tersedia di menu dashboard.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end faq -->
 
         <!-- Start footer -->
 <footer class="py-5 position-relative" style="background-color: #e2b602;">
