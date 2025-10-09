@@ -495,27 +495,6 @@
     text-align: justify !important;
 }
 
-/* Modern Inquiry Box */
-.inquiry-box {
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
-    border-radius: 20px !important;
-    transition: all 0.3s ease !important;
-}
-
-.inquiry-box:hover {
-    transform: translateY(-5px) scale(1.02) !important;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2) !important;
-}
-
-
-/* Avatar Title Modernisasi */
-.inquiry-box .avatar-title.bg-soft-warning {
-    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%) !important;
-    box-shadow: 0 4px 15px rgba(254, 202, 87, 0.4) !important;
-}
 
 /* ========== SECTION IMPROVEMENTS ========== */
 
@@ -600,20 +579,51 @@ html {
     box-shadow: 0 6px 20px rgba(226, 182, 2, 0.6) !important;
 }
 
-/* WHATSAPP ICON - HIJAU KONTRAS TANPA GRADIENT */
-.inquiry-box .avatar-title.bg-soft-warning {
-    background: #28a745 !important; /* WhatsApp Green */
-    color: white !important;
-    box-shadow: 0 4px 15px #F3F6F9 !important;
+/* WHATSAPP BOX - HIJAU PENUH (PRIORITAS TERTINGGI) */
+#hero .inquiry-box {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+    backdrop-filter: blur(10px) !important;
+    border: none !important;
+    box-shadow: 0 8px 32px rgba(37, 211, 102, 0.4) !important;
+    border-radius: 20px !important;
+    transition: all 0.3s ease !important;
 }
 
-.inquiry-box .avatar-title.bg-soft-warning i {
-    color: white !important;
+#hero .inquiry-box:hover {
+    transform: translateY(-5px) scale(1.03) !important;
+    box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6) !important;
+    background: linear-gradient(135deg, #128C7E 0%, #075E54 100%) !important;
 }
 
-.inquiry-box:hover .avatar-title.bg-soft-warning {
-    background: #1b7e33ff !important; /* Darker WhatsApp Green */
-    transform: scale(1.1) !important;
+/* Icon WhatsApp - PUTIH */
+#hero .inquiry-box .avatar-title.bg-soft-warning {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    box-shadow: none !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+#hero .inquiry-box .avatar-title.bg-soft-warning i {
+    color: white !important;
+    font-size: 1.5rem !important;
+}
+
+#hero .inquiry-box:hover .avatar-title.bg-soft-warning {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: scale(1.15) rotate(8deg) !important;
+    border-color: white !important;
+}
+
+/* Text dalam box WhatsApp - PUTIH */
+#hero .inquiry-box h5 {
+    color: white !important;
+    font-weight: 600 !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+#hero .inquiry-box a {
+    color: white !important;
+    text-decoration: none !important;
 }
 
 /* Home/Hero Section - KUNING */
@@ -635,6 +645,77 @@ html {
 #hubungi .contact-title::after {
     background: #980000 !important;
 }
+
+/* Biar background maroon dan judul teksnya tetap kontras */
+#informasi {
+  background-color: #980000;
+}
+
+/* Hanya ubah warna teks judul utama di bagian atas */
+#informasi h1,
+#informasi h2,
+#informasi h3 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Pastikan teks dalam card tetap gelap */
+#informasi .card,
+#informasi .card * {
+  color: #2c3e50 !important;
+}
+
+#informasi,
+#tryout,
+#hero,
+#faq {
+  background-color: #980000 !important;
+  color: #ffffff !important;
+}
+
+/* Khusus judul utama di setiap section */
+#informasi h1, #tryout h1, #hero h1, #faq h1,
+#informasi h2, #tryout h2, #hero h2, #faq h2,
+#informasi .text-center h1, #tryout .text-center h1, #faq .text-center h2 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+
+/* Khusus teks tambahan (yang pakai .text-muted dari Bootstrap) */
+#faq .text-muted,
+#informasi .text-muted,
+#tryout .text-muted,
+#hero .text-muted{
+  color: #f1f1f1 !important; /* jadi abu muda biar tetap lembut tapi kontras */
+}
+
+/* Pastikan isi card tetap gelap dan terbaca - KECUALI WhatsApp Box */
+#faq .card:not(.inquiry-box), 
+#faq .card:not(.inquiry-box) *,
+#informasi .card:not(.inquiry-box), 
+#informasi .card:not(.inquiry-box) *,
+#tryout .card:not(.inquiry-box), 
+#tryout .card:not(.inquiry-box) * {
+  color: #2c3e50 !important;
+  background-color: #ffffff !important;
+}
+
+/* Khusus card hero yang bukan WhatsApp box */
+#hero .card:not(.inquiry-box), 
+#hero .card:not(.inquiry-box) * {
+  color: #2c3e50 !important;
+  background-color: #ffffff !important;
+}
+
+/* PAKSA text WhatsApp box tetap putih! */
+#hero .inquiry-box h5,
+#hero .inquiry-box a,
+#hero .inquiry-box .stretched-link {
+  color: white !important;
+  background-color: transparent !important;
+}
+
 
 
 
