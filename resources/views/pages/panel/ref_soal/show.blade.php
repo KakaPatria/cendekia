@@ -6,7 +6,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Referensi @endslot
-@slot('title') Detail SOAL @endslot
+@slot('title') Bank soal @endslot
 @endcomponent
 
 @include('components.message')

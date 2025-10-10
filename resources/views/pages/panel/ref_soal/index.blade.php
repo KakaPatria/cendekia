@@ -1,12 +1,12 @@
 @extends('layouts.panel.master')
-@section('title')  @endsection
+@section('title') Tambah Soal @endsection
 @section('css')
 
 @endsection
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Referensi @endslot
-@slot('title')  @endslot
+@slot('title') Tambah Soal @endslot
 @endcomponent
 
 @include('components.message')

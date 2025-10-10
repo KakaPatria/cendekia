@@ -1,5 +1,5 @@
 @extends('layouts.panel.master')
-@section('title') Dashboard @endsection
+@section('title') Beranda @endsection
 @section('css')
 @endsection
 @section('content')
@@ -16,7 +16,7 @@
                 <div class="col-12">
                     <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                         <div class="flex-grow-1">
-                            <h4 class="fs-16 mb-1">Dashboard LMS Cendekia</h4>
+                            <h4 class="fs-16 mb-1">Welcome Admin Cendekia</h4>
 
                         </div>
 
@@ -26,6 +26,7 @@
             </div>
             <!--end row-->
 
+ 
             <div class="row">
                 <div class="col-xl-3 col-md-6">
                     <!-- card -->
@@ -42,7 +43,6 @@
                                 <div>
                                     <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="{{$jumlah_siswa}}">{{ $jumlah_siswa}}</span>
                                     </h4>
-                                    <a href="" class="text-decoration-underline">Detail</a>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-success rounded fs-3">
@@ -53,6 +53,7 @@
                         </div><!-- end card body -->
                     </div><!-- end card -->
                 </div><!-- end col -->
+
 
                 <div class="col-xl-3 col-md-6">
                     <!-- card -->
@@ -68,7 +69,6 @@
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
                                     <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="{{$jumlah_sekolah}}">{{ $jumlah_sekolah}}</span></h4>
-                                    <a href="" class="text-decoration-underline">Detail</a>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-info rounded fs-3">
@@ -95,7 +95,6 @@
                                 <div>
                                     <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="{{$jumlah_tryout}}">{{$jumlah_tryout}}</span>
                                     </h4>
-                                    <a href="" class="text-decoration-underline">Detail</a>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-warning rounded fs-3">
@@ -122,7 +121,6 @@
                                 <div>
                                     <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="{{$jumlah_materi}}">{{$jumlah_materi}}</span>
                                     </h4>
-                                    <a href="" class="text-decoration-underline">Detail</a>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-primary rounded fs-3">

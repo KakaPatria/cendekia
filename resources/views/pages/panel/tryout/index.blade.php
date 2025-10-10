@@ -64,13 +64,14 @@
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col" width="1%">#</th>
-                                    <th scope="col">Judul Materi</th>
+                                    <th scope="col">Nama tryout</th>
                                     <th scope="col">Jenjang</th>
                                     <th scope="col">Kelas</th>
                                     <th scope="col">Jenis</th>
                                     <th scope="col">Umum</th>
-                                    <th scope="col">Materi</th>
+                                    <th scope="col">Mata pelajran</th>
                                     <th scope="col">Dibuka Sampai</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col" width="10%" class="text-center">Action</th>
                                 </tr>
                             </thead>
