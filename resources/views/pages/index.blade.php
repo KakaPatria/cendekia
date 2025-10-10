@@ -779,6 +779,22 @@ html {
 }
 
 
+/* Mengganti warna default Accordion */
+.accordion-button:not(.collapsed) {
+/* Ganti warna biru default */
+    color: #980000 !important; /* Warna teks jadi Merah Marun */
+    background-color: #E2B60240 !important; /* Background jadi Kuning-Emas transparan */
+    border-color: #E2B602 !important; /* Garis tepi Kuning */
+}
+
+/* Animasi Icon (seperti tanda panah) */
+.accordion-button::after {
+    filter: invert(30%) sepia(80%) saturate(600%) hue-rotate(330deg) brightness(85%) contrast(100%); /* Ubah warna icon jadi Merah Marun */
+}
+
+.accordion-button:not(.collapsed)::after {
+    filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%); /* Ubah icon ke hitam/default saat aktif */
+}
 
 
 </style>
@@ -899,8 +915,8 @@ html {
                                     <div class="job-icon-effect"></div>
                                     <span>1</span>
                                 </h1>
-                                <h6 class="fs-17 mb-2">Syakira Marsya T</h6>
-                                <p class="text-muted mb-0 fs-15"> dari SDN 1 Godean dengan total nilai 276,67.</p>
+                                <h6 class="fs-17 mb-2 fw-bold text-dark">Syakira Marsya T</h6>
+                                <p class="text-muted mb-0 fs-15"> SDN 1 Godean - Total nilai: <span class="fw-bold text-success">276,67</span></p>
                             </div>
                         </div>
                     </div>
@@ -911,8 +927,8 @@ html {
                                     <div class="job-icon-effect"></div>
                                     <span>2</span>
                                 </h1>
-                                <h6 class="fs-17 mb-2">Fadlan Raya Efendi</h6>
-                                <p class="text-muted mb-0 fs-15">dari SD N Adisucipto 1 dengan total nilai 276,66.</p>
+                                <h6 class="fs-17 mb-2 fw-bold text-dark">Fadlan Raya Efendi</h6>
+                                <p class="text-muted mb-0 fs-15">SDN Adisucipto 1 - Total nilai: <span class="fw-bold text-success">276,66</span></p>
                             </div>
                         </div>
                     </div>
@@ -923,9 +939,8 @@ html {
                                     <div class="job-icon-effect"></div>
                                     <span>3</span>
                                 </h1>
-
-                                <h6 class="fs-17 mb-2">Janu Lanang P</h6>
-                                <p class="text-muted mb-0 fs-15">dari SD Budi Utama dengan total nilai 269,99.</p>
+                                <h6 class="fs-17 mb-2 fw-bold text-dark">Janu Lanang P</h6>
+                                <p class="text-muted mb-0 fs-15">SD Budi Utama - Total nilai: <span class="fw-bold text-success">276,66</span></p>
                             </div>
                         </div>
                     </div>
@@ -936,8 +951,9 @@ html {
                                     <div class="job-icon-effect"></div>
                                     <span>4</span>
                                 </h1>
-                                <h6 class="fs-17 mb-2">Nathanael V. T.</h6>
-                                <p class="text-muted mb-0 fs-15">SD Model dengan total nilai 266,67.</p>
+
+                                <h6 class="fs-17 mb-2 fw-bold text-dark">Nathanael V. T.</h6>
+                                <p class="text-muted mb-0 fs-15">SD Model - Total nilai: <span class="fw-bold text-success">276,66</span></p>
                             </div>
                         </div>
                     </div>
