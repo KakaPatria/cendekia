@@ -1,153 +1,169 @@
 @extends('layouts.master-without-nav')
 @section('title')
-Lupa Password
+    Lupa Password
+@endsection
+@section('css')
+<style>
+    /* Mengadopsi style dari halaman login dengan improvement V2 */
+    .auth-page-wrapper {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('{{ asset('assets/images/bg-login.jpg') }}');
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* Overlay tidak lagi diperlukan karena efek blur pada card sudah cukup */
+    /* .bg-overlay { background-color: rgba(0, 0, 0, 0.5); } */
+
+    /* [IMPROVEMENT V2] Efek Glassmorphism pada Card */
+    .card {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.7); /* Latar belakang semi-transparan */
+        backdrop-filter: blur(15px); /* Efek blur utama */
+        -webkit-backdrop-filter: blur(15px); /* Untuk Safari */
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, .2) !important;
+        border-radius: 1rem !important;
+        animation: fadeInDown 0.7s ease-out forwards;
+    }
+
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-body {
+        padding: 2.5rem;
+    }
+
+    .auth-logo:hover img {
+        transform: scale(1.05);
+    }
+    
+    .auth-logo img {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* [IMPROVEMENT V2] Styling untuk Floating Label */
+    .form-floating > .form-control {
+        height: calc(3.5rem + 2px);
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+        border-radius: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.5); /* Input juga semi-transparan */
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .form-floating > label {
+        padding: 1rem 1.25rem;
+        color: #6c757d;
+    }
+
+    .form-floating > .form-control:focus {
+        border-color: #980000;
+        box-shadow: 0 0 0 0.2rem rgba(152, 0, 0, 0.15);
+    }
+    
+    .form-floating > .form-control:not(:placeholder-shown) ~ label,
+    .form-floating > .form-control:focus ~ label {
+        color: #980000; /* Warna label saat aktif/focus */
+        transform: scale(.85) translateY(-.5rem) translateX(.15rem);
+    }
+
+    /* [VALIDASI] Style untuk input yang tidak valid */
+    .form-control.is-invalid {
+        border-color: #dc3545; /* Border merah standar bootstrap */
+    }
+    .form-floating > .form-control.is-invalid:focus {
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+    .invalid-feedback {
+        font-size: 0.875em;
+        font-weight: 500;
+    }
+    
+    /* [IMPROVEMENT V2] Tombol dengan gradasi dan efek hover */
+    .btn-gradient-danger {
+        border: none;
+        background-image: linear-gradient(to right, #EE5A24 0%, #980000 50%, #EE5A24 100%);
+        background-size: 200% auto;
+        color: white;
+        transition: all 0.5s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-gradient-danger:hover {
+        background-position: right center; /* Menggeser gradasi saat hover */
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(152, 0, 0, 0.3);
+    }
+    
+    .bottom-link a {
+        transition: color 0.3s ease;
+    }
+    
+    .bottom-link a:hover {
+        color: #212529 !important; /* Ubah warna hover agar lebih terlihat di card transparan */
+    }
+</style>
 @endsection
 @section('content')
-<div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
-    <div class="bg-overlay" style="background-color : #fff7cc;"></div>
-    <!-- auth-page content -->
-    <div class="auth-page-content overflow-hidden pt-lg-5">
+<div class="auth-page-wrapper">
+    
+    <div class="auth-page-content overflow-hidden py-5">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card overflow-hidden">
-                        <div class="row g-0">
-                            <div class="col-lg-6">
-                                <div class="p-lg-5 p-4 auth-one-bg h-100">
-                                    <div class="bg-overlay" style="background: linear-gradient(90deg,#e2b602,#f5e38f);opacity: .9;"></div>
-                                    <div class="position-relative h-100 d-flex flex-column">
-                                        <div class="mb-4">
-                                            <a href="index.html" class="d-block">
-                                                <img src="{{ asset('assets/images/logo-cendikia.png')}}" alt="" height="50">
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    
+                    <div class="card mt-4">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="text-center mb-4">
+                                <a href="/" class="d-inline-block auth-logo">
+                                    <img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia" height="50">
+                                </a>
+                                <h4 class="text-dark mt-4">Lupa Password Anda?</h4>
+                                <p class="text-muted">Jangan khawatir, masukkan email anda untuk menerima link reset.</p>
                             </div>
-                            <!-- end col -->
 
-                            <div class="col-lg-6">
-                                <div class="p-lg-5 p-4">
-                                    <div>
-                                        <h5 class="text-primary">Lupa Password?</h5>
+                            @include('components.message')
+
+                            <div class="p-2">
+                                <form action="{{ route('siswa.doForgotPassword') }}" method="POST">
+                                    @csrf
+                                    
+                                    <div class="form-floating mb-3">
+                                        {{-- [VALIDASI] Tambahkan class @error('email') is-invalid @enderror --}}
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="floatingEmail" name="email" placeholder="Masukkan Email Anda" value="{{ old('email') }}" required>
+                                        <label for="floatingEmail">Email</label>
+                                        
+                                        {{-- [VALIDASI] Blok untuk menampilkan pesan error --}}
+                                        @error('email')
+                                            <div class="invalid-feedback d-block mt-1">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
 
-                                    @include('components.message')
-                                    <div class="alert alert-borderless alert-warning text-center mb-2 mx-2" role="alert">
-                                        Masukan Email atau Nomor Telpon yang Terdaftar
-                                    </div>
                                     <div class="mt-4">
-                                        <form action="{{ route('siswa.doForgotPassword')}}" method="POST">
-                                            @csrf
-
-
-                                            <div class="mb-3">
-                                                <label for="email" class="form-label">Email</label>
-                                                <input type="text" class="form-control" id="email" name="email" placeholder="Masukan Email" required value="{{ old('email') }}">
-                                            </div>
-
-
-
-                                            <div class="mt-4">
-                                                <button class="btn btn-danger w-100" type="submit">Reset Password</button>
-                                            </div>
-
-
-
-                                        </form>
+                                        <button class="btn btn-gradient-danger w-100 btn-lg" type="submit">Kirim Link Reset</button>
                                     </div>
-
-                                    <div class="mt-5 text-center">
-                                        <p class="mb-0"><a href="{{ route('login')}}" class="fw-semibold text-primary text-decoration-underline"> Kembali</a> </p>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
-                            <!-- end col -->
                         </div>
-                        <!-- end row -->
                     </div>
-                    <!-- end card -->
-                </div>
-                <!-- end col -->
 
+                    <div class="mt-4 text-center bottom-link">
+                        <p class="mb-0">Ingat password anda? <a href="{{ route('login') }}" class="fw-semibold text-dark text-decoration-underline"> Kembali ke Login </a></p>
+                    </div>
+
+                </div>
             </div>
-            <!-- end row -->
         </div>
-        <!-- end container -->
     </div>
-    <!-- end auth page content -->
-
-    <!-- footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-center">
-                        <p class="mb-0">&copy;
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script> LBB CENDEKIA
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- end Footer -->
 </div>
 @endsection
 @section('script')
-<script src="{{ URL::asset('assets/libs/particles.js/particles.js.min.js') }}"></script>
-<script src="{{ URL::asset('assets/js/pages/particles.app.js') }}"></script>
-<script src="{{ URL::asset('assets/js/pages/password-addon.init.js') }}"></script>
-<script>
-    // In your Javascript (external .js resource or <script> tag)
-    $(document).ready(function() {
-        $('#asal_sekolah').select2({
-            placeholder: "Cari Asal Sekolah",
-            allowClear: true,
-            tags: true,
-            minimumInputLength: 1,
-            ajax: {
-                url: '<?= route('ajax.cari-sekolah') ?>',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        q: params.term // search term
-                    };
-                },
-                processResults: function(data) {
-                    return {
-                        results: data
-                    };
-                },
-                cache: true
-            },
-
-        });
-
-        const classes = {
-            SD: ['1', '2', '3', '4', '5', '6'],
-            SMP: ['7', '8', '9'],
-            SMA: ['10', '11', '12']
-        };
-
-        $('#jenjang').change(function() {
-            var schoolLevel = $(this).val();
-            var $classLevel = $('#kelas');
-            $classLevel.empty().append('<option value="">Pilih Kelas</option>'); // Reset class level options
-            if (schoolLevel) {
-                $classLevel.prop('disabled', false);
-                classes[schoolLevel].forEach(function(classItem) {
-                    $classLevel.append('<option value="' + classItem + '">' + classItem + '</option>');
-                });
-            } else {
-                $classLevel.prop('disabled', true);
-            }
-            $classLevel.trigger('change'); // Trigger change to update select2
-        });
-    });
-</script>
+{{-- Tidak ada script khusus yang dibutuhkan untuk halaman ini --}}
 @endsection

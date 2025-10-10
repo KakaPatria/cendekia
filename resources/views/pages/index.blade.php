@@ -116,7 +116,7 @@
     .contact-card:hover {
         transform: translateY(-8px) scale(1.02);
         box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        border-color: #28a745;
+        border-color: #E5A24745;
     }
 
     .contact-icon {
