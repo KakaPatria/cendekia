@@ -851,7 +851,7 @@ html {
                                         <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
                                     </a>
                                 </div>
-                            </div>.
+                            </div>
 
 
                             <img src="{{URL::asset('assets/images/job-profile2.png')}}" alt="" class="user-img">
