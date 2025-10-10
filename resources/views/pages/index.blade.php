@@ -471,6 +471,7 @@
     color: #E2B602 !important;
 }
 
+
 /* === TOMBOL LOGIN & DAFTAR === */
 .btn-login {
     background-color: #ffffff !important;
@@ -673,9 +674,14 @@ html {
 /* Text dalam box WhatsApp - PUTIH */
 #hero .inquiry-box h5 {
     color: white !important;
-    font-weight: 600 !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+    letter-spacing: 0.3px !important;
+    margin: 0 !important;
+    transition: all 0.3s ease !important;
 }
+
 
 #hero .inquiry-box a {
     color: white !important;
@@ -1148,11 +1154,11 @@ html {
       <!-- item 1 -->
       <div class="accordion-item mb-3">
         <h2 class="accordion-header" id="faq1">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
             Bagaimana cara mengikuti tryout?
           </button>
         </h2>
-        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+        <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
           <div class="accordion-body">
             Kamu bisa mendaftar akun terlebih dahulu, lalu pilih tryout yang tersedia di menu dashboard.
           </div>
