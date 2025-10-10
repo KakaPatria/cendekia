@@ -24,7 +24,7 @@
                         </div>
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
-                                <input type="text" class="form-control search" id="search-task-options" placeholder="Search ..." name="keyword" value="{{ $keyword }}">
+                                <input type="text" class="form-control search" id="search-task-options" placeholder="Cari ..." name="keyword" value="{{ $keyword }}">
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                         </div>
@@ -64,13 +64,14 @@
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col" width="1%">#</th>
-                                    <th scope="col">Judul Materi</th>
+                                    <th scope="col">Nama tryout</th>
                                     <th scope="col">Jenjang</th>
                                     <th scope="col">Kelas</th>
                                     <th scope="col">Jenis</th>
                                     <th scope="col">Umum</th>
-                                    <th scope="col">Materi</th>
+                                    <th scope="col">Mata pelajran</th>
                                     <th scope="col">Dibuka Sampai</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col" width="10%" class="text-center">Action</th>
                                 </tr>
                             </thead>

@@ -19,12 +19,15 @@
 
                 <form action="">
                     <div class="row g-2">
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Asal Sekolah</a>
+                        </div>
+                        <div class="col-lg-2">
+                            <a href="#" class="btn btn-outline-success btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#import-modal"><i class="ri-upload-cloud-2-line label-icon align-middle fs-16 me-2"></i> Import Data</a>
                         </div>
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
-                                <input type="text" class="form-control search" id="search-task-options" placeholder="Search ..." name="keyword" value="{{ $keyword }}">
+                                <input type="text" class="form-control search" id="search-task-options" placeholder="Cari ..." name="keyword" value="{{ $keyword }}">
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                         </div> 
@@ -113,6 +116,32 @@
         </div>
     </div>
 </div>
+
+            <!-- Import Modal -->
+            <div class="modal fade" id="import-modal" tabindex="-1" aria-labelledby="import-modal-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="import-modal-label">Import Asal Sekolah (Excel/CSV)</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('panel.asal_sekolah.import') }}" method="POST" enctype="multipart/form-data" id="import-form">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="import_file" class="form-label">Pilih file (.xlsx, .xls, .csv)</label>
+                                    <input class="form-control" type="file" id="import_file" name="import_file" accept=".xlsx,.xls,.csv" required>
+                                </div>
+                                <div class="alert alert-info">Pastikan file memiliki kolom nama sekolah pada kolom pertama. Baris header (jika ada) akan dideteksi dan dilewati.</div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" form="import-form" class="btn btn-primary">Import</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -213,6 +242,14 @@
 
         $('#edit-judul').val(name); 
     })
+
+    // optional: preview selected filename
+    $('#import_file').on('change', function() {
+        var fileName = $(this).val().split('\\').pop();
+        if (fileName) {
+            $(this).next('.form-label').text('Pilih file (.xlsx, .xls, .csv) — ' + fileName);
+        }
+    });
 
     
 </script>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Panel\Referensi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AsalSekolah;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Str;
 
 class AsalSekolahController extends Controller
 {
@@ -112,5 +114,52 @@ class AsalSekolahController extends Controller
 
         return redirect()->route('panel.asal_sekolah.index')
             ->withSuccess(('Asal Sekolah Berhasil dihapus.'));
+    }
+
+    /**
+     * Import asal sekolah dari file Excel/CSV
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required|file|mimes:xlsx,xls,csv',
+        ]);
+
+        $path = $request->file('import_file')->getRealPath();
+
+        $spreadsheet = IOFactory::load($path);
+        $sheet = $spreadsheet->getActiveSheet();
+        $rows = $sheet->toArray();
+
+        $inserted = 0;
+        $skipped = 0;
+
+        foreach ($rows as $index => $row) {
+            // Assume first column contains school name; skip header row if it looks like header
+            if ($index == 0) {
+                $firstCell = trim(strtolower((string)($row[0] ?? '')));
+                if (in_array($firstCell, ['nama sekolah', 'nama_sekolah', 'school name', 'name'])) {
+                    continue;
+                }
+            }
+
+            $name = trim((string)($row[0] ?? ''));
+            if (!$name) continue;
+
+            // Normalize name (trim and reduce spaces)
+            $nameNormalized = preg_replace('/\s+/', ' ', $name);
+
+            // Insert if not exists
+            $exists = AsalSekolah::where('nama_sekolah', $nameNormalized)->exists();
+            if (!$exists) {
+                AsalSekolah::create(['nama_sekolah' => $nameNormalized]);
+                $inserted++;
+            } else {
+                $skipped++;
+            }
+        }
+
+        return redirect()->route('panel.asal_sekolah.index')
+            ->withSuccess("Import selesai. Dimasukkan: $inserted, dilewati (duplikat): $skipped.");
     }
 }

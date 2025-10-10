@@ -33,7 +33,7 @@
                                     <h1 class="display-1 fw-medium">404</h1>
                                     <h3 class="text-uppercase">Sorry, Page not Found 😭</h3>
                                     <p class="text-muted mb-4">The page you are looking for not available!</p>
-                                    <a href="index" class="btn btn-success"><i class="mdi mdi-home me-1"></i>Back to home</a>
+                                    <a href="index" class="btn btn-success"><i class="mdi mdi-home me-1"></i>Kembali ke Beranda</a>
                                 </div>
                             </div>
                         </div>

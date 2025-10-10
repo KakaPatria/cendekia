@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formEvent.classList.remove("was-validated");
         formEvent.reset();
         selectedEvent = null;
-        modalTitle.innerText = 'Add Event';
+    modalTitle.innerText = 'Tambah Acara';
         newEventData = info;
         document.getElementById("edit-event-btn").setAttribute("data-id", "new-event");
         document.getElementById('edit-event-btn').click();
@@ -301,7 +301,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("edit-event-btn").removeAttribute("hidden");
             document.getElementById('btn-save-event').setAttribute("hidden", true);
             document.getElementById("edit-event-btn").setAttribute("data-id", "edit-event");
-            document.getElementById("edit-event-btn").innerHTML = "Edit";
+            document.getElementById("edit-event-btn").innerHTML = "Ubah";
             eventClicked();
             flatPickrInit();
             flatpicekrValueClear();
@@ -311,8 +311,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // First Modal
             document.getElementById("modal-title").innerHTML = "";
-            document.getElementById("event-location-tag").innerHTML = selectedEvent.extendedProps.location === undefined ? "No Location" : selectedEvent.extendedProps.location;
-            document.getElementById("event-description-tag").innerHTML = selectedEvent.extendedProps.description === undefined ? "No Description" : selectedEvent.extendedProps.description;
+            document.getElementById("event-location-tag").innerHTML = selectedEvent.extendedProps.location === undefined ? "Tidak ada Lokasi" : selectedEvent.extendedProps.location;
+            document.getElementById("event-description-tag").innerHTML = selectedEvent.extendedProps.description === undefined ? "Tidak ada Deskripsi" : selectedEvent.extendedProps.description;
 
             // Edit Modal
             document.getElementById("event-title").value = selectedEvent.title;
@@ -713,7 +713,7 @@ function getTime(params) {
     params = new Date(params);
     if (params.getHours() != null) {
         var hour = params.getHours();
-        var minute = (params.getMinutes()) ? params.getMinutes() : 00;
+        var minute = (params.getMinutes()) ? params.getMinutes() : 0;
         return hour + ":" + minute;
     }
 }

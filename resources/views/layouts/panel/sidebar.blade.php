@@ -31,21 +31,21 @@
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav " id="navbar-nav">
-                <li class="menu-title "><i class="ri-more-fill"></i> <span>admin</span></li>
+                <li class="menu-title "><i class="ri-more-fill"></i> <span></span></li>
                 <li class="nav-item">
                     <a class="nav-link menu-link " href="{{route('panel.dashboard')}}" id="nav-home">
-                        <i class="ri-dashboard-2-line"></i> <span>Dashboard</span>
+                        <i class="ri-dashboard-2-line"></i> <span>Beranda</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link " href="{{route('panel.tryout.index')}}" id="nav-tryout">
-                        <i class="ri-file-edit-line "></i> <span>Tryout</span>
+                        <i class="ri-file-edit-line "></i> <span>Tryout Umum</span>
                     </a>
                 </li>
                 
                 <li class="nav-item">
                     <a class="nav-link menu-link " href="{{route('panel.tryout_open.index')}}" id="nav-tryout-open">
-                        <i class="ri-file-paper-line"></i> <span>Tryout Umum</span>
+                        <i class="ri-file-paper-line"></i> <span>Tryout Bimbel</span>
                     </a>
                 </li>
                 
@@ -61,10 +61,10 @@
                     <div class="collapse menu-dropdown" id="sidebar-referensi">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item ">
-                                <a href="{{ route('panel.bank_soal.index')}}" class="nav-link " id="nav-bank-soal"></a>
+                                <a href="{{ route('panel.bank_soal.index')}}" class="nav-link " id="nav-bank-soal">Tambah Soal</a>
                             </li>
                             <li class="nav-item ">
-                                <a href="{{ route('panel.materi.index')}}" class="nav-link " id="nav-materi">Materi</a>
+                                <a href="{{ route('panel.materi.index')}}" class="nav-link " id="nav-materi">Mata pembelajaran</a>
                             </li>
                            
                             <li class="nav-item ">
@@ -77,7 +77,7 @@
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link menu-link " href="#sidebar-user" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-setting" id="nav-setting">
-                        <i class="ri-user-line  "></i> <span>Users</span>
+                        <i class="ri-user-line  "></i> <span>Pengguna</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebar-user">
                         <ul class="nav nav-sm flex-column">
@@ -93,15 +93,15 @@
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link menu-link " href="#sidebar-setting" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-setting" id="nav-setting">
-                        <i class="ri-settings-line "></i> <span>Setting</span>
+                        <i class="ri-settings-line "></i> <span>Pengaturan</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebar-setting">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item ">
-                                <a href="{{ route('panel.role.index')}}" class="nav-link " id="nav-role">Role</a>
+                                <a href="{{ route('panel.role.index')}}" class="nav-link " id="nav-role">Peran</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('panel.permission.index')}}" class="nav-link " id="nav-permission">Permission</a>
+                                <a href="{{ route('panel.permission.index')}}" class="nav-link " id="nav-permission">Izin</a>
                             </li>
                             
                         </ul>

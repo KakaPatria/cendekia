@@ -382,7 +382,7 @@ function deleteMultiple() {
     }
   } else {
     Swal.fire({
-      title: 'Please select at least one checkbox',
+    title: 'Silakan pilih setidaknya satu kotak centang',
       confirmButtonClass: 'btn btn-info',
       buttonsStyling: false,
       showCloseButton: true

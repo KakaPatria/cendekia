@@ -65,7 +65,7 @@
                 </ul>--}}
                 <div></div>
                 <div class="flex-shrink-0">
-                    <a href="{{ route('siswa.profile.edit')}}" class="btn btn-warning"><i class="ri-edit-box-line align-bottom"></i> Edit Profile</a>
+                    <a href="{{ route('siswa.profile.edit')}}" class="btn btn-warning"><i class="ri-edit-box-line align-bottom"></i> Ubah Profil</a>
                 </div>
             </div>
             <!-- Tab panes -->

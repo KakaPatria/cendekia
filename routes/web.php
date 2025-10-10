@@ -96,6 +96,7 @@ Route::name('panel.')->prefix('panel')->group(function () {
 
         Route::resource('referensi/materi', MateriController::class);
         Route::resource('referensi/asal_sekolah', AsalSekolahController::class);
+    Route::post('referensi/asal_sekolah/import', [AsalSekolahController::class, 'import'])->name('asal_sekolah.import');
         Route::get('referensi/bank_soal', [BankSoalController::class,'index'])->name('bank_soal.index');
         Route::get('referensi/bank_soal/{id}', [BankSoalController::class,'show'])->name('bank_soal.show');
 

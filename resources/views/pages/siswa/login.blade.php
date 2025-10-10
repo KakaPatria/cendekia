@@ -20,15 +20,15 @@
         background-position: center;
     }
 
-    /* Overlay tidak lagi diperlukan, efek blur sudah cukup */
-    /* .bg-overlay { background-color: rgba(0, 0, 0, 0.5); } */
-
     /* [IMPROVEMENT] Efek Glassmorphism pada Card */
     .card {
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.8); /* Latar belakang semi-transparan */
-        backdrop-filter: blur(15px); /* Efek blur utama */
-        -webkit-backdrop-filter: blur(15px); /* Untuk Safari */
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        
+        /* ==== DIBERI !important UNTUK MEMAKSA STYLE INI AKTIF ==== */
+        background: rgba(255, 255, 255, 0.65) !important; 
+        backdrop-filter: blur(15px) !important;
+        -webkit-backdrop-filter: blur(15px) !important;
+        
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, .2) !important;
         border-radius: 1rem !important;
         animation: fadeInDown 0.7s ease-out forwards;
@@ -137,7 +137,6 @@
                                     </div>
 
                                     <div class="mt-4">
-                                        {{-- [IMPROVEMENT] Menggunakan class tombol gradasi --}}
                                         <button class="btn btn-gradient-danger w-100 btn-lg" type="submit">Masuk</button>
                                     </div>
 
@@ -146,7 +145,6 @@
                                             <h5 class="fs-13 mb-4 title text-muted">atau masuk dengan</h5>
                                         </div>
                                         <div>
-                                            {{-- [IMPROVEMENT] Class baru untuk tombol google --}}
                                             <a href="{{ route('google.redirect') }}" class="btn btn-light border w-100 btn-google">
                                                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" height="20" class="me-2">
                                                 Masuk dengan Google

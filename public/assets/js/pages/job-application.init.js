@@ -200,7 +200,7 @@ document.getElementById("showModal").addEventListener("show.bs.modal", function 
     if (e.relatedTarget.classList.contains("edit-item-btn")) {
         document.getElementById("exampleModalLabel").innerHTML = "Edit Application";
         document.getElementById("showModal").querySelector(".modal-footer").style.display = "block";
-        document.getElementById("add-btn").innerHTML = "Update";
+    document.getElementById("add-btn").innerHTML = "Perbarui";
     } else if (e.relatedTarget.classList.contains("add-btn")) {
         document.getElementById("exampleModalLabel").innerHTML = "Add Application";
         document.getElementById("showModal").querySelector(".modal-footer").style.display = "block";
@@ -492,13 +492,13 @@ function deleteMultiple(){
     }
     if (typeof ids_array !== 'undefined' && ids_array.length > 0) {
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Apakah Anda yakin?",
+            text: "Anda tidak akan dapat mengembalikannya!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
             cancelButtonClass: 'btn btn-danger w-xs mt-2',
-            confirmButtonText: "Yes, delete it!",
+            confirmButtonText: "Ya, Hapus!",
             buttonsStyling: false,
             showCloseButton: true
         }).then(function (result) {
@@ -509,8 +509,8 @@ function deleteMultiple(){
                 document.getElementById("remove-actions").style.display = 'none';
                 document.getElementById("checkAll").checked = false;
                 Swal.fire({
-                    title: 'Deleted!',
-                    text: 'Your data has been deleted.',
+                    title: 'Terhapus!',
+                    text: 'Data Anda telah dihapus.',
                     icon: 'success',
                     confirmButtonClass: 'btn btn-info w-xs mt-2',
                     buttonsStyling: false
@@ -519,7 +519,7 @@ function deleteMultiple(){
         });
     } else {
         Swal.fire({
-            title: 'Please select at least one checkbox',
+            title: 'Silakan pilih setidaknya satu kotak centang',
             confirmButtonClass: 'btn btn-info',
             buttonsStyling: false,
             showCloseButton: true
