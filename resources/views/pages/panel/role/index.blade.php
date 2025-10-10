@@ -41,7 +41,7 @@
                                     <td>{{ $role->name }}</td>
 
                                     <td><a href="{{ route('panel.role.show', $role->id) }}" class="btn rounded-pill btn-info btn-sm"> Detail</a></td>
-                                    <td><a href="{{ route('panel.role.edit', $role->id) }}" class="btn rounded-pill btn-warning btn-sm">Edit</a></td>
+                                    <td><a href="{{ route('panel.role.edit', $role->id) }}" class="btn rounded-pill btn-warning btn-sm">Ubah</a></td>
                                     <td><a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{route('panel.role.destroy',$role->id)}}" data-name="{{$role->name}}">Hapus</a></td>
                                 </tr>
                                 @endforeach

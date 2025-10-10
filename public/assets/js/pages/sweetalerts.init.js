@@ -76,20 +76,20 @@ if (document.getElementById("sa-longcontent"))
 if (document.getElementById("sa-warning"))
     document.getElementById("sa-warning").addEventListener("click", function () {
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Apakah Anda yakin?",
+            text: "Anda tidak akan dapat mengembalikannya!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
             cancelButtonClass: 'btn btn-danger w-xs mt-2',
-            confirmButtonText: "Yes, delete it!",
+            confirmButtonText: "Ya, Hapus!",
             buttonsStyling: false,
             showCloseButton: true
         }).then(function (result) {
             if (result.value) {
                 Swal.fire({
-                    title: 'Deleted!',
-                    text: 'Your file has been deleted.',
+                    title: 'Terhapus!',
+                    text: 'File Anda telah dihapus.',
                     icon: 'success',
                     confirmButtonClass: 'btn btn-primary w-xs mt-2',
                     buttonsStyling: false
@@ -102,11 +102,11 @@ if (document.getElementById("sa-warning"))
 if (document.getElementById("sa-params"))
     document.getElementById("sa-params").addEventListener("click", function () {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: 'Apakah Anda yakin?',
+            text: 'Anda tidak akan dapat mengembalikannya!',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: 'Ya, Hapus!',
             cancelButtonText: 'No, cancel!',
             confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
             cancelButtonClass: 'btn btn-danger w-xs mt-2',
@@ -115,8 +115,8 @@ if (document.getElementById("sa-params"))
         }).then(function (result) {
             if (result.value) {
                 Swal.fire({
-                    title: 'Deleted!',
-                    text: 'Your file has been deleted.',
+                    title: 'Terhapus!',
+                    text: 'File Anda telah dihapus.',
                     icon: 'success',
                     confirmButtonClass: 'btn btn-primary w-xs mt-2',
                     buttonsStyling: false
@@ -126,8 +126,8 @@ if (document.getElementById("sa-params"))
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 Swal.fire({
-                    title: 'Cancelled',
-                    text: 'Your imaginary file is safe :)',
+                    title: 'Dibatalkan',
+                    text: 'File Anda aman :)',
                     icon: 'error',
                     confirmButtonClass: 'btn btn-primary mt-2',
                     buttonsStyling: false
@@ -209,28 +209,29 @@ if (document.getElementById("custom-html-alert"))
 if (document.getElementById("sa-dialog-three-btn"))
     document.getElementById("sa-dialog-three-btn").addEventListener("click", function () {
         Swal.fire({
-            title: 'Do you want to save the changes?',
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Save',
+                title: 'Do you want to save the changes?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Simpan',
+                denyButtonText: 'Jangan simpan',
             confirmButtonClass: 'btn btn-success w-xs me-2',
             cancelButtonClass: 'btn btn-danger w-xs',
             denyButtonClass: 'btn btn-info w-xs me-2',
             buttonsStyling: false,
-            denyButtonText: 'Don\'t save',
+                cancelButtonText: 'Tidak, batal!',
             showCloseButton: true
         }).then(function (result) {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 Swal.fire({
-                    title: 'Saved!',
+                    title: 'Tersimpan!',
                     icon: 'success',
                     confirmButtonClass: 'btn btn-primary w-xs',
                     buttonsStyling: false,
                 })
             } else if (result.isDenied) {
                 Swal.fire({
-                    title: 'Changes are not saved',
+                    title: 'Perubahan tidak disimpan',
                     icon: 'info',
                     confirmButtonClass: 'btn btn-primary w-xs',
                     buttonsStyling: false,
@@ -245,7 +246,7 @@ if (document.getElementById("sa-position"))
         Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: 'Your work has been saved',
+            title: 'Pekerjaan Anda telah disimpan',
             showConfirmButton: false,
             timer: 1500,
             showCloseButton: true
@@ -357,7 +358,7 @@ if (document.getElementById("custom-sa-warning"))
                 '</div>',
             showCancelButton: true,
             confirmButtonClass: 'btn btn-primary w-xs me-2 mb-1',
-            confirmButtonText: 'Yes, Delete It!',
+            confirmButtonText: 'Ya, Hapus!',
             cancelButtonClass: 'btn btn-danger w-xs mb-1',
             buttonsStyling: false,
             showCloseButton: true
@@ -380,7 +381,7 @@ if (document.getElementById("custom-sa-community"))
             footer: '<p class="fs-13 text-muted mb-0">Already have an account ? <a href="#" class="fw-semibold text-decoration-underline"> Signin </a> </p>',
             imageHeight: 40,
             confirmButtonClass: 'btn btn-primary w-xs mb-2',
-            confirmButtonText: 'Register <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
+            confirmButtonText: 'Daftar <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
             buttonsStyling: false,
             showCloseButton: true
         })

@@ -131,8 +131,8 @@
 
                             <div class="col-lg-12">
                                 <div class="hstack gap-2 justify-content-end">
-                                    <button type="submit" class="btn btn-danger">Updates</button>
-                                    <a href="{{ route('siswa.dashboard')}}" class="btn btn-soft-success">Cancel</a>
+                                        <button type="submit" class="btn btn-danger">Perbarui</button>
+                                        <a href="{{ route('siswa.dashboard')}}" class="btn btn-soft-success">Batal</a>
                                 </div>
                             </div>
 

@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
-                                <input type="text" class="form-control search" id="search-task-options" placeholder="Search ..." name="keyword" value="{{ $keyword }}">
+                                <input type="text" class="form-control search" id="search-task-options" placeholder="Cari ..." name="keyword" value="{{ $keyword }}">
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                     </td>
                                     <td>{{ $user->status}}</td>
                                     {{-- <td><a href="{{ route('panel.user.show', $user->id) }}" class="btn rounded-pill btn-info btn-sm"><i class="fa fa-search-plus"></i> Detail</a></td> --}}
-                                    <td><a href="{{ route('panel.user.edit', ['user'=>$user->id,'roleX'=>$roleX]) }}" class="btn rounded-pill btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a></td>
+                                    <td><a href="{{ route('panel.user.edit', ['user'=>$user->id,'roleX'=>$roleX]) }}" class="btn rounded-pill btn-warning btn-sm"><i class="fa fa-edit"></i> Ubah</a></td>
                                     <td><a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$user->id}}" data-name="{{$user->name}}"><i class="fa fa-trash"></i> Hapus</a></td>
                                 </tr>
                                 @empty

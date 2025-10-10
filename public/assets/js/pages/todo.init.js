@@ -380,23 +380,23 @@ document.getElementById("creattask-form").addEventListener("submit", function (e
       return false;
     }
     if(assignedTo.length == 0){
-        text = "Please select team member";
+    text = "Silakan pilih anggota tim";
         errorMsg.innerHTML = text;
         return false;
     }
     if(statusInputFieldValue == ""){
-        text = "Please select task status";
+    text = "Silakan pilih status tugas";
         errorMsg.innerHTML = text;
         return false;
     }
     if(priorityInputFieldValue == ""){
-        text = "Please select task priority";
+    text = "Silakan pilih prioritas tugas";
         errorMsg.innerHTML = text;
         return false;
     }
 
     if(inputDate.length == 0){
-        text = "Please select due date";
+    text = "Silakan pilih tanggal jatuh tempo";
         errorMsg.innerHTML = text;
         return false;
     }
