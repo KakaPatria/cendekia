@@ -314,14 +314,21 @@
     }
 
 
-    /* ========== NAVBAR MODERN UPGRADE ========== */
+    /* ========== NAVBAR MODERN UPGRADE - ENHANCED ========== */
 .navbar-landing {
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
-    transition: all 0.3s ease !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(15px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+    border-bottom: 1px solid rgba(152, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 30px rgba(152, 0, 0, 0.08) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    padding: 0.8rem 0 !important;
+}
+
+/* Navbar scroll effect */
+.navbar-landing.scrolled {
+    box-shadow: 0 8px 40px rgba(152, 0, 0, 0.15) !important;
+    padding: 0.5rem 0 !important;
 }
 
 /* Modern Navigation Links */
@@ -336,6 +343,23 @@
     transition: all 0.3s ease !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
+}
+
+/* Underline animation effect */
+.navbar-nav .nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #E2B602, #980000);
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::before {
+    width: 60%;
 }
 
 /* Active State dengan Gradient */
@@ -394,18 +418,28 @@
     color: #ffffff !important;
 }
 
-/* Wave kuning atas (gradasi merah ke kuning, lebih tinggi & jelas) */
+/* Wave kuning atas - WITH SUBTLE ANIMATION */
 .job-hero-section.bg-light::before {
     content: '';
     position: absolute;
-    top: 80px; /* dinaikkan sedikit biar ga ketutup header */
+    top: 70px;
     left: 0;
     width: 100%;
-    height: 200px; /* lebih tinggi supaya gradasinya keliatan */
+    height: 200px;
     z-index: 1;
     background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='0%'><stop offset='0%' style='stop-color:%23980000;stop-opacity:1' /><stop offset='100%' style='stop-color:%23E2B602;stop-opacity:1' /></linearGradient></defs><path fill='url(%23grad)' d='M0,40 C300,60 800,0 1440,90 L1440,0 L0,0 Z'></path></svg>");
     background-size: cover;
     background-repeat: no-repeat;
+    animation: waveMove 15s ease-in-out infinite;
+}
+
+@keyframes waveMove {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px);
+    }
 }
 
 
@@ -478,21 +512,43 @@
     z-index: 2;
 }
 
-/* Hero Text Styling */
+/* Hero Text Styling - WITH ANIMATIONS */
 .job-hero-section .display-6 {
     color: white !important;
-    font-weight: 700 !important;
-    text-shadow: 0 1px 1px #f1f3f4!important;
+    font-weight: 800 !important;
+    font-size: 2.8rem !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
     line-height: 1.2 !important;
     margin-bottom: 2rem !important;
+    
+    /* Fade-in animation */
+    animation: fadeInUp 1s ease-out both;
+    animation-delay: 0.2s;
 }
 
 .job-hero-section .lead {
-    color: white !important;
-    font-size: 1.1rem !important;
-    line-height: 1.6 !important;
-    text-shadow: 0 0px 1px rgba(255, 255, 255, 1) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-size: 1.05rem !important;
+    line-height: 1.7 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
     text-align: justify !important;
+    font-weight: 400 !important;
+    
+    /* Fade-in animation - delay lebih lama */
+    animation: fadeInUp 1s ease-out both;
+    animation-delay: 0.4s;
+}
+
+/* Keyframe untuk fade in dari bawah */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
@@ -800,12 +856,14 @@ html {
 
                             <img src="{{URL::asset('assets/images/job-profile2.png')}}" alt="" class="user-img">
 
+                            {{-- Circle decoration (dinonaktifkan sementara)
                             <div class="circle-effect">
                                 <div class="circle"></div>
                                 <div class="circle2"></div>
                                 <div class="circle3"></div>
                                 <div class="circle4"></div>
                             </div>
+                            --}}
                         </div>
                     </div>
                 </div>
@@ -820,7 +878,7 @@ html {
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">TOP 3 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
+                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
 
                         </div>
                     </div>
