@@ -77,6 +77,11 @@
                                 Cari
                             </button>
                         </div>
+                        <div class="col-lg-2 col-sm-4">
+                            <a href="{{ route('panel.pendaftaran.export', request()->query()) }}" class="btn btn-success w-100"> <i class="ri-file-download-line  me-1 align-bottom"></i>
+                                Export Data
+                            </a>
+                        </div>
 
                     </div>
 

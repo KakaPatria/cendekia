@@ -102,9 +102,10 @@ Route::name('panel.')->prefix('panel')->group(function () {
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
 
-        Route::get('pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
-        Route::get('pendaftaran/{tryout_peserta_id}', [PendaftaranController::class, 'show'])->name('pendaftaran.show');
-        Route::post('pendaftaran/{tryout_peserta_id}/approve', [PendaftaranController::class, 'approve'])->name('pendaftaran.approve');
+    Route::get('pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
+    Route::get('pendaftaran/export', [PendaftaranController::class, 'export'])->name('pendaftaran.export');
+    Route::get('pendaftaran/{tryout_peserta_id}', [PendaftaranController::class, 'show'])->name('pendaftaran.show');
+    Route::post('pendaftaran/{tryout_peserta_id}/approve', [PendaftaranController::class, 'approve'])->name('pendaftaran.approve');
 
         Route::post('logout', [PanelUserController::class, 'logout'])->name('logout');
     });
