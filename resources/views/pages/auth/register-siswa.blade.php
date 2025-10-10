@@ -240,6 +240,128 @@
     }
 </style>
 @endsection
+@section('css')
+<style>
+    /* Custom Styling Sesuai Desain Baru */
+    :root {
+        --primary-red: #980000;
+        --primary-yellow: #E2B602;
+        --border-color: #dee2e6;
+        --text-muted: #6c757d;
+    }
+    
+    body {
+        background-color: #f8f9fa; /* Warna background abu-abu muda */
+    }
+
+    .auth-page-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+
+    .register-container {
+        display: flex;
+        width: 100%;
+        max-width: 1100px;
+        min-height: 700px;
+        background-color: #fff;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .left-panel {
+        flex: 1;
+        background-image: url("{{ asset('assets/images/bg-login.jpg') }}"); /* Ganti dengan path gambar Anda */
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 3rem;
+    }
+    
+    .left-panel .logo img {
+        height: 50px;
+    }
+
+    .right-panel {
+        flex: 1;
+        padding: 3rem 4rem;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .form-header h3 {
+        font-weight: 700;
+        color: #333;
+    }
+    .form-header p {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #495057;
+    }
+    
+    .form-control, .form-select {
+        height: 50px;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-red);
+        background-color: #fff;
+        box-shadow: none;
+    }
+    
+    /* Wizard Steps */
+    .form-step {
+        display: none;
+        animation: fadeIn 0.5s;
+    }
+    .form-step.active {
+        display: block;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-next, .btn-submit {
+        height: 50px;
+        border-radius: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .btn-submit {
+        background-color: var(--primary-red);
+        border: none;
+    }
+    
+    .btn-back {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .form-footer {
+        margin-top: auto;
+        text-align: center;
+        padding-top: 1.5rem;
+    }
+</style>
+@endsection
 
 @section('content')
 <div class="auth-page-wrapper">
@@ -247,14 +369,20 @@
         <div class="left-panel">
             <div class="logo">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 <a href="/"><img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia"></a>
             </div>
 =======
+=======
+>>>>>>> Stashed changes
                 <a href="/">
                     <img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia">
                 </a>
             </div>
             {{-- Bisa ditambahkan teks atau elemen lain di sini jika perlu --}}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         </div>
 
@@ -266,7 +394,11 @@
 
             @if ($errors->any())
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 <div class="alert alert-danger py-2 mb-4">
+=======
+                <div class="alert alert-danger py-2">
+>>>>>>> Stashed changes
 =======
                 <div class="alert alert-danger py-2">
 >>>>>>> Stashed changes
@@ -281,18 +413,24 @@
             <form method="POST" action="{{ route('register.siswa') }}">
                 @csrf
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 <div class="form-step active" id="step1">
                     <div class="row gx-3">
                         <div class="col-12 mb-3"><label for="name" class="form-label">Nama Lengkap <span class="text-danger">*</span></label><input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Masukkan Nama Lengkap" value="{{ old('name') }}" required></div>
                         <div class="col-12 mb-3"><label for="email" class="form-label">Email <span class="text-danger">*</span></label><input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Masukkan Email" value="{{ old('email') }}" required></div>
                         <div class="col-12 mb-3"><label for="telepon" class="form-label">Nomor Telepon</label><input type="text" class="form-control @error('telepon') is-invalid @enderror" name="telepon" placeholder="Masukkan Nomor Telepon" value="{{ old('telepon') }}"></div>
 =======
+=======
+>>>>>>> Stashed changes
 
                 <div class="form-step active" id="step1">
                     <div class="row">
                         <div class="col-12 mb-3"><label for="name" class="form-label">Nama Lengkap <span class="text-danger">*</span></label><input type="text" class="form-control" name="name" placeholder="Masukkan Nama Lengkap" value="{{ old('name') }}" required></div>
                         <div class="col-12 mb-3"><label for="email" class="form-label">Email <span class="text-danger">*</span></label><input type="email" class="form-control" name="email" placeholder="Masukkan Email" value="{{ old('email') }}" required></div>
                         <div class="col-12 mb-3"><label for="telepon" class="form-label">Nomor Telepon</label><input type="text" class="form-control" name="telepon" placeholder="Masukkan Nomor Telepon" value="{{ old('telepon') }}"></div>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                         <div class="col-12 mb-3"><label for="nama_orang_tua" class="form-label">Nama Orang Tua</label><input type="text" class="form-control" name="nama_orang_tua" placeholder="Masukkan Nama Orang Tua" value="{{ old('nama_orang_tua') }}"></div>
                         <div class="col-12 mb-3"><label for="telp_orang_tua" class="form-label">Nomor Telepon Orang Tua</label><input type="text" class="form-control" name="telp_orang_tua" placeholder="Masukkan Nomor Telepon Orang Tua" value="{{ old('telp_orang_tua') }}"></div>
@@ -300,11 +438,16 @@
                     </div>
                     <div class="d-grid mt-3">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         <button type="button" class="btn btn-warning btn-next" onclick="nextStep()" disabled>Next</button>
+=======
+                        <button type="button" class="btn btn-warning btn-next" onclick="nextStep()">Next</button>
+>>>>>>> Stashed changes
                     </div>
                 </div>
                 
                 <div class="form-step" id="step2">
+<<<<<<< Updated upstream
                     <div class="row gx-3">
                         <div class="col-12 mb-3">
                             <label for="asal_sekolah" class="form-label">Asal Sekolah <span class="text-danger">*</span></label>
@@ -355,6 +498,8 @@
 =======
                 
                 <div class="form-step" id="step2">
+=======
+>>>>>>> Stashed changes
                     <div class="row">
                         <div class="col-12 mb-3"><label for="asal_sekolah" class="form-label">Asal Sekolah</label><input type="text" class="form-control" name="asal_sekolah" placeholder="Cari Asal Sekolah" value="{{ old('asal_sekolah') }}"></div>
                         <div class="col-md-6 mb-3">
@@ -380,6 +525,9 @@
                         <button class="btn btn-danger btn-submit" type="submit">Daftar</button>
                     </div>
                 </div>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             </form>
             
@@ -393,6 +541,7 @@
 
 @section('script')
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -401,10 +550,13 @@
 
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 <script>
     let currentStep = 0;
     const steps = document.querySelectorAll('.form-step');
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     function validateStep(stepIndex) {
         const currentStepElement = steps[stepIndex];
@@ -441,6 +593,11 @@
         steps.forEach((step, index) => {
             step.classList.toggle('active', index === stepIndex);
 >>>>>>> Stashed changes
+=======
+    function showStep(stepIndex) {
+        steps.forEach((step, index) => {
+            step.classList.toggle('active', index === stepIndex);
+>>>>>>> Stashed changes
         });
     }
 
@@ -458,6 +615,7 @@
         }
     }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     $(document).ready(function() {
         showStep(0);
@@ -479,6 +637,8 @@
         });
 
 =======
+=======
+>>>>>>> Stashed changes
     document.addEventListener('DOMContentLoaded', function() {
 >>>>>>> Stashed changes
         const jenjangDropdown = document.getElementById('jenjang');
@@ -490,6 +650,10 @@
         };
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+        // Function to update 'kelas' dropdown
+>>>>>>> Stashed changes
 =======
         // Function to update 'kelas' dropdown
 >>>>>>> Stashed changes
@@ -503,6 +667,10 @@
                     option.value = kelas;
                     option.text = `Kelas ${kelas}`;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+                    // Re-select old value if available
+>>>>>>> Stashed changes
 =======
                     // Re-select old value if available
 >>>>>>> Stashed changes
@@ -516,9 +684,15 @@
                 kelasDropdown.innerHTML = '<option value="">Pilih Jenjang Dulu</option>';
             }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             validateStep(currentStep);
         }
         
+=======
+        }
+        
+        // Initial check in case of old input
+>>>>>>> Stashed changes
 =======
         }
         
@@ -529,6 +703,7 @@
         }
         
         jenjangDropdown.addEventListener('change', updateKelasDropdown);
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
         // === [PERBAIKAN] Tambahkan logika show/hide password di sini ===
@@ -546,6 +721,8 @@
                 }
             });
         });
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     });
