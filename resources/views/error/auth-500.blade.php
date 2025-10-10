@@ -24,7 +24,7 @@
                             <div>
                                 <h4>Internal Server Error!</h4>
                                 <p class="text-muted w-75 mx-auto">Server Error 500. We're not exactly sure what happened, but our servers say something is wrong.</p>
-                                <a href="index" class="btn btn-success"><i class="mdi mdi-home me-1"></i>Back to home</a>
+                                <a href="index" class="btn btn-success"><i class="mdi mdi-home me-1"></i>Kembali ke Beranda</a>
                             </div>
                         </div><!-- end col-->
                     </div>

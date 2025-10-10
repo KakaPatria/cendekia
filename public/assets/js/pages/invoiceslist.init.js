@@ -12,7 +12,7 @@ function getTime(params) {
     params = new Date(params);
     if (params.getHours() != null) {
         var hour = params.getHours();
-        var minute = (params.getMinutes()) ? params.getMinutes() : 00;
+    var minute = (params.getMinutes()) ? params.getMinutes() : 0;
         return hour + ":" + minute;
     }
 }
@@ -1536,17 +1536,17 @@ Array.from(Invoices).forEach(function (raw) {
                             <i class="ri-more-fill align-middle"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><button class="dropdown-item" href="javascript:void(0);" onclick="ViewInvoice(this);" data-id="` + raw.invoice_no + `" ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
-                                    View</button></li>
-                            <li><button class="dropdown-item" href="javascript:void(0);" onclick="EditInvoice(this);" data-id="` + raw.invoice_no + `"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                    Edit</button></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-line align-bottom me-2 text-muted"></i>
-                                    Download</a></li>
+                <li><button class="dropdown-item" href="javascript:void(0);" onclick="ViewInvoice(this);" data-id="` + raw.invoice_no + `" ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
+                    Lihat</button></li>
+                <li><button class="dropdown-item" href="javascript:void(0);" onclick="EditInvoice(this);" data-id="` + raw.invoice_no + `"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                    Ubah</button></li>
+                <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-line align-bottom me-2 text-muted"></i>
+                    Unduh</a></li>
                             <li class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item remove-item-btn" data-bs-toggle="modal" href="#deleteOrder">
                                     <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                    Delete
+                                    Hapus
                                 </a>
                             </li>
                         </ul>
@@ -1562,8 +1562,8 @@ document.addEventListener("DOMContentLoaded", function () {
     Array.from(genericExamples).forEach(function (genericExamp) {
         var element = genericExamp;
         new Choices(element, {
-            placeholderValue: "This is a placeholder set in the config",
-            searchPlaceholderValue: "Search results here",
+            placeholderValue: "Placeholder konfigurasi",
+            searchPlaceholderValue: "Hasil pencarian di sini",
         });
     });
 });
@@ -1615,7 +1615,7 @@ var options = {
             left: 2,
             right: 2,
         }),
-    ],
+    ]
 };
 
 // Init list
@@ -1847,13 +1847,14 @@ function deleteMultiple() {
     
     if (typeof ids_array !== 'undefined' && ids_array.length > 0) {
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Apakah Anda yakin?",
+            text: "Tindakan ini tidak dapat dibatalkan!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
             cancelButtonClass: 'btn btn-danger w-xs mt-2',
-            confirmButtonText: "Yes, delete it!",
+            confirmButtonText: "Ya, Hapus!",
+            cancelButtonText: "Batal",
             buttonsStyling: false,
             showCloseButton: true
         }).then(function (result) {
@@ -1864,8 +1865,8 @@ function deleteMultiple() {
                 document.getElementById("remove-actions").style.display = 'none';
                 document.getElementById("checkAll").checked = false;
                 Swal.fire({
-                    title: 'Deleted!',
-                    text: 'Your data has been deleted.',
+                    title: 'Terhapus!',
+                    text: 'Data Anda telah dihapus.',
                     icon: 'success',
                     confirmButtonClass: 'btn btn-info w-xs mt-2',
                     buttonsStyling: false
@@ -1874,7 +1875,7 @@ function deleteMultiple() {
         });
     } else {
         Swal.fire({
-            title: 'Please select at least one checkbox',
+            title: 'Silakan pilih setidaknya satu kotak centang',
             confirmButtonClass: 'btn btn-info',
             buttonsStyling: false,
             showCloseButton: true

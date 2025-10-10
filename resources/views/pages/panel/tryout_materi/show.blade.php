@@ -34,7 +34,7 @@
                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
 
                             <a href="javascript:;" class="btn rounded-pill btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#edit-materi-modal">
-                                <i class="fa fa-edit"></i> Edit</a>
+                                <i class="fa fa-edit"></i> Ubah</a>
                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$tryout_materi->tryout_materi_id}}" data-name="{{$tryout_materi->refMateri->ref_materi_judul}}"><i class="fa fa-trash"></i> Hapus</a>
                             @endif
                         </div>
@@ -146,10 +146,10 @@
                                 </div>
                                 <div class="flex-shrink-0 mb-2">
                                     <a href="{{route('panel.tryout_jawaban.edit',$soal->tryout_soal_id)}}" class="btn rounded-pill btn-primary btn-sm ">
-                                        <i class="fa fa-edit"></i> Edit Soal
+                                        <i class="fa fa-edit"></i> Ubah Soal
                                     </a>
                                     {{--<a href="javascript:;" class="btn rounded-pill btn-warning btn-sm edit-jawaban-btn" data-bs-toggle="modal" data-bs-target="#edit-jawaban-modal" data-id="{{ $soal->tryout_soal_id}}" data-action="{{route('panel.tryout_materi.updateJawaban',$soal->tryout_soal_id)}}">
-                                    <i class="fa fa-edit"></i> Edit Jawaban</a>--}}
+                                    <i class="fa fa-edit"></i> Ubah Jawaban</a>--}}
                                 </div>
                             </div>
 

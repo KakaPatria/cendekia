@@ -128,7 +128,7 @@
                         <form class="p-3">
                             <div class="form-group m-0">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                                    <input type="text" class="form-control" placeholder="Cari ..." aria-label="Recipient's username">
                                     <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
                                 </div>
                             </div>
@@ -303,7 +303,7 @@
                                         </div>
                                     </div>
                                     <h5 class="mb-3">Your Cart is Empty!</h5>
-                                    <a href="#" class="btn btn-success w-md mb-3">Shop Now</a>
+                                    <a href="#" class="btn btn-success w-md mb-3">Belanja Sekarang</a>
                                 </div>
                                 <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                     <div class="d-flex align-items-center">
@@ -749,7 +749,7 @@
                 </div>
                 <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
                     <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
+                    <button type="button" class="btn w-sm btn-danger" id="delete-notification">Ya, Hapus!</button>
                 </div>
             </div>
 

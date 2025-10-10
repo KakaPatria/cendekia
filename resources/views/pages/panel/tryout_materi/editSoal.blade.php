@@ -11,7 +11,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Detail @endslot
-@slot('title') Edit Soal Tryout @endslot
+@slot('title') Ubah Soal Tryout @endslot
 @endcomponent
 
 @include('components.message')
