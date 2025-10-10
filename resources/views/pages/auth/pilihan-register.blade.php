@@ -4,6 +4,10 @@
     Pilih Jenis Pendaftaran
 @endsection
 
+@section('css')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
+
 @section('content')
 <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
     <div class="bg-overlay" style="background-color : #fff7cc;"></div>
@@ -54,7 +58,14 @@
                                             <div class="mb-3"><label for="nama_orang_tua" class="form-label">Nama Orangtua</label><input type="text" class="form-control" name="nama_orang_tua" placeholder="Masukkan Nama Orangtua" value="{{ old('nama_orang_tua') }}"></div>
                                             <div class="mb-3"><label for="telp_orang_tua" class="form-label">Telepon Orangtua</label><input type="text" class="form-control" name="telp_orang_tua" placeholder="Masukkan Telepon Orangtua" value="{{ old('telp_orang_tua') }}"></div>
                                             <div class="mb-3"><label for="alamat" class="form-label">Alamat</label><input type="text" class="form-control" name="alamat" placeholder="Masukkan alamat" value="{{ old('alamat') }}"></div>
-                                            <div class="mb-3"><label for="asal_sekolah" class="form-label">Asal Sekolah</label><input type="text" class="form-control" name="asal_sekolah" placeholder="Cari Asal Sekolah" value="{{ old('asal_sekolah') }}"></div>
+                                            <div class="mb-3">
+                                                <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
+                                                <select class="form-control select2" name="asal_sekolah" id="asal_sekolah" style="width:100%">
+                                                    @if(old('asal_sekolah'))
+                                                        <option selected value="{{ old('asal_sekolah') }}">{{ old('asal_sekolah') }}</option>
+                                                    @endif
+                                                </select>
+                                            </div>
                                             
                                             <div class="mb-3">
                                                 <label for="jenjang" class="form-label">Jenjang</label>
@@ -94,9 +105,31 @@
 @endsection
 
 @section('script')
-{{-- JavaScript untuk dropdown kelas (disalin dari register-siswa) --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    $(document).ready(function() {
+        // Init Select2 for asal_sekolah
+        if ($.fn.select2) {
+            $('#asal_sekolah').select2({
+                placeholder: "Cari & Pilih Sekolah",
+                allowClear: true,
+                tags: true,
+                minimumInputLength: 1,
+                dropdownParent: $('body'),
+                ajax: {
+                    url: '{{ route('ajax.cari-sekolah') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) { return { q: params.term }; },
+                    processResults: function(data) { return { results: data }; },
+                    cache: true
+                },
+                width: '100%'
+            });
+        }
+
+        // Dropdown kelas logic
         const jenjangDropdown = document.getElementById('jenjang');
         const kelasDropdown = document.getElementById('kelas');
         const kelasOptions = {

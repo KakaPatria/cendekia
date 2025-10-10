@@ -15,15 +15,12 @@
         background-position: center;
     }
 
-    /* Overlay tidak lagi diperlukan karena efek blur pada card sudah cukup */
-    /* .bg-overlay { background-color: rgba(0, 0, 0, 0.5); } */
-
-    /* [IMPROVEMENT V2] Efek Glassmorphism pada Card */
+    /* [IMPROVEMENT V2] Efek Glassmorphism pada Card dengan !important */
     .card {
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.7); /* Latar belakang semi-transparan */
-        backdrop-filter: blur(15px); /* Efek blur utama */
-        -webkit-backdrop-filter: blur(15px); /* Untuk Safari */
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        background: rgba(255, 255, 255, 0.65) !important; /* DIPAKSA DENGAN !important */
+        backdrop-filter: blur(15px) !important;
+        -webkit-backdrop-filter: blur(15px) !important;
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, .2) !important;
         border-radius: 1rem !important;
         animation: fadeInDown 0.7s ease-out forwards;
@@ -46,13 +43,12 @@
         transition: transform 0.3s ease-in-out;
     }
 
-    /* [IMPROVEMENT V2] Styling untuk Floating Label */
     .form-floating > .form-control {
         height: calc(3.5rem + 2px);
         padding: 1rem 1.25rem;
         font-size: 1rem;
         border-radius: 0.5rem;
-        background-color: rgba(255, 255, 255, 0.5); /* Input juga semi-transparan */
+        background-color: rgba(255, 255, 255, 0.5);
         border: 1px solid rgba(0, 0, 0, 0.1);
     }
 
@@ -68,23 +64,18 @@
     
     .form-floating > .form-control:not(:placeholder-shown) ~ label,
     .form-floating > .form-control:focus ~ label {
-        color: #980000; /* Warna label saat aktif/focus */
+        color: #980000;
         transform: scale(.85) translateY(-.5rem) translateX(.15rem);
     }
-
-    /* [VALIDASI] Style untuk input yang tidak valid */
+    
     .form-control.is-invalid {
-        border-color: #dc3545; /* Border merah standar bootstrap */
-    }
-    .form-floating > .form-control.is-invalid:focus {
-        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        border-color: #dc3545;
     }
     .invalid-feedback {
         font-size: 0.875em;
         font-weight: 500;
     }
     
-    /* [IMPROVEMENT V2] Tombol dengan gradasi dan efek hover */
     .btn-gradient-danger {
         border: none;
         background-image: linear-gradient(to right, #EE5A24 0%, #980000 50%, #EE5A24 100%);
@@ -95,7 +86,7 @@
     }
 
     .btn-gradient-danger:hover {
-        background-position: right center; /* Menggeser gradasi saat hover */
+        background-position: right center;
         transform: translateY(-3px);
         box-shadow: 0 8px 20px rgba(152, 0, 0, 0.3);
     }
@@ -105,7 +96,7 @@
     }
     
     .bottom-link a:hover {
-        color: #212529 !important; /* Ubah warna hover agar lebih terlihat di card transparan */
+        color: #212529 !important;
     }
 </style>
 @endsection
@@ -124,7 +115,7 @@
                                     <img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia" height="50">
                                 </a>
                                 <h4 class="text-dark mt-4">Lupa Password Anda?</h4>
-                                <p class="text-muted">Jangan khawatir, masukkan email anda untuk menerima link reset.</p>
+                                <p class="text-muted">Jangan khawatir, masukkan email Anda untuk menerima link reset.</p>
                             </div>
 
                             @include('components.message')
@@ -134,11 +125,9 @@
                                     @csrf
                                     
                                     <div class="form-floating mb-3">
-                                        {{-- [VALIDASI] Tambahkan class @error('email') is-invalid @enderror --}}
                                         <input type="email" class="form-control @error('email') is-invalid @enderror" id="floatingEmail" name="email" placeholder="Masukkan Email Anda" value="{{ old('email') }}" required>
                                         <label for="floatingEmail">Email</label>
                                         
-                                        {{-- [VALIDASI] Blok untuk menampilkan pesan error --}}
                                         @error('email')
                                             <div class="invalid-feedback d-block mt-1">
                                                 {{ $message }}
@@ -155,7 +144,7 @@
                     </div>
 
                     <div class="mt-4 text-center bottom-link">
-                        <p class="mb-0">Ingat password anda? <a href="{{ route('login') }}" class="fw-semibold text-dark text-decoration-underline"> Kembali ke Login </a></p>
+                        <p class="mb-0">Ingat password Anda? <a href="{{ route('login') }}" class="fw-semibold text-dark text-decoration-underline"> Kembali ke Login </a></p>
                     </div>
 
                 </div>

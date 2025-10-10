@@ -29,7 +29,7 @@
                             <a href="{{ route('panel.tryout.exportPeserta',$tryout->tryout_id)}}" class="btn rounded-pill btn-warning btn-sm">
                                 <i class="fa fa-edit"></i> Export Data</a>
                             <a href="{{ route('panel.tryout.edit',$tryout->tryout_id)}}" class="btn rounded-pill btn-info btn-sm">
-                                <i class="fa fa-edit"></i> Edit</a>
+                                <i class="fa fa-edit"></i> Ubah</a>
                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$tryout->tryout_id}}" data-name="{{$tryout->tryout_judul}}"><i class="fa fa-trash"></i> Hapus</a>
                             @endif
                         </div>

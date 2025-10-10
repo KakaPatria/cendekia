@@ -294,6 +294,11 @@
             step.classList.toggle('active', index === stepIndex);
         });
         updateProgress(stepIndex);
+        // If we're showing the "Informasi Sekolah" step (index 2), ensure Select2 is initialized
+        // Initializing Select2 on elements that are hidden (display: none) can cause width/position bugs.
+        if (stepIndex === 2) {
+            initAsalSekolahSelect2();
+        }
     }
 
     function updateProgress(stepIndex) {
@@ -342,25 +347,39 @@
     });
 
     $(document).ready(function() {
-        // Inisialisasi Select2
-        $('#asal_sekolah').select2({
-            placeholder: "Cari & Pilih Sekolah",
-            allowClear: true,
-            tags: true, // Izinkan pengguna menambah sekolah baru
-            minimumInputLength: 1,
-            ajax: {
-                url: '{{ route('ajax.cari-sekolah') }}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return { q: params.term };
+        // Defer Select2 initialization until the step is visible to avoid rendering bugs
+        function initAsalSekolahSelect2() {
+            // Prevent double initialization
+            if ($.fn.select2 && $('#asal_sekolah').data('select2')) {
+                return;
+            }
+
+            $('#asal_sekolah').select2({
+                placeholder: "Cari & Pilih Sekolah",
+                allowClear: true,
+                tags: true, // Izinkan pengguna menambah sekolah baru
+                minimumInputLength: 1,
+                dropdownParent: $('body'), // append dropdown to body to avoid clipping/overflow issues
+                ajax: {
+                    url: '{{ route('ajax.cari-sekolah') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return { q: params.term };
+                    },
+                    processResults: function(data) {
+                        return { results: data };
+                    },
+                    cache: true
                 },
-                processResults: function(data) {
-                    return { results: data };
-                },
-                cache: true
-            },
-        });
+                width: '100%'
+            });
+        }
+
+        // If the page was loaded and the currentStep is already the sekolah step (due to validation errors), init Select2
+        if (currentStep === 2) {
+            initAsalSekolahSelect2();
+        }
 
         // Logika untuk mengubah pilihan kelas berdasarkan jenjang
         const classes = {

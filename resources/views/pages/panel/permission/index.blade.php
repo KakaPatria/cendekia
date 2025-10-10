@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-lg-3 col-auto">
                             <div class="search-box">
-                                <input type="text" class="form-control search" id="search-task-options" placeholder="Search ..." name="keyword" value="{{ $keyword }}">
+                                <input type="text" class="form-control search" id="search-task-options" placeholder="Cari ..." name="keyword" value="{{ $keyword }}">
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
 
                                     <td>{{ $permission->name }}</td>
 
-                                    <td><a href="javascript:;" class="btn rounded-pill btn-warning btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#edit-modal" data-route="{{ route('panel.permission.update', $permission->id) }}" data-name="{{$permission->name}}">Edit</a></td>
+                                    <td><a href="javascript:;" class="btn rounded-pill btn-warning btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#edit-modal" data-route="{{ route('panel.permission.update', $permission->id) }}" data-name="{{$permission->name}}">Ubah</a></td>
                                     <td><a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{route('panel.permission.destroy', $permission->id)}}" data-name="{{$permission->name}}">Hapus</a></td>
                                 </tr>
                                 @endforeach

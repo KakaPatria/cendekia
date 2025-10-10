@@ -6,7 +6,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') User @endslot
-@slot('title') Edit {{ $roleX}} @endslot
+@slot('title') Ubah {{ $roleX}} @endslot
 @endcomponent
 
 @include('components.message')
