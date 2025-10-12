@@ -17,3 +17,11 @@
     }
 </style>
 {{-- @yield('css') --}}
+<!-- SweetAlert2 CSS -->
+<link href="{{ URL::asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+<style>
+    /* Ensure SweetAlert2 appears on top */
+    .swal2-container {
+        z-index: 9999 !important;
+    }
+</style>

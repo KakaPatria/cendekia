@@ -45,9 +45,9 @@ class TryoutOpenPendaftaran extends Model
     {
 
         if ($this->top_status == 'Terverifikasi') {
-            return '<span class="badge text-bg-success">Terverifikasi</span>';
+            return '<span class="badge text-bg-success">Aktif</span>';
         } else {
-            return '<span class="badge text-bg-warning">Pending</span>';
+            return '<span class="badge text-bg-warning">Tidak Aktif</span>';
         }
     }
 }

@@ -123,7 +123,30 @@
 @endsection
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
     $('#nav-tryout-open').addClass('active')
+
+    // Konfirmasi sebelum submit form konfirmasi
+    $('form[action*="tryout_open"]').on('submit', function(e) {
+        e.preventDefault();
+        var form = this;
+        Swal.fire({
+            title: "Konfirmasi Pendaftaran",
+            text: "Apakah Anda yakin ingin mengkonfirmasi pendaftaran tryout ini?",
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonText: "Batal",
+            confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
+            cancelButtonClass: 'btn btn-danger w-xs mt-2',
+            confirmButtonText: "Ya, Konfirmasi!",
+            buttonsStyling: false,
+            showCloseButton: true
+        }).then(function(result) {
+            if (result.value) {
+                form.submit();
+            }
+        });
+    });
 </script>
 @endsection
