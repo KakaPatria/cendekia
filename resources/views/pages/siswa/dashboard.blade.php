@@ -1,96 +1,284 @@
 @extends('layouts.siswa.master')
 @section('title') Dashboard @endsection
 @section('css')
-<link href="{{ URL::asset('assets/libs/jsvectormap/jsvectormap.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ URL::asset('assets/libs/swiper/swiper.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ URL::asset('assets/libs/jsvectormap/jsvectormap.min.css')}}" rel="stylesheet" type="text-css" />
+<link href="{{ URL::asset('assets/libs/swiper/swiper.min.css')}}" rel="stylesheet" type="text-css" />
+<style>
+    :root {
+        --primary-red: #980000;
+        --primary-yellow: #E2B602;
+        --bs-success-rgb: 40, 167, 69;
+        --bs-info-rgb: 23, 162, 184;
+        --bs-warning-rgb: 255, 193, 7;
+    }
+    
+    /* [IMPROVE] Kartu Statistik */
+    .stat-card {
+        border-radius: 1rem;
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    .stat-card .card-body {
+        position: relative;
+        z-index: 2;
+    }
+    .stat-card .stat-icon {
+        font-size: 3rem;
+        opacity: 0.8;
+    }
+    .stat-card .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    .stat-card .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    .stat-card::before { /* Efek overlay ikon */
+        content: '';
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 100px;
+        height: 100px;
+        font-family: 'remixicon' !important;
+        font-size: 7rem;
+        opacity: 0.15;
+        transform: rotate(-15deg);
+        z-index: 1;
+    }
+    .stat-card.card-completed::before { content: "\EB82"; }
+    .stat-card.card-average::before { content: "\F14B"; }
+    .stat-card.card-rank::before { content: "\F1AB"; }
+
+    /* [IMPROVE] Kartu Tryout */
+    .tryout-card {
+        border-radius: 1rem; border: 1px solid #e9ebec;
+        transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden;
+    }
+    .tryout-card:hover {
+        transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    .tryout-card .card-img-top { height: 160px; object-fit: cover; }
+    .tryout-card .card-body { padding: 1.25rem; }
+    .tryout-card .materi-tags .badge { font-size: 0.7rem; padding: 0.4em 0.7em; }
+    .tryout-card .card-footer { background-color: #f8f9fa; border-top: 1px solid #e9ebec; }
+    .btn-daftar-tryout {
+        background: var(--primary-red); color: white; font-weight: 600; border: none;
+    }
+    .btn-daftar-tryout:hover { background: #800000; color: white; }
+
+    /* [IMPROVE] Styling umum card */
+    .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .card-header {
+        background-color: transparent;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center; padding: 4rem 2rem; background-color: #fdfdff;
+        border-radius: 1rem; border: 2px dashed #e9ebec;
+    }
+    .empty-state i { font-size: 3rem; color: var(--primary-red); margin-bottom: 1rem; }
+</style>
 @endsection
+
 @section('content')
 
 @include('components.message')
 
-
-
 <div class="row">
-    <div class="col">
+    <div class="col-12">
+        {{-- Header dinamis, menampilkan nama depan siswa --}}
+        <h4 class="fs-22 mb-1">Selamat Datang, {{ strtok(Auth::user()->name, " ") }}!</h4>
+        <p class="text-muted mb-4">Siap untuk menaklukkan tantangan hari ini?</p>
+    </div>
+</div>
 
-        <div class="h-100">
-            <div class="row mb-3 pb-1">
-                <div class="col-12">
-                    <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                        <div class="flex-grow-1">
-                            <h4 class="fs-16 mb-1">Welcome {{ Auth::user()->name}}!</h4>
-
-                        </div>
-
-                    </div><!-- end card header -->
+{{-- [IMPROVEMENT] Kartu Statistik --}}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card stat-card card-completed" style="background: #28a745;">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="stat-label mb-0">Tryout Selesai</p>
+                        <h3 class="stat-value mb-0">{{ $riwayat_pengerjaan->count() ?? 0 }}</h3>
+                    </div>
                 </div>
-                <!--end col-->
             </div>
-            <!--end row-->
-            <div class="text-center mb-5">
-                <h3 class="mb-3 fw-semibold">Pilih Tryout Sesuai Kebutuhan Anda</h3>
-                <p class="text-muted mb-4">Kami rekomendasikan tryout yang paling sesuai.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card card-average" style="background: #17a2b8;">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="stat-label mb-0">Nilai Rata-rata</p>
+                        {{-- Menghitung rata-rata nilai, tampilkan 0 jika belum ada riwayat --}}
+                        <h3 class="stat-value mb-0">{{ $riwayat_pengerjaan->count() > 0 ? round($riwayat_pengerjaan->avg('nilai_akhir'), 1) : 0 }}</h3>
+                    </div>
+                </div>
             </div>
-            <div class="row">
-                @forelse($tryout as $data)
-                <div class="col-lg-4 product-item artwork crypto-card 3d-style ribbon-box ribbon-fill " style="display: block;">
-                    <div class="card  explore-box card-animate " style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
-                        <div class="bookmark-icon position-absolute top-0 end-0 p-2">
-                            <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
-                        </div>
-                        <div class="explore-place-bid-img">
-                            <img src="{{Storage::url($data->tryout_banner)}}" alt="" class="card-img-top explore-img">
-                            <div class="bg-overlay"></div>
-                            <div class="place-bid-btn">
-                                <a href="{{ route('siswa.tryout.show',$data->tryout_id)}}" class="btn btn-success"><i class="ri-auction-fill align-bottom me-1"></i> Daftar</a>
-                            </div>
-                        </div>
-                        <div class="card-body   ">
-                            @if($data->is_gratis)
-                            <div class="ribbon ribbon-primary"><span>Gratis</span></div>
-                            @endif
-                            @if($data->is_can_register)
-                            <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
-                            @endif
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card card-rank" style="background: #ffc107;">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="stat-label mb-0">Peringkat Terbaik</p>
+                        <h3 class="stat-value mb-0">#1</h3> {{-- Placeholder, bisa dikembangkan lebih lanjut --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> 10 </p>
-                            <div class="hstack flex-wrap gap-2 fs-16 mb-2">
-                                @foreach($data->materi as $materi)
-                                <div class="badge fw-medium badge-soft-info">{{ $materi->refMateri->ref_materi_judul}}</div>
-                                @endforeach
-                            </div>
-                            <h5 class="mb-1"><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
-                            <ul class="list-inline mb-0">
-                                <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
-                            </ul>
-                            
+<div class="row mt-2">
+    {{-- [IMPROVEMENT] Kolom Utama untuk daftar Tryout --}}
+    <div class="col-lg-8">
+        <h4 class="fs-18 mb-3">Tryout Terbaru Untukmu</h4>
+        <div class="row">
+            @forelse($tryout as $data)
+            <div class="col-md-6 mb-4">
+                <div class="card tryout-card h-100 {{ $data->is_can_register ? 'disabled' : '' }}">
+                    <img src="{{Storage::url($data->tryout_banner)}}" alt="{{$data->tryout_judul}}" class="card-img-top">
+                    <div class="card-body d-flex flex-column">
+                        <div class="materi-tags mb-2 d-flex flex-wrap gap-1">
+                            @foreach(collect($data->materi)->take(2) as $materi)
+                            <span class="badge badge-soft-info">{{ $materi->refMateri->ref_materi_judul}}</span>
+                            @endforeach
+                            @if(count($data->materi) > 2)
+                            <span class="badge badge-soft-secondary">+{{ count($data->materi) - 2 }}</span>
+                            @endif
                         </div>
-                        <div class="card-footer border-top border-top-dashed">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1 fs-14">
-                                    <i class="ri-price-tag-3-fill text-warning align-bottom me-1"></i> Terdaftar: <span class="fw-medium">10 Orang</span>
-                                </div>
-
+                        <h5 class="card-title mb-2 fs-16 text-dark flex-grow-1">{{ $data->tryout_judul}}</h5>
+                        <ul class="list-unstyled text-muted small mb-0">
+                            <li><i class="ri-calendar-2-fill text-danger align-middle me-1"></i> Deadline: {{ \Carbon\Carbon::parse($data->tryout_register_due)->format('d M Y')}}</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 fs-14">
+                                <i class="ri-group-fill text-primary align-bottom me-1"></i>
+                                <span class="fw-medium">{{ $data->peserta_count ?? 0 }} Peserta</span>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <a href="{{ route('siswa.tryout.show', $data->tryout_id) }}" class="btn btn-sm btn-daftar-tryout">
+                                    Lihat Detail
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                @empty
-                <div class="alert alert-danger">
-                    Tryout belum tersedia untuk anda
-                </div>
-                @endforelse
-
             </div>
-        </div> <!-- end .h-100-->
+            @empty
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="ri-folder-zip-line"></i>
+                    <h4 class="fs-18">Oops! Belum Ada Tryout</h4>
+                    <p class="text-muted">Saat ini belum ada tryout yang tersedia untuk Anda.</p>
+                </div>
+            </div>
+            @endforelse
+        </div>
+        {{-- Pagination untuk tryout yang tersedia --}}
+        @if ($tryout->hasPages()) <div class="mt-2">{{ $tryout->links() }}</div> @endif
+    </div>
 
-    </div> <!-- end col -->
+    {{-- [IMPROVEMENT] Kolom Samping untuk Grafik --}}
+    <div class="col-lg-4">
+        @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Perkembangan Nilai</h4>
+            </div>
+            <div class="card-body">
+                <div id="line_chart_datalabel" data-colors='["#980000"]' class="apex-charts" dir="ltr"></div>
+            </div>
+        </div>
+        @endif
+    </div>
 </div>
 
+{{-- [IMPROVEMENT] Tabel Riwayat dipindah ke bawah agar fokus ke aksi utama di atas --}}
+@if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
+<div class="row mt-4">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Riwayat Tryout Selesai</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Tryout</th>
+                                <th>Tanggal</th>
+                                <th>Nilai</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($riwayat_pengerjaan as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->masterTryout->tryout_judul }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</td>
+                                <td><span class="badge bg-success fs-13">{{ $item->nilai_akhir }}</span></td>
+                                <td class="text-center">
+                                    <a href="{{ route('siswa.tryout.pengerjaan.analisa', $item->pengerjaan_id) }}" class="btn btn-sm btn-outline-primary">Lihat Analisis</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 
 @endsection
 @section('script')
-<!-- apexcharts -->
+<script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
+            const categories = @json($riwayat_pengerjaan->pluck('masterTryout.tryout_judul'));
+            const seriesData = @json($riwayat_pengerjaan->pluck('nilai_akhir'));
+            
+            var options = {
+                series: [{ name: 'Nilai', data: seriesData }],
+                chart: { height: 350, type: 'line', zoom: { enabled: false }, toolbar: { show: false } },
+                dataLabels: { enabled: true, },
+                stroke: { curve: 'smooth', width: 3 },
+                colors: ['#980000'],
+                xaxis: { categories: categories },
+                yaxis: { min: 0, max: 100 },
+                tooltip: { y: { formatter: function (val) { return val } } },
+            };
+            var chart = new ApexCharts(document.querySelector("#line_chart_datalabel"), options);
+            chart.render();
+        @endif
+    });
+</script>
 @endsection
