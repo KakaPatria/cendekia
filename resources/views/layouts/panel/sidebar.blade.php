@@ -62,7 +62,7 @@
                     </a>
                     <div class="collapse menu-dropdown {{ $isReferensiActive ? 'show' : '' }}" id="sidebar-referensi">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('panel.bank_soal.index')}}" class="nav-link {{ Request::routeIs('panel.bank_soal.*') ? 'active' : '' }}">Tambah Soal</a></li>
+                            <li class="nav-item"><a href="{{ route('panel.bank_soal.index')}}" class="nav-link {{ Request::routeIs('panel.bank_soal.*') ? 'active' : '' }}">Bank Soal</a></li>
                             <li class="nav-item"><a href="{{ route('panel.materi.index')}}" class="nav-link {{ Request::routeIs('panel.materi.*') ? 'active' : '' }}">Mata Pelajaran</a></li>
                             <li class="nav-item"><a href="{{ route('panel.asal_sekolah.index')}}" class="nav-link {{ Request::routeIs('panel.asal_sekolah.*') ? 'active' : '' }}">Asal Sekolah</a></li>
                         </ul>
