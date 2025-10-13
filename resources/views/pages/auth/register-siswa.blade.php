@@ -11,9 +11,10 @@
         --primary-orange: #EE5A24;
         --border-color: #dee2e6;
         --text-muted: #6c757d;
+        --bg-light-grey: #E9EBF1;
     }
     body {
-        background-color: #E9EBF1;
+        background-color: var(--bg-light-grey);
     }
     .auth-page-wrapper {
         display: flex;
@@ -21,32 +22,28 @@
         justify-content: center;
         min-height: 100vh;
         padding: 2rem;
-        /* [WARNA] Latar belakang disamakan dengan login */
-
-        background-size: cover;
-        background-position: center;
     }
     .register-container {
         display: flex;
         width: 100%;
         max-width: 1100px;
         min-height: 700px;
-        /* [WARNA] Container utama dibuat transparan */
-        background-color: transparent;
+        background-color: #fff;
         border-radius: 1rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         overflow: hidden;
+        border: 8px solid white;
     }
     .left-panel {
         flex: 1;
         background-image: url("{{ asset('assets/images/bg_registerrrr.jpg') }}");
         background-size: cover;
         background-position: center;
+        position: relative;
         display: flex;
         align-items: flex-start;
         padding: 3rem;
-        border-top-left-radius: 1rem;
-        border-bottom-left-radius: 1rem;
+        border-radius: 1rem;
     }
     .left-panel .logo img {
         height: 50px;
@@ -57,13 +54,6 @@
         padding: 2rem 4rem;
         display: flex;
         flex-direction: column;
-        /* [WARNA] Efek Glassmorphism diterapkan di sini */
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.65);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border-top-right-radius: 1rem;
-        border-bottom-right-radius: 1rem;
     }
     .form-header h3 {
         font-weight: 700;
@@ -81,18 +71,18 @@
     }
     .form-control, .form-select, .select2-container .select2-selection--single {
         height: 48px !important;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        background-color: #f3f3f9;
         transition: all 0.3s ease;
         font-size: 0.9rem;
-        /* [WARNA] Input field dibuat semi-transparan */
-        background-color: rgba(255, 255, 255, 0.5) !important;
-        border: 1px solid rgba(0, 0, 0, 0.1) !important;
     }
     .select2-container .select2-selection--single { padding: 0.5rem 1rem; }
     .select2-container .select2-selection--single .select2-selection__rendered { line-height: 36px !important; padding-left: 0 !important;}
     .select2-container--default .select2-selection--single .select2-selection__arrow { height: 46px !important; }
     .form-control:focus, .form-select:focus {
-        background-color: rgba(255, 255, 255, 0.7) !important;
-        border-color: var(--primary-red) !important;
+        border-color: var(--primary-red);
+        background-color: #fff;
         box-shadow: none;
     }
     .form-step { display: none; animation: fadeIn 0.5s; }
@@ -102,12 +92,12 @@
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* [WARNA] Tombol disamakan dengan login */
-    .btn-custom-action {
+    /* [PERBAIKAN] Mengembalikan gaya tombol gradasi */
+    .btn-gradient-action {
+        height: 50px;
         border-radius: 0.5rem;
         font-weight: 600;
         text-transform: uppercase;
-        height: 50px;
         border: none;
         background-image: linear-gradient(to right, var(--primary-orange) 0%, var(--primary-red) 50%, var(--primary-orange) 100%);
         background-size: 200% auto;
@@ -115,11 +105,12 @@
         transition: all 0.5s ease;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
-    .btn-custom-action:hover {
+    .btn-gradient-action:hover {
         background-position: right center;
         transform: translateY(-3px);
+        color: white;
     }
-    
+
     .btn-back {
         background: transparent;
         border: none;
@@ -144,7 +135,7 @@
     <div class="register-container">
         <div class="left-panel">
             <div class="logo">
-
+                <a href="/"><img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia"></a>
             </div>
         </div>
 
@@ -176,7 +167,8 @@
                         <div class="col-12 mb-3"><label for="alamat" class="form-label">Alamat</label><input type="text" class="form-control" name="alamat" placeholder="Masukkan Alamat" value="{{ old('alamat') }}"></div>
                     </div>
                     <div class="d-grid mt-3">
-                        <button type="button" class="btn btn-custom-action" onclick="nextStep()" disabled>Next</button>
+                        {{-- [PERBAIKAN] Class tombol diubah --}}
+                        <button type="button" class="btn btn-gradient-action btn-next" onclick="nextStep()" disabled>Next</button>
                     </div>
                 </div>
                 
@@ -208,7 +200,8 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <button type="button" class="btn-back" onclick="prevStep()">Back</button>
-                        <button class="btn btn-custom-action" type="submit" disabled>Daftar</button>
+                        {{-- [PERBAIKAN] Class tombol diubah --}}
+                        <button class="btn btn-gradient-action btn-submit" type="submit" disabled>Daftar</button>
                     </div>
                 </div>
             </form>
@@ -225,17 +218,107 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    // Fungsionalitas JavaScript tidak diubah dan tetap sama
     let currentStep = 0;
     const steps = document.querySelectorAll('.form-step');
 
-    function validateStep(stepIndex) { /* ... (fungsi validasi utuh) ... */ }
-    function showStep(stepIndex) { /* ... (fungsi show step utuh) ... */ }
-    function nextStep() { /* ... (fungsi next step utuh) ... */ }
-    function prevStep() { /* ... (fungsi prev step utuh) ... */ }
+    function validateStep(stepIndex) {
+        const currentStepElement = steps[stepIndex];
+        const inputs = currentStepElement.querySelectorAll('input[required], select[required]');
+        let isStepValid = true;
+        inputs.forEach(input => {
+            const isVisible = input.offsetParent !== null;
+            if (isVisible && !input.value) {
+                isStepValid = false;
+            }
+        });
+        const nextButton = currentStepElement.querySelector('.btn-next, .btn-submit');
+        if (nextButton) {
+            nextButton.disabled = !isStepValid;
+        }
+    }
+
+    function showStep(stepIndex) {
+        steps.forEach((step, index) => {
+            step.classList.toggle('active', index === stepIndex);
+            if (step.classList.contains('active')) {
+                validateStep(index);
+                const inputs = step.querySelectorAll('input[required], select[required]');
+                inputs.forEach(input => {
+                    const eventType = (input.tagName.toLowerCase() === 'select') ? 'change' : 'keyup';
+                    input.addEventListener(eventType, () => validateStep(index));
+                });
+                $('#asal_sekolah').on('change', () => validateStep(index));
+            }
+        });
+    }
+
+    function nextStep() {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    }
 
     $(document).ready(function() {
-        // ... (seluruh script jQuery Anda yang sudah ada di sini)
+        showStep(0);
+        
+        $('#asal_sekolah').select2({
+            placeholder: "Cari & Pilih Sekolah",
+            allowClear: true,
+            tags: true,
+            minimumInputLength: 1,
+            ajax: {
+                url: '{{ route('ajax.cari-sekolah') }}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) { return { q: params.term }; },
+                processResults: function(data) { return { results: data }; },
+                cache: true
+            },
+            width: '100%'
+        });
+
+        const jenjangDropdown = document.getElementById('jenjang');
+        const kelasDropdown = document.getElementById('kelas');
+        const kelasOptions = {
+            'SD': ['1', '2', '3', '4', '5', '6'],
+            'SMP': ['7', '8', '9'],
+            'SMA': ['10', '11', '12']
+        };
+
+        function updateKelasDropdown() {
+            const selectedJenjang = jenjangDropdown.value;
+            kelasDropdown.innerHTML = '<option value="">Pilih Kelas</option>';
+            if (selectedJenjang && kelasOptions[selectedJenjang]) {
+                kelasDropdown.disabled = false;
+                kelasOptions[selectedJenjang].forEach(function(kelas) {
+                    const option = document.createElement('option');
+                    option.value = kelas;
+                    option.text = `Kelas ${kelas}`;
+                    if ('{{ old('kelas') }}' === kelas) {
+                        option.selected = true;
+                    }
+                    kelasDropdown.appendChild(option);
+                });
+            } else {
+                kelasDropdown.disabled = true;
+                kelasDropdown.innerHTML = '<option value="">Pilih Jenjang Dulu</option>';
+            }
+            validateStep(currentStep);
+        }
+        
+        if (jenjangDropdown.value) {
+            updateKelasDropdown();
+        }
+        
+        jenjangDropdown.addEventListener('change', updateKelasDropdown);
     });
 </script>
 @endsection
