@@ -29,7 +29,7 @@
                             <a href="{{ route('panel.tryout.exportPeserta',$tryout->tryout_id)}}" class="btn rounded-pill btn-warning btn-sm">
                                 <i class="fa fa-edit"></i> Export Data</a>
                             <a href="{{ route('panel.tryout.edit',$tryout->tryout_id)}}" class="btn rounded-pill btn-info btn-sm">
-                                <i class="fa fa-edit"></i> Ubah</a>
+                                <i class="fa fa-edit"></i> Edit tryout</a>
                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$tryout->tryout_id}}" data-name="{{$tryout->tryout_judul}}"><i class="fa fa-trash"></i> Hapus</a>
                             @endif
                         </div>
@@ -42,14 +42,14 @@
                     <!-- Base Example -->
                     <div class="align-items-center d-flex mb-2">
                         <div class="flex-grow-1">
-                            <h6 class="mb-3 fw-bold text-uppercase">Materi</h6>
+                            <h6 class="mb-3 fw-bold text-uppercase">Mata Pelajaran</h6>
                         </div>
                         <div class="flex-shrink-0">
 
                             {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-materi-modal">
-                                <i class="fa fa-edit"></i> Tambah Materi
+                                <i class="fa fa-edit"></i> Tambah Mata Pelajaran
                             </a>
                             @endif
                         </div>
@@ -68,7 +68,7 @@
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="heading-{{$materi->tryout_materi_id}}" data-bs-parent="#default-accordion-example">
                                 <div class="accordion-body">
                                     <div class="align-items-center d-flex mb-2">
-                                        <div class="flex-grow-1">
+                                        <div class="flex-grow-1 mr-2">
 
                                             {{ $materi->tryout_materi_deskripsi}}
                                         </div>
@@ -76,6 +76,7 @@
 
                                             <a href="{{ route('panel.tryout_materi.show',$materi->tryout_materi_id)}}" class="btn rounded-pill btn-primary btn-sm">
                                                 <i class="fa fa-edit"></i> Detail</a>
+                                            <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteMateriBtn" data-bs-toggle="modal" data-bs-target="#deleteMateriModal" data-id="{{$materi->tryout_materi_id}}" data-name="{{$materi->refMateri->ref_materi_judul}}"><i class="fa fa-trash"></i> Hapus</a>
 
                                         </div>
                                     </div>
@@ -293,7 +294,15 @@
                             </tr>
                             <tr>
                                 <td class="fw-medium">Biaya</td>
-                                <td>{{ $tryout->tryout_nominal}}</td>
+                                <td>Rp. {{ $tryout->tryout_nominal}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-medium">Diskon</td>
+                                <td>{{ $tryout->tryout_diskon}}%</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-medium">Harga Jual</td>
+                                <td>Rp. {{ $tryout->tryout_harga_jual_formatted }}</td>
                             </tr>
 
                         </tbody>
@@ -311,7 +320,7 @@
     <div class="modal-dialog modal-lg ">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="add-invoice-label">Tambah Materi</h5>
+                <h5 class="modal-title" id="add-invoice-label">Tambah Mata Pelajaran</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -321,7 +330,7 @@
                     @csrf
 
                     <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Materi</label>
+                        <label class="col-form-label col-md-3">Mata Pelajaran</label>
                         <div class="col-md-9">
 
                             <select class="form-control select-materi" id="add-select-materi" name="materi_id">
@@ -337,6 +346,26 @@
                                 @foreach($pengajar as $value)
                                 <option value="{{ $value->id}}">{{ $value->name}}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="form-label col-md-3">Durasi Pengerjaan</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="number" class="form-control" placeholder="" name="durasi">
+                                <span class="input-group-text" id="basic-addon2">Menit</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="form-label col-md-3">Safe Mode</label>
+                        <div class="col-md-9">
+                            <select class="form-control select2" name="safe_mode" id="add-safe-mode">
+
+                                <option value="1">Ya</option>
+                                <option value="0">Tidak</option>
+
                             </select>
                         </div>
                     </div>
@@ -438,6 +467,31 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteMateriModal" tabindex="-1" aria-labelledby="deleteMateriModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteMateriModalLabel">Hapus Mata Pelajaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Apakah anda yakin menghapus <strong id="deleteMateriName"></strong>
+                <form action="" method="POST" id="deleteMateriForm">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" form="deleteMateriForm" class="btn btn-danger">Hapus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('script')
 <script src="{{ URL::asset('/assets/libs/glightbox/glightbox.min.js') }}"></script>
@@ -462,7 +516,8 @@
         url: '<?= route('ajax.materi-tryout') ?>',
         data: {
             kelas: '<?= $tryout->tryout_kelas ?>',
-            jenjang: '<?= $tryout->tryout_jenjang ?>'
+            jenjang: '<?= $tryout->tryout_jenjang ?>',
+            tryout_id: '<?= $tryout->tryout_id ?>'
         },
         dataType: 'json',
         success: function(data) {
@@ -486,7 +541,7 @@
             delay: 250,
             data: function(params) {
                 return {
-                    q: params.term ,
+                    q: params.term,
                     list: '<?= $tryout->peserta->pluck('user_id') ?>'
                 };
             },
@@ -505,6 +560,13 @@
         var name = $(this).data('name');
         $('#deletePesertForm').attr('action', '<?php echo route('panel.tryout.deletePeserta', '') ?>/' + id)
         $('#deletePesertName').html(name);
+    })
+
+     $('.deleteMateriBtn').click(function() {
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        $('#deleteMateriForm').attr('action', '<?php echo route('panel.tryout_materi.destroy', '') ?>/' + id)
+        $('#deleteMateriName').html(name);
     })
 </script>
 @endsection

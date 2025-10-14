@@ -23,7 +23,7 @@ class Tryout extends Model
         'tryout_status',
         'tryout_jenis',
         'tryout_nominal',
-        'tryout_nominal',
+        'tryout_diskon',
         'is_open',
     ];
 
@@ -66,6 +66,18 @@ class Tryout extends Model
     {
         $this->attributes['tryout_register_due'] = Carbon::createFromFormat('d-M-Y', $value)->toDateString();
     }
+ 
+
+    public function getTryoutHargaJualFormattedAttribute()
+    {
+        $nominal = $this->getRawOriginal('tryout_nominal') ?? 0;
+        $diskon = $this->getRawOriginal('tryout_diskon') ?? 0;
+
+        $harga_jual = $nominal - ($nominal * $diskon / 100);
+
+        return number_format($harga_jual, 0, ',', '.');
+    }
+
 
     public function getIsGratisAttribute($value)
     {
@@ -92,7 +104,7 @@ class Tryout extends Model
             $susunNilai[$key]['total_point'] = $value->sum('total_point');
             $susunNilai[$key]['list'] = $value->keyBy('tryout_materi_id')->toArray();
         }
- 
+
         // Mengurutkan array berdasarkan key 'usia' secara ascending
         usort($susunNilai, function ($a, $b) {
             return $a['total_point'] < $b['total_point'];
@@ -103,7 +115,7 @@ class Tryout extends Model
 
     function getIsRegisteredAttribute()
     {
-//dd(auth()->user()->id);
+        //dd(auth()->user()->id);
         $peserta = TryoutPeserta::where('user_id', auth()->user()->id)
             ->where('tryout_id', $this->tryout_id)
             ->first();

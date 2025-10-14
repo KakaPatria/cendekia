@@ -6,7 +6,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Referensi @endslot
-@slot('title') Materi @endslot
+@slot('title') Mata Pelajaran @endslot
 @endcomponent
 
 @include('components.message')
@@ -20,7 +20,7 @@
                 <form action="">
                     <div class="row g-2">
                         <div class="col-lg-2">
-                            <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Materi</a>
+                            <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Mata Pelajaran</a>
                         </div>
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
@@ -64,7 +64,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col" width="1%">#</th>
-                                    <th scope="col">Judul Materi</th>
+                                    <th scope="col">Judul Mata Pelajaran</th>
                                     <th scope="col">Jenjang</th>
                                     <th scope="col">Kelas</th>
                                     <th scope="col" colspan="3" width="10%" class="text-center">Action</th>
@@ -108,7 +108,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="create-modal-label">Tambah Materi</h5>
+                <h5 class="modal-title" id="create-modal-label">Tambah Mata Pelajaran</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -117,7 +117,7 @@
                 <form action="{{route('panel.materi.store')}}" method="POST" id="create-form" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Judul Materi</label>
+                        <label class="col-form-label col-md-3">Judul Mata Pelajaran</label>
                         <div class="col-md-9">
                             <input type="text" class="form-control mb-2" name="ref_materi_judul" value="{{old('ref_materi_judul')}}" />
 
@@ -159,7 +159,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="edit-modal-label">Edit Materi</h5>
+                <h5 class="modal-title" id="edit-modal-label">Edit Mata Pelajaran</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -169,7 +169,7 @@
                     @csrf
                     @method('PUT')
                     <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Judul Materi</label>
+                        <label class="col-form-label col-md-3">Judul Mata Pelajaran</label>
                         <div class="col-md-9">
                             <input type="text" class="form-control mb-2" name="ref_materi_judul" id="edit-judul" value="{{old('ref_materi_judul')}}" />
 
@@ -211,7 +211,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Hapus Materi</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Hapus Mata Pelajaran</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

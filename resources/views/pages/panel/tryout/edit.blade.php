@@ -1,9 +1,7 @@
 @extends('layouts.panel.master')
 @section('title') Tryout @endsection
 @section('css')
-<link rel="stylesheet" href="{{ URL::asset('assets/libs/@simonwep/@simonwep.min.css') }}" /> <!-- 'classic' theme -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+ 
 @endsection
 @section('content')
 @component('components.breadcrumb')
@@ -63,7 +61,7 @@
                         <label class="col-form-label col-md-3">Tanggal Pendaftaran Ditutup</label>
                         <div class="col-md-9">
 
-                            <input type="text" class="form-control mb-2" data-provider="flatpickr" data-date-format="d-M-Y" name="tryout_register_due" value="{{ old('tryout_register_due',$tryout->tryout_register_due) }}" required>
+                            <input type="text" class="form-control mb-2" id="input_register_due" value="{{ old('tryout_register_due',$tryout->tryout_register_due) }}" name="tryout_register_due" required>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -106,20 +104,30 @@
                             </select>
 
                         </div>
-                    </div>
+                    </div> 
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Biaya</label>
 
                         <div class="col-md-9">
                             <div class="input-group ">
                                 <span class="input-group-text" id="">Rp</span>
-                                <input type="text" class="form-control mb-2" placeholder="" name="tryout_nominal" id="tryout-nominal" value="{{ old('tryout_nominal',$tryout->tryout_nominal)}}" />
+                                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"name="tryout_nominal" id="tryout-nominal" value="{{ old('tryout_nominal',$tryout->tryout_nominal)}}" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Diskon</label>
+
+                        <div class="col-md-9">
+                            <div class="input-group ">
+                                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="tryout_diskon" id="tryout-disskon" value="{{ old('tryout_diskon',$tryout->tryout_diskon)}}">
+                                <span class="input-group-text" id="">%</span>
 
 
                             </div>
                         </div>
-
-                    </div> 
+                    </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
@@ -130,13 +138,11 @@
 </div>
 @endsection
 @section('script')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="{{ URL::asset('assets/libs/@simonwep/@simonwep.min.js') }}"></script>
-<script src="{{ URL::asset('assets/js/pages/form-pickers.init.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/dynamic-form.js') }}"></script>
+<script src="{{ URL::asset('assets/js/pages/form-pickers.init.js') }}"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-@{{-- app.min.js loaded globally in layouts.vendor-scripts --}}
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+ 
 
 <script>
     $('#nav-tryout').addClass('active')

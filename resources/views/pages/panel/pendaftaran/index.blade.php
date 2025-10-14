@@ -32,7 +32,7 @@
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="ri-filter-line me-1"></i> Filter
                                 </button>
-                                <div class="dropdown-menu p-3" aria-labelledby="filterDropdown" style="min-width:320px;">
+                                <div class="dropdown-menu p-3" id="filter-dropdown" aria-labelledby="filterDropdown" style="min-width:320px;">
                                     <div class="mb-2">
                                         <label class="form-label small">Judul Tryout</label>
                                         <select class="form-select" id="selct-tryout" name="tryout">
@@ -143,12 +143,15 @@
     $('#nav-pendaftaran').addClass('active')
     $('#selct-tryout').select2({
         placeholder: 'Cari judul Tryout',
+        dropdownParent: $('#filter-dropdown')
     })
+
     $('#asal_sekolah').select2({
         placeholder: "Cari Asal Sekolah",
         allowClear: true,
         tags: true,
         minimumInputLength: 1,
+        dropdownParent: $('#filter-dropdown')
         ajax: {
             url: '<?= route('ajax.cari-sekolah') ?>',
             dataType: 'json',

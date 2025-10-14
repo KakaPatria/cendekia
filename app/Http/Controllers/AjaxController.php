@@ -90,15 +90,20 @@ class AjaxController extends Controller
 
         $kelas = $request->kelas;
         $jenjang = $request->jenjang;
+        $tryoutId = $request->tryout_id;
 
-        // First try to find by kelas (specific). If none found and jenjang provided, fallback to jenjang.
         $materi = Materi::when($kelas, function ($q, $kelas) {
             return $q->where('ref_materi_kelas', $kelas);
-        })->get();
+        })
+            ->when($tryoutId, function ($q, $tryoutId) {
+                return $q->whereNotIn('ref_materi_id', function ($query) use ($tryoutId) {
+                    $query->select('materi_id')
+                        ->from('tryout_materi')
+                        ->where('tryout_id', $tryoutId);
+                });
+            })->get();
+ 
 
-        if ($materi->isEmpty() && $jenjang) {
-            $materi = Materi::where('ref_materi_jenjang', $jenjang)->get();
-        }
 
         $results = [];
         foreach ($materi as $item) {

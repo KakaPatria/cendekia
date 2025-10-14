@@ -46,24 +46,24 @@ class TryoutMateriController extends Controller
     {
 
         $request->validate([
-            'soal_jenis' => 'required',
+            'soal_jenis' => 'required|in:PDF,FORM',
             'tyout_materi_id' => 'required',
-            'periode_mulai' => 'required',
+            /*'periode_mulai' => 'required',
             'periode_selesai' => 'required',
             'waktu_mulai' => 'nullable',
             'waktu_selesai' => 'nullable',
             'durasi' => 'nullable',
-            'safe_mode' => 'required|integer',
+            'safe_mode' => 'required|integer',*/
         ]);
 
         $tryoutMateri = TryoutMateri::find($request->tyout_materi_id);
         $tryoutMateri->jenis_soal = $request->soal_jenis;
-        $tryoutMateri->periode_mulai = $request->periode_mulai;
+        /*$tryoutMateri->periode_mulai = $request->periode_mulai;
         $tryoutMateri->periode_selesai = $request->periode_selesai;
         $tryoutMateri->waktu_mulai = $request->waktu_mulai;
         $tryoutMateri->waktu_selesai = $request->waktu_selesai;
         $tryoutMateri->durasi = $request->durasi;
-        $tryoutMateri->safe_mode = $request->safe_mode;
+        $tryoutMateri->safe_mode = $request->safe_mode;*/
         if ($request->soal_jenis == 'PDF') {
             $request->validate([
                 'soal' => 'required|mimes:pdf|max:10000',

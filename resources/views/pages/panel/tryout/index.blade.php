@@ -94,6 +94,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $data->tryout_register_due }}</td>
+                                    <td>{{ $data->tryout_status }}</td>
 
                                     <td class="text-center">
                                         <a href="{{ route('panel.tryout.show',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm">

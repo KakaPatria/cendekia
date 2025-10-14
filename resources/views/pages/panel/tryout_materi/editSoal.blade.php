@@ -15,7 +15,15 @@
 @endcomponent
 
 @include('components.message')
-
+<div class="row g-4 mb-3">
+    <div class="col-sm">
+        <div class="d-flex justify-content-sm-end gap-2">
+            <div>
+                <a href="{{ route('panel.tryout.show',$tryout_materi->tryout_id)}}" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-xxl-12">
         <div class="card">
@@ -33,69 +41,77 @@
                     @csrf
                     @method('PUT')
                     <div id="step" class="tab-pane" role="tabpanel" aria-labelledby="step">
-                        @if($tryout_materi->jenis_soal == 'PDF')
-                        <div class="form-group mb-3 " id="file-soal-input">
-                            <label class="col-form-label ">File Soal</label>
-                            <div class="">
-                                <input type="file" class="form-control mb-2" name="soal" id="file-soal">
-                            </div>
-                        </div>
-                        @else
-                        {{--<textarea name="soal" id="editor_soal" class="form-control"></textarea>--}}
-                        <div id="editor_soal" style="height:300px" class="mb-2">
-                            {!! $soal->tryout_soal !!}
-                        </div>
-                        <input type="hidden" name="soal" id="soal">
-
-                        @endif
-                        <div class="form-group row pt-2">
-                            <label for="staticEmail" class="col-sm-2 col-form-label">Point Nilai</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" placeholder="" name="point" value="{{ $soal->point}}">
-                            </div>
-
-                        </div>
-                        <table class="table table-nowrap">
-                            <th>
-                                <tr>
-                                    <th class="col-1">Kunci Jawaban</th>
-                                    <th class="col-1">Abjad</th>
-                                    <th>Isi Jawaban</th>
-                                </tr>
-                            </th>
-                            <tbody>
-                                @if($soal->jawaban)
-                                @foreach ($soal->jawaban as $key => $value)
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="{{$value->tryout_jawaban_prefix}}" id="opsi-jawaban-{{$value->tryout_jawaban_prefix}}"></td>
-                                    <td>{{ $value->tryout_jawaban_prefix }}</td>
-                                    <td><input type="text" class="form-control" name="jawaban[{{ $value->tryout_jawaban_id }}]" value="{{ $value->tryout_jawaban_isi }}"></td>
-                                </tr>
-                                @endforeach
+                        <div class="row">
+                            <div class="col lg-6">
+                                <h4 class="card-title mb-2 flex-grow-1">Pertanyaan</h4>
+                                @if($tryout_materi->jenis_soal == 'PDF')
+                                <div class="form-group mb-3 " id="file-soal-input">
+                                    <label class="col-form-label ">File Soal</label>
+                                    <div class="">
+                                        <input type="file" class="form-control mb-2" name="soal" id="file-soal">
+                                    </div>
+                                </div>
                                 @else
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="A" id=""></td>
-                                    <td>A.</td>
-                                    <td><input type="text" class="form-control" name="jawaban[A]"></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="B" id=""></td>
-                                    <td>B.</td>
-                                    <td><input type="text" class="form-control" name="jawaban[B]"></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="C" id=""></td>
-                                    <td>C.</td>
-                                    <td><input type="text" class="form-control" name="jawaban[C]"></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="D" id=""></td>
-                                    <td>D.</td>
-                                    <td><input type="text" class="form-control" name="jawaban[D]"></td>
-                                </tr>
+                                {{--<textarea name="soal" id="editor_soal" class="form-control"></textarea>--}}
+                                <div id="editor_soal" style="height:300px" class="mb-2">
+                                    {!! $soal->tryout_soal !!}
+                                </div>
+                                <input type="hidden" name="soal" id="soal">
+
                                 @endif
-                            </tbody>
-                        </table>
+                            </div>
+                            <div class="col lg-6">
+                                <h4 class="card-title mb-2 flex-grow-1">Jawaban</h4>
+                                <div class="form-group row pt-2">
+                                    <label for="staticEmail" class="col-sm-2 col-form-label">Point Nilai</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" placeholder="" name="point" value="{{ $soal->point}}">
+                                    </div>
+
+                                </div>
+                                <table class="table table-nowrap">
+                                    <th>
+                                        <tr>
+                                            <th class="col-1">Kunci Jawaban</th>
+                                            <th class="col-1">Abjad</th>
+                                            <th>Isi Jawaban</th>
+                                        </tr>
+                                    </th>
+                                    <tbody>
+                                        @if($soal->jawaban)
+                                        @foreach ($soal->jawaban as $key => $value)
+                                        <tr>
+                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="{{$value->tryout_jawaban_prefix}}" id="opsi-jawaban-{{$value->tryout_jawaban_prefix}}"></td>
+                                            <td>{{ $value->tryout_jawaban_prefix }}</td>
+                                            <td><input type="text" class="form-control" name="jawaban[{{ $value->tryout_jawaban_id }}]" value="{{ $value->tryout_jawaban_isi }}"></td>
+                                        </tr>
+                                        @endforeach
+                                        @else
+                                        <tr>
+                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="A" id=""></td>
+                                            <td>A.</td>
+                                            <td><input type="text" class="form-control" name="jawaban[A]"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="B" id=""></td>
+                                            <td>B.</td>
+                                            <td><input type="text" class="form-control" name="jawaban[B]"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="C" id=""></td>
+                                            <td>C.</td>
+                                            <td><input type="text" class="form-control" name="jawaban[C]"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="D" id=""></td>
+                                            <td>D.</td>
+                                            <td><input type="text" class="form-control" name="jawaban[D]"></td>
+                                        </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <div class="overflow-auto">
 
                             <div class="text-center mt-2">

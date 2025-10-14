@@ -33,6 +33,8 @@ class TryoutController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
+        $tryout =  Tryout::all();
+
         $tryout =  Tryout::when($request->keyword, function ($query) use ($request) {
             return $query->where('tryout_judul', 'like', "%{$request->keyword}%")
                 ->orWhere('tryout_deskripsi', 'like', "%{$request->keyword}%");
@@ -44,13 +46,14 @@ class TryoutController extends Controller
                 return $query->where('tryout_kelas', $request->kelas);
             });
         if (!$user->hasRole(['Admin'])) {
+            dd($user->hasRole(['Admin']));
+
             $tryout->whereHas('materi', function ($q1) use ($user) {
                 $q1->where('pengajar_id', $user->id);
             });
         }
         $tryout = $tryout->orderByDesc('tryout_register_due');
         $load['tryout'] = $tryout->paginate(10);
-
 
         $load['keyword'] = $request->keyword;
         $load['filter_jenjang'] = $request->jenjang;
@@ -93,8 +96,15 @@ class TryoutController extends Controller
             'tryout_kelas' => 'required|integer|min:1|max:12',
             'tryout_register_due' => 'required|date',
             'tryout_status' => 'required',
-            'tryout_jenis' => 'required',
-            'tryout_nominal' => 'required',
+            'tryout_jenis' => 'required|in:Gratis,Berbayar',
+            'tryout_nominal' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->tryout_jenis === 'Berbayar' && $value <= 0) {
+                        $fail('Nominal harus lebih dari 0 jika tryout berbayar.');
+                    }
+                },
+            ],
             'is_open' => 'required',
         ]);
 
@@ -107,6 +117,7 @@ class TryoutController extends Controller
         $tryout->tryout_status = $request->tryout_status;
         $tryout->tryout_jenis = $request->tryout_jenis;
         $tryout->tryout_nominal = $request->tryout_nominal;
+        $tryout->tryout_diskon = $request->tryout_diskon ?? 0;
         $tryout->is_open = $request->is_open;
         $tryout->save();
 
@@ -185,9 +196,9 @@ class TryoutController extends Controller
                 $q->where('id', 3);
             }
         )->get();
-
+            
         $load['tryout'] = Tryout::where('tryout_id', $id)->first()->load('materi.refMateri');
-
+ 
         return view('pages.panel.tryout.edit', $load);
     }
 
@@ -206,7 +217,15 @@ class TryoutController extends Controller
             'tryout_kelas' => 'required|integer|min:1|max:12',
             'tryout_register_due' => 'required|date',
             'tryout_status' => 'required',
-            'tryout_jenis' => 'required',
+            'tryout_jenis' => 'required|in:Gratis,Berbayar',
+            'tryout_nominal' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->tryout_jenis === 'Berbayar' && $value <= 0) {
+                        $fail('Nominal harus lebih dari 0 jika tryout berbayar.');
+                    }
+                },
+            ],
             'tryout_nominal' => 'required',
             'is_open' => 'required',
         ]);
@@ -220,6 +239,7 @@ class TryoutController extends Controller
         $tryout->tryout_status = $request->tryout_status;
         $tryout->tryout_jenis = $request->tryout_jenis;
         $tryout->tryout_nominal = $request->tryout_nominal;
+        $tryout->tryout_diskon = $request->tryout_diskon;
         $tryout->is_open = $request->is_open;
         $tryout->update();
 
@@ -287,14 +307,18 @@ class TryoutController extends Controller
             'materi_id' => 'required',
             'pengajar_id' => 'required',
             'tryout_materi_deskripsi' => 'required',
+            'durasi' => 'required',
         ]);
         $tryout = Tryout::find($id);
+ 
 
         TryoutMateri::insert([
             'tryout_materi_id' => Str::random(10),
             'tryout_id' => $tryout->tryout_id,
             'materi_id' => $request->materi_id,
             'pengajar_id' => $request->pengajar_id,
+            'durasi' => $request->durasi,
+            'safe_mode' => $request->safe_mode,
             'tryout_materi_deskripsi' => $request->tryout_materi_deskripsi
         ]);
 

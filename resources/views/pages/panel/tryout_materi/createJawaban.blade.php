@@ -36,7 +36,6 @@
                             @foreach($tryout_materi->soal as $key => $soal)
                             <li class="nav-item">
                                 <a class="nav-link" href="#step-{{ $key }}">
-                                    <div class="num">{{ $soal->tryout_nomor}}</div>
                                     No. {{ $soal->tryout_nomor}}
                                 </a>
                             </li>
@@ -47,55 +46,69 @@
                         <div class="tab-content overflow-auto">
                             @foreach($tryout_materi->soal as $key => $soal)
                             <div id="step-{{ $key }}" class="tab-pane overflow-auto" role="tabpanel" aria-labelledby="step-{{ $key }}">
-                                @if($tryout_materi->jenis_soal == 'PDF')
-                                <a class="image-popup w-50" href="{{ Storage::url($soal->tryout_soal) }}" title="">
-                                    <img class="gallery-img img-fluid mx-auto w-50" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
-                                </a>
-                                @else
-                                <div id="editor-{{ $key}}" style="height:300px" class="mb-2">
-                                </div>
-                                <input type="hidden" name="soal[{{$soal->tryout_soal_id}}]" id="soal-{{ $key}}">
-                                @endif
-                                <div class="overflow-auto">
-                                    <h4 class="card-title mb-0 flex-grow-1">Jawaban Soal No. {{ $soal->tryout_nomor}}</h4>
-                                    <div class="form-group row">
-                                        <label for="staticEmail" class="col-sm-2 col-form-label">Point Nilai</label>
-                                        <div class="col-sm-10">
-                                            <input type="number" class="form-control" placeholder="" value="1" name="point[{{$soal->tryout_soal_id}}]">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h4 class="card-title mb-2 flex-grow-1">Pertanyaan</h4>
+
+                                        @if($tryout_materi->jenis_soal == 'PDF')
+                                        <a class="image-popup w-50" href="{{ Storage::url($soal->tryout_soal) }}" title="">
+                                            <img class="gallery-img img-fluid mx-auto w-50" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
+                                        </a>
+                                        @else
+                                        <div id="editor-{{ $key}}" style="height:300px" class="mb-2">
+                                        </div>
+                                        <input type="hidden" name="soal[{{$soal->tryout_soal_id}}]" id="soal-{{ $key}}">
+                                        @endif
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="">
+                                            <h4 class="card-title mb-2 flex-grow-1">Jawaban</h4>
+                                            <div class="form-group row">
+                                                <label for="staticEmail" class="col-sm-2 col-form-label">Point Nilai</label>
+                                                <div class="col-sm-10">
+                                                    <input type="number" class="form-control" placeholder="" value="1" name="point[{{$soal->tryout_soal_id}}]">
+
+                                                </div>
+                                            </div>
+                                            <table class="table table-nowrap">
+                                                <th>
+                                                    <tr>
+                                                        <th class="col-1">Abjad</th>
+                                                        <th>Isi Jawaban</th>
+                                                        <th class="col-1">Kunci Jawaban</th>
+
+                                                    </tr>
+                                                </th>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>A.</td>
+                                                        <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][A]"></td>
+                                                        <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="A" id=""></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>B.</td>
+                                                        <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][B]"></td>
+                                                        <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="B" id=""></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>C.</td>
+                                                        <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][C]"></td>
+                                                        <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="C" id=""></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>D.</td>
+                                                        <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][D]"></td>
+                                                        <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="D" id=""></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
 
                                         </div>
                                     </div>
-                                    <table class="table table-nowrap">
-                                        <th>
-                                            <tr>
-                                                <th class="col-1">Kunci Jawaban</th>
-                                                <th class="col-1">Abjad</th>
-                                                <th>Isi Jawaban</th>
-                                            </tr>
-                                        </th>
-                                        <tbody>
-                                            <tr>
-                                                <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="A" id=""></td>
-                                                <td>A.</td>
-                                                <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][A]"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="B" id=""></td>
-                                                <td>B.</td>
-                                                <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][B]"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="C" id=""></td>
-                                                <td>C.</td>
-                                                <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][C]"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="D" id=""></td>
-                                                <td>D.</td>
-                                                <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][D]"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                     <div class="text-center ">
                                         @if ($loop->last)
                                         <button type="button" class="btn rounded-pill btn-warning  back-btn">Kembali</button>
