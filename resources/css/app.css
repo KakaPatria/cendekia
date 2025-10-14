@@ -1,0 +1,73 @@
+.tryout-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tryout-card .explore-img {
+  width: 100%;
+  height: 350px; /* tinggi seragam */
+  object-fit: cover; /* potong gambar tapi tetap proporsional */
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.tryout-card .card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tryout-card .card-footer {
+  margin-top: auto;
+}
+
+.product-item {
+  display: flex;
+}
+
+.product-item .card {
+  width: 100%; /* pastikan card isi penuh kolom */
+}
+.tryout-card img {
+  min-width: 100%;
+}
+.col-lg-4 {
+  display: flex;
+}
+
+.card.explore-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-body {
+  flex-grow: 1;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #fff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.explore-place-bid-img {
+  height: 600px; /* ubah dari 350px ke 500px supaya poster kelihatan penuh */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.explore-place-bid-img img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain; /* biar poster keliatan utuh */
+  background-color: #fff; /* biar rapi kalau ada ruang kosong */
+}
+

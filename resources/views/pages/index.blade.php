@@ -1096,41 +1096,42 @@ html {
                 </div>
                 <div class="row">
                     @foreach($tryout as $key => $value)
-                    <div class="col-lg-4 product-item artwork crypto-card 3d-style">
-                        <div class="card explore-box card-animate">
-                            <div class="bookmark-icon position-absolute top-0 end-0 p-2">
-                                <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
-                            </div>
-                            <div class="explore-place-bid-img">
-    <div class="explore-place-bid-img">
-    <img 
-        src="{{ $value->tryout_banner && Storage::exists($value->tryout_banner) 
-          ? Storage::url($value->tryout_banner) 
-          : asset('storage/uploads/tryout_banner/tryoutbanner-nataadibrata.jpg') }}" 
-        alt="" 
-        class="card-img-top explore-img">
+<div class="col-lg-4 d-flex align-items-stretch">
+    <div class="card explore-box card-animate w-100">
+        <div class="bookmark-icon position-absolute top-0 end-0 p-2">
+            <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true">
+                <i class="mdi mdi-cards-heart fs-16"></i>
+            </button>
+        </div>
 
-    <div class="bg-overlay"></div>
+        <div class="explore-place-bid-img">
+            <img 
+                src="{{ $value->tryout_banner && Storage::exists($value->tryout_banner) 
+                    ? Storage::url($value->tryout_banner) 
+                    : asset('storage/uploads/tryout_banner/tryoutbanner-nataadibrata.jpg') }}" 
+                alt="banner"
+                class="card-img-top explore-img"
+                style="height: 200px; object-fit: cover; width: 100%;">
+            <div class="bg-overlay"></div>
+        </div>
+
+        <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+                <h5 class="mb-1">
+                    <a href="apps-nft-item-details.html" class="link-dark">{{ $value->tryout_judul }}</a>
+                </h5>
+                <p class="text-muted mb-0">{{ $value->tryout_jenjang.' Kelas '.$value->tryout_kelas }}</p>
+            </div>
+        </div>
+
+        <div class="card-footer border-top border-top-dashed mt-auto text-center">
+            <a href="{{ route('daftar_tryout',$value->tryout_id) }}" class="btn btn-primary waves-effect waves-light">Daftar</a>
+        </div>
+    </div>
 </div>
+@endforeach
 
 
-
-
-                            </div>
-                            <div class="card-body">
-                                {{--<p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> 19.29k </p>--}}
-                                <h5 class="mb-1"><a href="apps-nft-item-details.html" class="link-dark">{{ $value->tryout_judul}}</a></h5>
-                                <p class="text-muted mb-0">{{ $value->tryout_jenjang.' Kelas '.$value->tryout_kelas}}</p>
-
-                            </div>
-                            <div class="card-footer border-top border-top-dashed">
-                                <div class="text-center">
-                                    <a href="{{ route('daftar_tryout',$value->tryout_id)}}" class="btn btn-primary waves-effect waves-light">Daftar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
 
                 </div>
 
