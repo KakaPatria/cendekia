@@ -46,7 +46,7 @@ class TryoutController extends Controller
                 return $query->where('tryout_kelas', $request->kelas);
             });
         if (!$user->hasRole(['Admin'])) {
-            dd($user->hasRole(['Admin']));
+            // dd($user->hasRole(['Admin']));
 
             $tryout->whereHas('materi', function ($q1) use ($user) {
                 $q1->where('pengajar_id', $user->id);
