@@ -195,10 +195,28 @@
         transform: none;
         box-shadow: none;
     }
+    
     .menu-dropdown .nav-link:hover::before,
     .menu-dropdown .nav-link.active::before {
         opacity: 1;
         transform: scaleX(1.2);
     }
+    
+    .app-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;              /* full tinggi layar */
+        width: 250px;               /* sesuaikan lebar sidebar */
+        overflow: hidden;           /* biar hanya isi tertentu yang scroll */
+    }
+
+    #scrollbar {
+        height: calc(100vh - 100px); /* tinggi layar dikurangi area logo di atas */
+        overflow-y: auto;            /* aktifkan scroll vertikal */
+        overflow-x: hidden;
+        padding-bottom: 2rem;        /* biar ada ruang bawah */
+    }
+
 </style>
 
