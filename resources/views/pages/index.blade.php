@@ -567,44 +567,62 @@
 }
 
 /* Tryout Section */
-#tryout {
-    background: #980000 !important;
+/* ======================================================= */
+/* ====== CSS TAMBAHAN V.3: STYLING DETAIL WAKTU & HARGA ====== */
+/* ======================================================= */
+
+/* Mengatur ulang tinggi gambar agar seragam dengan HTML baru (250px) */
+#tryout .explore-place-bid-img img {
+    height: 250px; 
+    object-fit: cover;
+    width: 100%;
+    filter: brightness(100%) contrast(100%);
+    transition: transform 0.4s ease-out;
 }
 
-/* Cuma untuk title "TRYOUT" */
-#tryout h1 {
-    text-shadow: 0 1px 1px white !important;
+/* Styling teks keterangan (Waktu Berlaku, Pelaksanaan) */
+#tryout .card-body .small.text-muted {
+    font-size: 0.75rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888 !important; 
 }
 
-/* ========== RESPONSIVE IMPROVEMENTS ========== */
-@media (max-width: 768px) {
-    .navbar-nav .nav-link {
-        margin: 0.2rem 0 !important;
-        text-align: center !important;
-        border-radius: 15px !important;
-    }
-    
-    .navbar-collapse {
-        background:#E2B602!important;
-        backdrop-filter: blur(10px) !important;
-        border-radius: 15px !important;
-        margin-top: 1rem !important;
-        padding: 1rem !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
-        border: 1px solid rgba(226, 182, 2, 0.2) !important;
-    }
-    
-    .job-hero-section {
-        padding-top: 100px !important;
-    }
-    
-    .job-hero-section .display-6 {
-        font-size: 2rem !important;
-    }
-    
-    .job-hero-section .lead {
-        font-size: 1rem !important;
-    }
+/* Styling nilai Waktu dan Pelaksanaan */
+#tryout .card-body h6.text-dark {
+    /* Nilai Waktu dan Pelaksanaan diatur ke warna Hitam/Dark */
+    color: #2c3e50 !important; 
+    font-size: 0.9rem !important;
+}
+
+/* Styling Ikon (Calendar/Location) */
+#tryout .card-body i.mdi {
+    /* Memaksa warna ikon menjadi Maroon */
+    color: #980000 !important; 
+    transition: transform 0.3s ease;
+}
+
+#tryout .explore-box:hover .card-body i.mdi {
+    transform: scale(1.1);
+}
+
+/* Styling HARGA (Kuning Emas) */
+#tryout .card-body h4.text-primary-brand-1 {
+    color: #E2B602 !important; /* Kuning Emas */
+    text-shadow: 0 0 5px rgba(226, 182, 2, 0.5);
+    font-size: 1.8rem !important; /* Ukuran besar */
+    /* Menjaga Harga tetap menonjol */
+}
+
+/* Styling Harga GRATIS */
+#tryout .card-body h4.text-primary-brand-1:contains('GRATIS') {
+    color: #28a745 !important; /* Hijau yang ramah */
+    text-shadow: none !important;
+}
+
+/* Button Tambahan */
+#tryout .card-footer a.w-100 {
+    width: 100% !important; /* Pastikan tombol 'Daftar Sekarang' selebar card */
 }
 
 /* ========== ADDITIONAL MODERN TOUCHES ========== */
@@ -1096,41 +1114,73 @@ html {
                 </div>
                 <div class="row">
                     @foreach($tryout as $key => $value)
-                    <div class="col-lg-4 product-item artwork crypto-card 3d-style">
-                        <div class="card explore-box card-animate">
-                            <div class="bookmark-icon position-absolute top-0 end-0 p-2">
-                                <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
-                            </div>
-                            <div class="explore-place-bid-img">
-    <div class="explore-place-bid-img">
-    <img 
-        src="{{ $value->tryout_banner && Storage::exists($value->tryout_banner) 
-          ? Storage::url($value->tryout_banner) 
-          : asset('storage/uploads/tryout_banner/tryoutbanner-nataadibrata.jpg') }}" 
-        alt="" 
-        class="card-img-top explore-img">
+<div class="col-lg-4 d-flex align-items-stretch">
+    <div class="card explore-box card-animate w-100">
+        <div class="bookmark-icon position-absolute top-0 end-0 p-2">
+            <button type="button" class="btn btn-icon active" data-bs-toggle="button" aria-pressed="true">
+                <i class="mdi mdi-cards-heart fs-16"></i>
+            </button>
+        </div>
 
-    <div class="bg-overlay"></div>
+        <div class="explore-place-bid-img">
+            <img 
+                src="{{ $value->tryout_banner && Storage::exists($value->tryout_banner) 
+                    ? Storage::url($value->tryout_banner) 
+                    : asset('storage/uploads/tryout_banner/tryoutbanner-nataadibrata.jpg') }}" 
+                alt="banner"
+                class="card-img-top explore-img"
+                style="height: 250px; object-fit: cover; width: 100%;">
+            <div class="bg-overlay"></div>
+        </div>
+
+        <div class="card-body d-flex flex-column">
+    <div>
+        {{-- JUDUL DAN JENJANG --}}
+        <h5 class="mb-1">
+            <a href="apps-nft-item-details.html" class="link-dark">{{ $value->tryout_judul }}</a>
+        </h5>
+        <p class="text-muted mb-3">{{ $value->tryout_jenjang.' Kelas '.$value->tryout_kelas }}</p>
+    </div>
+
+    {{-- DETAIL PENTING: BATAS REGISTRASI & JENIS TRYOUT --}}
+    <div class="d-flex justify-content-between align-items-center mb-3 pt-2 border-top border-top-dashed">
+        <div class="d-flex align-items-center">
+            <i class="mdi mdi-calendar-clock text-primary fs-4 me-2"></i>
+            <div>
+                <p class="text-muted mb-0 small text-uppercase">Batas Registrasi</p>
+                {{-- Mengambil data dari tryout_register_due --}}
+                <h6 class="fw-semibold mb-0 text-dark">
+                    {{ \Carbon\Carbon::parse($value->tryout_register_due)->translatedFormat('d F Y') }}
+                </h6>
+            </div>
+        </div>
+    </div>
+
+    {{-- DETAIL PENTING: HARGA --}}
+    <div class="text-center pt-2 border-top border-top-dashed mt-auto">
+        <p class="text-muted mb-1 small text-uppercase">Harga Pendaftaran</p>
+        <h4 class="fw-bold mb-0 text-primary-brand-1">
+            @if($value->tryout_jenis === 'Gratis')
+                GRATIS
+           @elseif($value->tryout_nominal > 0)
+                {{-- Hasil: Rp. 20000 --}}
+                Rp {{ $value->tryout_nominal }}
+            @else
+                Hubungi Admin
+            @endif
+        </h4>
+    </div>
+    
 </div>
+        
+        <div class="card-footer border-top border-top-dashed mt-auto text-center">
+            <a href="{{ route('daftar_tryout',$value->tryout_id) }}" class="btn btn-primary waves-effect waves-light w-100">Daftar Sekarang</a>
+        </div>
+    </div>
+</div>
+@endforeach
 
 
-
-
-                            </div>
-                            <div class="card-body">
-                                {{--<p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> 19.29k </p>--}}
-                                <h5 class="mb-1"><a href="apps-nft-item-details.html" class="link-dark">{{ $value->tryout_judul}}</a></h5>
-                                <p class="text-muted mb-0">{{ $value->tryout_jenjang.' Kelas '.$value->tryout_kelas}}</p>
-
-                            </div>
-                            <div class="card-footer border-top border-top-dashed">
-                                <div class="text-center">
-                                    <a href="{{ route('daftar_tryout',$value->tryout_id)}}" class="btn btn-primary waves-effect waves-light">Daftar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
 
                 </div>
 
