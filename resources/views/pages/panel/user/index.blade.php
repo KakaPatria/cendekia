@@ -54,15 +54,16 @@
                             </select>
                         </div>
                         @endif
-<div class="col-lg-2 col-sm-4 d-flex flex-column gap-2">
-    <button type="submit" class="btn btn-primary w-100 py-2">
-        <i class="ri-search-line me-1 align-bottom"></i> Cari
-    </button>
-    <a href="{{ route('panel.user.index', 'rule=' . $roleX) }}" class="btn btn-danger w-100 py-2">
-        <i class="ri-restart-line me-1 align-bottom"></i> Reset
-    </a>
-</div>
 
+                        
+    <div class="col-lg-2 col-sm-4 d-flex">
+        <button type="submit" class="btn btn-primary w-50 me-2">
+            <i class="ri-search-line me-1 align-bottom"></i> Cari
+        </button>
+        <a href="{{ route('panel.user.index', 'rule=' . $roleX) }}" class="btn btn-danger w-50">
+            <i class="ri-restart-line me-1 align-bottom"></i> Reset
+        </a>
+    </div>
 
 
 
