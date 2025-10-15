@@ -28,6 +28,7 @@ class User extends Authenticatable
         'asal_sekolah',
         'jenjang',
         'kelas',
+        'golongan',
         'alamat',
         'nama_orang_tua',
         'telp_orang_tua',

@@ -30,6 +30,9 @@ class UserController extends Controller
             ->when($request->jenjang, function ($query) use ($request) {
                 return $query->where('jenjang', $request->jenjang);
             })
+            ->when($request->golongan, function ($query) use ($request) {
+                return $query->where('golongan', $request->golongan);
+            })
             ->when($request->kelas, function ($query) use ($request) {
                 return $query->where('kelas', $request->kelas);
             })
@@ -60,6 +63,7 @@ class UserController extends Controller
         $load['filter_role'] = $request->role;
         $load['filter_jenjang'] = $request->jenjang;
         $load['filter_kelas'] = $request->kelas;
+    $load['filter_golongan'] = $request->golongan;
         $load['roleX'] = $role;
 
         return view('pages.panel.user.index', ($load));
@@ -107,6 +111,7 @@ class UserController extends Controller
                 'asal_sekolah' => 'required|string|max:255',
                 'jenjang' => 'required|string|in:SD,SMP,SMA',
                 'kelas' => 'required|integer|min:1|max:12',
+                'golongan' => 'nullable|string|max:50',
                 'nama_orang_tua' => 'required|string',
                 'telp_orang_tua' => 'required|numeric',
                 'alamat' => 'required|string|max:255',
@@ -182,6 +187,7 @@ class UserController extends Controller
                 'asal_sekolah' => 'required|string|max:255',
                 'jenjang' => 'required|string|in:SD,SMP,SMA',
                 'kelas' => 'required|integer|min:1|max:12',
+                'golongan' => 'nullable|string|max:50',
                 'nama_orang_tua' => 'required|string',
                 'telp_orang_tua' => 'required|numeric',
                 'alamat' => 'required|string|max:255',
@@ -202,6 +208,7 @@ class UserController extends Controller
             'telepon' => $request->telepon,
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
+            'golongan' => $request->golongan ?? null,
             'kelas' => $request->kelas,
             'alamat' => $request->alamat,
             'nama_orang_tua' => $request->nama_orang_tua,

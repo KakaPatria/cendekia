@@ -44,18 +44,27 @@
 
                             </select>
                         </div>
+                        <div class="col-lg-2 col-sm-4">
+                            <select class="form-select mb-2" id="filter-golongan" name="golongan">
+                                <option value="">Pilih Golongan</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                            </select>
+                        </div>
                         @endif
-                        <div class="col-lg-2 col-sm-4">
-                            <a href="{{ route('panel.user.index', 'rule=' . $roleX) }}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
-                                Reset
-                            </a>
-                        </div>
-                        <div class="col-lg-2 col-sm-4">
-                            <button type="submit" class="btn btn-primary w-100"> <i class="ri-search-line me-1 align-bottom"></i>
-                                Cari
-                            </button>
-                        </div>
-                    </div>
+<div class="col-lg-2 col-sm-4 d-flex flex-column gap-2">
+    <button type="submit" class="btn btn-primary w-100 py-2">
+        <i class="ri-search-line me-1 align-bottom"></i> Cari
+    </button>
+    <a href="{{ route('panel.user.index', 'rule=' . $roleX) }}" class="btn btn-danger w-100 py-2">
+        <i class="ri-restart-line me-1 align-bottom"></i> Reset
+    </a>
+</div>
+
+
+
 
                 </form>
             </div><!-- end card header -->
@@ -74,6 +83,7 @@
                                     @if($roleX == 'Siswa')
                                     <th scope="col">Jenjang</th>
                                     <th scope="col">Kelas</th>
+                                    <th scope="col">Golongan</th>
                                     <th scope="col">Alamat</th>
                                     <th scope="col">Nama Orangtua</th>
                                     <th scope="col">Telepon Orangtua</th>
@@ -96,6 +106,7 @@
                                     @if($roleX == 'Siswa')
                                     <td>{{ $user->jenjang }}</td>
                                     <td>{{ $user->kelas }}</td>
+                                    <td>{{ $user->golongan }}</td>
                                     <td>{{ $user->alamat }}</td>
                                     <td>{{ $user->nama_orang_tua }}</td>
                                     <td>{{ $user->telp_orang_tua }}</td>

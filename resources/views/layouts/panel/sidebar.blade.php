@@ -126,29 +126,38 @@
         display: none;
     }
 
-    /* Tombol Menu Utama */
+/* --- Bagian Menu Utama yang Diperbaiki --- */
+
+/* Tombol Menu Utama */
     #navbar-nav > .nav-item > .nav-link {
-        background-color: var(--primary-red) !important;
-        color: rgba(255, 255, 255, 0.9) !important;
+        background-color: var(--primary-yellow) !important;
+        color: #452103 !important; /* Ubah warna teks menjadi gelap agar terbaca */
         margin: 0.5rem 1rem;
         border-radius: 0.5rem;
         transition: all 0.3s ease;
         font-weight: 500;
     }
     #navbar-nav > .nav-item > .nav-link i {
-        color: rgba(255, 255, 255, 0.9) !important;
+        color: #452103 !important; /* Icon juga diubah jadi gelap */
         transition: all 0.3s ease;
     }
-    #navbar-nav > .nav-item > .nav-link:hover,
-    #navbar-nav > .nav-item > .nav-link.active {
-        background-color: var(--primary-red-hover) !important;
+    #navbar-nav > .nav-item > .nav-link:hover {
+        background-color: #f0c946 !important; /* Warna kuning yang sedikit lebih gelap saat di-hover */
         color: white !important;
         transform: scale(1.03);
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
-    #navbar-nav > .nav-item > .nav-link:hover i,
+    #navbar-nav > .nav-item > .nav-link.active {
+        background-color: var(--primary-red) !important;
+        color: white !important; /* Aktif tetap merah dengan teks putih */
+        transform: scale(1.03);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    #navbar-nav > .nav-item > .nav-link:hover i {
+        color: white !important; /* Icon jadi putih saat di-hover */
+    }
     #navbar-nav > .nav-item > .nav-link.active i {
-        color: white !important;
+        color: white !important; /* Icon jadi putih saat aktif */
     }
     
     /* [IMPROVEMENT] Area Menu Dropdown */
