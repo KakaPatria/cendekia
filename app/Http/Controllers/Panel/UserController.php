@@ -75,6 +75,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function create(Request $request)
+{
+    $load['title'] = "Tambah User";
+    $load['sub_title'] = "";
+    $load['roles'] = Role::latest()->get();
+    $load['permissions'] = Permission::latest()->get();
+    $load['roleX'] = $request->roleX ?? 'Siswa';
+    
+    return view('pages.panel.user.create', $load);
+}
+
     public function edit($id, Request $request)
     {
         $load['title'] = "Edit User";
@@ -91,6 +103,22 @@ class UserController extends Controller
         //dd($load);
         return view('pages.panel.user.edit', ($load));
     }
+
+public function show($id)
+{
+    $user = User::findOrFail($id);
+    $roleX = $user->roles->pluck('name')->first() ?? '-';
+
+    // Ambil semua nilai tryout milik user ini
+    $nilaiTryout = \App\Models\TryoutNilai::where('user_id', $user->id)->get();
+
+    // Hitung rata-rata nilai (jika ingin ditampilkan)
+    $rataRataNilai = $nilaiTryout->avg('nilai') ?? 0;
+
+    return view('pages.panel.user.detail', compact('user', 'roleX', 'nilaiTryout', 'rataRataNilai'));
+}
+
+
 
     /**
      * Update the specified resource in storage.
@@ -301,4 +329,6 @@ class UserController extends Controller
         Auth::logout();
         return redirect(route('panel.login'))->with('success', 'anda berhasil logout.');
     }
+
+    
 }
