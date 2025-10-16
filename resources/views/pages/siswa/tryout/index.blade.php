@@ -63,11 +63,11 @@
                 <thead class="table-light">
                     <tr>
                         <th scope="col" width="1%">#</th>
-                        <th scope="col">Judul Materi</th>
+                        <th scope="col">Judul Tryout</th>
                         <th scope="col">Jenjang</th>
                         <th scope="col">Kelas</th>
                         <th scope="col">Jenis</th>
-                        <th scope="col">Materi</th>
+                        <th scope="col">Mata Pelajaran</th>
                         <th scope="col" colspan="1" width="10%" class="text-center">Action</th>
                     </tr>
                 </thead>
