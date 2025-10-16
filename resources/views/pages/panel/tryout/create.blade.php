@@ -83,18 +83,18 @@
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Umum ?</label>
+                        <label class="col-form-label col-md-3">Kategori</label>
                         <div class="col-md-9">
                             <select id="add-is-open" class="form-control" name="is_open">
-                                <option value="">Pilih Umum / Tidak </option>
-                                <option value="Ya">Ya</option>
-                                <option value="Tidak">Tidak</option>
+                                <option value="">Pilih Kategori</option>
+                                <option value="Umum">Umum</option>
+                                <option value="Cendekia">Cendekia</option>
                             </select>
 
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Berbayar ?</label>
+                        <label class="col-form-label col-md-3">Berbayar?</label>
                         <div class="col-md-9">
                             <select id="add-jenis" class="form-control" name="tryout_jenis">
                                 <option value="">Pilih Jenis</option>

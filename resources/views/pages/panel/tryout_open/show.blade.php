@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="flex-grow-1">
-                    <h6 class="mb-3 fw-bold text-uppercase">Detial Identitas</h6>
+                    <h6 class="mb-3 fw-bold text-uppercase">Detail Identitas</h6>
                 </div>
             </div>
             <div class="card-body">
@@ -73,7 +73,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="flex-grow-1">
-                    <h6 class="mb-3 fw-bold text-uppercase">Detial Pembayaran</h6>
+                    <h6 class="mb-3 fw-bold text-uppercase">Detail Pembayaran</h6>
                 </div>
             </div>
             <div class="card-body">
