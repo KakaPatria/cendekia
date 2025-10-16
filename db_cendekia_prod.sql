@@ -2,8 +2,8 @@
 -- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Sep 29, 2025 at 06:06 AM
+-- Host: localhost:3306
+-- Generation Time: Oct 15, 2025 at 04:30 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `asal_sekolah` (
   `nama_sekolah` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `asal_sekolah`
@@ -237,7 +237,7 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `prefix_number` (
   `id` varchar(55) NOT NULL,
   `value` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `prefix_number`
@@ -305,7 +305,8 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'Siswa', 'web', '2024-10-21 07:04:27', '2024-10-21 07:04:27'),
 (2, 'Admin', 'web', '2025-09-25 02:33:54', '2025-09-25 02:33:54'),
-(3, 'Pengajar', 'web', '2024-10-21 07:04:28', '2024-10-21 07:04:28');
+(3, 'Pengajar', 'web', '2024-10-21 07:04:28', '2024-10-21 07:04:28'),
+(4, 'Umum', 'web', '2025-10-10 02:02:29', '2025-10-10 02:02:29');
 
 -- --------------------------------------------------------
 
@@ -359,7 +360,10 @@ INSERT INTO `tryout` (`tryout_id`, `tryout_judul`, `tryout_deskripsi`, `tryout_j
 (2, 'TRYOUT-ERWIN-1', '<p>Materi tentang TENSES</p>', 'SMP', '9', '2024-01-31', NULL, 'Aktif', 'Gratis', '', 0, '2024-11-27 08:19:26', '2024-11-27 08:19:26'),
 (3, 'PENDAFTARAN TRYOUT PERSIAPAN DINI ASPD SD/MI TA 2023-2024', '<p>✨<strong>Halo adik-adik kelas 6 SD</strong>✨<br>Dalam rangka pemantapan persiapan ASPD, OSIS&nbsp;NATA ADIBRATA -&nbsp;SMP Negeri 9 Yogyakarta bekerjasama&nbsp;LBB Cendekia&nbsp; dengan&nbsp;mengadakan TRYOUT PERSIAPAN DINI ASPD SD di SMP Negeri 9 Yogyakarta, yang <strong>berlangsung pada SABTU, 25 NOVEMBER 2023 dengan sesi pengerjaan 08.00-10.15 WIB</strong><br><br>📲Ananda Wajib membawa HP yang berisikan Kouta untuk mengisikan jawaban Try out pada lembar jawab google form.<br><br>❇️ <strong>CARA MENDAFTAR :</strong><br>1) Melakukan pembayaran dengan Biaya Rp20.000,- terlebih dahulu melalui :<br>▫️ Transfer&nbsp;BRI : 117501003821538 RATIH PADMA SARI<br>▫️ atau Datang langsung ke SMP Negeri 9 Yogyakarta pada jam kerja<br>2) Mengisi link pendaftaran :<br>🔗https://lbbcendekia.com/to2023<br><br>3) Kuitansi / bukti transfer difoto ataupun discreenshot kemudian unggah pada link pendaftaran (point 2). Kemudian submit jawaban anda.​<br><br>4) Masuk pada Whatsapp Grup melalui link undangan di akhir pendaftaran<br>(setelah sumbit).​<br><br>5) Cek email yang terdaftar saat mengisikan link pendaftaran untuk mendapatkan kartu peserta (tidak perlu diprint).<br><br>📌<strong>CATATAN :</strong><br>&nbsp;</p><ul><li>Pastikan setelah melakukan pembayaran anda mengisi link pendaftaran pada point 2.</li><li>Jika tidak mengisi link pendaftaran, maka dianggap tidak terdaftar sebagai peserta.</li><li>Adanya perubahan waktu <strong>Tryout menjadi SABTU, 25 November 2023</strong>, Bagi ananda yang sudah mendaftarkan diri sebelum tanggal 1 november 2023 dengan pembayaran yang SAH, tetap terverifikasi.</li><li>Perubahan cara membayar online untuk yang belum melakukan pembayaran dan pendaftaran dari An. <strong>Zulfa nur aulia menjadi RATIH PADMA SARI</strong>, yang sudah melakukan pembayaran menggunakan BRI An. Zulfa nur aulia tetap SAH.</li><li>Perubahan cara membayar offline dari Kantor Cendekia menjadi di SMP Negeri 9.<br>&nbsp;</li><li>Jika belum mendapatkan kartu peserta melalui email, silahkan untuk chat kami melalui wa, tidak perlu untuk mengulang pendaftaran.</li></ul><p><br>📲 Informasi &amp; Pendaftaran hubungi kami:<br>SMP N 9 : wa.me/085880426862<br>Kak Lia LBB Cendekia : wa.me/6281272139500<br><br>Terima kasih atas partisipasi anda😊<br>&nbsp;</p>', 'SD', '6', '2024-01-31', 'public/uploads/banner_tryout/1733036999_WhatsApp Image 2023-11-01 at 17.02.40.jpeg', 'Aktif', 'Berbayar', 'Ya', 20000, '2024-12-01 07:09:59', '2024-12-01 07:09:59'),
 (4, 'test tryout', '<p>test</p>', 'SMA', '12', '2024-01-31', 'public/uploads/banner_tryout/1733044149_Screenshot 2024-07-11 at 15.26.43.png', 'Aktif', 'Gratis', 'Tidak', 0, '2024-12-01 09:09:09', '2024-12-01 09:09:09'),
-(5, 'coba', '', 'SMP', '7', '2025-01-20', NULL, 'Tidak Aktif', 'Gratis', 'Ya', 0, '2025-09-22 12:04:07', '2025-09-22 12:04:07');
+(5, 'coba', '', 'SMP', '7', '2025-01-20', NULL, 'Tidak Aktif', 'Gratis', 'Ya', 0, '2025-09-22 12:04:07', '2025-09-22 12:04:07'),
+(6, 'piaw', '<p>wduwgqhjbkdqw</p>', 'SMA', '12', '2025-12-05', 'public/uploads/banner_tryout/1759912985_code.png', 'Aktif', 'Berbayar', 'Ya', 10000, '2025-10-08 08:43:05', '2025-10-08 08:43:05'),
+(7, 'tryouttt sophia', '<p>udavshd</p>', 'SMP', '9', '2025-02-28', 'public/uploads/banner_tryout/1760083370_Screenshot 2025-10-06 203421.png', 'Aktif', 'Gratis', 'Tidak', 0, '2025-10-10 08:02:50', '2025-10-10 08:02:50'),
+(8, 'tryouttt sophia', '<p>wdfghn</p>', 'SD', '5', '2025-10-21', 'public/uploads/banner_tryout/1760409526_code.png', 'Aktif', 'Berbayar', 'Ya', 12000, '2025-10-14 02:38:46', '2025-10-14 02:38:46');
 
 -- --------------------------------------------------------
 
@@ -428,7 +432,8 @@ CREATE TABLE `tryout_materi` (
 INSERT INTO `tryout_materi` (`tryout_materi_id`, `tryout_id`, `materi_id`, `pengajar_id`, `tryout_materi_deskripsi`, `jenis_soal`, `jumlah_soal`, `periode_mulai`, `periode_selesai`, `waktu_mulai`, `waktu_selesai`, `durasi`, `safe_mode`, `master_soal`, `created_at`, `updated_at`) VALUES
 ('4OXg4wOUVt', 1, 3, 18, 'Perlu di isi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL),
 ('Dpo0guZRxz', 1, 1, 18, 'Lorem ipsum', 'FORM', 3, '2024-11-01', '2024-12-31', '12:00:00', '20:00:00', 30, 1, NULL, NULL, '2024-12-01 16:39:04'),
-('QT1t12eoMw', 5, 4, 15, 'kdghu', 'PDF', 4, '2025-09-21', '2025-09-22', '09:00:00', '12:00:00', 90, 1, 'public/uploads/soal/1758544027_LATIHAN SOAL IPA KELAS 7 BAB 2 Materi dan Perubahannya.pdf', NULL, '2025-09-22 19:27:09');
+('QT1t12eoMw', 5, 4, 15, 'kdghu', 'PDF', 4, '2025-09-21', '2025-09-22', '09:00:00', '12:00:00', 90, 1, 'public/uploads/soal/1758544027_LATIHAN SOAL IPA KELAS 7 BAB 2 Materi dan Perubahannya.pdf', NULL, '2025-09-22 19:27:09'),
+('XII5GCFDAR', 8, 1, 18, 'asdfghjk', 'FORM', 10, '2025-10-14', '2025-10-14', '10:00:00', '12:00:00', 120, 1, NULL, NULL, '2025-10-14 09:40:42');
 
 -- --------------------------------------------------------
 
@@ -492,7 +497,8 @@ INSERT INTO `tryout_open_pendaftaran` (`top_id`, `tryout_id`, `top_email`, `top_
 (19, 3, 'faris123@gmail.com', 'Faris Aizy', 'SD NEGERI JETIS 1', '085600200913', 'Jhon Doe', '0856000200913', '2024-12-28', 'Bank Transfer', 'uploads/bukti_bayar/1733038271_WhatsApp Image 2023-11-01 at 17.02.40.jpeg', 'Jhon Doe', 'Pending', '2024-12-01 07:31:11', '2024-12-01 07:31:11'),
 (20, 3, 'ayawwwww3@gmail.com', 'adinda cintya firdausi', 'smk', '081233374920', 'zea', '081233374920', '2025-09-19', 'Datang Langsung Ke Kantor Cendekia', 'uploads/bukti_bayar/1758276835_17582768198558896121984039273250.jpg', 'fia', 'Pending', '2025-09-19 10:13:55', '2025-09-19 10:13:55'),
 (21, 3, 'ayawwwww3@gmail.com', 'adinda cintya firdausi', 'smk', '081233374920', 'zea', '081233374920', '2025-09-19', 'Datang Langsung Ke Kantor Cendekia', 'uploads/bukti_bayar/1758276840_17582768198558896121984039273250.jpg', 'fia', 'Pending', '2025-09-19 10:14:00', '2025-09-19 10:14:00'),
-(22, 3, 'ayawwwww3@gmail.com', 'adinda cintya firdausi', 'smk', '081233374920', 'zea', '081233374920', '2025-09-19', 'Datang Langsung Ke Kantor Cendekia', 'uploads/bukti_bayar/1758276850_17582768198558896121984039273250.jpg', 'fia', 'Pending', '2025-09-19 10:14:10', '2025-09-19 10:14:10');
+(22, 3, 'ayawwwww3@gmail.com', 'adinda cintya firdausi', 'smk', '081233374920', 'zea', '081233374920', '2025-09-19', 'Datang Langsung Ke Kantor Cendekia', 'uploads/bukti_bayar/1758276850_17582768198558896121984039273250.jpg', 'fia', 'Pending', '2025-09-19 10:14:10', '2025-09-19 10:14:10'),
+(23, 3, 'alfi31973197@gmail.com', 'alfi dwi yanti', 'SMP 9 Yogyakarta', '082330533018', '082330533018', '12345678913254', '2025-09-30', 'Bank Transfer', 'uploads/bukti_bayar/1759201988_code.png', 'pia', 'Pending', '2025-09-30 03:13:08', '2025-09-30 03:13:08');
 
 -- --------------------------------------------------------
 
@@ -580,7 +586,17 @@ INSERT INTO `tryout_soal` (`tryout_soal_id`, `tryout_materi_id`, `tryout_nomor`,
 (6, 'QT1t12eoMw', 3, 1, 'public/uploads/soal/image/soal_5_1758544028.jpg', '[\"A\"]', '', NULL, '2025-09-22 12:34:52'),
 (7, 'QT1t12eoMw', 1, 1, 'public/uploads/soal/image/soal_1_1758544027.jpg', '[\"C\"]', 'public/uploads/soal/image/jawaban_2_1758544028.jpg', NULL, '2025-09-22 12:34:52'),
 (8, 'QT1t12eoMw', 2, 1, 'public/uploads/soal/image/soal_3_1758544028.jpg', '[\"A\"]', 'public/uploads/soal/image/jawaban_4_1758544028.jpg', NULL, '2025-09-22 12:34:52'),
-(9, 'QT1t12eoMw', 3, 1, 'public/uploads/soal/image/soal_5_1758544028.jpg', '[\"A\"]', '', NULL, '2025-09-22 12:33:52');
+(9, 'QT1t12eoMw', 3, 1, 'public/uploads/soal/image/soal_5_1758544028.jpg', '[\"A\"]', '', NULL, '2025-09-22 12:33:52'),
+(10, 'XII5GCFDAR', 1, 1, NULL, NULL, NULL, NULL, NULL),
+(11, 'XII5GCFDAR', 2, 1, NULL, NULL, NULL, NULL, NULL),
+(12, 'XII5GCFDAR', 3, 1, NULL, NULL, NULL, NULL, NULL),
+(13, 'XII5GCFDAR', 4, 1, NULL, NULL, NULL, NULL, NULL),
+(14, 'XII5GCFDAR', 5, 1, NULL, NULL, NULL, NULL, NULL),
+(15, 'XII5GCFDAR', 6, 1, NULL, NULL, NULL, NULL, NULL),
+(16, 'XII5GCFDAR', 7, 1, NULL, NULL, NULL, NULL, NULL),
+(17, 'XII5GCFDAR', 8, 1, NULL, NULL, NULL, NULL, NULL),
+(18, 'XII5GCFDAR', 9, 1, NULL, NULL, NULL, NULL, NULL),
+(19, 'XII5GCFDAR', 10, 1, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -598,6 +614,7 @@ CREATE TABLE `users` (
   `asal_sekolah` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `jenjang` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `kelas` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `golongan` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `alamat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nama_orang_tua` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `telp_orang_tua` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -606,7 +623,7 @@ CREATE TABLE `users` (
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password_otp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password_otp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password_otp_expires_at` timestamp NULL DEFAULT NULL,
   `status` enum('Aktif','Tidak Aktif') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_login` datetime DEFAULT NULL,
@@ -618,12 +635,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`nomor_urut`, `id`, `roles_id`, `name`, `email`, `telepon`, `asal_sekolah`, `jenjang`, `kelas`, `alamat`, `nama_orang_tua`, `telp_orang_tua`, `avatar`, `referal_code`, `email_verified_at`, `password`, `remember_token`, `password_otp`, `password_otp_expires_at`, `status`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 8, 1, 'Faris Aizy', 'farisaizy12@gmail.com', '085600200913', 'SD Indonesia Merdeka', 'SD', '5', 'Jl ABc', 'Test', '9021830912830', 'public/uploads/avatar/1732698688_Screenshot 2024-06-27 215605.png', NULL, NULL, '$2y$10$TGwGBLBKFEvJluTvXw2IP.WFUKffqErHU4VC.dODSZ/lpAPO3wagi', NULL, NULL, NULL, 'Aktif', NULL, '2024-11-27 09:10:58', '2024-11-27 09:11:28'),
-(2, 14, 2, 'Super Admin', 'admin@cendekia.com', '123456789', '-', '', '', 'sonopakis', '', '', NULL, NULL, '2024-11-27 12:14:15', '$2y$10$.6poepR7Lj0AD3GjMiyl3ezkmgOBTy2CXeOAJiC/QV9pwcR9Rd5Oy', '8vdjBUIpnLcmOqLIjes6syeVlcL3iagpU1BZDaGULJbddUr533CUa3n360o8', NULL, NULL, 'Aktif', NULL, '2024-11-27 12:14:15', '2025-09-25 01:34:59'),
-(3, 18, 3, 'Test Pengajar 1', 'pengajar1@gmail.com', '085600913', 'SD MUHAMMADIYAH BAUSASRAN 1', NULL, NULL, NULL, NULL, NULL, 'public/uploads/avatar/1733042407_Screenshot 2024-07-11 at 15.26.43.png', NULL, NULL, '$2y$10$UOBDX8Nzw1/.OniyOVruPeOilp4qcz/BcrGUEgd66lLJnel1Np2x.', NULL, NULL, NULL, 'Aktif', NULL, '2024-12-01 08:40:07', '2024-12-01 08:40:07'),
-(4, 27, 1, 'pia santoso', 'pia69@gmail.com', '123456789', '-', 'SMA', '12', 'sonopakis', 'ayaaaaaa', '23546789', NULL, NULL, NULL, '$2y$10$ijrb3V3zUtL5Opo0JTtwFOyH3TUsO/wl0cDK58cBzu7VILbKV.LnS', NULL, NULL, NULL, 'Aktif', NULL, '2025-09-25 08:12:30', '2025-09-25 08:12:30'),
-(NULL, 28, 1, 'KakaPatria', 'kakapatria65@gmail.com', '', '', '', '', '', '', '', NULL, NULL, NULL, '$2y$10$2NQ3Z9mu0yn.4pXs7mfbkuMp.LoOIICGQVmwtYOgB3qZQ7FXDzIfS', 'jAi9YKxCbI9BqZM6RDMEmMXA0tZVPwjyy126W9lniSkBHzpGIly4yIdNoUBK', NULL, NULL, 'Aktif', NULL, '2025-09-26 03:58:43', '2025-09-29 05:03:50');
+INSERT INTO `users` (`nomor_urut`, `id`, `roles_id`, `name`, `email`, `telepon`, `asal_sekolah`, `jenjang`, `kelas`, `golongan`, `alamat`, `nama_orang_tua`, `telp_orang_tua`, `avatar`, `referal_code`, `email_verified_at`, `password`, `remember_token`, `password_otp`, `password_otp_expires_at`, `status`, `last_login`, `created_at`, `updated_at`) VALUES
+(1, 8, 1, 'Faris Aizy', 'farisaizy12@gmail.com', '085600200913', 'SD Indonesia Merdeka', 'SD', '5', 'B', 'Jl ABc', 'Test', '9021830912830', 'public/uploads/avatar/1732698688_Screenshot 2024-06-27 215605.png', NULL, NULL, '$2y$10$TGwGBLBKFEvJluTvXw2IP.WFUKffqErHU4VC.dODSZ/lpAPO3wagi', NULL, NULL, NULL, 'Aktif', NULL, '2024-11-27 09:10:58', '2024-11-27 09:11:28'),
+(2, 14, 2, 'Super Admin', 'admin@cendekia.com', '123456789', '-', '', '', 'Belum Ditentukan', 'sonopakis', '', '', NULL, NULL, '2024-11-27 12:14:15', '$2y$10$.6poepR7Lj0AD3GjMiyl3ezkmgOBTy2CXeOAJiC/QV9pwcR9Rd5Oy', '9JFXOffHwyU3HbwXi41ytfFTUFZKXZLX62XlG7AHvRdFbAJcoO4Dm9DPnIu0', NULL, NULL, 'Aktif', NULL, '2024-11-27 12:14:15', '2025-09-25 01:34:59'),
+(3, 18, 3, 'Test Pengajar 1', 'pengajar1@gmail.com', '085600913', 'SD MUHAMMADIYAH BAUSASRAN 1', NULL, NULL, 'Belum Ditentukan', NULL, NULL, NULL, 'public/uploads/avatar/1733042407_Screenshot 2024-07-11 at 15.26.43.png', NULL, NULL, '$2y$10$UOBDX8Nzw1/.OniyOVruPeOilp4qcz/BcrGUEgd66lLJnel1Np2x.', NULL, NULL, NULL, 'Aktif', NULL, '2024-12-01 08:40:07', '2024-12-01 08:40:07'),
+(4, 27, 1, 'pia santoso', 'pia69@gmail.com', '123456789', '-', 'SMA', '12', 'D', 'sonopakis', 'ayaaaaaa', '23546789', NULL, NULL, NULL, '$2y$10$ijrb3V3zUtL5Opo0JTtwFOyH3TUsO/wl0cDK58cBzu7VILbKV.LnS', NULL, NULL, NULL, 'Aktif', NULL, '2025-09-25 08:12:30', '2025-09-25 08:12:30');
 
 --
 -- Indexes for dumped tables
@@ -803,13 +819,13 @@ ALTER TABLE `ref_materi`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tryout`
 --
 ALTER TABLE `tryout`
-  MODIFY `tryout_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `tryout_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tryout_jawaban`
@@ -827,7 +843,7 @@ ALTER TABLE `tryout_nilai`
 -- AUTO_INCREMENT for table `tryout_open_pendaftaran`
 --
 ALTER TABLE `tryout_open_pendaftaran`
-  MODIFY `top_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `top_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `tryout_pengerjaan`
@@ -845,13 +861,13 @@ ALTER TABLE `tryout_peserta`
 -- AUTO_INCREMENT for table `tryout_soal`
 --
 ALTER TABLE `tryout_soal`
-  MODIFY `tryout_soal_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `tryout_soal_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables

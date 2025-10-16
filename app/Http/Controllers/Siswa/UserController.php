@@ -67,6 +67,15 @@ class UserController extends Controller
 
     public function logout()
     {
+        // Hapus recent tryouts dari session agar dashboard bersih setelah logout
+        try {
+            session()->forget('recent_tryouts');
+            // optional: invalidate the whole session to be safe
+            session()->invalidate();
+            session()->regenerateToken();
+        } catch (\Exception $e) {
+            // ignore session errors
+        }
         Auth::logout();
         return redirect('/')->with('success', 'anda berhasil logout.');
     }
