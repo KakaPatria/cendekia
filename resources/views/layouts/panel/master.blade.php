@@ -163,10 +163,25 @@
 document.addEventListener("DOMContentLoaded", function() {
     const hamburger = document.getElementById("topnav-hamburger-icon");
     const sidebar = document.getElementById("sidebar-menu");
-    // Pastikan sidebar terbuka saat pertama kali (jika ada)
-    if (sidebar) {
-        sidebar.classList.remove("closed");
-        document.body.classList.remove("sidebar-collapsed");
+    // Restore sidebar state from localStorage if available
+    try {
+        const saved = localStorage.getItem('cendekia.sidebar.closed');
+        if (sidebar) {
+            if (saved === 'true') {
+                sidebar.classList.add('closed');
+                document.body.classList.add('sidebar-collapsed');
+            } else if (saved === 'false') {
+                sidebar.classList.remove('closed');
+                document.body.classList.remove('sidebar-collapsed');
+            } else {
+                // default: open
+                sidebar.classList.remove('closed');
+                document.body.classList.remove('sidebar-collapsed');
+            }
+        }
+    } catch (e) {
+        // localStorage may be disabled; ignore silently
+        console.warn('localStorage not available for sidebar state persistence', e);
     }
 
     // Toggle sidebar saat klik hamburger (hanya jika kedua elemen ada)
@@ -181,6 +196,12 @@ document.addEventListener("DOMContentLoaded", function() {
             const nowClosed = sidebar.classList.contains('closed');
             // aria-expanded should be true when sidebar is visible
             hamburger.setAttribute('aria-expanded', (!nowClosed).toString());
+            // persist to localStorage
+            try {
+                localStorage.setItem('cendekia.sidebar.closed', nowClosed ? 'true' : 'false');
+            } catch (e) {
+                // ignore storage errors (privacy mode, etc.)
+            }
         });
     }
 });
