@@ -40,8 +40,16 @@
                                 <td>{{ $tryout->tryout_jenis}}</td>
                             </tr>
                             <tr>
-                                <td class="fw-medium">Biaya</td>
-                                <td>{{ $tryout->tryout_nominal}}</td>
+                                <td class="fw-medium">Harga</td>
+                                <td>Rp.{{ $tryout->tryout_nominal}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-medium">Diskon</td>
+                                <td>{{ $tryout->tryout_diskon}}%</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-medium">Total</td>
+                                <td>Rp.{{ $tryout->tryout_harga_jual_formatted}}</td>
                             </tr>
 
                         </tbody>
@@ -71,22 +79,34 @@
     </div>
     <div class="col-xxl-9">
         <div class="card">
-            <div class="card-header">
-                <div class="align-items-center d-flex mb-2">
-                    <div class="flex-grow-1">
-                        <h6 class=" fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <div>
-                            <a href="javascript:history.back()" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
-                        </div>
-                    </div>
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0  fw-bold flex-grow-1">Detail Tryout</h4>
+                <div class="flex-shrink-0">
+                    <a href="javascript:history.back()" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
                 </div>
             </div>
             <div class="card-body">
                 <div class="text-muted">
                     <div class="mb-2">
-                        {!! $tryout->tryout_deskripsi!!}
+                        <!-- Base Example -->
+                        <div class="accordion mb-2" id="default-accordion-example">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        {{ $tryout->tryout_judul}}
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse  " aria-labelledby="headingOne" data-bs-parent="#default-accordion-example">
+                                    <div class="accordion-body">
+                                        {!! $tryout->tryout_deskripsi!!}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
                     </div>
                     <h6 class="mb-2 fw-bold text-uppercase">Materi</h6>
 
@@ -106,24 +126,10 @@
                                             <div class="flex-grow-1">
                                                 <h5 class="mb-1 fs-16"><a href="apps-projects-overview.html" class="text-dark">{{ $materi->refMateri->ref_materi_judul}}</a></h5>
                                                 <p class="text-muted text-truncate-two-lines mb-3">{{ $materi->tryout_materi_deskripsi}}</p>
-                                                <div>
-                                                    <p class="text-muted mb-1">Pengajar</p>
-                                                    <h5 class="fs-14">{{ $materi->pengajar->name ?? ''}}</h5>
-                                                </div>
-                                                <div>
-                                                    <p class="text-muted mb-1">Periode Pengerjaan</p>
-                                                    <h5 class="fs-14">{{ $materi->periode}}</h5>
-                                                </div>
-                                                @if($materi->periode_mulai && $tryout)
-                                                <div>
-                                                    <p class="text-muted mb-1">Jam Pengerjaan</p>
-                                                    <h5 class="fs-14">{{ $materi->waktu}}</h5>
-                                                </div>
-                                                @endif
                                                 @if($materi->durasi)
                                                 <div>
                                                     <p class="text-muted mb-1">Durasi Pengerjaan</p>
-                                                    <h5 class="fs-14">{{ $materi->durasi / 60}} Menit</h5>
+                                                    <h5 class="fs-14">{{ $materi->durasi }} Menit</h5>
                                                 </div>
                                                 @endif
                                             </div>
@@ -151,22 +157,17 @@
                                     <div class="text-center">
 
                                         @if($tryout->tryout_status == 'Aktif')
-                                        @if(!$materi->in_periode)
-                                        <div class="alert alert-danger mb-xl-0" role="alert">
-                                            Tidak dalam periode tryout
-                                        </div>
-                                        @else
                                         @if($materi->nilaiUser)
                                         @if($materi->nilaiUser->status == 'Proses')
-                                        <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',$materi->tryout_materi_id)}}">
-                                            <i class="fa fa-edit"></i> Lanjutkan
+                                        <a href="javascript:;" class="btn btn-danger w-100 lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',$materi->tryout_materi_id)}}">
+                                            Lanjutkan Pengerjaan
                                         </a>
+
                                         @endif
                                         @else
-                                        <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',$materi->tryout_materi_id)}}">
-                                            <i class="fa fa-edit"></i> Kerjakan
+                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',$materi->tryout_materi_id)}}">
+                                            Mulai Kerjakan
                                         </a>
-                                        @endif
                                         @endif
                                         @endif
                                     </div>

@@ -22,13 +22,16 @@
                                 <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" class="card-logo card-logo-light" alt="logo light" height="40">
 
                             </div>
-                            <div class="flex-shrink-0 mt-sm-0 mt-3">
+                            {{--<div class="flex-shrink-0 mt-sm-0 mt-3">
                                 <div class="mt-sm-5 mt-4">
-                                    <h6 class="text-muted text-uppercase fw-semibold">Address</h6>
-                                    <p class="text-muted mb-1" id="address-details">California, United States</p>
-                                    <p class="text-muted mb-0" id="zip-code"><span>Zip-code:</span> 90201</p>
+                                    <h6 class="text-muted text-uppercase fw-semibold">Alamat</h6>
+                                    <p class="text-muted mb-1" id="address-details">Jl. Tinalan No.7, Prenggan, </p>
+                                    <p class="text-muted mb-1" id="address-details">Kec. Kotagede, Kota Yogyakarta,</p>
+                                    <p class="text-muted mb-1" id="address-details">Daerah Istimewa Yogyakarta </p>
+                                    <p class="text-muted mb-0" id="zip-code"><span>Kode POS:</span> 55172</p>
+
                                 </div>
-                            </div>
+                            </div>--}}
                         </div>
                     </div>
                     <!--end card-header-->
@@ -39,7 +42,7 @@
                         <div class="row g-3">
                             <div class="col-lg-3 col-6">
                                 <p class="text-muted mb-2 text-uppercase fw-semibold">Invoice No</p>
-                                <h5 class="fs-14 mb-0">#VL<span id="invoice-no">{{ $inv->inv_id}}</span></h5>
+                                <h5 class="fs-14 mb-0">#<span id="invoice-no">{{ $inv->inv_id}}</span></h5>
                             </div>
                             <!--end col-->
                             <div class="col-lg-2 col-6">
@@ -52,14 +55,14 @@
                             </div>
                             <!--end col-->
                             <div class="col-lg-2 col-6">
-                                <p class="text-muted mb-2 text-uppercase fw-semibold"> Status Invoice</p> 
+                                <p class="text-muted mb-2 text-uppercase fw-semibold"> Status Invoice</p>
                                 {!! $inv->status_badge !!}
 
                             </div>
                             <!--end col-->
                             <div class="col-lg-3 col-6">
                                 <p class="text-muted mb-2 text-uppercase fw-semibold">Total</p>
-                                <h5 class="fs-14 mb-0">Rp. <span id="total-amount">{{ $inv->amount_rp }}</span></h5>
+                                <h5 class="fs-14 mb-0">Rp. <span id="total-amount">{{ $inv->total_invoice_rp }}</span></h5>
                             </div>
                             <!--end col-->
                         </div>
@@ -75,10 +78,10 @@
                                 <h6 class="text-muted text-uppercase fw-semibold mb-3">Alamat Tagih</h6>
                                 <p class="fw-medium mb-2" id="billing-name">{{ $inv->peserta->tryout_peserta_name}}</p>
                                 <p class="text-muted mb-1" id="billing-address-line-1">{{ $inv->peserta->tryout_peserta_alamat}}</p>
-                                <p class="text-muted mb-1"><span>Phone: +</span><span id="billing-phone-no">{{ $inv->peserta->tryout_peserta_telepon}}</span></p>
-                                <p class="text-muted mb-0"><span>Tax: </span><span id="billing-tax-no">{{ $inv->peserta->tryout_peserta_email}} </span> </p>
+                                <p class="text-muted mb-1"><span>No Telepon: </span><span id="billing-phone-no">{{ $inv->peserta->tryout_peserta_telpon}}</span></p>
+                                <p class="text-muted mb-0"><span>Email: </span><span id="billing-tax-no">{{ $inv->peserta->tryout_peserta_email}} </span> </p>
                             </div>
-                             
+
                         </div>
                         <!--end row-->
                     </div>
@@ -92,7 +95,7 @@
                                 <thead>
                                     <tr class="table-active">
                                         <th scope="col" style="width: 50px;">#</th>
-                                        <th scope="col">Detail</th> 
+                                        <th scope="col">Detail</th>
                                         <th scope="col" class="text-end">Nominal</th>
                                     </tr>
                                 </thead>
@@ -101,11 +104,11 @@
                                         <th scope="row">01</th>
                                         <td class="text-start">
                                             <span class="fw-medium">{{ $inv->keterangan}}</span>
-                                            
-                                        </td> 
+
+                                        </td>
                                         <td class="text-end">Rp. {{ $inv->amount_rp }}</td>
                                     </tr>
-                                     
+
                                 </tbody>
                             </table>
                             <!--end table-->
@@ -113,36 +116,29 @@
                         <div class="border-top border-top-dashed mt-2">
                             <table class="table table-borderless table-nowrap align-middle mb-0 ms-auto" style="width:250px">
                                 <tbody>
-                                     
+
+                                    @if($inv->discount_rp)
+                                    <tr class="border-top border-top-dashed fs-15">
+                                        <th scope="row">Diskon</th>
+                                        <th class="text-end text-danger">- Rp. {{ $inv->discount_rp}}</th>
+                                    </tr>
+                                    @endif
                                     <tr class="border-top border-top-dashed fs-15">
                                         <th scope="row">Total</th>
-                                        <th class="text-end">Rp. {{ $inv->amount_rp}}</th>
+                                        <th class="text-end">Rp. {{ $inv->total_invoice_rp}}</th>
                                     </tr>
                                 </tbody>
                             </table>
                             </table>
                             <!--end table-->
                         </div>
-                        <div class="mt-3">
-                            <h6 class="text-muted text-uppercase fw-semibold mb-3">Silahkan melakukan pembayaran  ke rekening berikut :</h6>
-                            <p class="text-muted mb-1">Atas Nama: <span class="fw-medium" id="payment-method">LBB Cendikia</span></p>
-                            <p class="text-muted mb-1">BANK: <span class="fw-medium" id="card-holder-name">BCA</span></p>
-                            <p class="text-muted mb-1">Nomor Rekening: <span class="fw-medium" id="card-holder-name">9867112</span></p>
-                            
-                            <p class="text-muted">Sejumlah: <span class="fw-medium" id="">Rp </span><span id="card-total-amount">{{ $inv->amount_rp}}</span></p>
+
+                        @if($inv->status == 0)
+
+                        <div class="text-center d-print-none mt-4">
+                            <a href="javascript:void(0);" id="bayar-btn" class="btn btn-warning">Bayar Sekarang</a>
                         </div>
-                        <div class="mt-4">
-                            <div class="alert alert-info">
-                                <p class="mb-0"><span class="fw-semibold">NOTES:</span>
-                                    <span id="note">Mohon untuk konfirmasi apabila sudah melakukan pembayaran, hubungi nomor berikut <a href="https://wa.me/c/6281272139500">6281272139500</a>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="hstack gap-2 justify-content-end d-print-none mt-4">
-                            <a href="javascript:window.print()" class="btn btn-success"><i class="ri-printer-line align-bottom me-1"></i> Print</a>
-                            <a href="javascript:void(0);" class="btn btn-primary"><i class="ri-download-2-line align-bottom me-1"></i> Download</a>
-                        </div>
+                        @endif
                     </div>
                     <!--end card-body-->
                 </div>
@@ -159,8 +155,49 @@
 @section('script')
 <script src="{{ URL::asset('/assets/js/pages/invoicedetails.js') }}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+<script type="text/javascript"
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ config('midtrans.client_key') }}"></script>
 
 <script>
     $('#nav-tryout').addClass('active')
+
+    <?php if ($inv->status == 0) { ?>
+
+        $('#bayar-btn').click(function() {
+            $.ajax({
+                url: "{{ route('siswa.payment.snapToken') }}",
+                type: 'POST',
+                data: {
+                    inv_id: "{{ $inv->inv_id }}",
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(data) {
+                    // console.log(data);
+                    snap.pay(data.snap_token, {
+                        // Optional
+                        onSuccess: function(result) {
+                            /* You may add your own implementation here */
+                            alert("Pembayaran berhasil!");
+                            location.reload();
+                        },
+                        // Optional
+                        onPending: function(result) {
+                            /* You may add your own implementation here */
+                            alert("Menunggu pembayaran!");
+                            location.reload();
+                        },
+                        // Optional
+                        onError: function(result) {
+                            /* You may add your own implementation here */
+                            alert("Pembayaran gagal!");
+                            location.reload();
+                        }
+                    });
+                }
+            });
+
+        });
+    <?php  } ?>
 </script>
 @endsection

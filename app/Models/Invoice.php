@@ -24,6 +24,10 @@ class Invoice extends Model
         'status',
         'due_date',
         'inv_paid',
+        'payment_type',
+        'bank',
+        'va_number',
+        'remark',
     ];
 
     public function peserta()
@@ -36,24 +40,46 @@ class Invoice extends Model
         return number_format($this->amount, 0, ',', '.');
     }
 
+    public function getTotalInvoiceRpAttribute()
+    {
+
+        return number_format($this->total, 0, ',', '.');
+    }
+    public function getDiscountRpAttribute()
+    {
+        $nominal = $this->getRawOriginal('discount') ?? 0;
+        $diskon = $this->getRawOriginal('amount') ?? 0;
+
+        $disocunt = ($nominal * $diskon) / 100;
+
+        return number_format($disocunt, 0, ',', '.');
+ 
+    }
+
     public function getDueDateFormatAttribute()
     {
         return Carbon::parse($this->due_date)->format('d M Y');
     }
+
     public function getInvDateFormatAttribute()
     {
         return Carbon::parse($this->created_at)->format('d M Y');
+    }
+
+    public function getInvPaidFormatAttribute()
+    {
+        return Carbon::parse($this->inv_paid)->format('d M Y H:i');
     }
 
     public function getStatusBadgeAttribute()
     {
 
         if ($this->status == 1) {
-            return ' <span class="badge badge-soft-info fs-11" id="payment-status">Dikonfirmasi</span>';
+            return ' <span class="badge badge-soft-info fs-11" id="payment-status">Lunas</span>';
         } elseif ($this->status == 0) {
-            return ' <span class="badge badge-soft-warning fs-11" id="payment-status">Menunggu Konfirmasi</span>';
+            return ' <span class="badge badge-soft-warning fs-11" id="payment-status">Menunggu Pembayaran</span>';
         } else {
-            return '<span class="badge badge-warning fs-11" id="payment-status">Menggu Konfirmasi</span>';
+            return '<span class="badge badge-warning fs-11" id="payment-status">Menunggu Pembayaran</span>';
         }
     }
 }

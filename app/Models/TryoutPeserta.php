@@ -26,11 +26,19 @@ class TryoutPeserta extends Model
 
     public function masterTryout()
     {
-        return $this->hasOne(Tryout::class,  'tryout_id', 'tryout_id');
+        return $this->belongsTo(Tryout::class,  'tryout_id', 'tryout_id');
     }
+
     public function invoice()
     {
-        return $this->hasOne(Invoice::class,  'tryout_id', 'tryout_id')->where(DB::raw('invoice.user_id'), auth()->user()->id);
+        return $this->hasOne(Invoice::class, 'tryout_id', 'tryout_id')
+            ->where(fn($q) => $q->where('tryout_peserta_id', $this->tryout_peserta_id));
+    }
+
+
+    public function invoiceByPeserta($tryout_peserta_id)
+    {
+        return $this->invoice()->where('tryout_peserta_id', $tryout_peserta_id);
     }
 
     public function siswa()
@@ -48,7 +56,7 @@ class TryoutPeserta extends Model
     {
 
         if ($this->tryout_peserta_status) {
-            return '<span class="badge text-bg-success">Terdaftar</span>';
+            return '<span class="badge text-bg-primary">Terdaftar</span>';
         } else {
             return '<span class="badge text-bg-warning">Pending</span>';
         }

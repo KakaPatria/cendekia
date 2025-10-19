@@ -16,6 +16,7 @@ class TryoutSoal extends Model
         'tryout_materi_id',
         'tryout_nomor',
         'tryout_soal',
+        'tryout_soal_type',
         'tryout_kunci_jawaban',
         'tryout_penyelesaian', 
     ];

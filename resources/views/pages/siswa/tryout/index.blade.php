@@ -75,19 +75,19 @@
                     @foreach($tryout as $data)
                     <tr>
                         <td>{{ ($tryout->currentpage()-1) * $tryout->perpage() + $loop->index + 1 }}</td>
-                        <td>{{ $data->tryout_judul }}</td>
-                        <td>{{ $data->tryout_jenjang }}</td>
-                        <td>{{ $data->tryout_kelas }}</td>
-                        <td>{{ $data->tryout_jenis }}</td>
+                        <td>{{ $data->masterTryout->tryout_judul }}</td>
+                        <td>{{ $data->masterTryout->tryout_jenjang }}</td>
+                        <td>{{ $data->masterTryout->tryout_kelas }}</td>
+                        <td>{{ $data->masterTryout->tryout_jenis }}</td>
                         <td>
                             <div class="hstack flex-wrap gap-2 fs-16">
-                                @foreach($data->materi as $materi)
+                                @foreach($data->masterTryout->materi as $materi)
                                 <div class="badge fw-medium badge-soft-info">{{ $materi->refMateri->ref_materi_judul}}</div>
                                 @endforeach
                             </div>
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('siswa.tryout.detail',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm {{--@if($data->tryout_status != 'Aktif'){{'disabled'}}@endif--}}">
+                            <a href="{{ route('siswa.tryout.detail',$data->tryout_peserta_id )}}" class="btn rounded-pill btn-primary btn-sm ">
                                 <i class="fa fa-edit"></i> Detail
                             </a>
                         </td>

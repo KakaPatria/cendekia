@@ -26,6 +26,7 @@
 
             <div class="accordion accordion-flush filter-accordion">
                 <form action="{{route('siswa.tryout.library')}}" method="get" id="filter-form">
+                    <input type="hidden" name="filter" value="1">
                     <input type="hidden" name="jenjang" value="{{ request('jenjang')}}">
                     <div class="card-body border-bottom">
 
@@ -33,7 +34,7 @@
                             <p class="text-muted text-uppercase fs-12 fw-medium mb-2">Jenjang</p>
                             <ul class="list-unstyled mb-0 filter-list">
                                 <li>
-                                    <a href="?jenjang=SD" class="d-flex py-1 align-items-center {{request('jenjang')== 'SD'? 'active': ''}}">
+                                    <a href="?filter=1&jenjang=SD" class="d-flex py-1 align-items-center {{request('jenjang')== 'SD'? 'active': ''}}">
                                         <div class="flex-grow-1">
                                             <h5 class="fs-13 mb-0 listname">SD</h5>
                                         </div>
@@ -45,7 +46,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="?jenjang=SMP" class="d-flex py-1 align-items-center {{request('jenjang')== 'SMP'? 'active': ''}}">
+                                    <a href="?filter=1&jenjang=SMP" class="d-flex py-1 align-items-center {{request('jenjang')== 'SMP'? 'active': ''}}">
                                         <div class="flex-grow-1">
                                             <h5 class="fs-13 mb-0 listname">SMP</h5>
                                         </div>
@@ -57,7 +58,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="?jenjang=SMA" class="d-flex py-1 align-items-center {{request('jenjang')== 'SMA'? 'active': ''}}">
+                                    <a href="?filter=1&jenjang=SMA" class="d-flex py-1 align-items-center {{request('jenjang')== 'SMA'? 'active': ''}}">
                                         <div class="flex-grow-1">
                                             <h5 class="fs-13 mb-0 listname">SMA</h5>
                                         </div>
@@ -192,39 +193,53 @@
     </div>
     <div class="col-xl-9 col-lg-8">
         <div class="h-100">
-            @if($tryout_rekomendasi && !request('jenjang'))
+
+            <div class="d-flex align-items-center mb-2">
+                <h2 class="mb-0 fw-semibold lh-base flex-grow-1">{{ $title }}</h2>
+            </div>
             <div class="row">
-                <div class="d-flex align-items-center mb-2">
-                    <h2 class="mb-0 fw-semibold lh-base flex-grow-1">Rekomendasi Untuk Anda</h2>
-                </div>
-                @forelse($tryout_rekomendasi as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
-                    <div class="card-body">
+                @forelse($data_tryout as $data)
+                <div class="col-lg-4 product-item artwork crypto-card 3d-style ribbon-box ribbon-fill right">
+                    <div class="card explore-box card-animate h-100">
+                        <div class="explore-place-bid-img">
+                            <img src="/storage/uploads/banner_tryout/1733036999_WhatsApp Image 2023-11-01 at 17.02.40.jpeg" alt="" class="card-img-top explore-img" />
+                        </div>
                         @if(!$data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>
                         @endif
-                        @if(!$data->is_can_register)
-                        <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
-                        @endif
 
-                        <div class="d-sm-flex">
-                            <div class="flex-shrink-0">
-                                <a class="image-popup" href="{{ Storage::url($data->tryout_banner) }}" title="">
-                                    <img class="gallery-img img-fluid mx-auto" src="{{ Storage::url($data->tryout_banner) }}" width="115" alt="">
-                                </a>
+                        <div class="card-body">
+                            <h5 class="mb-1"><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
+                            <ul class="list-inline mb-2">
+                                <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
+                                <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                            </ul>
+                            <ul class="list-inline mb-2">
+                                @foreach($data->materi as $materi)
+                                <li class="list-inline-item"><span class="badge badge-soft-success fs-12">{{$materi->refMateri->ref_materi_judul}}</span></li>
+
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="card-footer border-top border-top-dashed">
+                            @if($data->is_gratis)
+
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-grow-1">
+                                    @if($data->tryout_diskon)
+                                    <h4 class="mb-0 fw-semibold"> <span class="badge text-bg-danger">{{ $data->tryout_diskon}}%</span>&nbsp;<del class="text-muted">Rp.{{$data->tryout_nominal}}</del></h4>
+
+
+                                    @endif
+                                </div>
+                                <div class="ms-auto">
+                                    <h4 class="mb-0 fw-semibold">Rp.{{$data->tryout_harga_jual_formatted}}</h4>
+
+                                </div>
                             </div>
-                            <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
-                                <ul class="list-inline mb-2">
-                                    @foreach($data->materi as $materi)
-                                    <li class="list-inline-item"><span class="badge badge-soft-success fs-12">{{$materi->refMateri->ref_materi_judul}}</span></li>
-
-                                    @endforeach
-                                </ul>
-                                <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
-                                <ul class="list-inline mb-0">
-                                    <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
-                                </ul>
+                            @endif
+                            <div class="mt-4">
+                                <a href="{{ route('siswa.tryout.show',$data->tryout_id)}}" class="btn btn-warning w-100 text-bold">Selengkapnya</a>
                             </div>
                         </div>
                     </div>
@@ -234,273 +249,9 @@
                     Tryout belum tersedia untuk anda
                 </div>
                 @endforelse
-
             </div>
-            @endif
-
-            <div class="row">
-                @if(!request('jenjang') || request('jenjang') == 'SD')
-                <div class="d-flex align-items-center mb-5">
-                    <h2 class="mb-0 fw-semibold lh-base flex-grow-1">Pilihan Tryout Jenjang SD</h2>
-                </div>
-                @if(request('jenjang') == 'SD')
-                @forelse($tryout_sd as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
-                    <div class="card-body">
-                        @if(!$data->is_gratis)
-                        <div class="ribbon ribbon-primary"><span>Gratis</span></div>
-                        @endif
-                        @if(!$data->is_can_register)
-                        <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
-                        @endif
-
-                        <div class="d-sm-flex">
-                            <div class="flex-shrink-0">
-                                <a class="image-popup" href="{{ Storage::url($data->tryout_banner) }}" title="">
-                                    <img class="gallery-img img-fluid mx-auto" src="{{ Storage::url($data->tryout_banner) }}" width="115" alt="">
-                                </a>
-                            </div>
-                            <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
-                                <ul class="list-inline mb-2">
-                                    @foreach($data->materi as $materi)
-                                    <li class="list-inline-item"><span class="badge badge-soft-success fs-12">{{$materi->refMateri->ref_materi_judul}}</span></li>
-
-                                    @endforeach
-                                </ul>
-                                <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
-                                <ul class="list-inline mb-0">
-                                    <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div class="alert alert-danger">
-                    Tryout belum tersedia untuk anda
-                </div>
-                @endforelse
-                {{$tryout_sd->withQueryString()->links()}}
-                @else
-                @if(isset($tryout_all['SD']))
-                @forelse($tryout_all['SD'] as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ $data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
-                    <div class="card-body">
-                        @if($data->is_gratis)
-                        <div class="ribbon ribbon-primary"><span>Gratis</span></div>
-                        @endif
-                        @if(!$data->is_can_register)
-                        <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
-                        @endif
-
-                        <div class="d-sm-flex">
-                            <div class="flex-shrink-0">
-                                <a class="image-popup" href="{{ Storage::url($data->tryout_banner) }}" title="">
-                                    <img class="gallery-img img-fluid mx-auto" src="{{ Storage::url($data->tryout_banner) }}" width="115" alt="">
-                                </a>
-                            </div>
-                            <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
-                                <ul class="list-inline mb-2">
-                                    @foreach($data->materi as $materi)
-                                    <li class="list-inline-item"><span class="badge badge-soft-success fs-12">{{$materi->refMateri->ref_materi_judul}}</span></li>
-
-                                    @endforeach
-                                </ul>
-                                <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
-                                <ul class="list-inline mb-0">
-                                    <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div class="alert alert-danger">
-                    Tryout belum tersedia untuk anda
-                </div>
-                @endforelse
-                @endif
-                @endif
-                @endif
-
-                @if(!request('jenjang') || request('jenjang') == 'SMP')
-                <div class="d-flex align-items-center mb-5">
-                    <h2 class="mb-0 fw-semibold lh-base flex-grow-1">Pilihan Tryout Jenjang SMP</h2>
-                </div>
-                @if(request('jenjang') == 'SMP')
-                @forelse($tryout_smp as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
-                    <div class="card-body">
-                        @if($data->is_gratis)
-                        <div class="ribbon ribbon-primary"><span>Gratis</span></div>
-                        @endif
-                        @if(!$data->is_can_register)
-                        <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
-                        @endif
-
-                        <div class="d-sm-flex">
-                            <div class="flex-shrink-0">
-                                <a class="image-popup" href="{{ Storage::url($data->tryout_banner) }}" title="">
-                                    <img class="gallery-img img-fluid mx-auto" src="{{ Storage::url($data->tryout_banner) }}" width="115" alt="">
-                                </a>
-                            </div>
-                            <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
-                                <ul class="list-inline mb-2">
-                                    @foreach($data->materi as $materi)
-                                    <li class="list-inline-item"><span class="badge badge-soft-success fs-12">{{$materi->refMateri->ref_materi_judul}}</span></li>
-
-                                    @endforeach
-                                </ul>
-                                <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
-                                <ul class="list-inline mb-0">
-                                    <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div class="alert alert-danger">
-                    Tryout belum tersedia untuk anda
-                </div>
-                @endforelse
-                {{$tryout_smp->withQueryString()->links()}}
-                @else
-                @if(isset($tryout_all['SMP']))
-                @forelse($tryout_all['SMP'] as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
-                    <div class="card-body">
-                        @if($data->is_gratis)
-                        <div class="ribbon ribbon-primary"><span>Gratis</span></div>
-                        @endif
-                        @if(!$data->is_can_register)
-                        <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
-                        @endif
-
-                        <div class="d-sm-flex">
-                            <div class="flex-shrink-0">
-                                <a class="image-popup" href="{{ Storage::url($data->tryout_banner) }}" title="">
-                                    <img class="gallery-img img-fluid mx-auto" src="{{ Storage::url($data->tryout_banner) }}" width="115" alt="">
-                                </a>
-                            </div>
-                            <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
-                                <ul class="list-inline mb-2">
-                                    @foreach($data->materi as $materi)
-                                    <li class="list-inline-item"><span class="badge badge-soft-success fs-12">{{$materi->refMateri->ref_materi_judul}}</span></li>
-
-                                    @endforeach
-                                </ul>
-                                <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
-                                <ul class="list-inline mb-0">
-                                    <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div class="alert alert-danger">
-                    Tryout belum tersedia untuk anda
-                </div>
-                @endforelse
-                @endif
-                @endif
-                @endif
-
-                @if(!request('jenjang') || request('jenjang') == 'SMA')
-                <div class="d-flex align-items-center mb-5">
-                    <h2 class="mb-0 fw-semibold lh-base flex-grow-1">Pilihan Tryout Jenjang SMA</h2>
-                </div>
-                @if(request('jenjang') == 'SMA')
-                @forelse($tryout_sma as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
-                    <div class="card-body">
-                        @if($data->is_gratis)
-                        <div class="ribbon ribbon-primary"><span>Gratis</span></div>
-                        @endif
-                        @if(!$data->is_can_register)
-                        <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
-                        @endif
-
-                        <div class="d-sm-flex">
-                            <div class="flex-shrink-0">
-                                <a class="image-popup" href="{{ Storage::url($data->tryout_banner) }}" title="">
-                                    <img class="gallery-img img-fluid mx-auto" src="{{ Storage::url($data->tryout_banner) }}" width="115" alt="">
-                                </a>
-                            </div>
-                            <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
-                                <ul class="list-inline mb-2">
-                                    @foreach($data->materi as $materi)
-                                    <li class="list-inline-item"><span class="badge badge-soft-success fs-12">{{$materi->refMateri->ref_materi_judul}}</span></li>
-
-                                    @endforeach
-                                </ul>
-                                <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
-                                <ul class="list-inline mb-0">
-                                    <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div class="alert alert-danger">
-                    Tryout belum tersedia untuk anda
-                </div>
-                @endforelse
-                {{$tryout_sma->withQueryString()->links()}}
-                @else
-                @if(isset($tryout_all['SD']))
-
-                @forelse($tryout_all['SMA'] as $data)
-                <div class="card border ribbon-box ribbon-fill right" style="{{ !$data->is_can_register ? 'opacity: 0.5;pointer-events: none;' : '' }}">
-                    <div class="card-body">
-                        @if($data->is_gratis)
-                        <div class="ribbon ribbon-primary"><span>Gratis</span></div>
-                        @endif
-                        @if(!$data->is_can_register)
-                        <div class="ribbon ribbon-danger ribbon-shape">Selesai</div>
-                        @endif
-
-                        <div class="d-sm-flex">
-                            <div class="flex-shrink-0">
-                                <a class="image-popup" href="{{ Storage::url($data->tryout_banner) }}" title="">
-                                    <img class="gallery-img img-fluid mx-auto" src="{{ Storage::url($data->tryout_banner) }}" width="115" alt="">
-                                </a>
-                            </div>
-                            <div class="flex-grow-1 ms-sm-4 mt-3 mt-sm-0">
-                                <ul class="list-inline mb-2">
-                                    @foreach($data->materi as $materi)
-                                    <li class="list-inline-item"><span class="badge badge-soft-success fs-12">{{$materi->refMateri->ref_materi_judul}}</span></li>
-
-                                    @endforeach
-                                </ul>
-                                <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
-                                <ul class="list-inline mb-0">
-                                    <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div class="alert alert-danger">
-                    Tryout belum tersedia untuk anda
-                </div>
-                @endforelse
-                @endif
-                @endif
-                @endif
 
 
-
-            </div>
         </div> <!-- end .h-100-->
     </div> <!-- end col -->
 </div>

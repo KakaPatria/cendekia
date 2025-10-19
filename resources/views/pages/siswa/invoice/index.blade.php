@@ -74,7 +74,7 @@
                                 <tr>
                                     <td><a href="{{ route('siswa.invoice.show',$inv->inv_id)}}" class="fw-medium link-primary">#{{ $inv->inv_id}}</a></td>
 
-                                    <td>Rp. {{ $inv->amount_rp }}</td>
+                                    <td>Rp. {{ $inv->total_invoice_rp }}</td>
 
                                     <td>{!! $inv->status_badge !!}</td>
                                     <td>{{ $inv->due_date_format }}</td>

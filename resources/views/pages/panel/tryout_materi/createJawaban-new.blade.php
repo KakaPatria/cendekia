@@ -59,7 +59,17 @@
                                         <label for="staticEmail" class="col-sm-2 col-form-label">Point Nilai</label>
                                         <div class="col-sm-10">
                                             <input type="number" class="form-control" placeholder="" name="point[{{$soal->tryout_soal_id}}]">
-
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-2 col-form-label">Jenis Jawaban</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-select mb-3" aria-label="Default select" name="jenis_soal[{{$soal->tryout_soal_id}}]">
+                                                <option selected>--Pilih Jenis Soal--</option>
+                                                <option value="SC">Single Choice</option>
+                                                <option value="MC">Multiple Choice</option>
+                                                <option value="MCMA">Multiple Choice Multiple Answer</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <table class="table table-nowrap">

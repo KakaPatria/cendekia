@@ -151,6 +151,7 @@
                                         <th scope="col">Jenjang</th>
                                         <th scope="col">Kelas</th>
                                         <th scope="col">Tanggal Pendaftaran</th>
+                                        <th scope="col">Status Pembayaran</th>
                                         <th scope="col">#</th>
                                     </tr>
                                 </thead>
@@ -165,6 +166,7 @@
                                         <td>{{ $peserta->siswa->jenjang}}</td>
                                         <td>{{ $peserta->siswa->kelas}}</td>
                                         <td>{{ $peserta->tanggal_daftar}}</td>
+                                        <td>{!! $peserta->status_badge !!}</td>
                                         <td class="text-center">
                                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deletePesertaBtn" data-bs-toggle="modal" data-bs-target="#deletePesertaModal" data-id="{{$peserta->tryout_peserta_id }}" data-name="{{$peserta->siswa->name}}">
                                                 <i class="fa fa-edit"></i> Hapus</a>
