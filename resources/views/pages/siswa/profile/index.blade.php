@@ -11,7 +11,7 @@
 
 <div class="profile-foreground position-relative mx-n4 mt-n4">
     <div class="profile-wid-bg">
-        <div class="bg-overlay" style="background-color : #f5e38f;"></div>
+        <div class="bg-overlay" style="background-color : #980000;"></div>
         <img src="{{ URL::asset('assets/images/profile-bg.jpg') }}" alt="" class="profile-wid-img" />
     </div>
 </div>

@@ -18,12 +18,39 @@ class DashboardController extends Controller
             ->where('tryout_status', 'Aktif')
             ->paginate(10);
 
-        // [PERBAIKAN] Mengambil data dari TryoutNilai, bukan Pengerjaan
-        $load['riwayat_pengerjaan'] = TryoutNilai::where('user_id', $user->id)
-                                    ->where('status', 'Selesai') // Filter hanya yang sudah selesai
-                                    ->with('masterTryout')
-                                    ->orderBy('created_at', 'asc')
-                                    ->get();
+    // [PERBAIKAN] Mengambil data dari TryoutNilai, bukan Pengerjaan
+    $load['riwayat_pengerjaan'] = TryoutNilai::where('user_id', $user->id)
+                    ->where('status', 'Selesai') // Filter hanya yang sudah selesai
+                    ->with('masterTryout')
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+
+        // Prioritaskan session-based recent accesses jika ada (siswa membuka halaman detail)
+        $sessionRecent = session()->get('recent_tryouts', []);
+        if (is_array($sessionRecent) && count($sessionRecent) > 0) {
+            $tryouts = Tryout::whereIn('tryout_id', $sessionRecent)
+                        ->get()
+                        ->keyBy('tryout_id');
+
+            // Kembalikan urutan sesuai session (most recent first)
+            $recentOrdered = collect();
+            foreach ($sessionRecent as $tid) {
+                if (isset($tryouts[$tid])) {
+                    $recentOrdered->push($tryouts[$tid]);
+                }
+            }
+            $load['recent_tryouts'] = $recentOrdered;
+        } else {
+            // Recent accesses: gunakan TryoutNilai sebagai proxy untuk tryout yang baru diakses
+            // Ambil entri terbaru per tryout (unique by tryout_id), batasi ke 5
+            $load['recent_tryouts'] = TryoutNilai::where('user_id', $user->id)
+                            ->with('masterTryout')
+                            ->orderBy('updated_at', 'desc')
+                            ->get()
+                            ->unique('tryout_id')
+                            ->take(5)
+                            ->values();
+        }
         
         return view('pages.siswa.dashboard', $load);
     }

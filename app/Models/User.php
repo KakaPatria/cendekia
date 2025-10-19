@@ -28,6 +28,7 @@ class User extends Authenticatable
         'asal_sekolah',
         'jenjang',
         'kelas',
+        'golongan',
         'alamat',
         'nama_orang_tua',
         'telp_orang_tua',
@@ -75,5 +76,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(ProfilPengajar::class, 'user_id');
     }
-    // note: pengajar-specific fields moved out; profilPengajar relation still available if app uses it
+
+    public function tryoutNilai()
+{
+    return $this->hasMany(TryoutNilai::class, 'user_id');
+}
+
 }

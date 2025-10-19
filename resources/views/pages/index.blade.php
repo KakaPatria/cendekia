@@ -566,6 +566,79 @@
     text-shadow: white !important;
 }
 
+/* ======================================================= */
+/* ====== FINAL UPGRADE: SECTION INFORMASI (MERATA) ====== */
+/* ======================================================= */
+
+#informasi {
+    color: #ffffff !important; 
+    padding-top: 100px; 
+    padding-bottom: 100px;
+}
+
+/* Styling Dasar Semua Card Hasil Tryout (Seragam) */
+#informasi .card {
+    background-color: #ffffff !important;
+    border-radius: 16px !important; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+    border: 1px solid rgba(0, 0, 0, 0.1) !important; /* Border tipis yang seragam */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 250px; 
+    padding: 15px 15px 20px 15px; 
+}
+
+/* Efek Hover untuk Semua Card */
+#informasi .card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 12px 30px rgba(152, 0, 0, 0.15); /* Shadow sedikit Maroon/merah */
+}
+
+/* Styling Nama Siswa */
+#informasi .card h5 {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.5rem;
+}
+
+/* Styling Sekolah dan Nilai */
+#informasi .card p {
+    font-size: 0.9rem !important;
+    line-height: 1.4;
+}
+#informasi .card strong {
+    font-weight: 700 !important;
+    color: #980000 !important; /* Nilai total dipertegas dengan Maroon */
+}
+
+/* ======================================================= */
+/* ====== PERBAIKAN STYLING NAMA, SEKOLAH, DAN NILAI ====== */
+/* ======================================================= */
+
+/* Styling Nama Siswa (Menggunakan H6 di HTML Anda) */
+#informasi .card h6 {
+    /* Mengganti h5 dengan h6 (sesuai HTML Anda) */
+    font-size: 1.15rem !important; /* Sedikit lebih kecil dari 1.25rem */
+    font-weight: 700 !important;
+    margin-bottom: 0.5rem;
+    color: #2c3e50 !important; /* Memaksa warna Dark Blue/Black */
+}
+
+/* Styling Keterangan Sekolah dan Nilai */
+#informasi .card p {
+    font-size: 0.9rem !important;
+    line-height: 1.4;
+    color: #6c757d !important; /* Warna abu-abu yang lebih jelas (muted) */
+}
+
+/* Styling NILAI TOTAL (Menggunakan SPAN.fw-bold di HTML Anda) */
+#informasi .card p span.fw-bold {
+    /* Menargetkan span di dalam p */
+    font-weight: 700 !important;
+    /* Nilai total dipertegas dengan Maroon */
+    color: #980000 !important; 
+    font-size: 1rem !important; /* Sedikit lebih besar dari teks p */
+}
+
 /* Tryout Section */
 /* ======================================================= */
 /* ====== CSS TAMBAHAN V.3: STYLING DETAIL WAKTU & HARGA ====== */

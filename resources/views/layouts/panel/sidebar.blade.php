@@ -1,5 +1,5 @@
 <!-- ========== App Menu ========== -->
-<div class="app-menu navbar-menu">
+<div class="app-menu navbar-menu" id="sidebar-menu">
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
@@ -28,7 +28,6 @@
     <div id="scrollbar">
         <div class="container-fluid">
             <ul class="navbar-nav" id="navbar-nav">
-                
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Request::routeIs('panel.dashboard') ? 'active' : '' }}" href="{{route('panel.dashboard')}}">
                         <i class="ri-apps-line"></i> <span>Dashboard</span>
@@ -68,6 +67,7 @@
                         </ul>
                     </div>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ $isUserActive ? 'active' : '' }}" href="#sidebar-user" data-bs-toggle="collapse" role="button" aria-expanded="{{ $isUserActive ? 'true' : 'false' }}" aria-controls="sidebar-user">
                         <i class="ri-user-line"></i> <span>Pengguna</span>
@@ -79,6 +79,7 @@
                         </ul>
                     </div>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ $isSettingActive ? 'active' : '' }}" href="#sidebar-setting" data-bs-toggle="collapse" role="button" aria-expanded="{{ $isSettingActive ? 'true' : 'false' }}" aria-controls="sidebar-setting">
                         <i class="ri-settings-line"></i> <span>Pengaturan</span>
@@ -96,100 +97,88 @@
     <div class="sidebar-background"></div>
 </div>
 <!-- Left Sidebar End -->
-<!-- Vertical Overlay-->
-<div class="vertical-overlay"></div>
 
 <style>
-    /* === IMPROVEMENT STYLING SESUAI DESAIN === */
-    :root {
-        --primary-red: #980000;
-        --primary-red-hover: #B92B27;
-        --primary-yellow: #E2B602;
-        --logo-bg: #D4B237;
-    }
+:root {
+    --primary-red: #980000;
+    --primary-red-hover: #B92B27;
+    --primary-yellow: #E2B602;
+    --logo-bg: #D4B237;
+}
 
-    /* Latar Belakang Sidebar */
-    .app-menu {
-        background: var(--primary-yellow) !important;
-        border-right: none !important;
-    }
-    
-    /* Area Logo */
-    .navbar-brand-box {
-        background: var(--logo-bg) !important;
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
+/* === Sidebar Styling === */
+.app-menu {
+    background: var(--primary-yellow) !important;
+    border-right: none !important;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease;
+    z-index: 1030;
+}
 
-    #navbar-nav .menu-title {
-        display: none;
-    }
+/* Sidebar tertutup */
+.app-menu.closed {
+    transform: translateX(-250px);
+}
 
-    /* Tombol Menu Utama */
-    #navbar-nav > .nav-item > .nav-link {
-        background-color: var(--primary-red) !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        margin: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        transition: all 0.3s ease;
-        font-weight: 500;
-    }
-    #navbar-nav > .nav-item > .nav-link i {
-        color: rgba(255, 255, 255, 0.9) !important;
-        transition: all 0.3s ease;
-    }
-    #navbar-nav > .nav-item > .nav-link:hover,
-    #navbar-nav > .nav-item > .nav-link.active {
-        background-color: var(--primary-red-hover) !important;
-        color: white !important;
-        transform: scale(1.03);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    #navbar-nav > .nav-item > .nav-link:hover i,
-    #navbar-nav > .nav-item > .nav-link.active i {
-        color: white !important;
-    }
-    
-    /* [IMPROVEMENT] Area Menu Dropdown */
-    .collapse.menu-dropdown {
-        /* background-color: rgba(0,0,0,0.05); Dihapus agar menyatu */
-        background-color: transparent;
-        border-radius: 0.5rem;
-        padding: 0.25rem 0; /* Mengurangi padding vertikal */
-        margin: -0.25rem 1rem 0.5rem 1rem;
-    }
-    .menu-dropdown .nav-link {
-        background-color: transparent !important;
-        margin: 0.1rem 0;
-        color: #452103 !important; /* Warna teks lebih gelap agar kontras */
-        font-weight: 500;
-        border-radius: 0.3rem;
-        padding-left: 2rem !important; /* Indentasi submenu */
-        position: relative;
-    }
+/* Scroll area */
+#scrollbar {
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 2rem;
+}
 
-    /* [IMPROVEMENT] Indikator strip di kiri submenu */
-    .menu-dropdown .nav-link::before {
-        content: "—";
-        position: absolute;
-        left: 0.8rem;
-        color: var(--primary-red);
-        opacity: 0.6;
-        transition: all 0.3s ease;
-    }
+/* Logo area */
+.navbar-brand-box {
+    background: var(--logo-bg) !important;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
 
-    .menu-dropdown .nav-link:hover,
-    .menu-dropdown .nav-link.active {
-        background-color: rgba(152, 0, 0, 0.1) !important; /* Latar merah transparan */
-        color: var(--primary-red) !important;
-        transform: none;
-        box-shadow: none;
-    }
-    .menu-dropdown .nav-link:hover::before,
-    .menu-dropdown .nav-link.active::before {
-        opacity: 1;
-        transform: scaleX(1.2);
-    }
+/* Menu utama */
+#navbar-nav > .nav-item > .nav-link {
+    background-color: var(--primary-yellow) !important;
+    color: #452103 !important;
+    margin: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+#navbar-nav > .nav-item > .nav-link i {
+    color: #452103 !important;
+    transition: all 0.3s ease;
+}
+#navbar-nav > .nav-item > .nav-link:hover {
+    background-color: #f0c946 !important;
+    color: white !important;
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+#navbar-nav > .nav-item > .nav-link.active {
+    background-color: var(--primary-red) !important;
+    color: white !important;
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+#navbar-nav > .nav-item > .nav-link.active i,
+#navbar-nav > .nav-item > .nav-link:hover i {
+    color: white !important;
+}
+
+/* Submenu */
+.menu-dropdown .nav-link {
+    color: #452103 !important;
+    padding-left: 2rem !important;
+}
+.menu-dropdown .nav-link.active {
+    background-color: rgba(152,0,0,0.1) !important;
+    color: var(--primary-red) !important;
+}
 </style>
+
 

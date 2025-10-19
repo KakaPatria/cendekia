@@ -149,7 +149,23 @@ class TryoutController extends Controller
             return redirect(route('siswa.tryout.library'))->with('error', "Tryout tidak dapat diakses");
         }
         $load['tryout'] = $tryout;
-        //dd($tryout->getAverageNilai());
+
+        // Simpan ke session sebagai recent accesses (tanpa menambah kolom DB)
+        try {
+            $recent = session()->get('recent_tryouts', []);
+            // Pastikan uniq dan terbaru di depan
+            $recent = array_values(array_filter($recent));
+            // Hapus jika sudah ada
+            if (($key = array_search($id, $recent)) !== false) {
+                unset($recent[$key]);
+            }
+            array_unshift($recent, $id);
+            // Batasi ke 5
+            $recent = array_slice($recent, 0, 5);
+            session()->put('recent_tryouts', $recent);
+        } catch (\Exception $e) {
+            // kalau session bermasalah, lanjutkan tanpa menghentikan akses
+        }
 
         return view('pages.siswa.tryout.show', $load);
     }
