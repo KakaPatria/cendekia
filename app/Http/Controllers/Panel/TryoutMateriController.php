@@ -238,16 +238,16 @@ class TryoutMateriController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function storeJawaban($id, Request $request)
-    {
-        $tryoutMateri = TryoutMateri::find($id);
-
+    { 
         $susunJawaban = [];
         $urutan = 1;
-        foreach ($request->jawaban as $key => $value) {
-            foreach ($value as $prefix => $jawaban) {
+
+        // --- Simpan opsi jawaban (A, B, C, D) ---
+        foreach ($request->jawaban as $soalId => $opsi) {
+            foreach ($opsi as $prefix => $jawaban) {
                 $susunJawaban[] = [
                     'tryout_materi_id' => $id,
-                    'tryout_soal_id' => $key,
+                    'tryout_soal_id' => $soalId,
                     'tryout_jawaban_prefix' => $prefix,
                     'tryout_jawaban_urutan' => $urutan,
                     'tryout_jawaban_isi' => $jawaban,
@@ -256,25 +256,56 @@ class TryoutMateriController extends Controller
             }
             $urutan = 1;
         }
-        foreach ($request->point as $key => $value) {
-            $tryoutSaol = TryoutSoal::find($key);
-            $tryoutSaol->point = $value;
-            $tryoutSaol->update();
-        }
-        foreach ($request->opsi_jawaban as $key => $value) {
-            $tryoutSaol = TryoutSoal::find($key);
-            $tryoutSaol->tryout_kunci_jawaban = json_encode($value);
-            $tryoutSaol->update();
-        }
-        if ($request->soal) {
-            foreach ($request->soal as $key => $value) {
-                $tryoutSaol = TryoutSoal::find($key);
-                $tryoutSaol->tryout_soal = $value;
-                $tryoutSaol->update();
+
+        // --- Update point tiap soal ---
+        foreach ($request->point as $soalId => $point) {
+            $tryoutSoal = TryoutSoal::find($soalId);
+            if ($tryoutSoal) {
+                $tryoutSoal->point = $point;
+                $tryoutSoal->update();
             }
         }
-        //dd($request->all());
 
+        // --- Update teks soal ---
+        if ($request->soal) {
+            foreach ($request->soal as $soalId => $value) {
+                $tryoutSoal = TryoutSoal::find($soalId);
+                if ($tryoutSoal) {
+                    $tryoutSoal->tryout_soal = $value;
+                    $tryoutSoal->update();
+                }
+            }
+        }
+
+        // --- Update jenis soal dan kunci jawaban ---
+        foreach ($request->jenis_soal as $soalId => $jenis) {
+            $tryoutSoal = TryoutSoal::find($soalId);
+            if (!$tryoutSoal) continue;
+
+            $tryoutSoal->tryout_soal_type = $jenis;
+
+            // Tentukan kunci jawaban sesuai jenis soal
+            if ($jenis === 'MC' || $jenis === 'SC') {
+                // multiple choice / single choice
+                $tryoutSoal->tryout_kunci_jawaban = isset($request->opsi_jawaban[$soalId])
+                    ? json_encode($request->opsi_jawaban[$soalId])
+                    : null;
+            } elseif ($jenis === 'MCMA') {
+                // multiple choice multiple answer (Benar / Salah)
+                $tryoutSoal->tryout_kunci_jawaban = isset($request->opsi_jawaban_mcma[$soalId])
+                    ? json_encode($request->opsi_jawaban_mcma[$soalId])
+                    : null;
+            }
+
+            // Simpan jenis jawaban tambahan (contoh: Benar,Salah)
+            if (isset($request->notes[$soalId])) {
+                $tryoutSoal->notes = $request->notes[$soalId];
+            }
+
+            $tryoutSoal->update();
+        } 
+        // --- Insert jawaban baru ---
+        TryoutJawaban::where('tryout_materi_id', $id)->delete();
         TryoutJawaban::insert($susunJawaban);
 
         return redirect()->route('panel.tryout_materi.show', $id);

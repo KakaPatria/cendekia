@@ -19,7 +19,7 @@
     <div class="col-sm">
         <div class="d-flex justify-content-sm-end gap-2">
             <div>
-                <a href="{{ route('panel.tryout.show',$tryout_materi->tryout_id)}}" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+                <a href="{{ route('panel.tryout_materi.show',$tryout_materi->tryout_materi_id)}}" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
             </div>
         </div>
     </div>
@@ -60,57 +60,94 @@
 
                                 @endif
                             </div>
-                            <div class="col lg-6">
+                            <div class="col-lg-6 soal-container" data-soal-id="{{ $soal->tryout_soal_id }}">
                                 <h4 class="card-title mb-2 flex-grow-1">Jawaban</h4>
-                                <div class="form-group row pt-2">
-                                    <label for="staticEmail" class="col-sm-2 col-form-label">Point Nilai</label>
-                                    <div class="col-sm-10">
-                                        <input type="number" class="form-control" placeholder="" name="point" value="{{ $soal->point}}">
-                                    </div>
 
+                                {{-- Point Nilai --}}
+                                <div class="form-group row mb-2 pt-2">
+                                    <label class="col-sm-2 col-form-label">Point Nilai</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" name="point"
+                                            value="{{ old('point', $soal->point) }}">
+                                    </div>
                                 </div>
-                                <table class="table table-nowrap">
-                                    <th>
+
+                                {{-- Jenis Soal --}}
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Jenis Soal</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select mb-3 jenis-soal" name="jenis_soal">
+                                            <option value="">--Pilih Jenis Soal--</option>
+                                            <option value="SC" @selected($soal->tryout_soal_type == 'SC')>Single Choice</option>
+                                            <option value="MC" @selected($soal->tryout_soal_type == 'MC')>Multiple Choice</option>
+                                            <option value="MCMA" @selected($soal->tryout_soal_type == 'MCMA')>Multiple Choice Multiple Answer</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {{-- Jenis Jawaban khusus MCMA --}}
+                                <div class="form-group row {{ $soal->tryout_soal_type == 'MCMA' ? '' : 'd-none' }}" id="jenis-jawaban">
+                                    <label class="col-sm-2 col-form-label">Jenis Jawaban</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select mb-3" name="notes">
+                                            <option value="">--Pilih Jenis Jawaban--</option>
+                                            <option value="Benar,Salah" @selected($soal->notes == 'Benar,Salah')>Benar, Salah</option>
+                                            <option value="Setuju,Tidak setuju" @selected($soal->notes == 'Setuju,Tidak setuju')>Setuju, Tidak setuju</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {{-- Tabel Jawaban --}}
+                                <table class="table table-nowrap jawaban-table">
+                                    <thead>
                                         <tr>
-                                            <th class="col-1">Kunci Jawaban</th>
                                             <th class="col-1">Abjad</th>
                                             <th>Isi Jawaban</th>
+                                            <th class="col-2">Kunci Jawaban</th>
                                         </tr>
-                                    </th>
+                                    </thead>
                                     <tbody>
-                                        @if($soal->jawaban)
-                                        @foreach ($soal->jawaban as $key => $value)
+                                        @php
+                                        $jenis = $soal->tryout_soal_type;
+                                        $jawabanKunci = $soal->tryout_kunci_jawaban ? json_decode($soal->tryout_kunci_jawaban, true) : [];
+                                        $opsiJawabanMCMA = $soal->opsi_jawaban_mcma ?? []; // untuk MCMA
+                                        @endphp
+
+                                        @foreach (['A', 'B', 'C', 'D'] as $abjad)
+                                        @php
+                                        $jawabanIsi = optional($soal->jawaban->firstWhere('tryout_jawaban_prefix', $abjad))->tryout_jawaban_isi;
+                                        @endphp
                                         <tr>
-                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="{{$value->tryout_jawaban_prefix}}" id="opsi-jawaban-{{$value->tryout_jawaban_prefix}}"></td>
-                                            <td>{{ $value->tryout_jawaban_prefix }}</td>
-                                            <td><input type="text" class="form-control" name="jawaban[{{ $value->tryout_jawaban_id }}]" value="{{ $value->tryout_jawaban_isi }}"></td>
+                                            <td>{{ $abjad }}.</td>
+                                            <td>
+                                                <input type="text" class="form-control"
+                                                    name="jawaban[{{ $abjad }}]"
+                                                    value="{{ old('jawaban.'.$abjad, $jawabanIsi) }}">
+                                            </td>
+
+                                            {{-- Kunci Jawaban: tipe dinamis --}}
+                                            <td class="opsi-cell">
+                                                @if($jenis == 'MCMA')
+                                                <select class="form-select" name="opsi_jawaban_mcma[{{ $abjad }}]">
+                                                    <option value="">--Pilih--</option>
+                                                    <option value="Benar" @selected(($opsiJawabanMCMA[$abjad] ?? '' )=='Benar' )>Benar</option>
+                                                    <option value="Salah" @selected(($opsiJawabanMCMA[$abjad] ?? '' )=='Salah' )>Salah</option>
+                                                </select>
+                                                @else
+                                                <input class="form-check-input"
+                                                    type="checkbox"
+                                                    name="opsi_jawaban[]"
+                                                    value="{{ $abjad }}"
+                                                    id="opsi-jawaban-{{ $abjad }}"
+                                                    @checked(in_array($abjad, $jawabanKunci ?? []))>
+                                                @endif
+                                            </td>
                                         </tr>
                                         @endforeach
-                                        @else
-                                        <tr>
-                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="A" id=""></td>
-                                            <td>A.</td>
-                                            <td><input type="text" class="form-control" name="jawaban[A]"></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="B" id=""></td>
-                                            <td>B.</td>
-                                            <td><input type="text" class="form-control" name="jawaban[B]"></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="C" id=""></td>
-                                            <td>C.</td>
-                                            <td><input type="text" class="form-control" name="jawaban[C]"></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="D" id=""></td>
-                                            <td>D.</td>
-                                            <td><input type="text" class="form-control" name="jawaban[D]"></td>
-                                        </tr>
-                                        @endif
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                         <div class="overflow-auto">
 
@@ -182,6 +219,47 @@
             setTimeout(function() {
                 $('form').off('submit').submit(); // Submit form setelah delay
             }, 500); //
+        });
+
+        $('.jenis-soal').on('change', function() {
+            const jenis = $(this).val();
+            const container = $(this).closest('.soal-container');
+            const tbody = container.find('.jawaban-table tbody');
+
+            // Reset tampilan
+            container.find('#jenis-jawaban').addClass('d-none');
+            tbody.find('.opsi-cell').html('');
+
+            if (jenis === 'SC' || jenis === 'MC') {
+                // Buat checkbox
+                tbody.find('tr').each(function() {
+                    const abjad = $(this).find('td:first').text().replace('.', '').trim();
+                    $(this).find('.opsi-cell').html(`
+                <input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="${abjad}">
+            `);
+                });
+
+                // Single Choice hanya 1 boleh dipilih
+                if (jenis === 'SC') {
+                    container.find('.opsi-checkbox').off('change').on('change', function() {
+                        if (this.checked) container.find('.opsi-checkbox').not(this).prop('checked', false);
+                    });
+                }
+
+            } else if (jenis === 'MCMA') {
+                // Tampilkan pilihan jenis jawaban
+                container.find('#jenis-jawaban').removeClass('d-none');
+                tbody.find('tr').each(function() {
+                    const abjad = $(this).find('td:first').text().replace('.', '').trim();
+                    $(this).find('.opsi-cell').html(`
+                <select class="form-select" name="opsi_jawaban_mcma[${abjad}]">
+                    <option value="">--Pilih--</option>
+                    <option value="Benar">Benar</option>
+                    <option value="Salah">Salah</option>
+                </select>
+            `);
+                });
+            }
         });
 
         function imageHandler() {

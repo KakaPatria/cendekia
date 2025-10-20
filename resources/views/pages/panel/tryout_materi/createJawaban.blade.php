@@ -60,63 +60,58 @@
                                         <input type="hidden" name="soal[{{$soal->tryout_soal_id}}]" id="soal-{{ $key}}">
                                         @endif
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 soal-container" data-soal-id="{{ $soal->tryout_soal_id }}">
                                         <div class="">
                                             <h4 class="card-title">Jawaban</h4>
                                             <div class="form-group row mb-2">
-                                                <label for="staticEmail" class="col-sm-2 col-form-label">Point Nilai</label>
+                                                <label class="col-sm-2 col-form-label">Point Nilai</label>
                                                 <div class="col-sm-10">
-                                                    <input type="number" class="form-control" placeholder="" value="1" name="point[{{$soal->tryout_soal_id}}]">
+                                                    <input type="number" class="form-control" value="1" name="point[{{$soal->tryout_soal_id}}]">
                                                 </div>
-
                                             </div>
                                             <div class="form-group row">
-                                                <label for="staticEmail" class="col-sm-2 col-form-label">Jenis Jawaban</label>
+                                                <label class="col-sm-2 col-form-label">Jenis Jawaban</label>
                                                 <div class="col-sm-10">
-                                                    <select class="form-select mb-3" aria-label="Default select" name="jenis_soal[{{$soal->tryout_soal_id}}]">
+                                                    <select class="form-select mb-3 jenis-soal" name="jenis_soal[{{$soal->tryout_soal_id}}]">
+                                                        <option selected>--Pilih Jenis Soal--</option>
                                                         <option value="SC">Single Choice</option>
                                                         <option value="MC">Multiple Choice</option>
                                                         <option value="MCMA">Multiple Choice Multiple Answer</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <table class="table table-nowrap">
+                                            <div class="form-group row d-none" id="jenis-jawaban">
+                                                <label class="col-sm-2 col-form-label">Jenis Jawaban</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-select mb-3" name="notes[{{$soal->tryout_soal_id}}]">
+                                                        <option selected>--Pilih Jenis Jawaban--</option>
+                                                        <option value="Benar,Salah">Benar,Salah</option>
+                                                        <option value="Setuju,Tidak setuju">Setuju,Tidak setuju</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <table class="table table-nowrap jawaban-table">
                                                 <thead>
                                                     <tr>
                                                         <th class="col-1">Abjad</th>
                                                         <th>Isi Jawaban</th>
-                                                        <th class="col-1">Kunci Jawaban</th>
-
+                                                        <th class="col-3">Kunci Jawaban</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach(['A', 'B', 'C', 'D'] as $abjad)
                                                     <tr>
-                                                        <td>A.</td>
-                                                        <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][A]"></td>
-                                                        <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="A" id=""></td>
-
+                                                        <td>{{ $abjad }}.</td>
+                                                        <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][{{$abjad}}]"></td>
+                                                        <td class="opsi-cell">
+                                                            <!-- Default (SC/MC): checkbox -->
+                                                            <input class="form-check-input opsi-checkbox" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="{{$abjad}}">
+                                                        </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>B.</td>
-                                                        <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][B]"></td>
-                                                        <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="B" id=""></td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td>C.</td>
-                                                        <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][C]"></td>
-                                                        <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="C" id=""></td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td>D.</td>
-                                                        <td><input type="text" class="form-control" name="jawaban[{{$soal->tryout_soal_id}}][D]"></td>
-                                                        <td><input class="form-check-input" type="checkbox" name="opsi_jawaban[{{$soal->tryout_soal_id}}][]" value="D" id=""></td>
-
-                                                    </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
-
                                         </div>
                                     </div>
                                     <div class="text-center ">
@@ -242,26 +237,46 @@
         }, 500); //
     });
 
-    $('select[name^="jenis_soal"]').on('change', function() {
+    $('.jenis-soal').on('change', function() {
         const soalId = $(this).attr('name').match(/\[(.*?)\]/)[1];
         const jenis = $(this).val();
-        const checkboxes = $(`input[name="opsi_jawaban[${soalId}][]"]`);
+        const container = $(this).closest('.soal-container');
+        const tbody = container.find('.jawaban-table tbody');
+        const checkboxes = container.find('.opsi-checkbox');
 
+        // Reset centang
         checkboxes.prop('checked', false);
+        container.find('#jenis-jawaban').addClass('d-none');
 
+        // Kembalikan kolom ke default (checkbox)
+        tbody.find('.opsi-cell').each(function() {
+            const abjad = $(this).closest('tr').find('td:first').text().replace('.', '').trim();
+            $(this).html(`<input class="form-check-input opsi-checkbox" type="checkbox" name="opsi_jawaban[${soalId}][]" value="${abjad}">`);
+        });
+
+        // Perilaku sesuai jenis
         if (jenis === 'SC') {
-            // Hanya boleh satu checkbox dicentang
-            checkboxes.off('change').on('change', function() {
-                if (this.checked) {
-                    checkboxes.not(this).prop('checked', false);
-                }
+            const cb = container.find('.opsi-checkbox');
+            cb.off('change').on('change', function() {
+                if (this.checked) cb.not(this).prop('checked', false);
             });
-        } else {
-            // Boleh lebih dari satu
-            checkboxes.off('change');
+        } else if (jenis === 'MCMA') {
+            container.find('#jenis-jawaban').removeClass('d-none');
+            // Ganti kolom opsi menjadi dropdown Benar/Salah
+            tbody.find('.opsi-cell').each(function() {
+                const abjad = $(this).closest('tr').find('td:first').text().replace('.', '').trim();
+                $(this).html(`
+                    <select class="form-select" name="opsi_jawaban_mcma[${soalId}][${abjad}]">
+                        <option value="">--Pilih--</option>
+                        <option value="Benar">Benar</option>
+                        <option value="Salah">Salah</option>
+                    </select>
+                `);
+            });
         }
     });
-    $('select[name^="jenis_soal"]').trigger('change');
+
+    $('.jenis-soal').trigger('change');
 
     // Upload gambar ke server
     function uploadImage(file, quilKey) {
