@@ -5,20 +5,489 @@
 
 <style>
 
-/* Section FAQ */
-#faq {
-  padding: 80px 0;
+/* ============================================
+   LBB CENDEKIA - CSS ORGANIZED
+   Semua nilai SAMA seperti aslinya, cuma dirapikan
+   ============================================ */
+
+/* ==========================================
+   1. GLOBAL & BASE STYLES
+   ========================================== */
+
+html {
+  scroll-behavior: smooth !important;
 }
 
+/* ==========================================
+   2. NAVBAR STYLES
+   ========================================== */
+
+/* Modern Navbar Enhancement */
+.navbar-landing {
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(15px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(152, 0, 0, 0.1) !important;
+  box-shadow: 0 4px 30px rgba(152, 0, 0, 0.08) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  padding: 0.8rem 0 !important;
+}
+
+/* Navbar scroll effect */
+.navbar-landing.scrolled {
+  box-shadow: 0 8px 40px rgba(152, 0, 0, 0.15) !important;
+  padding: 0.5rem 0 !important;
+}
+
+/* Logo Enhancement */
+.navbar-brand img {
+  transition: transform 0.3s ease !important;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)) !important;
+}
+
+.navbar-brand:hover img {
+  transform: scale(1.1) !important;
+}
+
+/* Modern Navigation Links */
+.navbar-nav .nav-link {
+  position: relative !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  color: #2c3e50 !important;
+  padding: 0.8rem 1.2rem !important;
+  margin: 0 0.3rem !important;
+  border-radius: 25px !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Underline animation effect */
+.navbar-nav .nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #E2B602, #980000);
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::before {
+  width: 60%;
+}
+
+/* Active State */
+.navbar-nav .nav-link.active {
+  background: linear-gradient(135deg, #2c2b29ff 0%, #2c2b29ff 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(32, 30, 30, 0.2) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Hover Effect */
+.navbar-nav .nav-link:hover:not(.active) {
+  background: rgba(46, 54, 57, 0.1) !important;
+  color: #000000ff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Modern Login Button */
+.btn-soft-danger {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
+  border: none !important;
+  border-radius: 25px !important;
+  padding: 0.7rem 1.5rem !important;
+  font-weight: 600 !important;
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4) !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.btn-soft-danger:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6) !important;
+  background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%) !important;
+  color: white !important;
+}
+
+/* Focus States untuk Accessibility */
+.nav-link:focus, .btn:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5) !important;
+  outline-offset: 2px !important;
+}
+
+/* ==========================================
+   3. HERO SECTION STYLES
+   ========================================== */
+
+/* Hero Background & Layout */
+.job-hero-section.bg-light {
+  background: linear-gradient(180deg, #980000 0%, #7A0000 100%) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  color: #ffffff !important;
+}
+
+/* Wave kuning atas - WITH ANIMATION */
+.job-hero-section.bg-light::before {
+  content: '';
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  z-index: 1;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='0%'><stop offset='0%' style='stop-color:%23980000;stop-opacity:1' /><stop offset='100%' style='stop-color:%23E2B602;stop-opacity:1' /></linearGradient></defs><path fill='url(%23grad)' d='M0,40 C300,60 800,0 1440,90 L1440,0 L0,0 Z'></path></svg>");
+  background-size: cover;
+  background-repeat: no-repeat;
+  animation: waveMove 15s ease-in-out infinite;
+}
+
+@keyframes waveMove {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+}
+
+/* Wave kuning bawah */
+.job-hero-section.bg-light::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23E2B602' fill-opacity='1' d='M0,64L120,80C240,96,480,128,720,144C960,160,1200,160,1320,154.7L1440,149L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z'></path></svg>");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Hero Content Z-Index */
+.job-hero-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Hero Text Styling - WITH ANIMATIONS */
+.job-hero-section .display-6 {
+  color: white !important;
+  font-weight: 800 !important;
+  font-size: 2.8rem !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  line-height: 1.2 !important;
+  margin-bottom: 2rem !important;
+  animation: fadeInUp 1s ease-out both;
+  animation-delay: 0.2s;
+}
+
+.job-hero-section .lead {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-size: 1.05rem !important;
+  line-height: 1.7 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  text-align: justify !important;
+  font-weight: 400 !important;
+  animation: fadeInUp 1s ease-out both;
+  animation-delay: 0.4s;
+}
+
+/* Keyframe untuk fade in dari bawah */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animated Background Particles */
+.job-hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  animation: float 6s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+/* WHATSAPP BOX - HIJAU PENUH */
+#hero .inquiry-box {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+  backdrop-filter: blur(10px) !important;
+  border: none !important;
+  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.4) !important;
+  border-radius: 20px !important;
+  transition: all 0.3s ease !important;
+}
+
+#hero .inquiry-box:hover {
+  transform: translateY(-5px) scale(1.03) !important;
+  box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6) !important;
+  background: linear-gradient(135deg, #128C7E 0%, #075E54 100%) !important;
+}
+
+/* Icon WhatsApp - PUTIH */
+#hero .inquiry-box .avatar-title.bg-soft-warning {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  box-shadow: none !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+#hero .inquiry-box .avatar-title.bg-soft-warning i {
+  color: white !important;
+  font-size: 1.5rem !important;
+}
+
+#hero .inquiry-box:hover .avatar-title.bg-soft-warning {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.15) rotate(8deg) !important;
+  border-color: white !important;
+}
+
+/* Text dalam box WhatsApp - PUTIH */
+#hero .inquiry-box h5 {
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+  letter-spacing: 0.3px !important;
+  margin: 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+#hero .inquiry-box a {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+/* ==========================================
+   4. SECTION INFORMASI (TOP 4)
+   ========================================== */
+
+#informasi {
+  background-color: #980000 !important;
+  color: #ffffff !important;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+/* Judul Section */
+#informasi h1,
+#informasi h2,
+#informasi h3 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Styling Dasar Semua Card Hasil Tryout */
+#informasi .card {
+  background-color: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 250px;
+  padding: 15px 15px 20px 15px;
+}
+
+/* Efek Hover untuk Semua Card */
+#informasi .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(152, 0, 0, 0.15);
+}
+
+/* Styling Nama Siswa */
+#informasi .card h6 {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.5rem;
+  color: #2c3e50 !important;
+}
+
+/* Styling Keterangan Sekolah dan Nilai */
+#informasi .card p {
+  font-size: 0.9rem !important;
+  line-height: 1.4;
+  color: #6c757d !important;
+}
+
+/* Styling NILAI TOTAL */
+#informasi .card p span.fw-bold {
+  font-weight: 700 !important;
+  color: #980000 !important;
+  font-size: 1rem !important;
+}
+
+/* Pastikan isi card tetap gelap dan terbaca */
+#informasi .card:not(.inquiry-box),
+#informasi .card:not(.inquiry-box) * {
+  color: #2c3e50 !important;
+  background-color: #ffffff !important;
+}
+
+/* ==========================================
+   5. SECTION TRYOUT
+   ========================================== */
+
+#tryout {
+  background-color: #980000 !important;
+  color: #ffffff !important;
+}
+
+#tryout h1,
+#tryout h2 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+#tryout .text-muted {
+  color: #f1f1f1 !important;
+}
+
+/* Tryout Cards */
+#tryout .card:not(.inquiry-box),
+#tryout .card:not(.inquiry-box) * {
+  color: #2c3e50 !important;
+  background-color: #ffffff !important;
+}
+
+/* Tryout Banner Image */
+#tryout .explore-place-bid-img img {
+  height: 250px;
+  object-fit: cover;
+  width: 100%;
+  filter: brightness(100%) contrast(100%);
+  transition: transform 0.4s ease-out;
+}
+
+/* Styling teks keterangan */
+#tryout .card-body .small.text-muted {
+  font-size: 0.75rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #888 !important;
+}
+
+/* Styling nilai Waktu dan Pelaksanaan */
+#tryout .card-body h6.text-dark {
+  color: #2c3e50 !important;
+  font-size: 0.9rem !important;
+}
+
+/* Styling Ikon */
+#tryout .card-body i.mdi {
+  color: #980000 !important;
+  transition: transform 0.3s ease;
+}
+
+#tryout .explore-box:hover .card-body i.mdi {
+  transform: scale(1.1);
+}
+
+/* Styling HARGA (Kuning Emas) */
+#tryout .card-body h4.text-primary-brand-1 {
+  color: #E2B602 !important;
+  text-shadow: 0 0 5px rgba(226, 182, 2, 0.5);
+  font-size: 1.8rem !important;
+}
+
+/* Button Daftar */
+#tryout .card-footer a.w-100 {
+  width: 100% !important;
+}
+
+/* Card Hover Effect */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Image Wrapper */
+.img-wrapper {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  height: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.explore-place-bid-img img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* ==========================================
+   6. SECTION FAQ
+   ========================================== */
+
+#faq {
+  padding: 80px 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #980000 !important;
+  color: #ffffff !important;
+}
+
+#faq .container {
+  width: 100%;
+  max-width: 900px;
+}
+
+#faq h1,
 #faq h2 {
   font-weight: 700;
   font-size: 2rem;
-  color: #2c3e50;
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
 }
 
 #faq p.text-muted {
   font-size: 1rem;
-  color: #6c757d;
+  color: #f1f1f1 !important;
 }
 
 /* Accordion Style */
@@ -42,8 +511,9 @@
 }
 
 .accordion-button:not(.collapsed) {
-  color: #0d6efd;
-  background-color: #e9f3ff;
+  color: #980000 !important;
+  background-color: #E2B60240 !important;
+  border-color: #E2B602 !important;
 }
 
 .accordion-body {
@@ -52,841 +522,269 @@
   line-height: 1.6;
 }
 
-.explore-place-bid-img img {
-    width: 100%;
-    height: 280px; /* atau sesuaikan */
-    object-fit: cover;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
-
-    .img-wrapper {
-    background: white;        /* Biar ada background putih */
-    padding: 10px;           /* Kasih jarak dari tepi */
-    border-radius: 10px;     /* Biar sudutnya halus */
-    height: 280px;           /* Samain tinggi seperti sebelumnya */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.img-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;       /* Biar gak gepeng tapi tetap penuh */
-}
-
-/* Biar section FAQ pas 1 layar penuh */
-#faq {
-  min-height: 100vh; /* setinggi layar */
-  display: flex;
-  align-items: center; /* biar konten di tengah vertikal */
-  justify-content: center;
-  flex-direction: column;
-  padding: 80px 0;
-  background-color: #980000; /* opsional: kasih warna lembut agar beda dari section lain */
-}
-
-#faq .container {
-  width: 100%;
-  max-width: 900px; /* biar lebar konten gak terlalu melebar */
-}
-
-    /*Animasi hubungi*/
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .card:hover {
-        transform: translateY(-8px) scale(1.03);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    }
-
-    /* Animasi & styling bagian contact */
-    .contact-title {
-        position: relative;
-    }
- 
-    .contact-card {
-        transition: all 0.3s ease;
-        border: 1px solid rgba(0,0,0,0.05);
-    }
-
-    .contact-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        border-color: #E5A24745;
-    }
-
-    .contact-icon {
-        transition: all 0.3s ease;
-    }
-
-    .contact-card:hover .contact-icon {
-        transform: scale(1.1);
-        color: #28a745 !important;
-    }
-
-    .contact-card:hover .contact-icon i {
-        animation: bounce 0.6s ease;
-    }
-
-    @keyframes bounce {
-        0%, 20%, 60%, 100% {
-            transform: translateY(0);
-        }
-        40% {
-            transform: translateY(-10px);
-        }
-        80% {
-            transform: translateY(-5px);
-        }
-    }
-
-    .contact-item {
-        margin-bottom: 20px;
-        animation: fadeInUp 0.6s ease-out both;
-    }
-
-    /* Animasi fade in */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .contact-item:nth-child(1) { animation-delay: 0.1s; }
-    .contact-item:nth-child(2) { animation-delay: 0.2s; }
-    .contact-item:nth-child(3) { animation-delay: 0.3s; }
-    .contact-item:nth-child(4) { animation-delay: 0.4s; }
-    .contact-item:nth-child(5) { animation-delay: 0.5s; }
-    .contact-item:nth-child(6) { animation-delay: 0.6s; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .contact-card:hover {
-            transform: translateY(-4px) scale(1.01);
-        }
-    }
-
-    /* Styling tambahan untuk footer */
-    .footer-title {
-        font-size: 1.1rem !important;
-        font-weight: 700 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
-        color: white !important;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
-        margin-bottom: 1.2rem !important;
-    }
-    
-    .footer-content-text {
-        font-size: 0.85rem !important;
-        line-height: 1.4 !important;
-        color: rgba(255,255,255,0.9) !important;
-    }
-    
-    .contact-label {
-        font-size: 0.75rem !important;
-        color: rgba(255,255,255,0.7) !important;
-        margin-bottom: 0.1rem !important;
-        text-transform: uppercase !important;
-    }
-    
-    .contact-value {
-        font-size: 0.9rem !important;
-        font-weight: 600 !important;
-        color: white !important;
-    }
-    
-    .hours-day {
-        font-size: 0.85rem !important;
-        font-weight: 600 !important;
-    }
-    
-    .hours-time {
-        font-size: 0.8rem !important;
-        color: rgba(255,255,255,0.9) !important;
-    }
-    
-    .address-label {
-        font-size: 0.75rem !important;
-        color: rgba(255,255,255,0.7) !important;
-        margin-bottom: 0.2rem !important;
-        text-transform: uppercase !important;
-    }
-    
-    .address-value {
-        font-size: 0.9rem !important;
-        font-weight: 600 !important;
-        line-height: 1.3 !important;
-        color: white !important;
-    }
-    
-    .map-hint {
-        font-size: 0.7rem !important;
-        color: rgba(255,255,255,0.6) !important;
-        margin-top: 0.2rem !important;
-        font-style: italic !important;
-        text-transform: uppercase !important;
-    }
-
-    /* Animasi pulse */
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
-        }
-        50% {
-            transform: scale(1.05);
-            box-shadow: 0 0 0 10px rgba(255,255,255,0.1);
-        }
-        100% {
-            transform: scale(1);
-            box-shadow: 0 0 0 0 rgba(255,255,255,0);
-        }
-    }
-
-    .phone-contact {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .phone-contact::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 1), transparent);
-        transition: left 0.5s;
-    }
-
-    .phone-contact:hover::after {
-        left: 100%;
-    }
-
-    .address-item {
-        position: relative;
-    }
-
-    .address-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 100%;
-        background: rgba(255,255,255,0.1);
-        transition: width 0.3s ease;
-    }
-
-    .address-item:hover::before {
-        width: 100%;
-    }
-
-    .loading {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 3px solid rgba(255,255,255,0.3);
-        border-radius: 50%;
-        border-top-color: white;
-        animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-
-    .contact-item:hover {
-        background: rgba(255,255,255,0.2) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
-        border-color: rgba(255,255,255,0.3) !important;
-    }
-
-
-    /* ========== NAVBAR MODERN UPGRADE - ENHANCED ========== */
-.navbar-landing {
-    background: rgba(255, 255, 255, 0.98) !important;
-    backdrop-filter: blur(15px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-    border-bottom: 1px solid rgba(152, 0, 0, 0.1) !important;
-    box-shadow: 0 4px 30px rgba(152, 0, 0, 0.08) !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    padding: 0.8rem 0 !important;
-}
-
-/* Navbar scroll effect */
-.navbar-landing.scrolled {
-    box-shadow: 0 8px 40px rgba(152, 0, 0, 0.15) !important;
-    padding: 0.5rem 0 !important;
-}
-
-/* Modern Navigation Links */
-.navbar-nav .nav-link {
-    position: relative !important;
-    font-weight: 500 !important;
-    font-size: 0.95rem !important;
-    color: #2c3e50 !important;
-    padding: 0.8rem 1.2rem !important;
-    margin: 0 0.3rem !important;
-    border-radius: 25px !important;
-    transition: all 0.3s ease !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-}
-
-/* Underline animation effect */
-.navbar-nav .nav-link::before {
-    content: '';
-    position: absolute;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #E2B602, #980000);
-    transition: width 0.3s ease;
-}
-
-.navbar-nav .nav-link:hover::before {
-    width: 60%;
-}
-
-/* Active State dengan Gradient */
-.navbar-nav .nav-link.active {
-    background: linear-gradient(135deg, ##2c2b29ff 0%, #2c2b29ff 100%) !important;
-    color: #2c2b29ff !important;
-    box-shadow: 0 4px 15px rgba(32, 30, 30, 0.2) !important;
-    transform: translateY(-2px) !important;
-}
-
-/* Hover Effect */
-.navbar-nav .nav-link:hover:not(.active) {
-    background: rgba(46, 54, 57, 0.1) !important;
-    color: #000000ff !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Logo Enhancement */
-.navbar-brand img {
-    transition: transform 0.3s ease !important;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)) !important;
-}
-
-.navbar-brand:hover img {
-    transform: scale(1.1) !important;
-}
-
-/* Modern Login Button */
-.btn-soft-danger {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
-    border: none !important;
-    border-radius: 25px !important;
-    padding: 0.7rem 1.5rem !important;
-    font-weight: 600 !important;
-    color: white !important;
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4) !important;
-    transition: all 0.3s ease !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-}
-
-.btn-soft-danger:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6) !important;
-    background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%) !important;
-    color: white !important;
-}
-
-/* ========== HERO SECTION UPGRADE ========== */
-/* === HERO SECTION === */
-.job-hero-section.bg-light {
-    background: linear-gradient(180deg, #980000 0%, #7A0000 100%) !important;
-    position: relative !important;
-    overflow: hidden !important;
-    color: #ffffff !important;
-}
-
-/* Wave kuning atas - WITH SUBTLE ANIMATION */
-.job-hero-section.bg-light::before {
-    content: '';
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    height: 200px;
-    z-index: 1;
-    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='0%'><stop offset='0%' style='stop-color:%23980000;stop-opacity:1' /><stop offset='100%' style='stop-color:%23E2B602;stop-opacity:1' /></linearGradient></defs><path fill='url(%23grad)' d='M0,40 C300,60 800,0 1440,90 L1440,0 L0,0 Z'></path></svg>");
-    background-size: cover;
-    background-repeat: no-repeat;
-    animation: waveMove 15s ease-in-out infinite;
-}
-
-@keyframes waveMove {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(10px);
-    }
-}
-
-
-
-/* Wave kuning bawah */
-.job-hero-section.bg-light::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 140px;
-    background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23E2B602' fill-opacity='1' d='M0,64L120,80C240,96,480,128,720,144C960,160,1200,160,1320,154.7L1440,149L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z'></path></svg>");
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-/* === NAVBAR === */
-.navbar, .header {
-    background-color: #ffffff !important;
-}
-
-.navbar a, .nav-link {
-    color: #980000 !important;
-    font-weight: 600;
-}
-
-.navbar a:hover, .nav-link.active {
-    color: #E2B602 !important;
-}
-
-
-/* === TOMBOL LOGIN & DAFTAR === */
-.btn-login {
-    background-color: #ffffff !important;
-    color: #980000 !important;
-    border: 2px solid #980000 !important;
-}
-
-.btn-daftar {
-    background-color: #E2B602 !important;
-    color: #980000 !important;
-    font-weight: 600 !important;
-}
-
-
-/* Animated Background Particles */
-.job-hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-    animation: float 6s ease-in-out infinite;
-    z-index: 1;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(2deg); }
-}
-
-/* Hero Content Z-Index */
-.job-hero-section .container {
-    position: relative;
-    z-index: 2;
-}
-
-/* Hero Text Styling - WITH ANIMATIONS */
-.job-hero-section .display-6 {
-    color: white !important;
-    font-weight: 800 !important;
-    font-size: 2.8rem !important;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-    line-height: 1.2 !important;
-    margin-bottom: 2rem !important;
-    
-    /* Fade-in animation */
-    animation: fadeInUp 1s ease-out both;
-    animation-delay: 0.2s;
-}
-
-.job-hero-section .lead {
-    color: rgba(255, 255, 255, 0.95) !important;
-    font-size: 1.05rem !important;
-    line-height: 1.7 !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
-    text-align: justify !important;
-    font-weight: 400 !important;
-    
-    /* Fade-in animation - delay lebih lama */
-    animation: fadeInUp 1s ease-out both;
-    animation-delay: 0.4s;
-}
-
-/* Keyframe untuk fade in dari bawah */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* ========== SECTION IMPROVEMENTS ========== */
-
-/* Informasi Section */
-#informasi {
-    position: relative;
-    background:  #980000 !important;
-}
-
-/* Cuma untuk title "INFORMASI" */
-#informasi h1 {
-    text-shadow: white !important;
-}
-
-/* ======================================================= */
-/* ====== FINAL UPGRADE: SECTION INFORMASI (MERATA) ====== */
-/* ======================================================= */
-
-#informasi {
-    color: #ffffff !important; 
-    padding-top: 100px; 
-    padding-bottom: 100px;
-}
-
-/* Styling Dasar Semua Card Hasil Tryout (Seragam) */
-#informasi .card {
-    background-color: #ffffff !important;
-    border-radius: 16px !important; 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
-    border: 1px solid rgba(0, 0, 0, 0.1) !important; /* Border tipis yang seragam */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    min-height: 250px; 
-    padding: 15px 15px 20px 15px; 
-}
-
-/* Efek Hover untuk Semua Card */
-#informasi .card:hover {
-    transform: translateY(-5px); 
-    box-shadow: 0 12px 30px rgba(152, 0, 0, 0.15); /* Shadow sedikit Maroon/merah */
-}
-
-/* Styling Nama Siswa */
-#informasi .card h5 {
-    font-size: 1.25rem !important;
-    font-weight: 700 !important;
-    margin-bottom: 0.5rem;
-}
-
-/* Styling Sekolah dan Nilai */
-#informasi .card p {
-    font-size: 0.9rem !important;
-    line-height: 1.4;
-}
-#informasi .card strong {
-    font-weight: 700 !important;
-    color: #980000 !important; /* Nilai total dipertegas dengan Maroon */
-}
-
-/* ======================================================= */
-/* ====== PERBAIKAN STYLING NAMA, SEKOLAH, DAN NILAI ====== */
-/* ======================================================= */
-
-/* Styling Nama Siswa (Menggunakan H6 di HTML Anda) */
-#informasi .card h6 {
-    /* Mengganti h5 dengan h6 (sesuai HTML Anda) */
-    font-size: 1.15rem !important; /* Sedikit lebih kecil dari 1.25rem */
-    font-weight: 700 !important;
-    margin-bottom: 0.5rem;
-    color: #2c3e50 !important; /* Memaksa warna Dark Blue/Black */
-}
-
-/* Styling Keterangan Sekolah dan Nilai */
-#informasi .card p {
-    font-size: 0.9rem !important;
-    line-height: 1.4;
-    color: #6c757d !important; /* Warna abu-abu yang lebih jelas (muted) */
-}
-
-/* Styling NILAI TOTAL (Menggunakan SPAN.fw-bold di HTML Anda) */
-#informasi .card p span.fw-bold {
-    /* Menargetkan span di dalam p */
-    font-weight: 700 !important;
-    /* Nilai total dipertegas dengan Maroon */
-    color: #980000 !important; 
-    font-size: 1rem !important; /* Sedikit lebih besar dari teks p */
-}
-
-/* Tryout Section */
-/* ======================================================= */
-/* ====== CSS TAMBAHAN V.3: STYLING DETAIL WAKTU & HARGA ====== */
-/* ======================================================= */
-
-/* Mengatur ulang tinggi gambar agar seragam dengan HTML baru (250px) */
-#tryout .explore-place-bid-img img {
-    height: 250px; 
-    object-fit: cover;
-    width: 100%;
-    filter: brightness(100%) contrast(100%);
-    transition: transform 0.4s ease-out;
-}
-
-/* Styling teks keterangan (Waktu Berlaku, Pelaksanaan) */
-#tryout .card-body .small.text-muted {
-    font-size: 0.75rem !important;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #888 !important; 
-}
-
-/* Styling nilai Waktu dan Pelaksanaan */
-#tryout .card-body h6.text-dark {
-    /* Nilai Waktu dan Pelaksanaan diatur ke warna Hitam/Dark */
-    color: #2c3e50 !important; 
-    font-size: 0.9rem !important;
-}
-
-/* Styling Ikon (Calendar/Location) */
-#tryout .card-body i.mdi {
-    /* Memaksa warna ikon menjadi Maroon */
-    color: #980000 !important; 
-    transition: transform 0.3s ease;
-}
-
-#tryout .explore-box:hover .card-body i.mdi {
-    transform: scale(1.1);
-}
-
-/* Styling HARGA (Kuning Emas) */
-#tryout .card-body h4.text-primary-brand-1 {
-    color: #E2B602 !important; /* Kuning Emas */
-    text-shadow: 0 0 5px rgba(226, 182, 2, 0.5);
-    font-size: 1.8rem !important; /* Ukuran besar */
-    /* Menjaga Harga tetap menonjol */
-}
-
-/* Styling Harga GRATIS */
-#tryout .card-body h4.text-primary-brand-1:contains('GRATIS') {
-    color: #28a745 !important; /* Hijau yang ramah */
-    text-shadow: none !important;
-}
-
-/* Button Tambahan */
-#tryout .card-footer a.w-100 {
-    width: 100% !important; /* Pastikan tombol 'Daftar Sekarang' selebar card */
-}
-
-/* ========== ADDITIONAL MODERN TOUCHES ========== */
-html {
-    scroll-behavior: smooth !important;
-}
-
-/* Focus States untuk Accessibility */
-.nav-link:focus, .btn:focus {
-    outline: 2px solid rgba(255, 255, 255, 0.5) !important;
-    outline-offset: 2px !important;
-}
-
-/* Loading Animation untuk Elements */
-.navbar-brand, .nav-link, .btn {
-    will-change: transform !important;
-}
-
-/* Enhanced Back to Top Button */
-.landing-back-top {
-    background:  #980000 !important;
-    border: none !important;
-    box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;
-    transition: all 0.3s ease !important;
-}
-
-.landing-back-top:hover {
-    transform: translateY(-3px) scale(1.1) !important;
-    box-shadow: 0 6px 20px rgba(226, 182, 2, 0.6) !important;
-}
-
-/* WHATSAPP BOX - HIJAU PENUH (PRIORITAS TERTINGGI) */
-#hero .inquiry-box {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
-    backdrop-filter: blur(10px) !important;
-    border: none !important;
-    box-shadow: 0 8px 32px rgba(37, 211, 102, 0.4) !important;
-    border-radius: 20px !important;
-    transition: all 0.3s ease !important;
-}
-
-#hero .inquiry-box:hover {
-    transform: translateY(-5px) scale(1.03) !important;
-    box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6) !important;
-    background: linear-gradient(135deg, #128C7E 0%, #075E54 100%) !important;
-}
-
-/* Icon WhatsApp - PUTIH */
-#hero .inquiry-box .avatar-title.bg-soft-warning {
-    background: rgba(255, 255, 255, 0.2) !important;
-    color: white !important;
-    box-shadow: none !important;
-    border: 2px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-#hero .inquiry-box .avatar-title.bg-soft-warning i {
-    color: white !important;
-    font-size: 1.5rem !important;
-}
-
-#hero .inquiry-box:hover .avatar-title.bg-soft-warning {
-    background: rgba(255, 255, 255, 0.3) !important;
-    transform: scale(1.15) rotate(8deg) !important;
-    border-color: white !important;
-}
-
-/* Text dalam box WhatsApp - PUTIH */
-#hero .inquiry-box h5 {
-    color: white !important;
-    font-weight: 700 !important;
-    font-size: 1.1rem !important;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
-    letter-spacing: 0.3px !important;
-    margin: 0 !important;
-    transition: all 0.3s ease !important;
-}
-
-
-#hero .inquiry-box a {
-    color: white !important;
-    text-decoration: none !important;
-}
-
-/* Home/Hero Section - KUNING */
-.job-hero-section.bg-light {
-    background:#980000 !important;
-}
-
-/* Hubungi Section - KUNING */
-#hubungi.bg-light {
-    background: #980000 !important;
-}
-
-/* Ubah warna teks title di section hubungi jadi putih biar kontras */
-#hubungi .contact-title {
-    color: white !important;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 1) !important;
-}
-
-#hubungi .contact-title::after {
-    background: #980000 !important;
-}
-
-/* Biar background maroon dan judul teksnya tetap kontras */
-#informasi {
-  background-color: #980000;
-}
-
-/* Hanya ubah warna teks judul utama di bagian atas */
-#informasi h1,
-#informasi h2,
-#informasi h3 {
-  color: #ffffff !important;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
-
-/* Pastikan teks dalam card tetap gelap */
-#informasi .card,
-#informasi .card * {
-  color: #2c3e50 !important;
-}
-
-#informasi,
-#tryout,
-#hero,
-#faq {
-  background-color: #980000 !important;
-  color: #ffffff !important;
-}
-
-/* Khusus judul utama di setiap section */
-#informasi h1, #tryout h1, #hero h1, #faq h1,
-#informasi h2, #tryout h2, #hero h2, #faq h2,
-#informasi .text-center h1, #tryout .text-center h1, #faq .text-center h2 {
-  color: #ffffff !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-}
-
-
-/* Khusus teks tambahan (yang pakai .text-muted dari Bootstrap) */
-#faq .text-muted,
-#informasi .text-muted,
-#tryout .text-muted,
-#hero .text-muted{
-  color: #f1f1f1 !important; /* jadi abu muda biar tetap lembut tapi kontras */
-}
-
-/* Pastikan isi card tetap gelap dan terbaca - KECUALI WhatsApp Box */
-#faq .card:not(.inquiry-box), 
-#faq .card:not(.inquiry-box) *,
-#informasi .card:not(.inquiry-box), 
-#informasi .card:not(.inquiry-box) *,
-#tryout .card:not(.inquiry-box), 
-#tryout .card:not(.inquiry-box) * {
-  color: #2c3e50 !important;
-  background-color: #ffffff !important;
-}
-
-/* Khusus card hero yang bukan WhatsApp box */
-#hero .card:not(.inquiry-box), 
-#hero .card:not(.inquiry-box) * {
-  color: #2c3e50 !important;
-  background-color: #ffffff !important;
-}
-
-/* PAKSA text WhatsApp box tetap putih! */
-#hero .inquiry-box h5,
-#hero .inquiry-box a,
-#hero .inquiry-box .stretched-link {
-  color: white !important;
-  background-color: transparent !important;
-}
-
-
-/* Mengganti warna default Accordion */
-.accordion-button:not(.collapsed) {
-/* Ganti warna biru default */
-    color: #980000 !important; /* Warna teks jadi Merah Marun */
-    background-color: #E2B60240 !important; /* Background jadi Kuning-Emas transparan */
-    border-color: #E2B602 !important; /* Garis tepi Kuning */
-}
-
-/* Animasi Icon (seperti tanda panah) */
+/* Animasi Icon Accordion */
 .accordion-button::after {
-    filter: invert(30%) sepia(80%) saturate(600%) hue-rotate(330deg) brightness(85%) contrast(100%); /* Ubah warna icon jadi Merah Marun */
+  filter: invert(30%) sepia(80%) saturate(600%) hue-rotate(330deg) brightness(85%) contrast(100%);
 }
 
 .accordion-button:not(.collapsed)::after {
-    filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%); /* Ubah icon ke hitam/default saat aktif */
+  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
 }
 
+/* Pastikan card FAQ tetap putih */
+#faq .card:not(.inquiry-box),
+#faq .card:not(.inquiry-box) * {
+  color: #2c3e50 !important;
+  background-color: #ffffff !important;
+}
+
+/* ==========================================
+   7. SECTION HUBUNGI (Hidden by default)
+   ========================================== */
+
+#hubungi.bg-light {
+  background: #980000 !important;
+}
+
+#hubungi .contact-title {
+  color: white !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 1) !important;
+}
+
+#hubungi .contact-title::after {
+  background: #980000 !important;
+}
+
+/* Contact Cards */
+.contact-card {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.contact-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  border-color: #E5A24745;
+}
+
+.contact-icon {
+  transition: all 0.3s ease;
+}
+
+.contact-card:hover .contact-icon {
+  transform: scale(1.1);
+  color: #28a745 !important;
+}
+
+.contact-card:hover .contact-icon i {
+  animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+  0%, 20%, 60%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  80% {
+    transform: translateY(-5px);
+  }
+}
+
+.contact-item {
+  margin-bottom: 20px;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.contact-item:nth-child(1) { animation-delay: 0.1s; }
+.contact-item:nth-child(2) { animation-delay: 0.2s; }
+.contact-item:nth-child(3) { animation-delay: 0.3s; }
+.contact-item:nth-child(4) { animation-delay: 0.4s; }
+.contact-item:nth-child(5) { animation-delay: 0.5s; }
+.contact-item:nth-child(6) { animation-delay: 0.6s; }
+
+.contact-item:hover {
+  background: rgba(255,255,255,0.2) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
+  border-color: rgba(255,255,255,0.3) !important;
+}
+
+/* ==========================================
+   8. FOOTER STYLES
+   ========================================== */
+
+/* Footer Title */
+.footer-title {
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+  margin-bottom: 1.2rem !important;
+}
+
+.footer-content-text {
+  font-size: 0.85rem !important;
+  line-height: 1.4 !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* Contact Labels & Values */
+.contact-label {
+  font-size: 0.75rem !important;
+  color: rgba(255,255,255,0.7) !important;
+  margin-bottom: 0.1rem !important;
+  text-transform: uppercase !important;
+}
+
+.contact-value {
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  color: white !important;
+}
+
+/* Hours Section */
+.hours-day {
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+}
+
+.hours-time {
+  font-size: 0.8rem !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* Address Section */
+.address-label {
+  font-size: 0.75rem !important;
+  color: rgba(255,255,255,0.7) !important;
+  margin-bottom: 0.2rem !important;
+  text-transform: uppercase !important;
+}
+
+.address-value {
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: white !important;
+}
+
+.map-hint {
+  font-size: 0.7rem !important;
+  color: rgba(255,255,255,0.6) !important;
+  margin-top: 0.2rem !important;
+  font-style: italic !important;
+  text-transform: uppercase !important;
+}
+
+/* Animasi pulse */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(255,255,255,0.1);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255,255,255,0);
+  }
+}
+
+/* Phone Contact Effects */
+.phone-contact {
+  position: relative;
+  overflow: hidden;
+}
+
+.phone-contact::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 1), transparent);
+  transition: left 0.5s;
+}
+
+.phone-contact:hover::after {
+  left: 100%;
+}
+
+/* Address Item Effects */
+.address-item {
+  position: relative;
+}
+
+.address-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: rgba(255,255,255,0.1);
+  transition: width 0.3s ease;
+}
+
+.address-item:hover::before {
+  width: 100%;
+}
+
+/* Loading Animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   9. BACK TO TOP BUTTON
+   ========================================== */
+
+.landing-back-top {
+  background: #980000 !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;
+  transition: all 0.3s ease !important;
+}
+
+.landing-back-top:hover {
+  transform: translateY(-3px) scale(1.1) !important;
+  box-shadow: 0 6px 20px rgba(226, 182, 2, 0.6) !important;
+}
+
+/* ==========================================
+   10. RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 768px) {
+  .contact-card:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+  
+  .section {
+    padding: 3rem 0;
+  }
+}
+
+/* ==========================================
+   END OF CSS
+   ========================================== */
 
 </style>
 @endsection
