@@ -43,8 +43,16 @@
                                 <td>{{ $tryout->tryout_jenis}}</td>
                             </tr>
                             <tr>
-                                <td class="fw-medium">Biaya</td>
-                                <td>{{ $tryout->tryout_nominal}}</td>
+                                <td class="fw-medium">Harga</td>
+                                <td>Rp.{{ $tryout->tryout_nominal}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-medium">Diskon</td>
+                                <td>{{ $tryout->tryout_diskon}}%</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-medium">Total</td>
+                                <td>Rp.{{ $tryout->tryout_harga_jual_formatted}}</td>
                             </tr>
 
                         </tbody>
@@ -72,20 +80,14 @@
     </div>
     <div class="col-xxl-9">
         <div class="card">
-            <div class="card-header">
-                <div class="align-items-center d-flex mb-2">
-                    <div class="flex-grow-1">
-                        <h6 class=" fw-bold text-uppercase">{{ $tryout->tryout_judul}}</h6>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <div>
-                            <a href="javascript:history.back()" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
-                        </div>
-                    </div>
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0  fw-bold flex-grow-1">{{ $tryout->tryout_judul}}</h4>
+                <div class="flex-shrink-0">
+                    <a href="javascript:history.back()" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
                 </div>
             </div>
             <div class="card-body">
-                <div class="text-muted"> 
+                <div class="text-muted">
                     {!! $tryout->tryout_deskripsi!!}
 
                     <h6 class="mb-3 fw-bold text-uppercase">Materi</h6>
@@ -158,20 +160,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($tryout->peserta as $peserta)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ optional($peserta->siswa)->name ?? $peserta->tryout_peserta_name ?? 'Nama tidak tersedia' }}</td>
-                                    <td>{{ optional($peserta->siswa)->asal_sekolah ?? '-' }}</td>
-                                    <td>{{ optional($peserta->siswa)->jenjang ?? '-' }}</td>
-                                    <td>{{ optional($peserta->siswa)->kelas ?? '-' }}</td>
-                                    <td>{{ $peserta->tanggal_daftar ?? '-' }}</td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="6" class="text-center">Belum ada peserta.</td>
-                                </tr>
-                                @endforelse
+                                    @forelse($tryout->peserta as $peserta)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ optional($peserta->siswa)->name ?? $peserta->tryout_peserta_name ?? 'Nama tidak tersedia' }}</td>
+                                        <td>{{ optional($peserta->siswa)->asal_sekolah ?? '-' }}</td>
+                                        <td>{{ optional($peserta->siswa)->jenjang ?? '-' }}</td>
+                                        <td>{{ optional($peserta->siswa)->kelas ?? '-' }}</td>
+                                        <td>{{ $peserta->tanggal_daftar ?? '-' }}</td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">Belum ada peserta.</td>
+                                    </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                             <!--end table-->
@@ -179,7 +181,7 @@
                     </div>
                     <div class="tab-pane " id="tryout-hasil-summary" role="tabpanel">
                         <h5 class="card-title mb-4">Rangking Rata Rata</h5>
-                         
+
                         <div class="table-responsive table-card">
                             <table class="table align-middle mb-0">
                                 <thead class="table-light text-muted">

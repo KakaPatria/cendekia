@@ -165,204 +165,236 @@
     @include('components.message')
 
     <div class="row">
-        <div class="col-12">
-            <h4 class="fs-22 mb-1">Selamat Datang, {{ strtok(Auth::user()->name, " ") }}!</h4>
-            <p class="text-muted mb-4">Siap untuk menaklukkan tantangan hari ini?</p>
-        </div>
-    </div>
+        <div class="col">
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card stat-card card-completed" style="background: #28a745;">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="stat-label mb-0">Tryout Selesai</p>
-                            <h3 class="stat-value mb-0">{{ $riwayat_pengerjaan->count() ?? 0 }}</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card stat-card card-average" style="background: #17a2b8;">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="stat-label mb-0">Nilai Rata-rata</p>
-                            <h3 class="stat-value mb-0">{{ $riwayat_pengerjaan->count() > 0 ? round($riwayat_pengerjaan->avg('nilai_akhir'), 1) : 0 }}</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card stat-card card-rank" style="background: #ffc107;">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="stat-label mb-0">Peringkat Terbaik</p>
-                            <h3 class="stat-value mb-0">#1</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-2">
-        <div class="col-lg-8">
-            
-            @if(isset($recent_tryouts) && $recent_tryouts->count() > 0)
-            <div class="mb-4">
-                <h5 class="fs-18 mb-3">Baru Diakses</h5>
-                
-                @foreach($recent_tryouts as $recent)
-                    @php
-                        if(isset($recent->tryout_id)) {
-                            $t = $recent;
-                            $accessedAt = null;
-                        } elseif(isset($recent->masterTryout)) {
-                            $t = $recent->masterTryout;
-                            $accessedAt = $recent->updated_at ?? $recent->created_at ?? null;
-                        } else {
-                            $t = null;
-                            $accessedAt = null;
-                        }
-                    @endphp
-
-                    @if($t)
-                    <a href="{{ route('siswa.tryout.show', $t->tryout_id) }}" class="recent-link-wrapper">
-                        <div class="recent-item">
-                            <img src="{{ $t->tryout_banner ? Storage::url($t->tryout_banner) : URL::asset('/assets/images/default-thumb.png') }}" alt="thumbnail" class="recent-thumb">
-                            
+            <div class="h-100">
+                <div class="row mb-3 pb-1">
+                    <div class="col-12">
+                        <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                             <div class="flex-grow-1">
-                                <h6 class="recent-title mb-0">{{ Str::limit($t->tryout_judul, 70) }}</h6>
-                                {{-- [CHANGE] Tampilkan hanya jika ada tanggal --}}
-                                @if($accessedAt)
-                                    <div class="recent-sub">{{ \Carbon\Carbon::parse($accessedAt)->diffForHumans() }}</div>
-                                @endif
-                                
-                                <div class="recent-tags">
-                                    @if(isset($t->materi) && count($t->materi) > 0)
-                                        @foreach(collect($t->materi)->take(2) as $m)
-                                            <span class="badge">{{ $m->refMateri->ref_materi_judul }}</span>
-                                        @endforeach
+                                <h4 class="fs-16 mb-1">Selamat Datang, {{ strtok(Auth::user()->name, " ") }}!</h4>
+                                <p class="text-muted mb-0">Siap untuk menaklukkan tantangan hari ini?</p>
+                            </div>
+
+                        </div><!-- end card header -->
+                    </div>
+                    <!--end col-->
+                </div>
+                <!--end row-->
+
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card stat-card card-completed" style="background: #28a745;">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <p class="stat-label mb-0">Tryout Selesai</p>
+                                        <h3 class="stat-value mb-0">{{ $riwayat_pengerjaan->count() ?? 0 }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card stat-card card-average" style="background: #17a2b8;">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <p class="stat-label mb-0">Nilai Rata-rata</p>
+                                        <h3 class="stat-value mb-0">{{ $riwayat_pengerjaan->count() > 0 ? round($riwayat_pengerjaan->avg('nilai_akhir'), 1) : 0 }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card stat-card card-rank" style="background: #ffc107;">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <p class="stat-label mb-0">Peringkat Terbaik</p>
+                                        <h3 class="stat-value mb-0">#1</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card stat-card" style="background: #007bff;">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <p class="stat-label mb-0">Tryout Aktif</p>
+                                        <h3 class="stat-value mb-0">{{ $tryout->count() ?? 0 }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end row-->
+
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="card">
+                            <div class="card-body p-0 pb-2">
+                                <div class="w-100">
+                                    @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
+                                        <div id="line_chart_datalabel" data-colors='["#980000"]' class="apex-charts" dir="ltr"></div>
+                                    @else
+                                        <div class="text-center p-4">
+                                            <p class="text-muted">Belum ada data perkembangan nilai.</p>
+                                        </div>
                                     @endif
                                 </div>
-                            </div>
+                            </div><!-- end card body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
 
-                            <div class="ms-3 recent-continue">
-                                <span class="btn btn-sm btn-outline-primary">Lanjutkan</span>
-                            </div>
-                        </div>
-                    </a>
-                    @endif
-                @endforeach
-            </div>
-            @endif
+                    <div class="col-xl-4 col-md-6">
+                        <div class="card card-height-100">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Riwayat Tryout Selesai</h4>
 
-            <h4 class="fs-18 mb-3">Tryout Terbaru Untukmu</h4>
-            <div class="row">
-                @forelse($tryout as $data)
-                <div class="col-md-6 mb-4">
-                    <div class="card tryout-card h-100 {{ $data->is_can_register ? 'disabled' : '' }}">
-                        <img src="{{Storage::url($data->tryout_banner)}}" alt="{{$data->tryout_judul}}" class="card-img-top">
-                        <div class="card-body d-flex flex-column">
-                            <div class="materi-tags mb-2 d-flex flex-wrap gap-1">
-                                @foreach(collect($data->materi)->take(2) as $materi)
-                                <span class="badge badge-soft-info">{{ $materi->refMateri->ref_materi_judul}}</span>
-                                @endforeach
-                                @if(count($data->materi) > 2)
-                                <span class="badge badge-soft-secondary">+{{ count($data->materi) - 2 }}</span>
+                            </div><!-- end card header -->
+                            <div class="card-body">
+                                @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
+                                    <div class="table-responsive table-card">
+                                        <table class="table align-middle table-borderless table-centered table-nowrap mb-0">
+                                            <thead class="text-muted table-light">
+                                                <tr>
+                                                    <th scope="col" style="width: 62;">Nama Tryout</th>
+                                                    <th scope="col">Nilai</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($riwayat_pengerjaan->take(5) as $item)
+                                                <tr>
+                                                    <td>
+                                                        {{ Str::limit($item->masterTryout->tryout_judul, 30) }}
+                                                    </td>
+                                                    <td class="text-center"> {{ $item->nilai_akhir }}</td>
+                                                </tr><!-- end -->
+                                                 @endforeach
+                                            </tbody><!-- end tbody -->
+                                        </table><!-- end table -->
+                                    </div><!-- end -->
+                                @else
+                                    <div class="text-center p-4">
+                                        <p class="text-muted">Belum ada riwayat tryout.</p>
+                                    </div>
                                 @endif
-                            </div>
-                            <h5 class="card-title mb-2 fs-16 text-dark flex-grow-1">{{ $data->tryout_judul}}</h5>
-                            <ul class="list-unstyled text-muted small mb-0">
-                                <li><i class="ri-calendar-2-fill text-danger align-middle me-1"></i> Deadline: {{ \Carbon\Carbon::parse($data->tryout_register_due)->format('d M Y')}}</li>
-                            </ul>
-                        </div>
-                        <div class="card-footer">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1 fs-14">
-                                    <i class="ri-group-fill text-primary align-bottom me-1"></i>
-                                    <span class="fw-medium">{{ $data->peserta_count ?? 0 }} Peserta</span>
-                                </div>
-                                <div class="flex-shrink-0">
-                                    <a href="{{ route('siswa.tryout.show', $data->tryout_id) }}" class="btn btn-sm btn-daftar-tryout">
-                                        Lihat Detail
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                            </div><!-- end cardbody -->
+                        </div><!-- end card -->
                     </div>
+                    <!-- end col -->
                 </div>
-                @empty
-                <div class="col-12">
-                    <div class="empty-state">
-                        <i class="ri-folder-zip-line"></i>
-                        <h4 class="fs-18">Oops! Belum Ada Tryout</h4>
-                        <p class="text-muted">Saat ini belum ada tryout yang tersedia untuk Anda.</p>
-                    </div>
-                </div>
-                @endforelse
-            </div>
-            @if ($tryout->hasPages()) <div class="mt-2">{{ $tryout->links() }}</div> @endif
-        </div>
 
-        <div class="col-lg-4">
-            @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h4 class="card-title mb-0">Perkembangan Nilai</h4>
-                </div>
-                <div class="card-body">
-                    <div id="line_chart_datalabel" data-colors='["#980000"]' class="apex-charts" dir="ltr"></div>
-                </div>
-            </div>
-            @endif
-        </div>
-    </div>
+                <div class="row mt-4">
+                    <div class="col-lg-12">
+                        @if(isset($recent_tryouts) && $recent_tryouts->count() > 0)
+                        <div class="mb-4">
+                            <h5 class="fs-18 mb-3">Baru Diakses</h5>
 
-    @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
-    <div class="row mt-4">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title mb-0">Riwayat Tryout Selesai</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nama Tryout</th>
-                                    <th>Tanggal</th>
-                                    <th>Nilai</th>
-                                    <th class="text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($riwayat_pengerjaan as $item)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->masterTryout->tryout_judul }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</td>
-                                    <td><span class="badge bg-success fs-13">{{ $item->nilai_akhir }}</span></td>
-                                    <td class="text-center">
-                                        <a href="{{ route('siswa.tryout.pengerjaan.analisa', $item->pengerjaan_id) }}" class="btn btn-sm btn-outline-primary">Lihat Analisis</a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                            @foreach($recent_tryouts as $recent)
+                                @php
+                                    if(isset($recent->tryout_id)) {
+                                        $t = $recent;
+                                        $accessedAt = null;
+                                    } elseif(isset($recent->masterTryout)) {
+                                        $t = $recent->masterTryout;
+                                        $accessedAt = $recent->updated_at ?? $recent->created_at ?? null;
+                                    } else {
+                                        $t = null;
+                                        $accessedAt = null;
+                                    }
+                                @endphp
+
+                                @if($t)
+                                <a href="{{ route('siswa.tryout.show', $t->tryout_id) }}" class="recent-link-wrapper">
+                                    <div class="recent-item">
+                                        <img src="{{ $t->tryout_banner ? Storage::url($t->tryout_banner) : URL::asset('/assets/images/default-thumb.png') }}" alt="thumbnail" class="recent-thumb">
+
+                                        <div class="flex-grow-1">
+                                            <h6 class="recent-title mb-0">{{ Str::limit($t->tryout_judul, 70) }}</h6>
+                                            {{-- [CHANGE] Tampilkan hanya jika ada tanggal --}}
+                                            @if($accessedAt)
+                                                <div class="recent-sub">{{ \Carbon\Carbon::parse($accessedAt)->diffForHumans() }}</div>
+                                            @endif
+
+                                            <div class="recent-tags">
+                                                @if(isset($t->materi) && count($t->materi) > 0)
+                                                    @foreach(collect($t->materi)->take(2) as $m)
+                                                        <span class="badge">{{ $m->refMateri->ref_materi_judul }}</span>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="ms-3 recent-continue">
+                                            <span class="btn btn-sm btn-outline-primary">Lanjutkan</span>
+                                        </div>
+                                    </div>
+                                </a>
+                                @endif
+                            @endforeach
+                        </div>
+                        @endif
+
+                        <h4 class="fs-18 mb-3">Tryout Terbaru Untukmu</h4>
+                        <div class="row">
+                            @forelse($tryout as $data)
+                            <div class="col-md-6 mb-4">
+                                <div class="card tryout-card h-100 {{ $data->is_can_register ? 'disabled' : '' }}">
+                                    <img src="{{Storage::url($data->tryout_banner)}}" alt="{{$data->tryout_judul}}" class="card-img-top">
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="materi-tags mb-2 d-flex flex-wrap gap-1">
+                                            @foreach(collect($data->materi)->take(2) as $materi)
+                                            <span class="badge badge-soft-info">{{ $materi->refMateri->ref_materi_judul}}</span>
+                                            @endforeach
+                                            @if(count($data->materi) > 2)
+                                            <span class="badge badge-soft-secondary">+{{ count($data->materi) - 2 }}</span>
+                                            @endif
+                                        </div>
+                                        <h5 class="card-title mb-2 fs-16 text-dark flex-grow-1">{{ $data->tryout_judul}}</h5>
+                                        <ul class="list-unstyled text-muted small mb-0">
+                                            <li><i class="ri-calendar-2-fill text-danger align-middle me-1"></i> Deadline: {{ \Carbon\Carbon::parse($data->tryout_register_due)->format('d M Y')}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1 fs-14">
+                                                <i class="ri-group-fill text-primary align-bottom me-1"></i>
+                                                <span class="fw-medium">{{ $data->peserta_count ?? 0 }} Peserta</span>
+                                            </div>
+                                            <div class="flex-shrink-0">
+                                                <a href="{{ route('siswa.tryout.show', $data->tryout_id) }}" class="btn btn-sm btn-daftar-tryout">
+                                                    Lihat Detail
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @empty
+                            <div class="col-12">
+                                <div class="empty-state">
+                                    <i class="ri-folder-zip-line"></i>
+                                    <h4 class="fs-18">Oops! Belum Ada Tryout</h4>
+                                    <p class="text-muted">Saat ini belum ada tryout yang tersedia untuk Anda.</p>
+                                </div>
+                            </div>
+                            @endforelse
+                        </div>
+                        @if ($tryout->hasPages()) <div class="mt-2">{{ $tryout->links() }}</div> @endif
                     </div>
                 </div>
-            </div>
-        </div>
+
+            </div> <!-- end .h-100-->
+
+        </div> <!-- end col -->
+
+
     </div>
-    @endif
 
     @endsection
     @section('script')

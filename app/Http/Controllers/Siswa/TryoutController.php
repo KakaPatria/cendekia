@@ -18,9 +18,8 @@ class TryoutController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $tryout = Tryout::whereHas('peserta', function ($q) use ($user) {
-            return $q->where('user_id', $user->id);
-        })
+        $tryout = TryoutPeserta::with('masterTryout')
+            ->where('user_id', $user->id)
             ->paginate(10);
         $load['tryout'] = $tryout;
         //dd($load);
@@ -36,20 +35,16 @@ class TryoutController extends Controller
     {
         $user = auth()->user();
 
-        $tryoutRekomendasi = Tryout::orderBy(DB::raw("CASE WHEN tryout_kelas = '" . $user->kelas . "' THEN 0 WHEN tryout_jenjang = '" . $user->jenjang . "' THEN 1 ELSE 2 END "))
-            ->limit(3)
-            ->get();
-        $load['tryout_rekomendasi'] = $tryoutRekomendasi;
-
-        $tryoutAll = Tryout::where('tryout_status', 'Aktif')
-            ->get()
-            ->groupBy('tryout_jenjang');
-
-
-        $load['tryout_all'] = $tryoutAll;
-
-        if ($request->jenjang == 'SD') {
-            $tryoutSD = Tryout::where('tryout_status', 'Aktif')
+        if ($request->filter) {
+            $load['title'] = "Tryout untuk " . $request->jenjang;
+            $dataTryout = Tryout::where('tryout_jenjang', $request->jenjang)
+                ->where('tryout_status', 'Aktif')
+                ->where(
+                    'tryout_register_due',
+                    '>=',
+                    date('Y-m-d')
+                )
+                ->whereHas('materi')
                 ->when($request->kelas, function ($q, $kelas) {
                     return $q->whereIn('tryout_kelas', $kelas);
                 })
@@ -57,38 +52,26 @@ class TryoutController extends Controller
                     return $q->whereIn('tryout_jenis', $jenis);
                 })
                 ->when($request->q, function ($q, $keyword) {
-                    return $q->where('tryout_judul', 'like', "%".$keyword."%");
+                    return $q->where('tryout_judul', 'like', "%" . $keyword . "%");
                 })
+                ->orderBy('updated_at', 'desc')
+
                 ->paginate(5);
-            $load['tryout_sd'] = $tryoutSD;
-        }
-        if ($request->jenjang == 'SMP') {
-            $tryoutSD = Tryout::where('tryout_status', 'Aktif')
-                ->when($request->kelas, function ($q, $kelas) {
-                    return $q->whereIn('tryout_kelas', $kelas);
-                })
-                ->when($request->jenis, function ($q, $jenis) {
-                    return $q->whereIn('tryout_jenis', $jenis);
-                })
-                ->when($request->q, function ($q, $keyword) {
-                    return $q->where('tryout_judul', 'like', "%$keyword%");
-                })
-                ->paginate(5);
-            $load['tryout_smp'] = $tryoutSD;
-        }
-        if ($request->jenjang == 'SMA') {
-            $tryoutSD = Tryout::where('tryout_status', 'Aktif')
-                ->when($request->kelas, function ($q, $kelas) {
-                    return $q->whereIn('tryout_kelas', $kelas);
-                })
-                ->when($request->jenis, function ($q, $jenis) {
-                    return $q->whereIn('tryout_jenis', $jenis);
-                })
-                ->when($request->q, function ($q, $keyword) {
-                    return $q->where('tryout_judul', 'like', "%$keyword%");
-                })
-                ->paginate(5);
-            $load['tryout_sma'] = $tryoutSD;
+
+            $load['data_tryout'] = $dataTryout;
+        } else {
+            $dataTryout = Tryout::orderBy(DB::raw("CASE WHEN tryout_kelas = '" . $user->kelas . "' THEN 0 WHEN tryout_jenjang = '" . $user->jenjang . "' THEN 1 ELSE 2 END "))
+                ->limit(3)
+                ->whereHas('materi')
+
+                ->where('tryout_status', 'Aktif')
+                ->orderBy('updated_at', 'desc')
+                ->get()
+                ->filter(function ($tryout) {
+                    return $tryout->is_can_register;
+                });
+            $load['title'] = "Rekomendasi Untuk Anda";
+            $load['data_tryout'] = $dataTryout;
         }
 
         return view('pages.siswa.tryout.library', $load);
@@ -179,18 +162,13 @@ class TryoutController extends Controller
     public function detail($id)
     {
         $user = auth()->user();
-        $tryout = Tryout::whereHas('peserta', function ($q) use ($user) {
-            return $q->where('user_id', $user->id);
-        })
-            ->where('tryout_id', $id)->first();
 
-        /*if ($tryout->tryout_status != 'Aktif') {
-            return redirect(route('siswa.tryout.index'))->with('error', "Tryout tidak dapat diakses");
-        }*/
-        if (!$tryout) {
-            return redirect()->back()
-                ->withErrors(('Anda tidak memiliki akses di tryout ini'));
-        }
+        $tryoutPeserta = TryoutPeserta::with('masterTryout')
+            ->where('user_id', $user->id)
+            ->where('tryout_peserta_id', $id)
+            ->first(); 
+        $tryout = Tryout::where('tryout_id', $tryoutPeserta->tryout_id)->first();
+
 
         $tryout = $tryout->load('materi.refMateri');
         //dd($tryout->getAverageNilai());

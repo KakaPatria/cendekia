@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Siswa\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -137,6 +138,8 @@ Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
 Route::get('/login', [SiswaUserController::class, 'login'])->name('login');
 Route::get('/google/redirect', [SiswaUserController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [SiswaUserController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::post('/webhook/midtrans/notify', [PaymentController::class, 'handleNotification']);
+
 
 Route::name('siswa.')->prefix('siswa')->group(function () {
     Route::post('login', [SiswaUserController::class, 'doLogin'])->name('doLogin');
@@ -171,6 +174,8 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
         Route::get('tryout/{nilai}/leave', [SiswaPengerjaanController::class, 'leave'])->name('tryout.pengerjaan.leave');
         Route::get('tryout/{nilai}/selesai', [SiswaPengerjaanController::class, 'selesai'])->name('tryout.pengerjaan.selesai');
         Route::get('analisa/{pengerjaan_id}/detail', [SiswaPengerjaanController::class, 'analisa'])->name('tryout.pengerjaan.analisa');
+
+        Route::post('/payment', [PaymentController::class, 'createSnapToken'])->name('payment.snapToken');
 
         Route::post('logout', [SiswaUserController::class, 'logout'])->name('logout');
     });

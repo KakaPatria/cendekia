@@ -111,11 +111,11 @@
         <div class="tab-content">
             <div class="tab-pane active show" id="tab-saol" role="tabpanel">
                 @foreach($tryout_materi->soal as $soal)
-                <h5 class="fs-14">{{ $soal->tryout_nomor}}</h5>
+
 
                 <div class="row">
                     @if($tryout_materi->jenis_soal == 'PDF')
-
+                    {!! $soal->tryout_soal !!}
                     <div class="col-lg-3">
 
                         <a class="image-popup w-20" href="{{ Storage::url($soal->tryout_soal) }}" title="">
@@ -133,6 +133,7 @@
                     @else
                     <div class="col-lg-6">
                         <div class="container-fluid overflow-auto">
+                            <h5 class="fs-14">{{ $soal->tryout_nomor}}</h5>
                             {!! $soal->tryout_soal !!}
 
                         </div>
@@ -142,8 +143,11 @@
                     <div class="col-lg-6">
                         <div class="align-items-center d-flex mb-2">
                             <div class="flex-grow-1">
-                                <h5 class="fs-14">Point Nilai :{{ $soal->point}}</h5>
+                                <h5 class="fs-14">Point Nilai : {{ $soal->point}}</h5>
+                                <h5 class="fs-14">Jenis Soal : {{ $soal->tryout_soal_type}}</h5>
+
                             </div>
+
                             <div class="flex-shrink-0 mb-2">
                                 <a href="{{route('panel.tryout_jawaban.edit',$soal->tryout_soal_id)}}" class="btn rounded-pill btn-primary btn-sm ">
                                     <i class="fa fa-edit"></i> Ubah Soal
@@ -153,6 +157,7 @@
                             </div>
                         </div>
 
+                        @if($soal->tryout_soal_type != 'MCMA')
                         <table class="table table-responsive">
                             <tbody>
                                 @foreach($soal->jawaban as $jawaban)
@@ -165,6 +170,44 @@
 
                             </tbody>
                         </table>
+                        @endif
+                        @if($soal->tryout_soal_type === 'MCMA')
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr> 
+                                        <th>Pernyataan</th>
+                                        <th style="width: 120px;">Kunci Jawaban</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                    $opsi = $soal->jawaban; // relasi TryoutJawaban
+                                    $kunci = json_decode($soal->tryout_kunci_jawaban, true) ?? [];
+                                    @endphp
+
+                                    @foreach ($opsi as $index => $jawaban)
+                                    <tr> 
+                                        <td>{!! $jawaban->tryout_jawaban_isi !!}</td>
+                                        <td>
+                                            @php
+                                            $key = $jawaban->tryout_jawaban_prefix;
+                                            $nilai = $kunci[$key] ?? '-';
+                                            @endphp
+                                            <span class="badge 
+                                {{ $nilai === 'Benar' ? 'bg-success' : 
+                                   ($nilai === 'Salah' ? 'bg-danger' : 'bg-secondary') }}">
+                                                {{ $nilai }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @endif
+
+
 
                     </div>
                 </div>

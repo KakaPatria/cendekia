@@ -84,10 +84,11 @@ class Tryout extends Model
 
         return $this->getRawOriginal('tryout_nominal') ? true : false;
     }
+
     public function getIsCanRegisterAttribute($value)
     {
 
-        return $this->getRawOriginal('tryout_register_due') <= date('Y-m-d') ? true : false;
+        return  date('Y-m-d') <=  $this->getRawOriginal('tryout_register_due') ? true : false;
         //return true;
     }
 

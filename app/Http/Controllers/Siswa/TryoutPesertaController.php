@@ -71,7 +71,12 @@ class TryoutPesertaController extends Controller
         } else {
             $prefix = PrefixNumber::find('Invoice')->first();
             $prefix->value = $prefix->value + 1;
-            $prefix->update();
+
+
+            $nominal = $tryout->getRawOriginal('tryout_nominal') ?? 0;
+            $diskon = $tryout->getRawOriginal('tryout_diskon') ?? 0;
+
+            $harga_jual = $nominal - ($nominal * $diskon / 100);
 
             $invoice = new Invoice();
             $invoice->user_id = $user->id;
@@ -80,9 +85,13 @@ class TryoutPesertaController extends Controller
             $invoice->tryout_id = $request->tryout_id;
             $invoice->tryout_peserta_id = $peserta->tryout_peserta_id;
             $invoice->amount = $tryout->getRawOriginal('tryout_nominal');
+            $invoice->discount = $tryout->getRawOriginal('tryout_diskon');
+            $invoice->total = $harga_jual;
             $invoice->status = 0;
             $invoice->due_date = Carbon::now()->addDays(7)->format('Y-m-d');
             $invoice->save();
+
+            $prefix->update();
 
             //dd($invoice,$peserta,$prefix);
             return redirect()->route('siswa.invoice.show', $invoice->inv_id)

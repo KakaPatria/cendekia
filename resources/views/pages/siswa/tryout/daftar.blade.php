@@ -40,7 +40,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label" for="gen-info-password-input">Biaya</label>
-                <input type="text" class="form-control bg-light" id="" value="{{ $tryout->tryout_nominal}}" readonly>
+                <input type="text" class="form-control bg-light" id="" value="{{ $tryout->tryout_harga_jual_formatted}}" readonly>
 
             </div>
             <hr>

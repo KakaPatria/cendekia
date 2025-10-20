@@ -184,7 +184,8 @@ class PendaftaranController extends Controller
     {
 
         $peserta =  TryoutPeserta::with('siswa', 'masterTryout')->find($id);
-        $load['peserta'] = $peserta;
+       
+        $load['peserta'] = $peserta;    
 
         if ($peserta->tryout_peserta_status) {
             $telpon = $peserta->waNumber;
