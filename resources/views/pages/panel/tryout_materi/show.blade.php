@@ -114,8 +114,7 @@
 
 
                 <div class="row">
-                    @if($tryout_materi->jenis_soal == 'PDF')
-                    {!! $soal->tryout_soal !!}
+                    @if($tryout_materi->jenis_soal == 'PDF') 
                     <div class="col-lg-3">
 
                         <a class="image-popup w-20" href="{{ Storage::url($soal->tryout_soal) }}" title="">

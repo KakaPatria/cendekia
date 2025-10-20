@@ -80,7 +80,6 @@ class TryoutSoalController extends Controller
 
         // Validasi dasar
         $request->validate([
-            'soal' => 'required|string',
             'jenis_soal' => 'required|in:SC,MC,MCMA',
             'point' => 'nullable|numeric|min:0',
             'jawaban' => 'required|array|min:1',
@@ -89,10 +88,11 @@ class TryoutSoalController extends Controller
         // Jika ada upload file (opsional)
         if ($request->hasFile('soal')) {
             $request->validate([
-                'soal' => 'required|mimes:pdf|max:10000',
+                'soal' => 'required|mimes:jpg,png,jpeg|max:10000',
             ]);
 
             $file = $request->file('soal');
+  
             $directory = 'public/uploads/soal';
             if (!Storage::exists($directory)) {
                 Storage::makeDirectory($directory);
@@ -101,9 +101,7 @@ class TryoutSoalController extends Controller
             $fileName = time() . '_' . $file->getClientOriginalName();
             $file->storeAs($directory, $fileName);
             $tryoutSoal->tryout_soal = $directory . '/' . $fileName;
-        } else {
-            $tryoutSoal->tryout_soal = $request->soal;
-        }
+        }  
 
         // Simpan jenis soal
         $tryoutSoal->tryout_soal_type = $request->jenis_soal;

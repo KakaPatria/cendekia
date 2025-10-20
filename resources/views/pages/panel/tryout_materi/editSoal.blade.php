@@ -45,6 +45,13 @@
                             <div class="col lg-6">
                                 <h4 class="card-title mb-2 flex-grow-1">Pertanyaan</h4>
                                 @if($tryout_materi->jenis_soal == 'PDF')
+                                <div class="overflow-auto">
+                                    <div class="d-flex mb-2 text-center border border-dark" style="height: 300px;">
+                                        <a class="image-popup " href="{{ Storage::url($soal->tryout_soal) }}" title="">
+                                            <img class="gallery-img img-fluid mx-auto  border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
+                                        </a>
+                                    </div>
+                                </div>
                                 <div class="form-group mb-3 " id="file-soal-input">
                                     <label class="col-form-label ">File Soal</label>
                                     <div class="">
@@ -221,47 +228,6 @@
             }, 500); //
         });
 
-        $('.jenis-soal').on('change', function() {
-            const jenis = $(this).val();
-            const container = $(this).closest('.soal-container');
-            const tbody = container.find('.jawaban-table tbody');
-
-            // Reset tampilan
-            container.find('#jenis-jawaban').addClass('d-none');
-            tbody.find('.opsi-cell').html('');
-
-            if (jenis === 'SC' || jenis === 'MC') {
-                // Buat checkbox
-                tbody.find('tr').each(function() {
-                    const abjad = $(this).find('td:first').text().replace('.', '').trim();
-                    $(this).find('.opsi-cell').html(`
-                <input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="${abjad}">
-            `);
-                });
-
-                // Single Choice hanya 1 boleh dipilih
-                if (jenis === 'SC') {
-                    container.find('.opsi-checkbox').off('change').on('change', function() {
-                        if (this.checked) container.find('.opsi-checkbox').not(this).prop('checked', false);
-                    });
-                }
-
-            } else if (jenis === 'MCMA') {
-                // Tampilkan pilihan jenis jawaban
-                container.find('#jenis-jawaban').removeClass('d-none');
-                tbody.find('tr').each(function() {
-                    const abjad = $(this).find('td:first').text().replace('.', '').trim();
-                    $(this).find('.opsi-cell').html(`
-                <select class="form-select" name="opsi_jawaban_mcma[${abjad}]">
-                    <option value="">--Pilih--</option>
-                    <option value="Benar">Benar</option>
-                    <option value="Salah">Salah</option>
-                </select>
-            `);
-                });
-            }
-        });
-
         function imageHandler() {
             const input = document.createElement('input');
             input.setAttribute('type', 'file');
@@ -307,6 +273,47 @@
         quill.getModule('toolbar').addHandler('image', imageHandler);
     <?php } ?>
 
+    $('.jenis-soal').on('change', function() {
+        const jenis = $(this).val();
+        const container = $(this).closest('.soal-container');
+        const tbody = container.find('.jawaban-table tbody');
+
+        // Reset tampilan
+        container.find('#jenis-jawaban').addClass('d-none');
+        tbody.find('.opsi-cell').html('');
+
+        if (jenis === 'SC' || jenis === 'MC') {
+            // Buat checkbox
+            tbody.find('tr').each(function() {
+                const abjad = $(this).find('td:first').text().replace('.', '').trim();
+                $(this).find('.opsi-cell').html(`
+                <input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="${abjad}">
+            `);
+            });
+
+            // Single Choice hanya 1 boleh dipilih
+            if (jenis === 'SC') {
+                alert("sc");
+                container.find('.opsi-checkbox').off('change').on('change', function() {
+                    if (this.checked) container.find('.opsi-checkbox').not(this).prop('checked', false);
+                });
+            }
+
+        } else if (jenis === 'MCMA') {
+            // Tampilkan pilihan jenis jawaban
+            container.find('#jenis-jawaban').removeClass('d-none');
+            tbody.find('tr').each(function() {
+                const abjad = $(this).find('td:first').text().replace('.', '').trim();
+                $(this).find('.opsi-cell').html(`
+                <select class="form-select" name="opsi_jawaban_mcma[${abjad}]">
+                    <option value="">--Pilih--</option>
+                    <option value="Benar">Benar</option>
+                    <option value="Salah">Salah</option>
+                </select>
+            `);
+            });
+        }
+    });
 
     <?php
     if ($soal->tryout_kunci_jawaban) {
