@@ -42,6 +42,8 @@
                                 <td class="fw-medium">Jenis</td>
                                 <td>{{ $tryout->tryout_jenis}}</td>
                             </tr>
+                            @if($tryout->tryout_jenis == 'Berbayar')
+
                             <tr>
                                 <td class="fw-medium">Harga</td>
                                 <td>Rp.{{ $tryout->tryout_nominal}}</td>
@@ -54,6 +56,7 @@
                                 <td class="fw-medium">Total</td>
                                 <td>Rp.{{ $tryout->tryout_harga_jual_formatted}}</td>
                             </tr>
+                            @endif
 
                         </tbody>
                     </table>

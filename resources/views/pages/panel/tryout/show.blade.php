@@ -121,7 +121,7 @@
                         <div class="flex-shrink-0">
 
                             {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
-                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                            @if((Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2) && $tryout->is_open == 'Cendekia')
 
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-peserta-modal">
                                 <i class="fa fa-edit"></i> Tambah Peserta
@@ -291,9 +291,14 @@
                                 <td>{{ $tryout->tryout_status}}</td>
                             </tr>
                             <tr>
+                                <td class="fw-medium">Umum</td>
+                                <td>{{ $tryout->is_open}}</td>
+                            </tr>
+                            <tr>
                                 <td class="fw-medium">Jenis</td>
                                 <td>{{ $tryout->tryout_jenis}}</td>
                             </tr>
+                            @if($tryout->tryout_jenis == 'Berbayar')
                             <tr>
                                 <td class="fw-medium">Biaya</td>
                                 <td>Rp. {{ $tryout->tryout_nominal}}</td>
@@ -306,6 +311,7 @@
                                 <td class="fw-medium">Harga Jual</td>
                                 <td>Rp. {{ $tryout->tryout_harga_jual_formatted }}</td>
                             </tr>
+                            @endif
 
                         </tbody>
                     </table>

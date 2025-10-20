@@ -1,7 +1,8 @@
 @extends('layouts.panel.master')
 @section('title') Tryout @endsection
 @section('css')
- 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
 @endsection
 @section('content')
 @component('components.breadcrumb')
@@ -99,19 +100,19 @@
                         <div class="col-md-9">
                             <select id="add-is-open" class="form-control" name="is_open">
                                 <option value="">Pilih Umum / Tidak</option>
-                                <option value="Ya">Ya</option>
-                                <option value="Tidak">Tidak</option>
+                                <option value="Cendekia">Cendekia</option>
+                                <option value="Cendekia">Umum</option>
                             </select>
 
                         </div>
-                    </div> 
+                    </div>
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Biaya</label>
 
                         <div class="col-md-9">
                             <div class="input-group ">
                                 <span class="input-group-text" id="">Rp</span>
-                                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"name="tryout_nominal" id="tryout-nominal" value="{{ old('tryout_nominal',$tryout->tryout_nominal)}}" />
+                                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="tryout_nominal" id="tryout-nominal" value="{{ old('tryout_nominal',$tryout->tryout_nominal)}}" />
 
                             </div>
                         </div>
@@ -142,7 +143,7 @@
 <script src="{{ URL::asset('assets/js/pages/form-pickers.init.js') }}"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
- 
+
 
 <script>
     $('#nav-tryout').addClass('active')
@@ -150,6 +151,12 @@
 
         $('#tryout-nominal').val(formatRupiah($(this).val()))
     })
+
+    $('#input_register_due').datepicker({
+        format: 'd-M-yyyy',
+        todayHighlight: true,
+        autoclose: true
+    });
 
     function formatRupiah(angka) {
         console.log(angka)
