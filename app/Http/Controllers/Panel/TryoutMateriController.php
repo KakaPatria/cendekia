@@ -318,7 +318,7 @@ class TryoutMateriController extends Controller
             Storage::makeDirectory($outputImagePath);
         }
 
-        $pdf = new \Spatie\PdfToImage\Pdf(public_path('storage/uploads/soal/' . $pdfFilePath));
+        $pdf = new \Spatie\PdfToImage\Pdf(storage_path('app/public/uploads/soal/' . $pdfFilePath));
 
         $pageNumber =  $pdf->getNumberOfPages(); //returns an int
 
@@ -329,12 +329,12 @@ class TryoutMateriController extends Controller
             if ($i % 2 == 0) {
                 $fileName = 'jawaban_' . $i . '_' . time() . '.jpg';
                 $pdf->setPage($i)
-                    ->saveImage(public_path('storage/uploads/soal/image/' . $fileName));
+->saveImage(storage_path('app/public/uploads/soal/image/' . $fileName));
                 $susunJawaban[] =  'public/uploads/soal/image/' . $fileName;
             } else {
                 $fileName = 'soal_' . $i . '_' . time() . '.jpg';
                 $pdf->setPage($i)
-                    ->saveImage(public_path('storage/uploads/soal/image/' . $fileName));
+                    ->saveImage(storage_path('app/public/uploads/soal/image/' . $fileName));
                 $susunSoal[] = 'public/uploads/soal/image/' . $fileName;
             }
         }
