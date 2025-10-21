@@ -23,7 +23,7 @@
                         <h5 class="card-title">Analisa Soal Nomor {{ $pengerjaan->soal->tryout_nomor}}</h5>
                     </div>
                     <div class="flex-shrink-0">
-                    <a href="javascript:history.back()" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+                        <a href="javascript:history.back()" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
                     </div>
                 </div>
 
@@ -61,7 +61,30 @@
                     <div class="col-lg-6">
                         <h5 class="mb-2"> <small class="text-muted">Jawaban</small></h5>
                         <h5 class="mb-2"> <small class="">Point : {{ $pengerjaan->soal->point}}</small></h5>
-                        <h5 class="mb-2"> <small class=" ">Jawaban Anda {{ $pengerjaan->tryout_jawaban}}</small></h5>
+                        @if($pengerjaan->soal->tryout_soal_type == 'MCMA')
+                        @php
+                        $dataJabawan = json_decode($pengerjaan->tryout_jawaban ?? []);
+                        @endphp
+                        <td>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Opsi</th>
+                                        <th>Jawaban</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($dataJabawan as $key => $value)
+                                    <tr>
+                                        <td>{{ $key }}</td>
+                                        <td>{{ $value }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </td>
+                        @else
+                        <h5 class="mb-2"> <small class=" ">Jawaban Anda {{ implode(', ', json_decode($pengerjaan->tryout_jawaban ?? "[]"))}}</small></h5>
                         <table class="table table-responsive">
                             <tbody>
                                 @foreach($pengerjaan->soal->jawaban as $jawaban)
@@ -74,6 +97,7 @@
 
                             </tbody>
                         </table>
+                        @endif
 
                     </div>
                 </div>

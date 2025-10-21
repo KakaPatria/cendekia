@@ -165,7 +165,7 @@
 
                                         @endif
                                         @else
-                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
+                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
                                             Mulai Kerjakan
                                         </a>
                                         @endif
@@ -297,6 +297,7 @@
                                     <tr>
                                         <th scope="col">No. </th>
                                         <th scope="col">Jawaban </th>
+                                        <th scope="col">Jenis Soal</th>
                                         <th scope="col">Kunci Jawaban</th>
                                         <th scope="col">Point</th>
                                         <th scope="col">Status</th>
@@ -308,9 +309,62 @@
                                     <tr>
 
                                         <td>{{ $soal->tryout_nomor}}</td>
-                                        <td>{{ $soal->pengerjaan->tryout_jawaban ?? ''}}</td>
-                                        {{--<td>{{ implode(', ', json_decode($soal->tryout_kunci_jawaban))}}</td>--}}
-                                        <td>{{ $soal->point}}</td>
+                                        @if($soal->tryout_soal_type == 'MCMA')
+                                        @php
+                                        $dataJabawan = json_decode($soal->pengerjaan->tryout_jawaban ?? []);
+                                        @endphp
+                                        <td>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Opsi</th>
+                                                        <th>Jawaban</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($dataJabawan as $key => $value)
+                                                    <tr>
+                                                        <td>{{ $key }}</td>
+                                                        <td>{{ $value }}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        @else
+
+
+                                        <td>{{ implode(', ', json_decode($soal->pengerjaan->tryout_jawaban ?? "[]"))}}</td>
+                                        @endif
+
+                                        <td>{{ $soal->tryout_soal_type ?? ''}}</td>
+                                        @if($soal->tryout_soal_type == 'MCMA')
+                                        @php
+                                        $dataKunciJabawan = json_decode($soal->tryout_kunci_jawaban ?? []);
+                                        @endphp
+                                        <td>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Opsi</th>
+                                                        <th>Jawaban</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($dataKunciJabawan as $key => $value)
+                                                    <tr>
+                                                        <td>{{ $key }}</td>
+                                                        <td>{{ $value }}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        @else
+                                        <td>{{ implode(', ', json_decode($soal->tryout_kunci_jawaban))}}</td>
+                                        @endif
+
+                                        <td>{{ $soal->pengerjaan->point}}</td>
                                         <td>{!! $soal->pengerjaan->status_badge ?? '' !!}</td>
                                         <td>
                                             @if($soal->pengerjaan)

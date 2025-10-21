@@ -15,6 +15,10 @@ Tryout
         <div class="text-center">
             <h3 class="">{{$tryout_materi->tryoutMaster->tryout_judul}}</h2>
                 <h3 class="mb-2"> <small class="text-muted">{{$tryout_materi->refMateri->ref_materi_judul}}</small></h2>
+                    <div>
+                        <h4> <span class="badge badge-outline-secondary">Sisa Waktu : <span id="countdown" class="countdown-time ms-1">00:00:00</span></span></h4>
+
+                    </div>
                     {{-- <p>Anda akan dialihkan dalam <span id="timer"></span>.</p> --}}
         </div>
     </div>
@@ -49,10 +53,7 @@ Tryout
                             <h4 class="mb-2  d-block"> Soal Nomor {{ $soal->tryout_nomor}}</h4>
                         </div>
                         <div class="flex-shrink-0">
-                            <div>
-                                <h4> <span class="badge badge-outline-secondary">Sisa Waktu : <span id="countdown" class="countdown-time ms-1">00:00:00</span></span></h4>
 
-                            </div>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -219,8 +220,12 @@ Tryout
     });
 
     <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
-        <?php if ($soal->pengerjaan) { ?>
-            {{--$('#jawaban-{{ $soal->tryout_soal_id}}-{{ $soal->pengerjaan->tryout_jawaban}}').prop('checked', true);--}}
+        <?php if ($soal->pengerjaan) { ?> {
+                {
+                    --$('#jawaban-{{ $soal->tryout_soal_id}}-{{ $soal->pengerjaan->tryout_jawaban}}').prop('checked', true);
+                    --
+                }
+            }
             $('#smartwizard').smartWizard("next");
         <?php  } ?>
     <?php  } ?>

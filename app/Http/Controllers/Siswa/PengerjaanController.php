@@ -13,11 +13,11 @@ use Carbon\Carbon;
 
 class PengerjaanController extends Controller
 {
-    public function create($id,$tryout_peserta_id)
+    public function create($id, $tryout_peserta_id)
     {
 
         $tryoutMateri = TryoutMateri::with('tryoutMaster', 'soal.jawaban', 'soal.pengerjaan')->find($id);
-        
+
         if (!$tryoutMateri->tryoutMaster->is_registered) {
             return redirect()->route('siswa.tryout.detail', $tryout_peserta_id)
                 ->withError(('Maaf Anda tidak terdaftar dalam tryout ini'));
@@ -26,7 +26,7 @@ class PengerjaanController extends Controller
             return redirect()->route('siswa.tryout.detail', $tryout_peserta_id)
                 ->withError(('Maaf Tryout sudah tidak aktif'));
         }
-        
+
         /*if (!$tryoutMateri->in_periode) {
             return redirect()->route('siswa.tryout.show', $tryoutMateri->tryout_id)
                 ->withError(('Maaf Tryout sedang tidak dalam periode pengerjaan'));
@@ -75,7 +75,7 @@ class PengerjaanController extends Controller
         return view('pages.siswa.pengerjaan.create', $load);
     }
 
-    public function jawab(Request $request, $id)
+    public function jawabOld(Request $request, $id)
     {
 
         $request->validate([
@@ -107,7 +107,92 @@ class PengerjaanController extends Controller
         $pengerjaan->save();
     }
 
-    public function leave($id,$tryout_peserta_id ,Request $request)
+
+    public function jawab(Request $request,$id)
+    {
+        $nilai = TryoutNilai::find($id);
+        $nilai->soal_dijekerjakan = $request->soal_nomor;
+        $nilai->last_soal_id = $request->tryout_soal_id;
+        $nilai->save();
+
+        $soal = TryoutSoal::find($request->tryout_soal_id);
+
+        $jawabanSiswa = $request->jawaban;
+        $kunci = json_decode($soal->tryout_kunci_jawaban, true);
+        $nilai = 0;
+        $status = 'Salah';
+        $detail_status = [];
+
+
+        $simpanJawaban = [];
+        switch ($soal->tryout_soal_type) {
+            case 'SC':
+                if ($jawabanSiswa === $kunci[0]) {
+                    $nilai = $soal->point;
+                    $status = 'Benar';
+                }
+                $simpanJawaban = (array) $jawabanSiswa;
+
+                break;
+
+            case 'MC':
+                $benar = count(array_intersect($jawabanSiswa, $kunci));
+                $totalBenar = count($kunci);
+                $salah = count(array_diff($jawabanSiswa, $kunci));
+                $nilai = max(0, (($benar - $salah) / $totalBenar) * $soal->point);
+                $status = ($benar == $totalBenar && $salah == 0)
+                    ? 'Benar'
+                    : (($benar > 0) ? 'Sebagian Benar' : 'Salah');
+
+                $simpanJawaban = $jawabanSiswa;
+
+                break;
+
+            case 'MCMA':
+                $benar = 0;
+                $total = count($kunci);
+                foreach ($kunci as $key => $val) {
+                    if (isset($jawabanSiswa[$key]) && $jawabanSiswa[$key] == $val) {
+                        $benar++;
+                        $detail_status[$key] = 'Benar';
+                    } else {
+                        $detail_status[$key] = 'Salah';
+                    }
+                }
+                $nilai = ($benar / $total) * $soal->point;
+                $status = ($benar == $total)
+                    ? 'Benar'
+                    : (($benar > 0) ? 'Sebagian Benar' : 'Salah');
+
+                $simpanJawaban = $jawabanSiswa;
+
+                break;
+        }
+ 
+        // Simpan hasil ke DB
+        TryoutPengerjaan::updateOrCreate(
+            [
+                'tryout_soal_id' => $soal->tryout_soal_id,
+                'user_id' => auth()->id(),
+                'tryout_materi_id' => $request->tryout_materi_id,
+            ],
+            [
+                'tryout_jawaban' => json_encode($simpanJawaban),
+                'point' => round($nilai, 2),
+                'status' => $status,
+            ]
+        );
+
+        return response()->json([
+            'success' => true,
+            //'nilai' => round($nilai, 2),
+            //'status' => $status,
+            //'detail_status' => $detail_status
+        ]);
+    }
+
+
+    public function leave($id, $tryout_peserta_id, Request $request)
     {
         $now = now();
         $nilai = TryoutNilai::find($id);
@@ -149,8 +234,8 @@ class PengerjaanController extends Controller
         return redirect()->intended(route('siswa.tryout.detail', $tryout_peserta_id))->withSuccess($message);
     }
 
-    public function selesai($id,$tryout_peserta_id)
-    { 
+    public function selesai($id, $tryout_peserta_id)
+    {
         $nilai = TryoutNilai::find($id);
 
         if ($nilai->status == 'Selesai') {
@@ -163,7 +248,7 @@ class PengerjaanController extends Controller
         $salah = $pengerjaan->where('status', 'Salah')->count();
         $pengerjaan = TryoutPengerjaan::with('soal')->where('tryout_materi_id', $nilai->tryout_materi_id)
             ->where('user_id', auth()->user()->id);
-        $benar = $pengerjaan->where('status', 'Benar');
+        $benar = $pengerjaan->whereIn('status', ['Benar','Sebagian Benar']);
 
         $totalPoint = 0;
         foreach ($benar->get() as $key => $value) {

@@ -18,6 +18,7 @@ class TryoutPengerjaan extends Model
         'user_id',
         'tryout_jawaban',
         'status', 
+        'point'
     ];
 
     public function soal(){
