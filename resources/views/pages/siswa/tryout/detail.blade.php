@@ -159,13 +159,13 @@
                                         @if($tryout->tryout_status == 'Aktif')
                                         @if($materi->nilaiUser)
                                         @if($materi->nilaiUser->status == 'Proses')
-                                        <a href="javascript:;" class="btn btn-danger w-100 lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',$materi->tryout_materi_id)}}">
+                                        <a href="javascript:;" class="btn btn-danger w-100 lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
                                             Lanjutkan Pengerjaan
                                         </a>
 
                                         @endif
                                         @else
-                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',$materi->tryout_materi_id)}}">
+                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
                                             Mulai Kerjakan
                                         </a>
                                         @endif
@@ -309,7 +309,7 @@
 
                                         <td>{{ $soal->tryout_nomor}}</td>
                                         <td>{{ $soal->pengerjaan->tryout_jawaban ?? ''}}</td>
-                                        <td>{{ implode(', ', json_decode($soal->tryout_kunci_jawaban))}}</td>
+                                        {{--<td>{{ implode(', ', json_decode($soal->tryout_kunci_jawaban))}}</td>--}}
                                         <td>{{ $soal->point}}</td>
                                         <td>{!! $soal->pengerjaan->status_badge ?? '' !!}</td>
                                         <td>

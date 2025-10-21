@@ -13,26 +13,27 @@ use Carbon\Carbon;
 
 class PengerjaanController extends Controller
 {
-    public function create($id)
+    public function create($id,$tryout_peserta_id)
     {
 
         $tryoutMateri = TryoutMateri::with('tryoutMaster', 'soal.jawaban', 'soal.pengerjaan')->find($id);
-
+        
         if (!$tryoutMateri->tryoutMaster->is_registered) {
-            return redirect()->route('siswa.tryout.show', $tryoutMateri->tryout_id)
+            return redirect()->route('siswa.tryout.detail', $tryout_peserta_id)
                 ->withError(('Maaf Anda tidak terdaftar dalam tryout ini'));
         }
         if ($tryoutMateri->tryoutMaster->tryout_status != 'Aktif') {
-            return redirect()->route('siswa.tryout.show', $tryoutMateri->tryout_id)
+            return redirect()->route('siswa.tryout.detail', $tryout_peserta_id)
                 ->withError(('Maaf Tryout sudah tidak aktif'));
         }
-        if (!$tryoutMateri->in_periode) {
+        
+        /*if (!$tryoutMateri->in_periode) {
             return redirect()->route('siswa.tryout.show', $tryoutMateri->tryout_id)
                 ->withError(('Maaf Tryout sedang tidak dalam periode pengerjaan'));
-        }
+        }*/
 
         if ($tryoutMateri->soal->count() == 0) {
-            return redirect()->route('siswa.tryout.detail', $tryoutMateri->tryout_id)
+            return redirect()->route('siswa.tryout.detail', $tryout_peserta_id)
                 ->withError(('Maaf Tryout belum bisa dikerjakan'));
         }
 
@@ -68,6 +69,7 @@ class PengerjaanController extends Controller
             $sisaWaktu = ($tryoutMateri->durasi * 60) - ($nilai->durasi_berjalan ?? 0);
         }
         //dd($sisaWaktu);
+        $load['tryout_peserta_id'] = $tryout_peserta_id;
         $load['sisa_waktu'] = $sisaWaktu;
 
         return view('pages.siswa.pengerjaan.create', $load);
@@ -105,7 +107,7 @@ class PengerjaanController extends Controller
         $pengerjaan->save();
     }
 
-    public function leave($id, Request $request)
+    public function leave($id,$tryout_peserta_id ,Request $request)
     {
         $now = now();
         $nilai = TryoutNilai::find($id);
@@ -144,11 +146,11 @@ class PengerjaanController extends Controller
             $message = 'Meninggalkan tryout, Waktu Pengerjaan sudah habis!';
         }
 
-        return redirect()->intended(route('siswa.tryout.detail', $nilai->tryout_id))->withSuccess($message);
+        return redirect()->intended(route('siswa.tryout.detail', $tryout_peserta_id))->withSuccess($message);
     }
 
-    public function selesai($id)
-    {
+    public function selesai($id,$tryout_peserta_id)
+    { 
         $nilai = TryoutNilai::find($id);
 
         if ($nilai->status == 'Selesai') {
@@ -177,7 +179,7 @@ class PengerjaanController extends Controller
         //dd($nilai);
         $nilai->update();
 
-        return redirect()->intended(route('siswa.tryout.detail', $nilai->tryout_id))->withSuccess('Tryout Selesai, Terimakasih sudah mengerjakan dengan penuh semangat');
+        return redirect()->intended(route('siswa.tryout.detail', $tryout_peserta_id))->withSuccess('Tryout Selesai, Terimakasih sudah mengerjakan dengan penuh semangat');
     }
 
     public function analisa($id)
