@@ -1,5 +1,6 @@
 @extends('layouts.master-without-nav')
 @section('title') Landing @endsection
+@section('body-attr', 'data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-offset="100" tabindex="0"')
 @section('css')
 <link href="{{ URL::asset('assets/libs/swiper/swiper.min.css') }}" rel="stylesheet" type="text/css" />
 
@@ -82,7 +83,7 @@ html {
 
 /* Active State */
 .navbar-nav .nav-link.active {
-  background: linear-gradient(135deg, #2c2b29ff 0%, #2c2b29ff 100%) !important;
+  background: linear-gradient(135deg, #e1e1e1ff 0%, #e1e1e1ff 100%) !important;
   color: #ffffff !important;
   box-shadow: 0 4px 15px rgba(32, 30, 30, 0.2) !important;
   transform: translateY(-2px) !important;
@@ -1439,3 +1440,17 @@ function openMaps(event) {
 }
 </script>
 
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+                target: '#navbar-example',
+                offset: 70
+            });
+
+            // Optional: reinitialize on resize (buat jaga-jaga)
+            window.addEventListener('resize', function () {
+                bootstrap.ScrollSpy.getInstance(document.body).refresh();
+            });
+        });
+    </script>
+@endsection
