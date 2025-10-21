@@ -90,6 +90,7 @@ class TryoutMateriController extends Controller
 
 
                 $result = $this->convertPdfToImage(($fileName));
+                
                 $postSoal = [];
                 $nomorSoal = 1;
                 foreach ($result as $key => $value) {
@@ -238,7 +239,7 @@ class TryoutMateriController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function storeJawaban($id, Request $request)
-    { 
+    {
         $susunJawaban = [];
         $urutan = 1;
 
@@ -303,7 +304,7 @@ class TryoutMateriController extends Controller
             }
 
             $tryoutSoal->update();
-        } 
+        }
         // --- Insert jawaban baru ---
         TryoutJawaban::where('tryout_materi_id', $id)->delete();
         TryoutJawaban::insert($susunJawaban);
@@ -320,28 +321,47 @@ class TryoutMateriController extends Controller
 
         $pdf = new \Spatie\PdfToImage\Pdf(storage_path('app/public/uploads/soal/' . $pdfFilePath));
 
-        $pageNumber =  $pdf->getNumberOfPages(); //returns an int
-
+        $pageNumber = $pdf->getNumberOfPages();
         $susunSoal = [];
         $susunJawaban = [];
+
         for ($i = 1; $i <= $pageNumber; $i++) {
 
+            // buat nama file
+            $fileName = ($i % 2 == 0 ? 'jawaban_' : 'soal_') . $i . '_' . time() . '.jpg';
+            $fullPath = storage_path('app/public/uploads/soal/image/' . $fileName);
+
+            // konversi ke gambar
+            $pdf->setPage($i)->saveImage($fullPath);
+
+            // buka hasil gambar pakai Imagick
+            $imagick = new \Imagick($fullPath);
+
+            // ambil ukuran asli
+            $width = $imagick->getImageWidth();
+            $height = $imagick->getImageHeight();
+
+            // crop setengah bagian atas
+            $imagick->cropImage($width, $height / 2, 0, 0); // x=0, y=0 artinya mulai dari atas
+            $imagick->writeImage($fullPath);
+
+            // simpan ke array hasil
             if ($i % 2 == 0) {
-                $fileName = 'jawaban_' . $i . '_' . time() . '.jpg';
-                $pdf->setPage($i)
-->saveImage(storage_path('app/public/uploads/soal/image/' . $fileName));
-                $susunJawaban[] =  'public/uploads/soal/image/' . $fileName;
+                $susunJawaban[] = 'public/uploads/soal/image/' . $fileName;
             } else {
-                $fileName = 'soal_' . $i . '_' . time() . '.jpg';
-                $pdf->setPage($i)
-                    ->saveImage(storage_path('app/public/uploads/soal/image/' . $fileName));
                 $susunSoal[] = 'public/uploads/soal/image/' . $fileName;
             }
+
+            // bersihkan memory
+            $imagick->clear();
+            $imagick->destroy();
         }
+
+        // susun hasil akhir
         $susunData = [];
         foreach ($susunSoal as $key => $value) {
             $susunData[$key]['soal'] = $value;
-            $susunData[$key]['jawaban'] = isset($susunJawaban[$key]) ? $susunJawaban[$key] : '';
+            $susunData[$key]['jawaban'] = $susunJawaban[$key] ?? '';
         }
 
         return $susunData;

@@ -51,9 +51,13 @@
                                         <h4 class="card-title mb-2 flex-grow-1">Pertanyaan</h4>
 
                                         @if($tryout_materi->jenis_soal == 'PDF')
-                                        <a class="image-popup w-50" href="{{ Storage::url($soal->tryout_soal) }}" title="">
-                                            <img class="gallery-img img-fluid mx-auto w-50" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
-                                        </a>
+                                        <div class="overflow-auto">
+                                            <div class="d-flex mb-2 text-center border border-dark" style="height: 300px;">
+                                                <a class="image-popup " href="{{ Storage::url($soal->tryout_soal) }}" title="">
+                                                    <img class="gallery-img img-fluid mx-auto  border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
                                         @else
                                         <div id="editor-{{ $key}}" style="height:300px" class="mb-2">
                                         </div>

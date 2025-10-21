@@ -43,40 +43,103 @@ Tryout
             <div class="tab-content">
                 @foreach($tryout_materi->soal as $key => $soal)
                 <div id="step-{{ $key }}" class="tab-pane" role="tabpanel" aria-labelledby="step-{{ $key }}">
-                    <h5 class="mb-2  d-block"> No. {{ $soal->tryout_nomor}}</h5>
-                    @if($tryout_materi->jenis_soal == 'PDF')
-                    <div class="overflow-auto">
-                        <div class="d-flex mb-2 text-center border border-dark" style="height: 300px;">
-                            <a class="image-popup " href="{{ Storage::url($soal->tryout_soal) }}" title="">
-                                <img class="gallery-img img-fluid mx-auto  border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
-                            </a>
+
+                    <div class="align-items-center d-flex mb-2">
+                        <div class="flex-grow-1">
+                            <h4 class="mb-2  d-block"> Soal Nomor {{ $soal->tryout_nomor}}</h4>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div>
+                                <h4> <span class="badge badge-outline-secondary">Sisa Waktu : <span id="countdown" class="countdown-time ms-1">00:00:00</span></span></h4>
+
+                            </div>
                         </div>
                     </div>
-                    @else
-                    <div class="overflow-auto h-5 border border-dark p-3" style="height: 300px;">
-                        {!! $soal->tryout_soal !!}
-                    </div>
-                    @endif
+                    <div class="row mb-3">
+                        <div class="col-lg-6">
+                            @if($tryout_materi->jenis_soal == 'PDF')
+                            <div class="overflow-auto">
+                                <div class="d-flex mb-2 text-center border border-dark" style="height: 300px;">
+                                    <a class="image-popup " href="{{ Storage::url($soal->tryout_soal) }}" title="">
+                                        <img class="gallery-img img-fluid mx-auto  border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            @else
+                            <div class="overflow-auto h-5 border border-dark p-3" style="height: 300px;">
+                                {!! $soal->tryout_soal !!}
+                            </div>
+                            @endif
+                        </div>
 
-                    <div class="text-center mt-2">
-                        <h4 class="card-title mb-2 flex-grow-1">Jawaban Soal No. {{ $soal->tryout_nomor}}</h4>
-                    </div>
-                    <div class="d-flex justify-content-center mb-2">
-                        <div class="w-100">
-                            <div class="list-group">
-                                <form action="{{ route('siswa.tryout.pengerjaan.jawab',$tryout_nilai->tryout_nilai_id) }}" id="form-{{ $key}}">
-                                    @csrf
-                                    <input type="hidden" name="tryout_materi_id" value="{{$tryout_materi->tryout_materi_id}}">
-                                    <input type="hidden" name="soal_nomor" value="{{$soal->tryout_nomor}}">
-                                    <input type="hidden" name="tryout_soal_id" value="{{$soal->tryout_soal_id}}">
-                                    @foreach($soal->jawaban as $jawaban)
-                                    <label class="list-group-item">
-                                        <input class="form-check-input me-1" id="jawaban-{{ $soal->tryout_soal_id}}-{{ $jawaban->tryout_jawaban_prefix}}" name="jawaban" type="radio" value="{{$jawaban->tryout_jawaban_prefix}}" required>
-                                        {{ $jawaban->tryout_jawaban_prefix}}. {{ $jawaban->tryout_jawaban_isi}}
-                                        <div class="invalid-feedback">Pilih salah satu jawaban</div>
-                                    </label>
-                                    @endforeach
-                                </form>
+                        <div class="col-lg-6">
+                            <div class="d-flex justify-content-center mb-2">
+                                <div class="w-100">
+                                    <div class="list-group">
+                                        <form action="{{ route('siswa.tryout.pengerjaan.jawab',$tryout_nilai->tryout_nilai_id) }}" id="form-{{ $key}}">
+                                            @csrf
+                                            <input type="hidden" name="tryout_materi_id" value="{{$tryout_materi->tryout_materi_id}}">
+                                            <input type="hidden" name="soal_nomor" value="{{$soal->tryout_nomor}}">
+                                            <input type="hidden" name="tryout_soal_id" value="{{$soal->tryout_soal_id}}">
+                                            @if($soal->tryout_soal_type == 'SC')
+
+                                            @foreach($soal->jawaban as $jawaban)
+                                            <label class="list-group-item">
+                                                <input class="form-check-input me-1" id="jawaban-{{ $soal->tryout_soal_id}}-{{ $jawaban->tryout_jawaban_prefix}}" name="jawaban" type="radio" value="{{$jawaban->tryout_jawaban_prefix}}" required>
+                                                {{ $jawaban->tryout_jawaban_prefix}}. {{ $jawaban->tryout_jawaban_isi}}
+                                                <div class="invalid-feedback">Pilih salah satu jawaban</div>
+                                            </label>
+                                            @endforeach
+                                            @endif
+
+                                            @if($soal->tryout_soal_type == 'MC')
+                                            @foreach($soal->jawaban as $jawaban)
+                                            <label class="list-group-item">
+                                                <input class="form-check-input me-1"
+                                                    id="jawaban-{{ $soal->tryout_soal_id }}-{{ $jawaban->tryout_jawaban_prefix }}"
+                                                    name="jawaban[]"
+                                                    type="checkbox"
+                                                    value="{{ $jawaban->tryout_jawaban_prefix }}">
+                                                {{ $jawaban->tryout_jawaban_prefix }}. {{ $jawaban->tryout_jawaban_isi }}
+                                            </label>
+                                            @endforeach
+                                            @endif
+
+                                            @if($soal->tryout_soal_type == 'MCMA')
+                                            @php
+                                            $notes = explode(',', $soal->notes ?? 'Benar,Salah');
+                                            @endphp
+                                            <table class="table table-bordered align-middle text-center">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Opsi</th>
+                                                        <th>Jawaban</th>
+                                                        @foreach ($notes as $n)
+                                                        <th>{{ $n }}</th>
+                                                        @endforeach
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($soal->jawaban as $jawaban)
+                                                    <tr>
+                                                        <td>{{ $jawaban->tryout_jawaban_prefix }}</td>
+                                                        <td class="text-start">{{ $jawaban->tryout_jawaban_isi }}</td>
+                                                        @foreach ($notes as $n)
+                                                        <td>
+                                                            <input type="radio"
+                                                                name="jawaban[{{ $jawaban->tryout_jawaban_prefix }}]"
+                                                                value="{{ $n }}"
+                                                                required>
+                                                        </td>
+                                                        @endforeach
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                            @endif
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,7 +220,7 @@ Tryout
 
     <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
         <?php if ($soal->pengerjaan) { ?>
-            $('#jawaban-{{ $soal->tryout_soal_id}}-{{ $soal->pengerjaan->tryout_jawaban}}').prop('checked', true);
+            {{--$('#jawaban-{{ $soal->tryout_soal_id}}-{{ $soal->pengerjaan->tryout_jawaban}}').prop('checked', true);--}}
             $('#smartwizard').smartWizard("next");
         <?php  } ?>
     <?php  } ?>
@@ -201,7 +264,7 @@ Tryout
             showCloseButton: true
         }).then(function(result) {
             if (result.value) {
-                window.location.href = "{{ route('siswa.tryout.pengerjaan.selesai',$tryout_nilai->tryout_nilai_id )}}";
+                window.location.href = "{{ route('siswa.tryout.pengerjaan.selesai',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id] )}}";
             }
         });
     })
@@ -218,9 +281,12 @@ Tryout
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
 
+            // 🔹 tampilkan hasilnya di HTML
+            $('#countdown').text(hours + ":" + minutes + ":" + seconds);
+
             if (--timer < 0) {
                 clearInterval(timerInterval);
-                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,'type=1'] )}}";
+                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id,'type=1']) }}";
             }
         }, 1000);
     }
@@ -248,7 +314,7 @@ Tryout
             showCloseButton: true
         }).then(function(result) {
             if (result.value) {
-                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',$tryout_nilai->tryout_nilai_id )}}";
+                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id] )}}";
             }
         });
     })
@@ -267,7 +333,7 @@ Tryout
             showCloseButton: true
         }).then(function(result) {
             if (result.value) {
-                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',$tryout_nilai->tryout_nilai_id )}}";
+                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id] )}}";
             }
         });
     });

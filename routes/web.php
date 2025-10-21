@@ -168,11 +168,11 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
         Route::resource('invoice', SiswaInvoiceController::class);
 
         Route::get('siswa/detail/{id}', [SiswaController::class, 'detail'])->name('siswa.detail');
-        Route::get('tryout/{tryout_materi_id}/pengerjaan', [SiswaPengerjaanController::class, 'create'])->name('tryout.pengerjaan.create');
+        Route::get('tryout/{tryout_materi_id}/pengerjaan/{tryout_peserta_id}', [SiswaPengerjaanController::class, 'create'])->name('tryout.pengerjaan.create');
         Route::post('tryout/{tryout_materi_id}/pengerjaan', [SiswaPengerjaanController::class, 'store'])->name('tryout.pengerjaan.store');
         Route::post('tryout/{nilai}/jawab', [SiswaPengerjaanController::class, 'jawab'])->name('tryout.pengerjaan.jawab');
-        Route::get('tryout/{nilai}/leave', [SiswaPengerjaanController::class, 'leave'])->name('tryout.pengerjaan.leave');
-        Route::get('tryout/{nilai}/selesai', [SiswaPengerjaanController::class, 'selesai'])->name('tryout.pengerjaan.selesai');
+        Route::get('tryout/{nilai}/leave/{tryout_peserta_id}', [SiswaPengerjaanController::class, 'leave'])->name('tryout.pengerjaan.leave');
+        Route::get('tryout/{nilai}/selesai/{tryout_peserta_id}', [SiswaPengerjaanController::class, 'selesai'])->name('tryout.pengerjaan.selesai');
         Route::get('analisa/{pengerjaan_id}/detail', [SiswaPengerjaanController::class, 'analisa'])->name('tryout.pengerjaan.analisa');
 
         Route::post('/payment', [PaymentController::class, 'createSnapToken'])->name('payment.snapToken');
