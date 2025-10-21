@@ -82,7 +82,7 @@ html {
 
 /* Active State */
 .navbar-nav .nav-link.active {
-  background: linear-gradient(135deg, #2c2b29ff 0%, #2c2b29ff 100%) !important;
+  background: linear-gradient(135deg, #e1e1e1ff 0%, #e1e1e1ff 100%) !important;
   color: #ffffff !important;
   box-shadow: 0 4px 15px rgba(32, 30, 30, 0.2) !important;
   transform: translateY(-2px) !important;
