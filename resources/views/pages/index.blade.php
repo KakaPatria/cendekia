@@ -1,5 +1,6 @@
 @extends('layouts.master-without-nav')
 @section('title') Landing @endsection
+@section('body-attr', 'data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-offset="100" tabindex="0"')
 @section('css')
 <link href="{{ URL::asset('assets/libs/swiper/swiper.min.css') }}" rel="stylesheet" type="text/css" />
 
@@ -1439,3 +1440,17 @@ function openMaps(event) {
 }
 </script>
 
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+                target: '#navbar-example',
+                offset: 70
+            });
+
+            // Optional: reinitialize on resize (buat jaga-jaga)
+            window.addEventListener('resize', function () {
+                bootstrap.ScrollSpy.getInstance(document.body).refresh();
+            });
+        });
+    </script>
+@endsection
