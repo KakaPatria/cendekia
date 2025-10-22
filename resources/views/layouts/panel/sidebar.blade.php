@@ -196,10 +196,14 @@
 
 /* Submenu */
 .menu-dropdown .nav-link {
+    display: block;
     color: #452103 !important;
-    padding: 8px 30px !important;
-    border-radius: 6px;
-    transition: background-color 0.25s ease, color 0.25s ease;
+    margin: 4px 14px !important; /* sama jarak kiri-kanan dengan menu utama */
+    padding: 10px 16px !important;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
 }
 .menu-dropdown .nav-link.active {
     background-color: rgba(152, 0, 0, 0.1) !important;
