@@ -147,45 +147,68 @@
     border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-/* Menu utama */
+/* === Menu utama fix === */
+#navbar-nav > .nav-item {
+    width: 100%;
+}
+
 #navbar-nav > .nav-item > .nav-link {
-    background-color: var(--primary-yellow) !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent !important;
     color: #452103 !important;
-    margin: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.3s ease;
+    padding: 10px 16px;
+    margin: 6px 14px !important; /* jarak biar ga nempel ke tepi sidebar */
+    border-radius: 8px;
     font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    box-sizing: border-box;
 }
-#navbar-nav > .nav-item > .nav-link i {
-    color: #452103 !important;
-    transition: all 0.3s ease;
-}
+
+/* Hover */
 #navbar-nav > .nav-item > .nav-link:hover {
     background-color: #f0c946 !important;
     color: white !important;
-    transform: scale(1.03);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+
+/* Aktif (kotak merah) */
 #navbar-nav > .nav-item > .nav-link.active {
     background-color: var(--primary-red) !important;
-    color: white !important;
-    transform: scale(1.03);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
-#navbar-nav > .nav-item > .nav-link.active i,
-#navbar-nav > .nav-item > .nav-link:hover i {
-    color: white !important;
+
+/* Ikon */
+#navbar-nav > .nav-item > .nav-link i {
+    color: #452103 !important;
+    transition: color 0.25s ease;
+    font-size: 18px;
+}
+
+/* Hover/Aktif ikon */
+#navbar-nav > .nav-item > .nav-link:hover i,
+#navbar-nav > .nav-item > .nav-link.active i {
+    color: #fff !important;
 }
 
 /* Submenu */
 .menu-dropdown .nav-link {
     color: #452103 !important;
-    padding-left: 2rem !important;
+    padding: 8px 30px !important;
+    border-radius: 6px;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 .menu-dropdown .nav-link.active {
-    background-color: rgba(152,0,0,0.1) !important;
+    background-color: rgba(152, 0, 0, 0.1) !important;
     color: var(--primary-red) !important;
 }
+.menu-dropdown .nav-link:hover {
+    background-color: rgba(240, 201, 70, 0.3) !important;
+}
+
 </style>
 
 
