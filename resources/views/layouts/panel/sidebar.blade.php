@@ -126,7 +126,9 @@
 
 /* Sidebar tertutup */
 .app-menu.closed {
-    transform: translateX(-250px);
+    transform: translateX(calc(-100% - 5px)); /* dorong sedikit lebih jauh ke kiri */
+    overflow: hidden;
+    opacity: 0;
 }
 
 /* Scroll area */
