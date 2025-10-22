@@ -48,6 +48,11 @@
                         <i class="ri-newspaper-line"></i> <span>Registrasi Tryout</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Request::routeIs('panel.invoices.*') ? 'active' : '' }}" href="{{route('panel.invoices.index')}}">
+                        <i class="ri-money-dollar-circle-line "></i> <span>Daftar Pembayaran</span>
+                    </a>
+                </li>
 
                 @php
                     $isReferensiActive = Request::routeIs('panel.bank_soal.*') || Request::routeIs('panel.materi.*') || Request::routeIs('panel.asal_sekolah.*');

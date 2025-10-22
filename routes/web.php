@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Panel\InvoiceController;
 use App\Http\Controllers\Siswa\PaymentController;
 
 /*
@@ -115,6 +116,7 @@ Route::name('panel.')->prefix('panel')->group(function () {
 
         Route::resource('role', RoleController::class);
         Route::resource('permission', PermissionController::class);
+        Route::resource('invoices', InvoiceController::class);
 
         // =======================
         // PENDAFTARAN TRYOUT

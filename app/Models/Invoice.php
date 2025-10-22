@@ -30,6 +30,11 @@ class Invoice extends Model
         'remark',
     ];
 
+    public function tryout()
+    {
+        return $this->belongsTo(Tryout::class, 'tryout_id', 'tryout_id');
+    }
+
     public function peserta()
     {
         return $this->hasOne(TryoutPeserta::class, 'tryout_peserta_id', 'tryout_peserta_id');
