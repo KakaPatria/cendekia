@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        
-        Schema::create('ref_sekolah', function (Blueprint $table) {
-            $table->string('nama_sekolah')->primary();
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('tipe_siswa', ['Cendekia', 'Umum'])->default('Umum')->after('avatar');
+
+            $table->dropColumn('referal_code');
         });
     }
 
@@ -26,5 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

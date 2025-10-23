@@ -13,10 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        
-        Schema::table('tryout_open_pendaftaran', function (Blueprint $table) {
-            $table->timestamps();
-        });
+          Schema::dropIfExists('referal_codes');
     }
 
     /**
