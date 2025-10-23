@@ -255,11 +255,7 @@
                                             </select>
                                             @error('kelas')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="referal_code" class="form-label">Kode Referal <span class="text-muted">(Opsional)</span></label>
-                                        <input type="text" class="form-control" id="referal_code" name="referal_code" value="{{ old('referal_code') }}" placeholder="Isi jika ada">
-                                    </div>
+                                    </div> 
                                     <div class="d-flex justify-content-between gap-2">
                                         <button class="btn btn-secondary" type="button" onclick="prevStep()">Kembali</button>
                                         <button class="btn btn-gradient-danger w-100 btn-lg" type="submit">Daftar Sekarang</button>

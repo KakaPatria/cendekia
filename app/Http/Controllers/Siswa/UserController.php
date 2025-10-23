@@ -291,15 +291,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'roles_id' => 1, // 👈 otomatis isi siswa
         ]);
-
-        if ($request->referal_code) {
-            $refCode = ReferalCode::find($refCode);
-
-            if ($refCode) {
-                $user->referal_code = $refCode->code;
-                $user->update();
-            }
-        }
+ 
 
         return redirect()->route('login')->with('success', 'Pendaftaran Berhasil Silahkan Login!');
     }
