@@ -16,22 +16,76 @@ class MateriSeeder extends Seeder
      */
     public function run()
     {
-       $faker = Faker::create();
+        $faker = Faker::create();
 
-        $materiSd = ['Bahasa Indonesia','Matematika','Ilmu Pengetahuan Alam'];
-        $materiSMP = ['Bahasa Indonesia','Matematika','Ilmu Pengetahuan Alam','Ilmu Pengetahuan Sosial'];
-        //$jenjangs = ['SD'];
-        //$kelas = range(2, 6);
 
-        $jenjangs = ['SMP'];
-        $kelas = range(7, 9);
+        $dataMateri = [
+            [
+                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_jenjang' => 'SD',
+                'ref_materi_kelas' => '1',
+            ],
+            [
+                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_jenjang' => 'SD',
+                'ref_materi_kelas' => '2',
+            ],
+            [
+                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_jenjang' => 'SD',
+                'ref_materi_kelas' => '3',
+            ],
+            [
+                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_jenjang' => 'SD',
+                'ref_materi_kelas' => '4',
+            ],
+            [
+                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_jenjang' => 'SD',
+                'ref_materi_kelas' => '5',
+            ],
+            [
+                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_jenjang' => 'SD',
+                'ref_materi_kelas' => '6',
+            ],
+            [
+                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_jenjang' => 'SMP',
+                'ref_materi_kelas' => '7',
+            ],
+            [
+                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_jenjang' => 'SMP',
+                'ref_materi_kelas' => '8',
+            ],
+            [
+                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_jenjang' => 'SMP',
+                'ref_materi_kelas' => '9',
+            ],
+        ];
 
-        foreach (range(1, 10) as $index) {
-            Materi::create([
-                'ref_materi_judul' => $faker->randomElement($materiSMP),
-                'ref_materi_jenjang' => $faker->randomElement($jenjangs),
-                'ref_materi_kelas' => $faker->randomElement($kelas),
-            ]);
+
+
+        foreach ($dataMateri as $key => $value) {
+            $exist =   Materi::where([
+                'ref_materi_judul' => $value['ref_materi_judul'],
+                'ref_materi_jenjang' => $value['ref_materi_jenjang'],
+                'ref_materi_kelas' => $value['ref_materi_kelas'],
+            ])->first();
+            if (!$exist) {
+                Materi::insert(
+                    [
+                        'ref_materi_judul' => $value['ref_materi_judul'],
+                        'ref_materi_jenjang' => $value['ref_materi_jenjang'],
+                        'ref_materi_kelas' => $value['ref_materi_kelas'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                );
+            }
         }
     }
 }
