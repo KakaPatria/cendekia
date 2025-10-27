@@ -59,6 +59,7 @@ class AjaxController extends Controller
 
         return response()->json($response);
     }
+
     public function cariSiswa(Request $request)
     {
         $search = $request->input('q');
@@ -85,6 +86,29 @@ class AjaxController extends Controller
 
         return response()->json($response);
     }
+
+    public function cariGuru(Request $request)
+    {
+        $search = $request->input('q');
+
+        $users = User::where(function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('email', 'LIKE', "%{$search}%");
+        })
+            //->whereNotIn('id', json_decode($request->list))
+            ->where('roles_id', 3)->get();
+
+        $response = [];
+        foreach ($users as $user) {
+            $response[] = [
+                'id' => $user->id,
+                'text' => $user->name . ' (' . $user->email . ')',
+            ];
+        }
+
+        return response()->json(['results' => $response]);
+    }
+
     public function materiTryout(Request $request)
     {
 
@@ -102,7 +126,30 @@ class AjaxController extends Controller
                         ->where('tryout_id', $tryoutId);
                 });
             })->get();
- 
+
+
+
+        $results = [];
+        foreach ($materi as $item) {
+            $results[] = [
+                'id' => $item->ref_materi_id,
+                'text' => $item->ref_materi_judul,
+            ];
+        }
+
+        return response()->json(['results' => $results]);
+    }
+
+    public function materiKelas(Request $request)
+    {
+
+        $kelas = $request->kelas;
+        $jenjang = $request->jenjang;
+
+        $materi = Materi::when($kelas, function ($q, $kelas) {
+            return $q->where('ref_materi_kelas', $kelas);
+        })->get();
+
 
 
         $results = [];

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Panel\InvoiceController;
+use App\Http\Controllers\Panel\KelasCendekiaController;
 use App\Http\Controllers\Siswa\PaymentController;
 
 /*
@@ -56,8 +57,10 @@ Route::controller(RegisterController::class)->group(function () {
 // AJAX
 // ===========================
 Route::get('ajax/materi-tryout', [AjaxController::class, 'materiTryout'])->name('ajax.materi-tryout');
+Route::get('ajax/materi-kelas', [AjaxController::class, 'materiKelas'])->name('ajax.materi-kelas');
 Route::get('ajax/cari-sekolah', [AjaxController::class, 'cariSekolah'])->name('ajax.cari-sekolah');
 Route::get('ajax/cari-siwa', [AjaxController::class, 'cariSiswa'])->name('ajax.cari-siswa');
+Route::get('ajax/cari-guru', [AjaxController::class, 'cariGuru'])->name('ajax.cari-guru');
 Route::get('ajax/get-jawaban', [AjaxController::class, 'getJawaban'])->name('ajax.get-jawaban');
 Route::post('ajax/upload-img-soal', [AjaxController::class, 'uploadImgSoal'])->name('ajax.upload-img-soal');
 
@@ -104,6 +107,23 @@ Route::name('panel.')->prefix('panel')->group(function () {
         Route::post('tryout_materi/{tryout_materi}/storeJawaban', [TryoutMateriController::class, 'storeJawaban'])->name('tryout_materi.storeJawaban');
         Route::put('tryout_materi/{tryout_materi}/updateJawaban', [TryoutMateriController::class, 'updateJawaban'])->name('tryout_materi.updateJawaban');
         Route::resource('tryout_jawaban', TryoutSoalController::class);
+
+        // =======================
+        // KELAS CENDEKIA MANGEMENT
+        // ======================= 
+        Route::name('kelas_cendekia.')->group(function () {
+            Route::get('kelas_cendekia', [KelasCendekiaController::class, 'index'])->name('index');
+            Route::get('kelas_cendekia/{id}', [KelasCendekiaController::class, 'show'])->name('show');
+            Route::post('kelas_cendekia', [KelasCendekiaController::class, 'store'])->name('store');
+            Route::put('kelas_cendekia/{id}', [KelasCendekiaController::class, 'update'])->name('update');
+
+            Route::delete('kelas_cendekia/{id}', [KelasCendekiaController::class, 'destroy'])->name('destroy');
+            
+            Route::post('kelas_cendekia/addMateri', [KelasCendekiaController::class, 'addMateri'])->name('addMateri');
+            Route::put('kelas_cendekia/updateMateri/{id}', [KelasCendekiaController::class, 'updateMateri'])->name('updateMateri');
+            Route::delete('kelas_cendekia/destroyMateri/{id}', [KelasCendekiaController::class, 'destroyMateri'])->name('destroyMateri');
+        });
+
 
         // =======================
         // REFERENSI

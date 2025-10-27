@@ -35,6 +35,7 @@ class User extends Authenticatable
         'avatar', 
         'email_verified_at',
         'remember_token',
+        'tipe_siswa',
         'password_otp',
         'password_otp_expires_at',
         'status',

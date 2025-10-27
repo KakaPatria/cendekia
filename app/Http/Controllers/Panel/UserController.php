@@ -16,11 +16,11 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $role = $request->rule ?? 'Siswa';
+        $role = $request->role ?? 'Siswa';
 
         $load['users'] = User::when($request->keyword, function ($query) use ($request) {
             // Group keyword conditions so they won't bypass role-based filtering
-            return $query->where(function($q) use ($request) {
+            return $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', "%{$request->keyword}%")
                     ->orWhere('email', 'like', "%{$request->keyword}%")
                     ->orWhere('telepon', 'like', "%{$request->keyword}%")
@@ -36,18 +36,21 @@ class UserController extends Controller
             ->when($request->kelas, function ($query) use ($request) {
                 return $query->where('kelas', $request->kelas);
             })
+            ->when($request->tipe_siswa, function ($query) use ($request) {
+                return $query->where('tipe_siswa', $request->tipe_siswa);
+            })
             ->when($role, function ($query) use ($role) {
-                return $query->where(function($q) use ($role) {
+                return $query->where(function ($q) use ($role) {
                     if ($role === 'Siswa') {
                         // Only include users that are explicitly Siswa
-                        $q->where(function($qq) {
+                        $q->where(function ($qq) {
                             $qq->whereHas('roles', function ($r) {
                                 $r->where('name', 'Siswa');
-                            })->orWhere('roles_id', 1);
+                            })->orWhereIn('roles_id', [1]);;
                         });
                     } else {
                         // Admin & Pengajar tab: only include Admin OR Pengajar (legacy ids 2 or 3)
-                        $q->where(function($qq) {
+                        $q->where(function ($qq) {
                             $qq->whereHas('roles', function ($r) {
                                 $r->whereIn('name', ['Admin', 'Pengajar']);
                             })->orWhereIn('roles_id', [2, 3]);
@@ -55,6 +58,7 @@ class UserController extends Controller
                     }
                 });
             })
+            ->orderByDesc('created_at')
             ->paginate(10);
 
         $load['roles'] = Role::get();
@@ -63,7 +67,7 @@ class UserController extends Controller
         $load['filter_role'] = $request->role;
         $load['filter_jenjang'] = $request->jenjang;
         $load['filter_kelas'] = $request->kelas;
-    $load['filter_golongan'] = $request->golongan;
+        $load['filter_golongan'] = $request->golongan;
         $load['roleX'] = $role;
 
         return view('pages.panel.user.index', ($load));
@@ -77,15 +81,15 @@ class UserController extends Controller
      */
 
     public function create(Request $request)
-{
-    $load['title'] = "Tambah User";
-    $load['sub_title'] = "";
-    $load['roles'] = Role::latest()->get();
-    $load['permissions'] = Permission::latest()->get();
-    $load['roleX'] = $request->roleX ?? 'Siswa';
-    
-    return view('pages.panel.user.create', $load);
-}
+    {
+        $load['title'] = "Tambah User";
+        $load['sub_title'] = "";
+        $load['roles'] = Role::latest()->get();
+        $load['permissions'] = Permission::latest()->get();
+        $load['roleX'] = $request->roleX ?? 'Siswa';
+
+        return view('pages.panel.user.create', $load);
+    }
 
     public function edit($id, Request $request)
     {
@@ -104,19 +108,19 @@ class UserController extends Controller
         return view('pages.panel.user.edit', ($load));
     }
 
-public function show($id)
-{
-    $user = User::findOrFail($id);
-    $roleX = $user->roles->pluck('name')->first() ?? '-';
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        $roleX = $user->roles->pluck('name')->first() ?? '-';
 
-    // Ambil semua nilai tryout milik user ini
-    $nilaiTryout = \App\Models\TryoutNilai::where('user_id', $user->id)->get();
+        // Ambil semua nilai tryout milik user ini
+        $nilaiTryout = \App\Models\TryoutNilai::where('user_id', $user->id)->get();
 
-    // Hitung rata-rata nilai (jika ingin ditampilkan)
-    $rataRataNilai = $nilaiTryout->avg('nilai') ?? 0;
+        // Hitung rata-rata nilai (jika ingin ditampilkan)
+        $rataRataNilai = $nilaiTryout->avg('nilai') ?? 0;
 
-    return view('pages.panel.user.detail', compact('user', 'roleX', 'nilaiTryout', 'rataRataNilai'));
-}
+        return view('pages.panel.user.detail', compact('user', 'roleX', 'nilaiTryout', 'rataRataNilai'));
+    }
 
 
 
@@ -139,10 +143,11 @@ public function show($id)
                 'asal_sekolah' => 'required|string|max:255',
                 'jenjang' => 'required|string|in:SD,SMP,SMA',
                 'kelas' => 'required|integer|min:1|max:12',
-                'golongan' => 'nullable|string|max:50',
+                //'golongan' => 'nullable|string|max:50',
                 'nama_orang_tua' => 'required|string',
                 'telp_orang_tua' => 'required|numeric',
                 'alamat' => 'required|string|max:255',
+                'tipe_siswa' => 'required|string|in:Cendekia,Umum',
             ]);
         } else {
             $validator = Validator::make($request->all(), [
@@ -162,7 +167,8 @@ public function show($id)
         }
 
         //dd($validated);
-        $user->update($validated);
+        
+        $user->update($validated); 
 
 
         if ($request->hasFile('avatar')) {
@@ -192,7 +198,7 @@ public function show($id)
         }
 
 
-        return redirect()->route('panel.user.index', 'rule=' . $request->rolex)
+        return redirect()->route('panel.user.index', 'role=' . $request->rolex)
             ->withSuccess(('User berhasil diupdate.'));
     }
 
@@ -215,7 +221,8 @@ public function show($id)
                 'asal_sekolah' => 'required|string|max:255',
                 'jenjang' => 'required|string|in:SD,SMP,SMA',
                 'kelas' => 'required|integer|min:1|max:12',
-                'golongan' => 'nullable|string|max:50',
+                //'golongan' => 'nullable|string|max:50',
+                'tipe_siswa' => 'required|string|in:Cemdekia,Umum',
                 'nama_orang_tua' => 'required|string',
                 'telp_orang_tua' => 'required|numeric',
                 'alamat' => 'required|string|max:255',
@@ -236,11 +243,12 @@ public function show($id)
             'telepon' => $request->telepon,
             'asal_sekolah' => $request->asal_sekolah,
             'jenjang' => $request->jenjang,
-            'golongan' => $request->golongan ?? null,
+            //'golongan' => $request->golongan ?? null,
             'kelas' => $request->kelas,
             'alamat' => $request->alamat,
             'nama_orang_tua' => $request->nama_orang_tua,
             'telp_orang_tua' => $request->telp_orang_tua,
+            'tipe_siswa' => $request->tipe_siswa,
             'password' => Hash::make($request->password),
 
         ]);
@@ -270,7 +278,7 @@ public function show($id)
         $user->syncRoles($role);
         $user->syncPermissions($request->get('permissions'));
 
-        return redirect()->route('panel.user.index', 'rule=' . $request->rolex)
+        return redirect()->route('panel.user.index', 'role=' . $request->rolex)
             ->withSuccess(('User Berhasil ditambahkan.'));
     }
 
@@ -329,6 +337,4 @@ public function show($id)
         Auth::logout();
         return redirect(route('panel.login'))->with('success', 'anda berhasil logout.');
     }
-
-    
 }

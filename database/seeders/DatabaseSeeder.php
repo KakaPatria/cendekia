@@ -23,9 +23,11 @@ class DatabaseSeeder extends Seeder
         //$this->call(RolePermissionSeeder::class);
         //$this->call(TryoutNilaiSeeder::class);
         $this->call([
-        SiswaSeeder::class,
-        AdminSeeder::class,
-        PengajarSeeder::class,
+       //GuruSeeder::class,
+       //SiswaSeeder::class,
+       KelasCendekiaSeeder::class,
+       JadwalCendekiaSeeder::class,
+       KelasSiswaCendekiaSeeder::class
     ]);
     }
 }

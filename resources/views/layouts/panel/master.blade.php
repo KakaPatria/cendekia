@@ -35,7 +35,7 @@
         left: 250px; /* align with main-content when sidebar is open */
         width: calc(100% - 250px);
         transition: left 0.25s ease, width 0.25s ease;
-        z-index: 1100; /* pastikan topbar di atas sidebar */
+        /*z-index: 1100;  pastikan topbar di atas sidebar */
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
         will-change: left, width;

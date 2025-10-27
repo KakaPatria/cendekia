@@ -758,9 +758,9 @@ html {
    ========================================== */
 
 .landing-back-top {
-  background: #980000 !important;
+  background: #000000ff !important;
   border: none !important;
-  box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;
+  box-shadow: 0 4px 15px rgba(151, 151, 151, 0.4) !important;
   transition: all 0.3s ease !important;
 }
 

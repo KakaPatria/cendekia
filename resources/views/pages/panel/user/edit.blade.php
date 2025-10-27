@@ -107,6 +107,18 @@
                             <input type="text" class="form-control" name="telp_orang_tua" value="{{ old('telp_orang_tua', $user->telp_orang_tua) }}" />
                         </div>
                     </div>
+                    
+                    {{-- TIPE SISWA CENDEKIA/ UMUM --}}
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Tipe Siswa</label>
+                        <div class="col-md-9">
+                            <select class="form-select mb-2" id="input_tipe_siswa" name="tipe_siswa">
+                                <option value="">Pilih Tipe Siswa</option>
+                                <option value="Cendekia" {{ $user->tipe_siswa == 'Cendekia' ? 'selected' : ''}}>Cendekia</option>
+                                <option value="Umum" {{ $user->tipe_siswa == 'Umum' ? 'selected' : ''}}> Umum</option>
+                            </select>
+                        </div>
+                    </div> 
                     @endif
 
                     {{-- PASSWORD --}}
@@ -118,7 +130,8 @@
                     </div>
 
                     {{-- ROLE DAN PERMISSION (HANYA ADMIN) --}}
-                    @if(auth()->user()->hasRole('Admin'))
+              
+                    @if(auth()->user()->hasRole('Admin') && $roleX != 'Siswa')
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Role</label>
                         <div class="col-md-9">

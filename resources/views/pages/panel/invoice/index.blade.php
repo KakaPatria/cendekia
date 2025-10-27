@@ -1,5 +1,5 @@
  @extends('layouts.panel.master')
- @section('title') Pendafataran @endsection
+ @section('title') Pembayaran Tryout @endsection
  @section('css')
 
  @endsection
@@ -13,7 +13,7 @@
 
  <div class="row">
      <div class="col-lg-12">
-         <div class="card" id="invoiceList">
+         <div class="card" id="">
              <div class="card-body bg-soft-light border border-dashed border-start-0 border-end-0">
                  <form>
                      <div class="row g-3">
@@ -26,8 +26,8 @@
                          <!--end col-->
                          <div class="col-xxl-3 col-sm-4">
                              <div class="input-light">
-                                 <select class="form-control"   name="status" id="idStatus">
-                                     <option value="">All</option> 
+                                 <select class="form-control" name="status" id="idStatus">
+                                     <option value="">All</option>
                                      <option value="2" {{request('status') == '2' ? 'selected'  :''}}>Menunggu Pembayaran</option>
                                      <option value="1" {{request('status') == '1' ? 'selected'  :''}}>Lunas</option>
                                  </select>
@@ -54,7 +54,7 @@
 
                  <!-- Striped Rows -->
                  <table class="table table-striped">
-                     <thead class="table-warning">
+                     <thead class="table-light">
                          <tr>
                              <th scope="col">Nomor Transaksi</th>
                              <th scope="col" class="col-2"> Tryout</th>
@@ -86,7 +86,7 @@
                                  <a href="{{ route('panel.invoices.show',$invoice->inv_id)}}" class="btn rounded-pill btn-primary btn-sm">
                                      <i class="fa fa-edit"></i> Detail</a>
                              </td>
-                            
+
                          </tr>
                          @endforeach
 
@@ -95,10 +95,11 @@
                  {{ $invoices->withQueryString()->links() }}
              </div>
          </div>
-
      </div>
      <!--end col-->
  </div>
+
+
 
  @endsection
  @section('script')

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Storage;
+
 
 class SiswaSeeder extends Seeder
 {
@@ -20,86 +23,74 @@ class SiswaSeeder extends Seeder
      */
     public function run()
     {
-{
-        User::factory()->count(5000)->create(['roles_id' => 1]);
-    }
+        $path = storage_path('app/public/uploads/DATA SISWA LMS.xlsx');
 
-        $faker = Faker::create('id_ID');
+        // Baca file Excel jadi array
+        $spreadsheet = IOFactory::load($path);
+        $sheet = $spreadsheet->getActiveSheet();
+        $rows = $sheet->toArray();
 
-        $sekolahSD = [
-            'SD NEGERI VIDYA QASANA',
-            'SD NEGERI BUMIJO',
-            'SD NEGERI JETIS 1',
-            'SD NEGERI JETIS 2',
-            'SD NEGERI GONDOLAYU',
-            'SD NEGERI JETISHARJO',
-            'SD NEGERI COKROKUSUMAN',
-            'SD NEGERI BADRAN',
-            'SD NEGERI KYAI MOJO',
-            'SD TARAKANITA 1',
-            'SD KANISIUS GOWONGAN',
-            'SD BUDYA WACANA 1',
-            'SD BOPKRI GONDOLAYU',
-            'SD BHINNEKA TUNGGAL IKA',
-            'SD TAMANSISWA JETIS',
-            'SD NEGERI LEMPUYANGAN 1',
-            'SD NEGERI TEGALPANGGUNG',
-            'SD NEGERI LEMPUYANGWANGI',
-            'SD NEGERI WIDORO',
-            'SD MUHAMMADIYAH BAUSASRAN 1',
-            'SD MUHAMMADIYAH BAUSASRAN 2',
-            'SD NEGERI BACIRO',
-            'SD NEGERI SERAYU',
-            'SD NEGERI UNGARAN 1',
-            'SD NEGERI BHAYANGKARA',
-            'SD NEGERI DEMANGAN',
-            'SD NEGERI KLITREN',
-            'SD NEGERI SAGAN',
-            'SD NEGERI TERBANSARI 1',
-            'SD KANISIUS GAYAM 1',
-            'SD JOANNES BOSCO YOGYAKARTA',
-        ];
+        $header = array_map('trim', $rows[0]);
+        unset($rows[0]);
 
-        $sekolahSMP = [
-            'SMP NEGERI 1 Yogyakarta',
-            'SMP NEGERI 2 Yogyakarta',
-            'SMP NEGERI 3 Yogyakarta',
-            'SMP NEGERI 4 Yogyakarta',
-            'SMP NEGERI 5 Yogyakarta',
-            'SMP NEGERI 6 Yogyakarta',
-            'SMP NEGERI 7 Yogyakarta',
-            'SMP NEGERI 8 Yogyakarta',
-            'SMP NEGERI 9 Yogyakarta',
-            'SMP NEGERI 10 Yogyakarta',
-            'SMP NEGERI 1 Sleman',
-            'SMP NEGERI 2 Sleman',
-            'SMP NEGERI 3 Sleman',
-            'SMP NEGERI 4 Sleman',
-            'SMP NEGERI 5 Sleman',
-            'SMP NEGERI 6 Sleman',
-            'SMP NEGERI 7 Sleman',
-            'SMP NEGERI 8 Sleman',
-            'SMP NEGERI 9 Sleman',
-            'SMP NEGERI 10 Sleman',
-        ];
-        for ($i = 0; $i < 30; $i++) {
-            $user = User::create([
-            $user->roles_id = 1, // siswa
-                'name' => $faker->name,
-                'email' => $faker->unique()->safeEmail,
-                'telepon' => $faker->phoneNumber,
-                'asal_sekolah' => $faker->randomElement($sekolahSD),
-                //'jenjang' => $faker->randomElement(['SD', 'SMP', 'SMA']),
-                'jenjang' => 'SMP',
-                'kelas' => $faker->numberBetween(7, 9),
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'), // Use a static password for simplicity
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        foreach ($rows as $key => $value) {
+            $clean_name = strtolower($value[0]);
+            // hapus tanda baca
+            $clean_name = str_replace([".", "'", ","], "", $clean_name);
+            // ganti spasi dengan titik
+            $clean_name = str_replace(" ", ".", $clean_name);
+            // hapus spasi/tanda di awal/akhir
+            $clean_name = trim($clean_name);
+            // gabungkan jadi email
+            $email = $clean_name . "@cendekia.com";
 
-            $user->assignRole('Siswa');
+            $kelas = explode(' ', $value[2]);
+
+            $cekUser = User::where('email', 'like', $email)->first();
+
+            if ($cekUser) {
+                $cekUser->update([
+                    'roles_id' => 1, // siswa
+                    'name' => ucfirst($value[0]),
+                    'email' => $email,
+                    'telepon' => $value[4],
+                    'asal_sekolah' => $value[3],
+                    //'jenjang' => $faker->randomElement(['SD', 'SMP', 'SMA']),
+                    'jenjang' => $value[1],
+                    'kelas' => $kelas[0] ?? '0',
+                    'alamat' => $value[7],
+                    'nama_orang_tua' => $value[5],
+                    'telp_orang_tua' => $value[6],
+                    'email_verified_at' => now(),
+                    'password' => Hash::make('12345678'), // Use a static password for simplicity
+                    'remember_token' => Str::random(10),
+                    'tipe_siswa' => 'Cendekia',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $cekUser->assignRole('Siswa');
+            } else {
+                $user = User::create([
+                    'roles_id' => 1, // siswa
+                    'name' => ucfirst($value[0]),
+                    'email' => $email,
+                    'telepon' => $value[4],
+                    'asal_sekolah' => $value[3],
+                    //'jenjang' => $faker->randomElement(['SD', 'SMP', 'SMA']),
+                    'jenjang' => $value[1],
+                    'kelas' => $kelas[0] ?? '0',
+                    'alamat' => $value[7],
+                    'nama_orang_tua' => $value[5],
+                    'telp_orang_tua' => $value[6],
+                    'email_verified_at' => now(),
+                    'password' => Hash::make('12345678'), // Use a static password for simplicity
+                    'remember_token' => Str::random(10),
+                    'tipe_siswa' => 'Cendekia',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $user->assignRole('Siswa');
+            }
         }
     }
 }
