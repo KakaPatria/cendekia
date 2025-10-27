@@ -31,51 +31,26 @@ class TryoutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function library(Request $request)
-    {
-        $user = auth()->user();
+public function library(Request $request)
+{
+    $user = auth()->user();
 
-        if ($request->filter) {
-            $load['title'] = "Tryout untuk " . $request->jenjang;
-            $dataTryout = Tryout::where('tryout_jenjang', $request->jenjang)
-                ->where('tryout_status', 'Aktif')
-                ->where(
-                    'tryout_register_due',
-                    '>=',
-                    date('Y-m-d')
-                )
-                ->whereHas('materi')
-                ->when($request->kelas, function ($q, $kelas) {
-                    return $q->whereIn('tryout_kelas', $kelas);
-                })
-                ->when($request->jenis, function ($q, $jenis) {
-                    return $q->whereIn('tryout_jenis', $jenis);
-                })
-                ->when($request->q, function ($q, $keyword) {
-                    return $q->where('tryout_judul', 'like', "%" . $keyword . "%");
-                })
-                ->orderBy('updated_at', 'desc')
+    // ambil tryout sesuai jenjang dan kelas user
+    $dataTryout = Tryout::where('tryout_status', 'Aktif')
+        ->whereHas('materi')
+        ->where('tryout_jenjang', $user->jenjang)
+        ->where('tryout_kelas', $user->kelas)
+        ->orderBy('updated_at', 'desc')
+        ->get()
+        ->filter(function ($tryout) {
+            return $tryout->is_can_register;
+        });
 
-                ->paginate(5);
+    $load['title'] = "Rekomendasi Tryout untuk Jenjang " . $user->jenjang;
+    $load['data_tryout'] = $dataTryout;
 
-            $load['data_tryout'] = $dataTryout;
-        } else {
-            $dataTryout = Tryout::orderBy(DB::raw("CASE WHEN tryout_kelas = '" . $user->kelas . "' THEN 0 WHEN tryout_jenjang = '" . $user->jenjang . "' THEN 1 ELSE 2 END "))
-                ->limit(3)
-                ->whereHas('materi')
-
-                ->where('tryout_status', 'Aktif')
-                ->orderBy('updated_at', 'desc')
-                ->get()
-                ->filter(function ($tryout) {
-                    return $tryout->is_can_register;
-                });
-            $load['title'] = "Rekomendasi Untuk Anda";
-            $load['data_tryout'] = $dataTryout;
-        }
-
-        return view('pages.siswa.tryout.library', $load);
-    }
+    return view('pages.siswa.tryout.library', $load);
+}
 
     /**
      * Daftar untuk tryout.

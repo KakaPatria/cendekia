@@ -11,7 +11,7 @@
 
 
 <div class="row">
-    <div class="col-xl-3 col-lg-4">
+    <div class="col-xl-3 col-lg-4 d-none">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex">
