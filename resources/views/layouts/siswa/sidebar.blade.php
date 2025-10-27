@@ -60,3 +60,30 @@
 <!-- Left Sidebar End -->
 <!-- Vertical Overlay-->
 <div class="vertical-overlay"></div>
+
+<style>
+/* Ratakan menu ke tengah secara aman */
+.app-menu #navbar-nav {
+    display: flex;
+    justify-content: center;   /* Pusatkan semua item menu */
+    align-items: center;
+    gap: 30px;                 /* Jarak antar menu */
+    width: 100%;
+    margin: 0 auto;            /* Supaya posisinya benar-benar tengah */
+    padding-left: 0;           /* Hilangkan padding default Bootstrap */
+}
+
+/* Biar icon dan teks sejajar & rapi */
+.app-menu .navbar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: white;
+}
+
+/* Hindari tabrakan logo */
+.navbar-brand-box {
+    text-align: center;
+    width: 100%;
+}
+</style>

@@ -157,6 +157,8 @@
             border-radius: 1rem; border: 2px dashed #e9ebec;
         }
         .empty-state i { font-size: 3rem; color: var(--primary-red); margin-bottom: 1rem; }
+
+        
     </style>
     @endsection
 
