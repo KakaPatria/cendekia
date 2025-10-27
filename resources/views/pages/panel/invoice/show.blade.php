@@ -1,5 +1,5 @@
  @extends('layouts.panel.master')
- @section('title') Pendafataran @endsection
+ @section('title') Pembayaran Tryout @endsection
  @section('css')
 
  @endsection

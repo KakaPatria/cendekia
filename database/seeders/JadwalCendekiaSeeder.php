@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\JadwalCendekia;
+use App\Models\KelasCendekia;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Materi;
@@ -37,14 +38,18 @@ class JadwalCendekiaSeeder extends Seeder
         ];
 
         foreach ($listJadwal as $key => $value) {
+            $kelas = KelasCendekia::where('kelas_cendekia_nama', $value[0])
+                ->first();
+
             $materi = Materi::where('ref_materi_judul', 'like', '%' . $value[2] . '%')
                 ->where('ref_materi_kelas', $value[1])
                 ->first();
             $guru = User::where('name', 'like', '%' . $value[3] . '%')
                 ->where('roles_id', 3)
                 ->first();
-          
+
             $dataJadwal = [
+                'kelas_cendekia_id' => $kelas->kelas_cendekia_id ?? 0,
                 'ref_materi_id' => $materi->ref_materi_id ?? 0,
                 'guru_id' => $guru->id ?? 0,
                 'jadwal_cendekia_hari' => $value[4],

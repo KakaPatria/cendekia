@@ -21,47 +21,47 @@ class MateriSeeder extends Seeder
 
         $dataMateri = [
             [
-                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_judul' => 'IPA',
                 'ref_materi_jenjang' => 'SD',
                 'ref_materi_kelas' => '1',
             ],
             [
-                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_judul' => 'IPA',
                 'ref_materi_jenjang' => 'SD',
                 'ref_materi_kelas' => '2',
             ],
             [
-                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_judul' => 'IPA',
                 'ref_materi_jenjang' => 'SD',
                 'ref_materi_kelas' => '3',
             ],
             [
-                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_judul' => 'IPA',
                 'ref_materi_jenjang' => 'SD',
                 'ref_materi_kelas' => '4',
             ],
             [
-                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_judul' => 'IPA',
                 'ref_materi_jenjang' => 'SD',
                 'ref_materi_kelas' => '5',
             ],
             [
-                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_judul' => 'IPA',
                 'ref_materi_jenjang' => 'SD',
                 'ref_materi_kelas' => '6',
             ],
             [
-                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_judul' => 'IPA',
                 'ref_materi_jenjang' => 'SMP',
                 'ref_materi_kelas' => '7',
             ],
             [
-                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_judul' => 'IPA',
                 'ref_materi_jenjang' => 'SMP',
                 'ref_materi_kelas' => '8',
             ],
             [
-                'ref_materi_judul' => 'Bahasa Inggris',
+                'ref_materi_judul' => 'IPA',
                 'ref_materi_jenjang' => 'SMP',
                 'ref_materi_kelas' => '9',
             ],
