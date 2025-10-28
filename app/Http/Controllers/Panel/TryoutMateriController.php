@@ -123,10 +123,9 @@ class TryoutMateriController extends Controller
 
             // Rename file
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $fileName = '1761660654_Contoh Format Upload SOal.xlsx';
-
+            
             // Simpan file
-            //$file->storeAs($directory, $fileName);
+            $file->storeAs($directory, $fileName);
 
             $fileSoal = $directory . '/' . $fileName;
 
