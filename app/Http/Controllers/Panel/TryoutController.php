@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use App\Models\KelasCendekia;
+use App\Models\KelasSiswaCendekia;
 use App\Models\PrefixNumber;
 use App\Models\Tryout;
 use App\Models\TryoutMateri;
@@ -89,7 +91,6 @@ class TryoutController extends Controller
     public function store(Request $request)
     {
 
-        //dd($request->all());
         $request->validate([
             'tryout_judul' => 'required|string|max:255',
             'tryout_jenjang' => 'required|string|in:SD,SMP,SMA',
@@ -105,7 +106,7 @@ class TryoutController extends Controller
                     }
                 },
             ],
-            'is_open' => 'required',
+            'is_open' => 'required|in:Cendekia,Umum',
         ]);
 
         $tryout = new Tryout();
@@ -120,6 +121,36 @@ class TryoutController extends Controller
         $tryout->tryout_diskon = $request->tryout_diskon ?? 0;
         $tryout->is_open = $request->is_open;
         $tryout->save();
+
+        if ($request->is_open == 'Cendekia') {
+            $kelasCendekia = KelasCendekia::find($request->kelas_cendekia_id);
+
+            $peserta = KelasSiswaCendekia::where('kelas_cendekia_id', $request->kelas_cendekia_id)
+                ->get();
+            $listPesertaData = [];
+            foreach ($peserta as $key => $value) {
+                $listPesertaData[$key]['tryout_id'] =  $tryout->tryout_id;
+                $listPesertaData[$key]['user_id'] = $value->siswa_id;
+                $listPesertaData[$key]['tryout_peserta_name'] = $value->siswa->name;
+                $listPesertaData[$key]['tryout_peserta_telpon'] = $value->siswa->telepon;
+                $listPesertaData[$key]['tryout_peserta_email'] = $value->siswa->email;
+                $listPesertaData[$key]['tryout_peserta_alamat'] = $value->siswa->alamat ?? '';
+                $listPesertaData[$key]['tryout_peserta_status'] = 1;
+            }
+            TryoutPeserta::insert($listPesertaData);
+
+            foreach ($kelasCendekia->jadwal as $key => $value) {
+                TryoutMateri::insert([
+                    'tryout_materi_id' => Str::random(10),
+                    'tryout_id' => $tryout->tryout_id,
+                    'materi_id' => $value->ref_materi_id,
+                    'pengajar_id' => $value->guru_id,
+                    'durasi' => '90',
+                    'safe_mode' => 1,
+                    'tryout_materi_deskripsi' => $value->jadwal_cendekia_keterangan
+                ]);
+            }
+        }
 
         if ($request->file('tryout_banner')) {
             $file = $request->file('tryout_banner');
@@ -139,25 +170,6 @@ class TryoutController extends Controller
             $tryout->tryout_banner = $directory . '/' . $fileName;
             $tryout->update();
         }
-
-
-        /*$postMateri = [];
-        foreach ($request->materi_data['materi_data'] as $key => $value) {
-            if ($value['materi_id']) {
-                $postMateri[] = [
-                    'tryout_materi_id' => Str::random(10),
-                    'tryout_id' => $tryout->tryout_id,
-                    'materi_id' => $value['materi_id'],
-                    'pengajar_id' => $value['pengajar_id'],
-                    'tryout_materi_deskripsi' => $value['tryout_materi_deskripsi']
-                ];
-            }
-        }
-
-        if ($postMateri) {
-            TryoutMateri::insert($postMateri);
-        }*/
-
 
         return redirect()->route('panel.tryout.show', $tryout->tryout_id)
             ->withSuccess(('Tryout Berhasil ditambahkan.'));
@@ -196,9 +208,9 @@ class TryoutController extends Controller
                 $q->where('id', 3);
             }
         )->get();
-            
+
         $load['tryout'] = Tryout::where('tryout_id', $id)->first()->load('materi.refMateri');
- 
+
         return view('pages.panel.tryout.edit', $load);
     }
 
@@ -310,7 +322,7 @@ class TryoutController extends Controller
             'durasi' => 'required',
         ]);
         $tryout = Tryout::find($id);
- 
+
 
         TryoutMateri::insert([
             'tryout_materi_id' => Str::random(10),
