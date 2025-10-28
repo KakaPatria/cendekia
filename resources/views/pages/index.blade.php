@@ -137,7 +137,7 @@ html {
 }
 
 /* Wave kuning atas - WITH ANIMATION */
-.job-hero-section.bg-light::before {
+/*.job-hero-section.bg-light::before {
   content: '';
   position: absolute;
   top: 70px;
@@ -149,7 +149,7 @@ html {
   background-size: cover;
   background-repeat: no-repeat;
   animation: waveMove 15s ease-in-out infinite;
-}
+}*/
 
 @keyframes waveMove {
   0%, 100% {
@@ -161,7 +161,7 @@ html {
 }
 
 /* Wave kuning bawah */
-.job-hero-section.bg-light::after {
+/*.job-hero-section.bg-light::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -171,7 +171,7 @@ html {
   background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23E2B602' fill-opacity='1' d='M0,64L120,80C240,96,480,128,720,144C960,160,1200,160,1320,154.7L1440,149L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z'></path></svg>");
   background-size: cover;
   background-repeat: no-repeat;
-}
+}*/
 
 /* Hero Content Z-Index */
 .job-hero-section .container {
@@ -291,7 +291,7 @@ html {
    ========================================== */
 
 #informasi {
-  background-color: #980000 !important;
+  background-color: #ffffffff !important;
   color: #ffffff !important;
   padding-top: 100px;
   padding-bottom: 100px;
@@ -301,7 +301,7 @@ html {
 #informasi h1,
 #informasi h2,
 #informasi h3 {
-  color: #ffffff !important;
+  color: #980000 !important;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
@@ -469,7 +469,7 @@ html {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #980000 !important;
+  background-color: #ffffffff !important;
   color: #ffffff !important;
 }
 
@@ -482,13 +482,13 @@ html {
 #faq h2 {
   font-weight: 700;
   font-size: 2rem;
-  color: #ffffff !important;
+  color: #980000 !important;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
 }
 
 #faq p.text-muted {
   font-size: 1rem;
-  color: #f1f1f1 !important;
+  color: #980000 !important;
 }
 
 /* Accordion Style */
