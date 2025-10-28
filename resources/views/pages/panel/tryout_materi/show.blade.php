@@ -264,6 +264,7 @@
                             <select class="form-control select2" name="soal_jenis" id="soal-jenis">
                                 <option value="">-- Pilih Jenis Soal --</option>
                                 <option value="PDF">PDF</option>
+                                <option value="EXCEL">EXCEL</option>
                                 <option value="FORM">FORM</option>
 
                             </select>
@@ -515,7 +516,7 @@
     $('#soal-jenis').change(function() {
         var val = $(this).val()
         console.log(val)
-        if (val == 'PDF') {
+        if (val == 'PDF' || val == 'EXCEL') {
             $('#file-soal-input').removeClass('d-none');
             $('#jumlah-soal-input').addClass('d-none');
         } else {
