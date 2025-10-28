@@ -229,7 +229,7 @@ class TryoutController extends Controller
             'tryout_kelas' => 'required|integer|min:1|max:12',
             'tryout_register_due' => 'required|date',
             'tryout_status' => 'required',
-            'tryout_jenis' => 'required|in:Gratis,Berbayar',
+            //'tryout_jenis' => 'required|in:Gratis,Berbayar',
             'tryout_nominal' => [
                 'required',
                 function ($attribute, $value, $fail) use ($request) {
@@ -238,8 +238,8 @@ class TryoutController extends Controller
                     }
                 },
             ],
-            'tryout_nominal' => 'required',
-            'is_open' => 'required',
+            //'tryout_nominal' => 'required',
+            //'is_open' => 'required',
         ]);
 
         $tryout = Tryout::find($id);

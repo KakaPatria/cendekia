@@ -50,7 +50,7 @@
                                  <option value="">-- Pilih Pengajar --</option>
                              </select>
                          </div>
-                         <div class="col-lg-2 col-sm-4 ">
+                         <div class="col-lg-4 col-sm-4 ">
                              <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"><i class="ri-search-line  label-icon align-middle fs-16 me-2"></i> Cari</button>
                              <a href="{{ route('panel.kelas_cendekia.index', ) }}" class="btn btn-danger btn-label waves-effect waves-light">
                                  <i class="ri-restart-line label-icon align-middle fs-16 me-2"></i> Reset

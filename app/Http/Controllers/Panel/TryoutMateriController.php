@@ -13,6 +13,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class TryoutMateriController extends Controller
 {
@@ -90,7 +91,7 @@ class TryoutMateriController extends Controller
 
 
                 $result = $this->convertPdfToImage(($fileName));
-                
+
                 $postSoal = [];
                 $nomorSoal = 1;
                 foreach ($result as $key => $value) {
@@ -219,7 +220,6 @@ class TryoutMateriController extends Controller
             'jawaban' => 'required'
         ]);
 
-
         $tryoutSaol = TryoutSoal::find($id);
         $tryoutSaol->tryout_kunci_jawaban = json_encode($request->opsi_jawaban);
         $tryoutSaol->update();
@@ -240,6 +240,67 @@ class TryoutMateriController extends Controller
      */
     public function storeJawaban($id, Request $request)
     {
+        $request->validate([
+            'point'        => 'required|array',
+            'jenis_soal'   => 'required|array',
+            'notes'        => 'required|array',
+            'jawaban'      => 'required|array',
+        ]);
+
+        foreach ($request->jenis_soal as $key => $jenis) {
+            // --- Validasi point ---
+            if (empty($request->point[$key]) || $request->point[$key] <= 0) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    "point.$key" => "Point untuk soal ID $key harus diisi dan lebih dari 0.",
+                ]);
+            }
+
+            // --- Validasi jenis soal SC ---
+            if ($jenis === 'SC') {
+                if (empty($request->opsi_jawaban[$key]) || count($request->opsi_jawaban[$key]) != 1) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        "opsi_jawaban.$key" => "Soal SC (Single Choice) harus memiliki tepat 1 jawaban benar.",
+                    ]);
+                }
+            }
+
+            // --- Validasi jenis soal MCMA ---
+            if ($jenis === 'MCMA') {
+                if (empty($request->opsi_jawaban[$key]) || count($request->opsi_jawaban[$key]) < 2) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        "opsi_jawaban.$key" => "Soal MCMA (Multiple Answer) harus memiliki minimal 2 jawaban benar.",
+                    ]);
+                }
+            }
+
+            // --- Validasi jenis soal TF (True/False) ---
+            if ($jenis === 'TF') {
+                // Pastikan notes diisi dan sesuai format
+                $notes = trim(strtolower($request->notes[$key]));
+                if (!in_array($notes, ['benar,salah', 'setuju,tidak setuju'])) {
+                    throw ValidationException::withMessages([
+                        "notes.$key" => "Soal TF harus memiliki notes 'Benar,Salah' atau 'Setuju,Tidak setuju'.",
+                    ]);
+                }
+
+                // Pastikan tiap pernyataan punya jawaban benar/salah
+                if (empty($request->opsi_jawaban_tf[$key]) || !is_array($request->opsi_jawaban_tf[$key])) {
+                    throw ValidationException::withMessages([
+                        "opsi_jawaban_tf.$key" => "Soal TF harus memiliki opsi jawaban Benar/Salah untuk setiap pernyataan.",
+                    ]);
+                }
+
+                foreach ($request->opsi_jawaban_tf[$key] as $label => $value) {
+                    $val = strtolower($value);
+                    if (!in_array($val, ['benar', 'salah', 'setuju', 'tidak setuju'])) {
+                        throw ValidationException::withMessages([
+                            "opsi_jawaban_tf.$key.$label" => "Nilai '$value' pada soal TF ID $key tidak valid. Gunakan 'Benar', 'Salah', 'Setuju', atau 'Tidak setuju'.",
+                        ]);
+                    }
+                }
+            }
+        }
+        
         $susunJawaban = [];
         $urutan = 1;
 
@@ -286,15 +347,15 @@ class TryoutMateriController extends Controller
             $tryoutSoal->tryout_soal_type = $jenis;
 
             // Tentukan kunci jawaban sesuai jenis soal
-            if ($jenis === 'MC' || $jenis === 'SC') {
+            if ($jenis === 'MCMA' || $jenis === 'SC') {
                 // multiple choice / single choice
                 $tryoutSoal->tryout_kunci_jawaban = isset($request->opsi_jawaban[$soalId])
                     ? json_encode($request->opsi_jawaban[$soalId])
                     : null;
-            } elseif ($jenis === 'MCMA') {
+            } elseif ($jenis === 'TF') { 
                 // multiple choice multiple answer (Benar / Salah)
-                $tryoutSoal->tryout_kunci_jawaban = isset($request->opsi_jawaban_mcma[$soalId])
-                    ? json_encode($request->opsi_jawaban_mcma[$soalId])
+                $tryoutSoal->tryout_kunci_jawaban = isset($request->opsi_jawaban_tf[$soalId])
+                    ? json_encode($request->opsi_jawaban_tf[$soalId])
                     : null;
             }
 
@@ -305,10 +366,11 @@ class TryoutMateriController extends Controller
 
             $tryoutSoal->update();
         }
+        
         // --- Insert jawaban baru ---
         TryoutJawaban::where('tryout_materi_id', $id)->delete();
         TryoutJawaban::insert($susunJawaban);
-
+     
         return redirect()->route('panel.tryout_materi.show', $id);
     }
 

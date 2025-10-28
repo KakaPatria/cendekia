@@ -148,7 +148,7 @@
                                 </div>
                             </div>
 
-                            @if($soal->tryout_soal_type != 'MCMA')
+                            @if($soal->tryout_soal_type != 'TF')
                             <table class="table table-responsive">
                                 <tbody>
                                     @foreach($soal->jawaban as $jawaban)
@@ -162,7 +162,7 @@
                                 </tbody>
                             </table>
                             @endif
-                            @if($soal->tryout_soal_type === 'MCMA')
+                            @if($soal->tryout_soal_type === 'TF')
                             <div class="table-responsive">
                                 <table class="table table-bordered align-middle">
                                     <thead class="table-light">
@@ -173,8 +173,11 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                        $opsi = $soal->jawaban; // relasi TryoutJawaban
+                                        $opsi = $soal->jawaban; 
                                         $kunci = json_decode($soal->tryout_kunci_jawaban, true) ?? [];
+                                        $prefix = explode(',',$soal->notes);
+                                        $arrayPrefix['Benar'] = $prefix[0];
+                                        $arrayPrefix['Salah'] = $prefix[1];
                                         @endphp
 
                                         @foreach ($opsi as $index => $jawaban)
@@ -188,7 +191,7 @@
                                                 <span class="badge 
                                 {{ $nilai === 'Benar' ? 'bg-success' : 
                                    ($nilai === 'Salah' ? 'bg-danger' : 'bg-secondary') }}">
-                                                    {{ $nilai }}
+                                                    {{ $arrayPrefix[$nilai] }}
                                                 </span>
                                             </td>
                                         </tr>

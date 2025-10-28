@@ -84,17 +84,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Jenis</label>
-                        <div class="col-md-9">
-                            <select id="add-jenis" class="form-control" name="tryout_jenis">
-                                <option value="">Pilih Jenis</option>
-                                <option value="Gratis">Gratis</option>
-                                <option value="Berbayar">Berbayar</option>
-                            </select>
 
-                        </div>
-                    </div>
+                    {{--
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Umum</label>
                         <div class="col-md-9">
@@ -102,6 +93,18 @@
                                 <option value="">Pilih Umum / Tidak</option>
                                 <option value="Cendekia">Cendekia</option>
                                 <option value="Cendekia">Umum</option>
+                            </select>
+
+                        </div>
+                    </div>--}}
+                    @if($tryout->is_open == 'Umum')
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Jenis</label>
+                        <div class="col-md-9">
+                            <select id="add-jenis" class="form-control" name="tryout_jenis">
+                                <option value="">Pilih Jenis</option>
+                                <option value="Gratis">Gratis</option>
+                                <option value="Berbayar">Berbayar</option>
                             </select>
 
                         </div>
@@ -129,6 +132,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
