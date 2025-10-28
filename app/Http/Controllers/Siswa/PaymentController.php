@@ -14,36 +14,50 @@ class PaymentController extends Controller
     {
         $invoice = Invoice::find($request->inv_id);
 
-        $params = [
-            'transaction_details' => [
-                'order_id' => $invoice->inv_id, // ID unik setiap transaksi
-                'gross_amount' => $invoice->total,
-            ],
-            'customer_details' => [
-                'first_name' => $invoice->peserta->tryout_peserta_name,
-                'email' => $invoice->peserta->tryout_peserta_email,
-                'phone' => $invoice->peserta->tryout_peserta_telpon,
-            ],
-        ];
+        if ($invoice->snap_token) {
 
-        $snap = $midtrans->createTransaction($params);
+            return response()->json([
+                'snap_token' => $invoice->snap_token,
+                'redirect_url' => $invoice->redirect_url,
+            ]);
+        } else {
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $invoice->inv_id, // ID unik setiap transaksi
+                    'gross_amount' => $invoice->total,
+                ],
+                'customer_details' => [
+                    'first_name' => $invoice->peserta->tryout_peserta_name,
+                    'email' => $invoice->peserta->tryout_peserta_email,
+                    'phone' => $invoice->peserta->tryout_peserta_telpon,
+                ],
+            ];
+            $snap = $midtrans->createTransaction($params);
 
-        return response()->json([
-            'snap_token' => $snap->token,
-            'redirect_url' => $snap->redirect_url,
-        ]);
+            $invoice->snap_token =  $snap->token;
+            $invoice->redirect_url =  $snap->redirect_url;
+            $invoice->save();
+
+            return response()->json([
+                'snap_token' => $snap->token,
+                'redirect_url' => $snap->redirect_url,
+            ]);
+        }
     }
 
     public function handleNotification(Request $request)
     {
 
         $invoice = Invoice::find($request->order_id);
+        if (!$invoice) {
+            return response()->json(['message' => 'Notification handled'], 200);
+        }
         $invoice->status = $request->transaction_status == 'settlement' ? 1 : 0;
         $invoice->payment_type = $request->payment_type;
 
         if ($invoice->payment_type == 'bank_transfer') {
-            $invoice->bank = $request->va_numbers[0]['bank'];
-            $invoice->va_number = $request->va_numbers[0]['va_number'];
+            $invoice->bank = $request->va_numbers[0]['bank'] ?? '';
+            $invoice->va_number = $request->va_numbers[0]['va_number'] ?? '';
         }
 
         if ($request->transaction_status == 'settlement') {
@@ -57,7 +71,7 @@ class PaymentController extends Controller
             ->where('tryout_id', $invoice->tryout_id)
             ->first();
 
-        $tryoutPeserta->tryout_peserta_status  = 1;
+        $tryoutPeserta->tryout_peserta_status  = $request->transaction_status == 'settlement' ? 1 : 0;
         $tryoutPeserta->updated_at = now();
         $tryoutPeserta->save();
 
