@@ -89,7 +89,7 @@
                      <div class="flex-shrink-0">
                          {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
                          @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
-                         <a href="#" class="btn btn-primary btn-sm btn-label waves-effect waves-light " data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Siswa</a>
+                         <a href="{{ route('panel.kelas_cendekia.addSiswa',$kelas_cendekia->kelas_cendekia_id)}}" class="btn btn-primary btn-sm btn-label waves-effect waves-light"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Siswa</a>
                          @endif
                      </div>
                  </div>
@@ -112,9 +112,9 @@
                              <td>{{ $siswa->siswa->name ?? ''}}</td>
                              <td>{{ $siswa->siswa->asal_sekolah ?? ''}}</td>
                              <td>{{ $siswa->siswa->telepon ?? ''}}</td>
-                             <td class="text-center"> <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm">
-                                     <i class="fa fa-edit"></i> Edit</a>
-                                 <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$kelas_cendekia->kelas_cendekia_id}}" data-name="{{$kelas_cendekia->kelas_cendekia_nama}}"><i class="fa fa-trash"></i> Hapus</a>
+                             <td class="text-center">
+                                 <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteSiswaBtn" data-bs-toggle="modal" data-bs-target="#deleteSiswaModal" data-kelas_cendekia_id="{{$siswa->kelas_cendekia_id}}"
+                                     data-kelas_siswa_cendekia_id="{{$siswa->kelas_siswa_cendekia_id}}" data-name="{{$siswa->siswa->name ?? ''}}"><i class="fa fa-trash"></i> Hapus</a>
                              </td>
                          </tr>
                          @endforeach
@@ -357,28 +357,51 @@
  </div>
 
  <div class="modal fade" id="deleteMateriModal" tabindex="-1" aria-labelledby="deleteMateriModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteMateriModalLabel">Hapus Jadwal</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="deleteMateriModalLabel">Hapus Jadwal</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-                </button>
-            </div>
-            <div class="modal-body">
-                Apakah anda yakin menghapus <strong id="deleteMateriName"></strong>
-                <form action="" method="POST" id="deleteMateriForm">
-                    @csrf
-                    @method('DELETE')
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" form="deleteMateriForm" class="btn btn-danger">Hapus</button>
-            </div>
-        </div>
-    </div>
-</div>
+                 </button>
+             </div>
+             <div class="modal-body">
+                 Apakah anda yakin menghapus <strong id="deleteMateriName"></strong>
+                 <form action="" method="POST" id="deleteMateriForm">
+                     @csrf
+                     @method('DELETE')
+                 </form>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                 <button type="submit" form="deleteMateriForm" class="btn btn-danger">Hapus</button>
+             </div>
+         </div>
+     </div>
+ </div>
+
+ <div class="modal fade" id="deleteSiswaModal" tabindex="-1" aria-labelledby="deleteSiswaModalModalLabel" aria-hidden="true">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="deleteSiswaModalModalLabel">Hapus Siswa</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                 </button>
+             </div>
+             <div class="modal-body">
+                 Apakah anda yakin menghapus <strong id="deleteSiswaName"></strong>
+                 <form action="" method="POST" id="deleteSiswaForm">
+                     @csrf
+                     @method('DELETE')
+                 </form>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                 <button type="submit" form="deleteSiswaForm" class="btn btn-danger">Hapus</button>
+             </div>
+         </div>
+     </div>
+ </div>
 
  @endsection
  @section('script')
@@ -470,11 +493,19 @@
      })
 
      $('.deleteMateriBtn').click(function() {
-        var id = $(this).data('id');
-        var name = $(this).data('name');
-        $('#deleteMateriForm').attr('action', '<?php echo route('panel.kelas_cendekia.destroyMateri', '') ?>/' + id)
-        $('#deleteMateriName').html(name);
-    })
+         var id = $(this).data('id');
+         var name = $(this).data('name');
+         $('#deleteMateriForm').attr('action', '<?php echo route('panel.kelas_cendekia.destroyMateri', '') ?>/' + id)
+         $('#deleteMateriName').html(name);
+     })
+
+     $('.deleteSiswaBtn').click(function() {
+         var kelas_cendekia_id = $(this).data('kelas_cendekia_id');
+         var kelas_siswa_cendekia_id = $(this).data('kelas_siswa_cendekia_id');
+         var name = $(this).data('name'); 
+         $('#deleteSiswaForm').attr('action', '<?php echo route('panel.kelas_cendekia.destroySiswa', ['','']) ?>/' + kelas_cendekia_id + '/' + kelas_siswa_cendekia_id)
+         $('#deleteSiswaName').html(name);
+     })
  </script>
 
  </script>

@@ -1,6 +1,8 @@
  @extends('layouts.panel.master')
  @section('title') Pendafataran @endsection
  @section('css')
+<!-- Select2 Bootstrap 5 Theme -->
+<link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
 
  @endsection
  @section('content')
@@ -26,6 +28,28 @@
                                  <i class="ri-search-line search-icon"></i>
                              </div>
                          </div>
+                         <div class="col-lg-2 col-sm-4">
+                             <select class="form-select mb-2" id="filter-kelas" name="kelas">
+                                 <option value="">Pilih Jenjang</option>
+                                 <option value="1" {{ request('kelas') == 1 ? 'selected' : ''}}>1 SD</option>
+                                 <option value="2" {{ request('kelas') == 2 ? 'selected' : ''}}>2 SD</option>
+                                 <option value="3" {{ request('kelas') == 3 ? 'selected' : ''}}>3 SD</option>
+                                 <option value="4" {{ request('kelas') == 4 ? 'selected' : ''}}>4 SD</option>
+                                 <option value="5" {{ request('kelas') == 5 ? 'selected' : ''}}>5 SD</option>
+                                 <option value="6" {{ request('kelas') == 6 ? 'selected' : ''}}>6 SD</option>
+                                 <option value="7" {{ request('kelas') == 7 ? 'selected' : ''}}>7 SMP</option>
+                                 <option value="8" {{ request('kelas') == 8 ? 'selected' : ''}}>8 SMP</option>
+                                 <option value="9" {{ request('kelas') == 9 ? 'selected' : ''}}>9 SMP</option>
+                                 <option value="10" {{ request('kelas') == 10 ? 'selected' : ''}}>10 SMA</option>
+                                 <option value="11" {{ request('kelas') == 11 ? 'selected' : ''}}>11 SMA</option>
+                                 <option value="11" {{ request('kelas') == 12 ? 'selected' : ''}}>12 SMA</option>
+                             </select>
+                         </div>
+                         <div class="col-lg-2 col-sm-4">
+                             <select class="form-select select-pengajar" id="cari-pengajar" name="guru">
+                                 <option value="">-- Pilih Pengajar --</option>
+                             </select>
+                         </div>
                          <div class="col-lg-2 col-sm-4 ">
                              <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"><i class="ri-search-line  label-icon align-middle fs-16 me-2"></i> Cari</button>
                              <a href="{{ route('panel.kelas_cendekia.index', ) }}" class="btn btn-danger btn-label waves-effect waves-light">
@@ -41,7 +65,7 @@
                      <thead class="table-light">
                          <tr>
                              <th scope="col" width="1%">#</th>
-                             <th scope="col">Nam Kelas</th>
+                             <th scope="col">Nama Kelas</th>
                              <th scope="col">Jenjang</th>
                              <th scope="col" colspan="4" class="text-center">Mata Pelajaran</th>
                              <th scope="col">Jumlah Siswa</th>
@@ -173,6 +197,18 @@
              $classLevel.prop('disabled', true);
          }
          $classLevel.trigger('change'); // Trigger change to update select2
+     });
+
+     $.ajax({
+         url: '<?= route('ajax.cari-guru') ?>',
+         dataType: 'json',
+         success: function(data) {
+             $('#cari-pengajar').empty().select2({
+                 data: data.results,
+                 theme: 'bootstrap-5',
+                 placeholder: 'Cari Pengajar'
+             });
+         }
      });
  </script>
  @endsection

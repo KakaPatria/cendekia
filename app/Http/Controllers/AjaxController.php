@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KelasCendekia;
 use App\Models\Materi;
 use App\Models\TryoutJawaban;
 use App\Models\TryoutSoal;
@@ -103,6 +104,25 @@ class AjaxController extends Controller
             $response[] = [
                 'id' => $user->id,
                 'text' => $user->name . ' (' . $user->email . ')',
+            ];
+        }
+
+        return response()->json(['results' => $response]);
+    }
+
+    public function getKelaCendekia(Request $request)
+    {
+        $search = $request->input('q');
+
+        $kelasCendekia = KelasCendekia::where(function ($query) use ($search) {
+            $query->where('kelas_cendekia_nama', 'LIKE', "%{$search}%");
+        })->get();
+
+        $response = [];
+        foreach ($kelasCendekia as $kelas) {
+            $response[] = [
+                'id' => $kelas->kelas_cendekia_id,
+                'text' => $kelas->kelas_cendekia_nama . ' (' . $kelas->kelas_cendekia_id . ')',
             ];
         }
 
