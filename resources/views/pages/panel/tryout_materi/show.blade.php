@@ -89,7 +89,7 @@
                         <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-soal-modal">
                             <i class="fa fa-edit"></i> Tambah Soal</a>
                         @endif
-                        @if(!Auth::user()->hasRole('Admin') && $tryout_materi->pengajar_id == Auth::user()->id && Auth::user()->roles_id == 2)
+                        @if(!Auth::user()->hasRole('Pengajar') && $tryout_materi->pengajar_id == Auth::user()->id && Auth::user()->roles_id == 3)
                         <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-soal-modal">
                             <i class="fa fa-edit"></i> Tambah Soal
                         </a>

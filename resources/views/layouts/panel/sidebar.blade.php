@@ -40,9 +40,10 @@
                 </li>
                 {{--<li class="nav-item">
                     <a class="nav-link menu-link {{ Request::routeIs('panel.tryout_open.*') ? 'active' : '' }}" href="{{route('panel.tryout_open.index')}}">
-                        <i class="ri-file-paper-line"></i> <span>Registrasi Tryout</span>
-                    </a>
+                <i class="ri-file-paper-line"></i> <span>Registrasi Tryout</span>
+                </a>
                 </li>--}}
+                @if(auth()->user()->roles_id == 2)
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Request::routeIs('panel.pendaftaran.*') ? 'active' : '' }}" href="{{route('panel.pendaftaran.index')}}">
                         <i class="ri-newspaper-line"></i> <span>Registrasi Tryout</span>
@@ -55,9 +56,9 @@
                 </li>
 
                 @php
-                    $isReferensiActive = Request::routeIs('panel.bank_soal.*') || Request::routeIs('panel.materi.*') || Request::routeIs('panel.asal_sekolah.*');
-                    $isUserActive = Request::routeIs('panel.user.*');
-                    $isSettingActive = Request::routeIs('panel.role.*') || Request::routeIs('panel.permission.*');
+                $isReferensiActive = Request::routeIs('panel.bank_soal.*') || Request::routeIs('panel.materi.*') || Request::routeIs('panel.asal_sekolah.*');
+                $isUserActive = Request::routeIs('panel.user.*');
+                $isSettingActive = Request::routeIs('panel.role.*') || Request::routeIs('panel.permission.*');
                 @endphp
 
                 <li class="nav-item">
@@ -85,6 +86,7 @@
                     </div>
                 </li>
 
+
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ $isSettingActive ? 'active' : '' }}" href="#sidebar-setting" data-bs-toggle="collapse" role="button" aria-expanded="{{ $isSettingActive ? 'true' : 'false' }}" aria-controls="sidebar-setting">
                         <i class="ri-settings-line"></i> <span>Pengaturan</span>
@@ -96,6 +98,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
             </ul>
         </div>
     </div>
@@ -104,115 +107,117 @@
 <!-- Left Sidebar End -->
 
 <style>
-:root {
-    --primary-red: #980000;
-    --primary-red-hover: #B92B27;
-    --primary-yellow: #E2B602;
-    --logo-bg: #D4B237;
-}
+    :root {
+        --primary-red: #980000;
+        --primary-red-hover: #B92B27;
+        --primary-yellow: #E2B602;
+        --logo-bg: #D4B237;
+    }
 
-/* === Sidebar Styling === */
-.app-menu {
-    background: var(--primary-yellow) !important;
-    border-right: none !important;
-    width: 250px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    transition: transform 0.3s ease;
-    z-index: 1030;
-}
+    /* === Sidebar Styling === */
+    .app-menu {
+        background: var(--primary-yellow) !important;
+        border-right: none !important;
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s ease;
+        z-index: 1030;
+    }
 
-/* Sidebar tertutup */
-.app-menu.closed {
-    transform: translateX(calc(-100% - 5px)); /* dorong sedikit lebih jauh ke kiri */
-    overflow: hidden;
-    opacity: 0;
-}
+    /* Sidebar tertutup */
+    .app-menu.closed {
+        transform: translateX(calc(-100% - 5px));
+        /* dorong sedikit lebih jauh ke kiri */
+        overflow: hidden;
+        opacity: 0;
+    }
 
-/* Scroll area */
-#scrollbar {
-    height: calc(100vh - 100px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-bottom: 2rem;
-}
+    /* Scroll area */
+    #scrollbar {
+        height: calc(100vh - 100px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 2rem;
+    }
 
-/* Logo area */
-.navbar-brand-box {
-    background: var(--logo-bg) !important;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-}
+    /* Logo area */
+    .navbar-brand-box {
+        background: var(--logo-bg) !important;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
 
-/* === Menu utama fix === */
-#navbar-nav > .nav-item {
-    width: 100%;
-}
+    /* === Menu utama fix === */
+    #navbar-nav>.nav-item {
+        width: 100%;
+    }
 
-#navbar-nav > .nav-item > .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: transparent !important;
-    color: #452103 !important;
-    padding: 10px 16px;
-    margin: 6px 14px !important; /* jarak biar ga nempel ke tepi sidebar */
-    border-radius: 8px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-    box-sizing: border-box;
-}
+    #navbar-nav>.nav-item>.nav-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: transparent !important;
+        color: #452103 !important;
+        padding: 10px 16px;
+        margin: 6px 14px !important;
+        /* jarak biar ga nempel ke tepi sidebar */
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+        box-sizing: border-box;
+    }
 
-/* Hover */
-#navbar-nav > .nav-item > .nav-link:hover {
-    background-color: #f0c946 !important;
-    color: white !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
+    /* Hover */
+    #navbar-nav>.nav-item>.nav-link:hover {
+        background-color: #f0c946 !important;
+        color: white !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
 
-/* Aktif (kotak merah) */
-#navbar-nav > .nav-item > .nav-link.active {
-    background-color: var(--primary-red) !important;
-    color: #fff !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-}
+    /* Aktif (kotak merah) */
+    #navbar-nav>.nav-item>.nav-link.active {
+        background-color: var(--primary-red) !important;
+        color: #fff !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
 
-/* Ikon */
-#navbar-nav > .nav-item > .nav-link i {
-    color: #452103 !important;
-    transition: color 0.25s ease;
-    font-size: 18px;
-}
+    /* Ikon */
+    #navbar-nav>.nav-item>.nav-link i {
+        color: #452103 !important;
+        transition: color 0.25s ease;
+        font-size: 18px;
+    }
 
-/* Hover/Aktif ikon */
-#navbar-nav > .nav-item > .nav-link:hover i,
-#navbar-nav > .nav-item > .nav-link.active i {
-    color: #fff !important;
-}
+    /* Hover/Aktif ikon */
+    #navbar-nav>.nav-item>.nav-link:hover i,
+    #navbar-nav>.nav-item>.nav-link.active i {
+        color: #fff !important;
+    }
 
-/* Submenu */
-.menu-dropdown .nav-link {
-    display: block;
-    color: #452103 !important;
-    margin: 4px 14px !important; /* sama jarak kiri-kanan dengan menu utama */
-    padding: 10px 16px !important;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.25s ease;
-    box-sizing: border-box;
-}
-.menu-dropdown .nav-link.active {
-    background-color: rgba(152, 0, 0, 0.1) !important;
-    color: var(--primary-red) !important;
-}
-.menu-dropdown .nav-link:hover {
-    background-color: rgba(240, 201, 70, 0.3) !important;
-}
+    /* Submenu */
+    .menu-dropdown .nav-link {
+        display: block;
+        color: #452103 !important;
+        margin: 4px 14px !important;
+        /* sama jarak kiri-kanan dengan menu utama */
+        padding: 10px 16px !important;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.25s ease;
+        box-sizing: border-box;
+    }
 
+    .menu-dropdown .nav-link.active {
+        background-color: rgba(152, 0, 0, 0.1) !important;
+        color: var(--primary-red) !important;
+    }
+
+    .menu-dropdown .nav-link:hover {
+        background-color: rgba(240, 201, 70, 0.3) !important;
+    }
 </style>
-
-

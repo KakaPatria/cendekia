@@ -19,9 +19,11 @@
 
                 <form action="">
                     <div class="row g-2">
+                        @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                         <div class="col-lg-2">
                             <a href="{{ route('panel.tryout.create')}}" class="btn btn-primary w-100"><i class="ri-add-circle-line"></i> Tambah Tryout</a>
                         </div>
+                        @endif
                         <div class="col-lg-2 col-auto">
                             <div class="search-box">
                                 <input type="text" class="form-control search" id="search-task-options" placeholder="Cari ..." name="keyword" value="{{ $keyword }}">

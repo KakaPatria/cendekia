@@ -96,7 +96,10 @@
 
                                             <a href="{{ route('panel.tryout_materi.show',$materi->tryout_materi_id)}}" class="btn rounded-pill btn-primary btn-sm">
                                                 <i class="fa fa-edit"></i> Detail</a>
+                                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+
                                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteMateriBtn" data-bs-toggle="modal" data-bs-target="#deleteMateriModal" data-id="{{$materi->tryout_materi_id}}" data-name="{{$materi->refMateri->ref_materi_judul}}"><i class="fa fa-trash"></i> Hapus</a>
+                                            @endif
 
                                         </div>
                                     </div>
@@ -188,8 +191,10 @@
                                         <td>{{ $peserta->tanggal_daftar}}</td>
                                         <td>{!! $peserta->status_badge !!}</td>
                                         <td class="text-center">
+                                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deletePesertaBtn" data-bs-toggle="modal" data-bs-target="#deletePesertaModal" data-id="{{$peserta->tryout_peserta_id }}" data-name="{{$peserta->siswa->name}}">
                                                 <i class="fa fa-edit"></i> Hapus</a>
+                                            @endif
                                         </td>
 
                                     </tr>

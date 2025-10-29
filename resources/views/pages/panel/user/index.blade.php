@@ -20,7 +20,7 @@
                     <input type="hidden" name="role" value="{{ $roleX }}">
 
                     <div class="row g-2">
-                        <div class="col-lg-2 col-sm-4">
+                        <div class="col-lg-4 col-sm-4">
                             <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah {{ $roleX == 'Siswa' ? 'Siswa' : "Admin & Pengajar"}}</a>
                         </div>
                         <div class="col-lg-2 col-sm-4">
@@ -63,7 +63,7 @@
                         @endif
 
 
-                        <div class="col-lg-2 col-sm-4 ">
+                        <div class="col-lg-4 col-sm-4 ">
                             <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"><i class="ri-search-line  label-icon align-middle fs-16 me-2"></i> Cari</button>
                             <a href="{{ route('panel.user.index', 'rule=' . $roleX) }}" class="btn btn-danger btn-label waves-effect waves-light">
                                 <i class="ri-restart-line label-icon align-middle fs-16 me-2"></i> Reset
