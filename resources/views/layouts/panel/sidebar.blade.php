@@ -54,6 +54,12 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('manajemen_siswa.index') }}">
+                        <i class="ri-team-line"></i> <span>Manajemen Siswa</span>
+                    </a>
+                </li>
+
                 @php
                     $isReferensiActive = Request::routeIs('panel.bank_soal.*') || Request::routeIs('panel.materi.*') || Request::routeIs('panel.asal_sekolah.*');
                     $isUserActive = Request::routeIs('panel.user.*');
