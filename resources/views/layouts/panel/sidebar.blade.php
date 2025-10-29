@@ -55,6 +55,12 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('manajemen_siswa.index') }}">
+                        <i class="ri-team-line"></i> <span>Manajemen Siswa</span>
+                    </a>
+                </li>
+
                 @php
                 $isReferensiActive = Request::routeIs('panel.bank_soal.*') || Request::routeIs('panel.materi.*') || Request::routeIs('panel.asal_sekolah.*');
                 $isUserActive = Request::routeIs('panel.user.*');
@@ -199,25 +205,23 @@
         color: #fff !important;
     }
 
-    /* Submenu */
-    .menu-dropdown .nav-link {
-        display: block;
-        color: #452103 !important;
-        margin: 4px 14px !important;
-        /* sama jarak kiri-kanan dengan menu utama */
-        padding: 10px 16px !important;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 0.25s ease;
-        box-sizing: border-box;
-    }
+/* Submenu */
+.menu-dropdown .nav-link {
+    display: block;
+    color: #452103 !important;
+    margin: 4px 14px !important; /* sama jarak kiri-kanan dengan menu utama */
+    padding: 10px 16px !important;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+}
+.menu-dropdown .nav-link.active {
+    background-color: rgba(152, 0, 0, 0.1) !important;
+    color: var(--primary-red) !important;
+}
+.menu-dropdown .nav-link:hover {
+    background-color: rgba(240, 201, 70, 0.3) !important;
+}
 
-    .menu-dropdown .nav-link.active {
-        background-color: rgba(152, 0, 0, 0.1) !important;
-        color: var(--primary-red) !important;
-    }
-
-    .menu-dropdown .nav-link:hover {
-        background-color: rgba(240, 201, 70, 0.3) !important;
-    }
 </style>

@@ -249,7 +249,6 @@
                         <div class="card-body p-0 pb-2">
                             <div class="w-100">
                                 @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
-                                    {{-- ID ini (line_chart_datalabel) tidak diubah --}}
                                     <div id="line_chart_datalabel" data-colors='["#980000"]' class="apex-charts" dir="ltr"></div>
                                 @else
                                     <div class="text-center p-4">
