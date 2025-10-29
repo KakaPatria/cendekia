@@ -252,7 +252,7 @@ class TryoutController extends Controller
         $tryout->tryout_jenis = $request->tryout_jenis;
         $tryout->tryout_nominal = $request->tryout_nominal;
         $tryout->tryout_diskon = $request->tryout_diskon;
-        $tryout->is_open = $request->is_open;
+        //$tryout->is_open = $request->is_open;
         $tryout->update();
 
         if ($request->file('tryout_banner')) {
