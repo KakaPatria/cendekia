@@ -253,6 +253,7 @@ class TryoutMateriController extends Controller
                 // lalu tinggal insert batch
                 TryoutJawaban::insert($dataJawaban);
             }
+            $tryoutMateri->jumlah_soal =  count($rows);
             $tryoutMateri->update();
 
             return redirect()->route('panel.tryout_materi.show', $tryoutMateri->tryout_materi_id);
