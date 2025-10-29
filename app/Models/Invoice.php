@@ -28,6 +28,8 @@ class Invoice extends Model
         'bank',
         'va_number',
         'remark',
+        'snap_token',
+        'redirect_url'
     ];
 
     public function tryout()

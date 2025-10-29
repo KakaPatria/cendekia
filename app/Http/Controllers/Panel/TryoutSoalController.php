@@ -80,7 +80,7 @@ class TryoutSoalController extends Controller
 
         // Validasi dasar
         $request->validate([
-            'jenis_soal' => 'required|in:SC,MC,MCMA',
+            'jenis_soal' => 'required|in:SC,MCMA,TF',
             'point' => 'nullable|numeric|min:0',
             'jawaban' => 'required|array|min:1',
         ]);
@@ -92,7 +92,7 @@ class TryoutSoalController extends Controller
             ]);
 
             $file = $request->file('soal');
-  
+
             $directory = 'public/uploads/soal';
             if (!Storage::exists($directory)) {
                 Storage::makeDirectory($directory);
@@ -101,18 +101,19 @@ class TryoutSoalController extends Controller
             $fileName = time() . '_' . $file->getClientOriginalName();
             $file->storeAs($directory, $fileName);
             $tryoutSoal->tryout_soal = $directory . '/' . $fileName;
-        }  
+        } else {
+            $tryoutSoal->tryout_soal = $request->soal;
+        }
 
         // Simpan jenis soal
         $tryoutSoal->tryout_soal_type = $request->jenis_soal;
         $tryoutSoal->point = $request->point ?? 1;
 
         // Simpan kunci jawaban tergantung jenis soal
-        if ($request->jenis_soal === 'MCMA') {
+        if ($request->jenis_soal === 'TF') {
             // format notes seperti: ['A'=>'Benar', 'B'=>'Salah', ...]
-            $tryoutSoal->tryout_kunci_jawaban = json_encode($request->opsi_jawaban_mcma ?? []);
+            $tryoutSoal->tryout_kunci_jawaban = json_encode($request->opsi_jawaban_tf ?? []);
             $tryoutSoal->notes = $request->notes;
-            
         } else {
             // SC & MC → array pilihan benar, contoh: ['B'] atau ['A', 'C']
             $tryoutSoal->tryout_kunci_jawaban = json_encode($request->opsi_jawaban ?? []);

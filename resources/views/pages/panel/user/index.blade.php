@@ -76,32 +76,38 @@
             </div><!-- end card header -->
 
             <div class="card-body mb-2">
-
-
-                <!-- Striped Rows -->
-                <table class="table table-striped">
+                <div class="table-responsive">
+                    <!-- Striped Rows -->
+                    <table class="table table-striped" style="width:100%; border-collapse: collapse;">
+                    <style>
+                        .table td, .table th {
+                            border-left: none;
+                            border-right: none;
+                            padding: 0.75rem;
+                        }
+                    </style>
                     <thead>
                         <tr>
                             <th scope="col" width="1%">#</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Telepon</th>
-                            <th scope="col">Asal Sekolah</th>
+                            <th scope="col" width="15%">Email</th>
+                            <th scope="col" width="10%">Nama</th>
+                            <th scope="col" width="8%">Telepon</th>
+                            <th scope="col" width="10%">Asal Sekolah</th>
                             @if($roleX == 'Siswa')
-                            <th scope="col">Jenjang</th>
-                            <th scope="col">Kelas</th>
-                            <th scope="col">Golongan</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">Nama Orangtua</th>
-                            <th scope="col">Telepon Orangtua</th>
-                            <th scope="col">Tipe Siswa</th>
+                            <th scope="col" width="5%">Jenjang</th>
+                            <th scope="col" width="5%">Kelas</th>
+                            <th scope="col" width="15%">Alamat</th>
+                            <th scope="col" width="10%">Nama Orangtua</th>
+                            <th scope="col" width="8%">Telepon Orangtua</th>
+                            <th scope="col" width="8%">Tipe Siswa</th>
                             @endif
                             {{--<th scope="col">Avatar</th>--}}
                             @if($roleX != 'Siswa')
                             <th scope="col">Roles</th>
                             @endif
-                            <th scope="col">Status</th>
-                            <th scope="col" colspan="2" width="10%" class="text-center">Action</th>
+                            <th scope="col" width="5%">Status</th>
+                            <th scope="col" width="5%" class="text-center">Ubah</th>
+                            <th scope="col" width="5%" class="text-center">Hapus</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,7 +122,6 @@
                             @if($roleX == 'Siswa')
                             <td>{{ $user->jenjang }}</td>
                             <td>{{ $user->kelas }}</td>
-                            <td>{{ $user->golongan }}</td>
                             <td>{{ $user->alamat }}</td>
                             <td>{{ $user->nama_orang_tua }}</td>
                             <td>{{ $user->telp_orang_tua }}</td>
@@ -161,20 +166,26 @@
                 @endif
             </td>
             @endif
-            <td>{{ $user->status}}</td>
-            {{-- <td><a href="{{ route('panel.user.show', $user->id) }}" class="btn rounded-pill btn-info btn-sm"><i class="fa fa-search-plus"></i> Detail</a></td> --}}
-            <td><a href="{{ route('panel.user.edit', ['user'=>$user->id,'roleX'=>$roleX]) }}" class="btn rounded-pill btn-warning btn-sm"><i class="fa fa-edit"></i> Ubah</a></td>
-            <td><a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$user->id}}" data-name="{{$user->name}}"><i class="fa fa-trash"></i> Hapus</a></td>
-            {{--<td><a href="{{ route('panel.user.show', $user->id) }}" class="btn rounded-pill btn-info btn-sm"><i class="fa fa-search-plus"></i> Detail</a></td> --}}
+            <td class="text-center">{{ $user->status}}</td>
+            <td class="text-center">
+                <a href="{{ route('panel.user.edit', ['user'=>$user->id,'roleX'=>$roleX]) }}" class="btn rounded-pill btn-warning btn-sm w-100">
+                    <i class="fa fa-edit"></i> Ubah
+                </a>
+            </td>
+            <td class="text-center">
+                <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm w-100 deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$user->id}}" data-name="{{$user->name}}">
+                    <i class="fa fa-trash"></i> Hapus
+                </a>
+            </td>
             </tr>
             @empty
             <tr>
                 @php
                 // count total columns to set proper colspan
-                $colspan = 7; // default columns for Admin & Pengajar
+                $colspan = 8; // default columns for Admin & Pengajar (including #, email, name, telepon, asal_sekolah, status, and 2 action columns)
                 if ($roleX == 'Siswa') {
-                // email, name, telepon, asal_sekolah, jenjang, kelas, alamat, nama_orang_tua, telp_orang_tua, avatar, roles, status, actions
-                $colspan = 13;
+                // #, email, name, telepon, asal_sekolah, jenjang, kelas, alamat, nama_orang_tua, telp_orang_tua, tipe_siswa, status, and 2 action columns
+                $colspan = 14;
                 }
                 @endphp
                 <td colspan="{{ $colspan }}" class="text-center text-muted">Belum ada data untuk {{ $roleX }}.</td>
@@ -182,8 +193,7 @@
             @endforelse
             </tbody>
             </table>
-
-
+                </div>
                 {{ $users->withQueryString()->links() }}
 
         </div><!-- end card-body -->

@@ -15,10 +15,12 @@ class TryoutSoal extends Model
     protected $fillable = [
         'tryout_materi_id',
         'tryout_nomor',
+        'point',
         'tryout_soal',
         'tryout_soal_type',
         'tryout_kunci_jawaban',
         'tryout_penyelesaian', 
+        'notes', 
     ];
 
     public function materi(){

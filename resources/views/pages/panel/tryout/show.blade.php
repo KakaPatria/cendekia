@@ -56,17 +56,37 @@
 
                     </div>
 
-                    <div class="accordion" id="default-accordion-example">
-                        @foreach($tryout->materi as $materi)
+                    <div class="accordion" id="accordion-materi">
+                        @foreach($tryout->materi as $keyMateri => $materi)
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="heading-{{$materi->tryout_materi_id}}">
 
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-materi-{{$keyMateri}}" aria-expanded="true" aria-controls="collapseOne">
                                     {{ $materi->refMateri->ref_materi_judul}}
                                 </button>
                             </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="heading-{{$materi->tryout_materi_id}}" data-bs-parent="#default-accordion-example">
+                            <div id="collapse-materi-{{$keyMateri}}" class="accordion-collapse collapse show" aria-labelledby="heading-{{$materi->tryout_materi_id}}" data-bs-parent="#default-accordion-example">
                                 <div class="accordion-body">
+                                    <div class="row mb-2">
+                                        <div class="col-2">
+                                            <p class="text-muted mb-1">Pengajar</p>
+                                            <h5 class="fs-14">{{ $materi->pengajar->name ?? ''}}</h5>
+                                        </div>
+                                        <div class="col-2">
+                                            <p class="text-muted mb-1">Durasi Pengerjaan</p>
+                                            <h5 class="fs-14">
+                                                @if($materi->durasi)
+                                                {{ $materi->durasi}} Menit
+                                                @else
+                                                Tidak ada batan waktu
+                                                @endif
+                                            </h5>
+                                        </div>
+                                        <div class="col-2">
+                                            <p class="text-muted mb-1">Safe Mode</p>
+                                            <h5 class="fs-14">{{ $materi->safe_mode ? 'Ya' : 'Tidak'}}</h5>
+                                        </div>
+                                    </div>
                                     <div class="align-items-center d-flex mb-2">
                                         <div class="flex-grow-1 mr-2">
 
@@ -294,11 +314,11 @@
                                 <td class="fw-medium">Umum</td>
                                 <td>{{ $tryout->is_open}}</td>
                             </tr>
+                            @if($tryout->tryout_jenis == 'Berbayar')
                             <tr>
                                 <td class="fw-medium">Jenis</td>
                                 <td>{{ $tryout->tryout_jenis}}</td>
                             </tr>
-                            @if($tryout->tryout_jenis == 'Berbayar')
                             <tr>
                                 <td class="fw-medium">Biaya</td>
                                 <td>Rp. {{ $tryout->tryout_nominal}}</td>
@@ -570,7 +590,7 @@
         $('#deletePesertName').html(name);
     })
 
-     $('.deleteMateriBtn').click(function() {
+    $('.deleteMateriBtn').click(function() {
         var id = $(this).data('id');
         var name = $(this).data('name');
         $('#deleteMateriForm').attr('action', '<?php echo route('panel.tryout_materi.destroy', '') ?>/' + id)

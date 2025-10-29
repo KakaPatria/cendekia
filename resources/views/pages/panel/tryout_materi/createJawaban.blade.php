@@ -79,8 +79,8 @@
                                                     <select class="form-select mb-3 jenis-soal" name="jenis_soal[{{$soal->tryout_soal_id}}]">
                                                         <option selected>--Pilih Jenis Soal--</option>
                                                         <option value="SC">Single Choice</option>
-                                                        <option value="MC">Multiple Choice</option>
                                                         <option value="MCMA">Multiple Choice Multiple Answer</option>
+                                                        <option value="TF">Pilihan Ganda Kompleks Kategori</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -264,13 +264,13 @@
             cb.off('change').on('change', function() {
                 if (this.checked) cb.not(this).prop('checked', false);
             });
-        } else if (jenis === 'MCMA') {
+        } else if (jenis === 'TF') {
             container.find('#jenis-jawaban').removeClass('d-none');
             // Ganti kolom opsi menjadi dropdown Benar/Salah
             tbody.find('.opsi-cell').each(function() {
                 const abjad = $(this).closest('tr').find('td:first').text().replace('.', '').trim();
                 $(this).html(`
-                    <select class="form-select" name="opsi_jawaban_mcma[${soalId}][${abjad}]">
+                    <select class="form-select" name="opsi_jawaban_tf[${soalId}][${abjad}]">
                         <option value="">--Pilih--</option>
                         <option value="Benar">Benar</option>
                         <option value="Salah">Salah</option>

@@ -93,86 +93,62 @@
 
                         </div>
                     </div>
-                    <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Berbayar?</label>
-                        <div class="col-md-9">
-                            <select id="add-jenis" class="form-control" name="tryout_jenis">
-                                <option value="">Pilih Jenis</option>
-                                <option value="Gratis">Gratis</option>
-                                <option value="Berbayar">Berbayar</option>
-                            </select>
-
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Biaya</label>
-
-                        <div class="col-md-9">
-                            <div class="input-group ">
-                                <span class="input-group-text" id="">Rp</span>
-                                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="tryout_nominal" id="tryout-nominal" value="{{ old('tryout_nominal')}}">
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Diskon</label>
-
-                        <div class="col-md-9">
-                            <div class="input-group ">
-                                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="tryout_diskon" id="tryout-disskon" value="{{ old('tryout_diskon')}}">
-                                <span class="input-group-text" id="">%</span>
 
 
-                            </div>
-                        </div>
-                    </div>
-                    {{--<h4 class="card-title mb-2">Materi Tryout</h4>
-                    <div class="form-group">
-                        <div class="Row">
-                            <label class="col-form-label col-md-3">Materi</label>
-                            <label class="col-form-label col-md-3">Pengajar</label>
-                            <label class="col-form-label col-auto">Keterangan</label>
-                        </div>
-
-                    </div>
-                    <div class="form-group" id="dynamic_form">
-
-                        <div class="row row-kategori mb-2">
-                            <div class="col-md-3">
-                                <select class="form-control select-materi" name="materi_id">
-                                    <option value="">-- Pilih Materi --</option>
-
+                    <div id="input-tryout-cendekia" class="d-none">
+                        <div class="form-group row mb-3">
+                            <label class="col-form-label col-md-3">Kelas</label>
+                            <div class="col-md-9">
+                                <select id="add-kelas-cendekia" class="form-control" name="kelas_cendekia_id">
+                                    <option value="">Pilih Kelas</option>
                                 </select>
+
                             </div>
-                            <div class="col-md-3">
-                                <select class="form-control select2" name="pengajar_id">
-                                    <option value="">-- Pilih Pengajar --</option>
-                                    @foreach($pengajar as $value)
-                                    <option value="{{ $value->id}}">{{ $value->name}}</option>
-                    @endforeach
-                    </select>
-            </div>
-            <div class="col-auto">
-                <textarea class="form-control" id="" name="tryout_materi_deskripsi" rows="5"></textarea>
-            </div>
+                        </div>
+                    </div>
+                    <div id="input-tryout-umum" class="d-block">
+                        <div class="form-group row mb-3">
+                            <label class="col-form-label col-md-3">Berbayar?</label>
+                            <div class="col-md-9">
+                                <select id="add-jenis" class="form-control" name="tryout_jenis">
+                                    <option value="">Pilih Jenis</option>
+                                    <option value="Gratis">Gratis</option>
+                                    <option value="Berbayar">Berbayar</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label class="col-form-label col-md-3">Biaya</label>
+
+                            <div class="col-md-9">
+                                <div class="input-group ">
+                                    <span class="input-group-text" id="">Rp</span>
+                                    <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="tryout_nominal" id="tryout-nominal" value="{{ old('tryout_nominal')}}">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label class="col-form-label col-md-3">Diskon</label>
+
+                            <div class="col-md-9">
+                                <div class="input-group ">
+                                    <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="tryout_diskon" id="tryout-disskon" value="{{ old('tryout_diskon')}}">
+                                    <span class="input-group-text" id="">%</span>
 
 
-            <div class="col-md-2">
-                <a href="javascript:;" class="btn rounded-pill btn-primary btn-sm btn-tambah" id="plus5">Tambah</a>
-                <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm btn-edit" id="minus5">hapus</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>--}}
-
-    <div class="text-center">
-        <button type="submit" class="btn btn-primary">Simpan</button>
     </div>
-    </form>
-</div>
-</div>
-</div>
 </div>
 @endsection
 @section('script')
@@ -180,7 +156,7 @@
 <script src="{{ URL::asset('assets/js/pages/form-pickers.init.js') }}"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
- 
+
 
 <script>
     $('#nav-tryout').addClass('active')
@@ -308,5 +284,40 @@
         }
         $classLevel.trigger('change'); // Trigger change to update select2
     });
+
+    $('#add-is-open').change(function() {
+        var value = $(this).val()
+        if (value == 'Umum') {
+            $('#input-tryout-umum').removeClass('d-none')
+            $('#input-tryout-cendekia').addClass('d-block')
+            $('#input-tryout-cendekia').addClass('d-none')
+        } else {
+            $('#add-jenis').val('Gratis').change();
+
+            $.ajax({
+                url: '<?= route('ajax.get-kelas-cendekia') ?>',
+                data: {
+                    kelas: $('#add-kelas').val(),
+                    jenjang: $('#add-jenjang').val(),
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#add-kelas-cendekia').empty().select2({
+                        data: data.results,
+                        placeholder: 'Pilih Kelas'
+                    });
+                }
+            });
+
+
+            $('#input-tryout-cendekia').removeClass('d-none')
+            $('#input-tryout-umum').addClass('d-block')
+            $('#input-tryout-umum').addClass('d-none')
+        }
+    })
+
+    <?php if (old('is_open')) { ?>
+        $('#add-is-open').val('<?= old('is_open') ?>').change()
+    <?php } ?>
 </script>
 @endsection

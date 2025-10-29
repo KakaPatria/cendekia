@@ -86,14 +86,14 @@
                                         <select class="form-select mb-3 jenis-soal" name="jenis_soal">
                                             <option value="">--Pilih Jenis Soal--</option>
                                             <option value="SC" @selected($soal->tryout_soal_type == 'SC')>Single Choice</option>
-                                            <option value="MC" @selected($soal->tryout_soal_type == 'MC')>Multiple Choice</option>
-                                            <option value="MCMA" @selected($soal->tryout_soal_type == 'MCMA')>Multiple Choice Multiple Answer</option>
+                                            <option value="MCMA" @selected($soal->tryout_soal_type == 'MCMA')>Multiple Choice</option>
+                                            <option value="TF" @selected($soal->tryout_soal_type == 'TF')>Pilihan Ganda Kompleks Kategori</option>
                                         </select>
                                     </div>
                                 </div>
 
-                                {{-- Jenis Jawaban khusus MCMA --}}
-                                <div class="form-group row {{ $soal->tryout_soal_type == 'MCMA' ? '' : 'd-none' }}" id="jenis-jawaban">
+                                {{-- Jenis Jawaban khusus TF --}}
+                                <div class="form-group row {{ $soal->tryout_soal_type == 'TF' ? '' : 'd-none' }}" id="jenis-jawaban">
                                     <label class="col-sm-2 col-form-label">Jenis Jawaban</label>
                                     <div class="col-sm-10">
                                         <select class="form-select mb-3" name="notes">
@@ -117,7 +117,7 @@
                                         @php
                                         $jenis = $soal->tryout_soal_type;
                                         $jawabanKunci = $soal->tryout_kunci_jawaban ? json_decode($soal->tryout_kunci_jawaban, true) : [];
-                                        $opsiJawabanMCMA = $soal->opsi_jawaban_mcma ?? []; // untuk MCMA
+                                        $opsiJawabanMCMA = $jawabanKunci ?? []; // untuk MCMA
                                         @endphp
 
                                         @foreach (['A', 'B', 'C', 'D'] as $abjad)
@@ -134,20 +134,19 @@
 
                                             {{-- Kunci Jawaban: tipe dinamis --}}
                                             <td class="opsi-cell">
-                                                @if($jenis == 'MCMA')
-                                                <select class="form-select" name="opsi_jawaban_mcma[{{ $abjad }}]">
+                                                <select class="form-select {{ $soal->tryout_soal_type == 'TF' ? '' : 'd-none' }}" name="opsi_jawaban_tf[{{ $abjad }}]">
                                                     <option value="">--Pilih--</option>
                                                     <option value="Benar" @selected(($opsiJawabanMCMA[$abjad] ?? '' )=='Benar' )>Benar</option>
                                                     <option value="Salah" @selected(($opsiJawabanMCMA[$abjad] ?? '' )=='Salah' )>Salah</option>
                                                 </select>
-                                                @else
-                                                <input class="form-check-input"
+
+                                                <input class="form-check-input {{ $soal->tryout_soal_type == 'TF' ? 'd-none' : '' }}"
                                                     type="checkbox"
                                                     name="opsi_jawaban[]"
                                                     value="{{ $abjad }}"
                                                     id="opsi-jawaban-{{ $abjad }}"
                                                     @checked(in_array($abjad, $jawabanKunci ?? []))>
-                                                @endif
+
                                             </td>
                                         </tr>
                                         @endforeach
@@ -292,20 +291,19 @@
             });
 
             // Single Choice hanya 1 boleh dipilih
-            if (jenis === 'SC') {
-                alert("sc");
+            if (jenis === 'SC') { 
                 container.find('.opsi-checkbox').off('change').on('change', function() {
                     if (this.checked) container.find('.opsi-checkbox').not(this).prop('checked', false);
                 });
             }
 
-        } else if (jenis === 'MCMA') {
+        } else if (jenis === 'TF') {
             // Tampilkan pilihan jenis jawaban
             container.find('#jenis-jawaban').removeClass('d-none');
             tbody.find('tr').each(function() {
                 const abjad = $(this).find('td:first').text().replace('.', '').trim();
                 $(this).find('.opsi-cell').html(`
-                <select class="form-select" name="opsi_jawaban_mcma[${abjad}]">
+                <select class="form-select" name="opsi_jawaban_tf[${abjad}]">
                     <option value="">--Pilih--</option>
                     <option value="Benar">Benar</option>
                     <option value="Salah">Salah</option>

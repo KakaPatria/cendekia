@@ -11,12 +11,14 @@
 
  @include('components.message')
  <div class="d-flex justify-content-sm-end gap-2 ">
+     @if($invoice->snap_token)
+     <a href="javascript:;" id="bayar-btn" class="btn btn-danger btn-sm mb-2"><i class="ri-checkbox-line  align-bottom me-1"></i> Cek Status</a>
+     @endif
      <a href="#" class="btn btn-primary btn-sm mb-2"><i class="  ri-printer-line   align-bottom me-1"></i> Cetak</a>
-
      <div>
          <a href="{{ route('panel.invoices.index')}}" class="btn btn-success btn-sm mb-2"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
      </div>
- </div> 
+ </div>
  <div class="row justify-content-center">
      <div class="col-xxl-9">
          <div class="card" id="demo">
@@ -263,4 +265,44 @@
 
  @endsection
  @section('script')
+ <script type="text/javascript"
+     src="https://app.sandbox.midtrans.com/snap/snap.js"
+     data-client-key="{{ config('midtrans.client_key') }}"></script>
+
+ <script>
+     $('#bayar-btn').click(function() {
+         $.ajax({
+             url: "{{ route('siswa.payment.snapToken') }}",
+             type: 'POST',
+             data: {
+                 inv_id: "{{ $invoice->inv_id }}",
+                 _token: "{{ csrf_token() }}"
+             },
+             success: function(data) {
+                 // console.log(data);
+                 snap.pay(data.snap_token, {
+                     // Optional
+                     onSuccess: function(result) {
+                         /* You may add your own implementation here */
+                         alert("Pembayaran berhasil!");
+                         location.reload();
+                     },
+                     // Optional
+                     onPending: function(result) {
+                         /* You may add your own implementation here */
+                         alert("Menunggu pembayaran!");
+                         location.reload();
+                     },
+                     // Optional
+                     onError: function(result) {
+                         /* You may add your own implementation here */
+                         alert("Pembayaran gagal!");
+                         location.reload();
+                     }
+                 });
+             }
+         });
+
+     });
+ </script>
  @endsection
