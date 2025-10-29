@@ -120,7 +120,7 @@ class PengerjaanController extends Controller
                     'tryout_materi_id' => $request->tryout_materi_id,
                 ],
                 [
-                    'tryout_jawaban' => $soal->tryout_soal_type = 'TF' ? '{}' : json_encode([]),
+                    'tryout_jawaban' => $soal->tryout_soal_type == 'TF' ? '{}' : '[]',
                     'point' => 0,
                     'status' => 'Salah',
                 ]
