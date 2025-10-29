@@ -61,7 +61,7 @@
                     <div class="col-lg-6">
                         <h5 class="mb-2"> <small class="text-muted">Jawaban</small></h5>
                         <h5 class="mb-2"> <small class="">Point : {{ $pengerjaan->soal->point}}</small></h5>
-                        @if($pengerjaan->soal->tryout_soal_type == 'MCMA')
+                        @if($pengerjaan->soal->tryout_soal_type == 'TF')
                         @php
                         $dataJabawan = json_decode($pengerjaan->tryout_jawaban ?? []);
                         @endphp

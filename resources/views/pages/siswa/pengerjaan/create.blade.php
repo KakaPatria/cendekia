@@ -32,7 +32,7 @@ Tryout
 <div class="card">
     <div class="card-body">
         <div id="smartwizard">
-            <ul class="nav d-none">
+            <ul class="nav">
                 @foreach($tryout_materi->soal as $key => $soal)
                 <li class="nav-item">
                     <a class="nav-link" href="#step-{{ $key }}">
@@ -93,7 +93,7 @@ Tryout
                                             @endforeach
                                             @endif
 
-                                            @if($soal->tryout_soal_type == 'MC')
+                                            @if($soal->tryout_soal_type == 'MCMA')
                                             @foreach($soal->jawaban as $jawaban)
                                             <label class="list-group-item">
                                                 <input class="form-check-input me-1"
@@ -106,9 +106,9 @@ Tryout
                                             @endforeach
                                             @endif
 
-                                            @if($soal->tryout_soal_type == 'MCMA')
+                                            @if($soal->tryout_soal_type == 'TF')
                                             @php
-                                            $notes = explode(',', $soal->notes ?? 'Benar,Salah');
+                                            $notes = explode(',', ('Benar,Salah'));
                                             @endphp
                                             <table class="table table-bordered align-middle text-center">
                                                 <thead>
@@ -194,38 +194,31 @@ Tryout
             let form = document.getElementById('form-' + (currentStepIdx));
 
             if (form) {
-                if (!form.checkValidity()) {
-                    form.classList.add('was-validated');
-                    $('#smartwizard').smartWizard("setState", [currentStepIdx], 'error');
-                    $("#smartwizard").smartWizard('fixHeight');
-                    return false;
-                } else {
-                    var data = $('#form-' + (currentStepIdx)).serialize();
-                    $.ajax({
-                        url: form.action,
-                        type: 'POST',
-                        data: data,
-                        success: function(response) {
-
-                        },
-                        error: function(xhr, status, error) {
-                            console.log('AJAX error: ' + error);
+                var data = $('#form-' + (currentStepIdx)).serialize();
+                $.ajax({
+                    url: form.action,
+                    type: 'POST',
+                    data: data,
+                    success: function(response) {
+                        console.log('AJAX response: ' + response);
+                        if (response.success) {
+                            $('#smartwizard').smartWizard("unsetState", [currentStepIdx], 'error');
+                        } else {
+                            $('#smartwizard').smartWizard("setState", [currentStepIdx], 'error');
+                            $("#smartwizard").smartWizard('fixHeight');
                         }
-                    });
-                    $('#smartwizard').smartWizard("unsetState", [currentStepIdx], 'error');
-
-                }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('AJAX error: ' + error);
+                    }
+                });
             }
         }
     });
 
     <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
-        <?php if ($soal->pengerjaan) { ?> {
-                {
-                    --$('#jawaban-{{ $soal->tryout_soal_id}}-{{ $soal->pengerjaan->tryout_jawaban}}').prop('checked', true);
-                    --
-                }
-            }
+        <?php if ($soal->pengerjaan) { ?>
+            //$('#jawaban-{{ $soal->tryout_soal_id}}-{{ json_encode($soal->pengerjaan->tryout_jawaban)}}').prop('checked', true);
             $('#smartwizard').smartWizard("next");
         <?php  } ?>
     <?php  } ?>

@@ -114,8 +114,8 @@
                     <!-- Base Example -->
                     <div class="row">
                         @foreach($tryout->materi as $materi)
-                        <div class="col-xxl-3 col-sm-6 project-card">
-                            <div class="card card ribbon-box border ribbon-fill shadow-none right mb-lg-0">
+                        <div class="col-xxl-3 col-sm-6 project-card ">
+                            <div class="card card ribbon-box border ribbon-fill shadow-none right mb-lg-0 h-100">
                                 <div class="card-body">
                                     @if($materi->nilaiUser && $materi->nilaiUser->status == 'Selesai')
                                     <h5 class="ribbon ribbon-info">Selesai</h5>
@@ -141,7 +141,7 @@
                                                     <div>Progres</div>
                                                 </div>
                                                 <div class="flex-shrink-0">
-                                                    <div><i class="ri-list-check align-bottom me-1 text-muted"></i> {{ $materi->nilaiUser->soal_dijekerjakan .'/'.$materi->nilaiUser->soal_total}}</div>
+                                                    <div><i class="ri-list-check align-bottom me-1 text-muted"></i> {{ $materi->nilaiUser->soal_dijekerjakan .'/'.$materi->soal->count()}}</div>
                                                 </div>
                                             </div>
                                             <div class="progress progress-sm animated-progress">
@@ -165,8 +165,8 @@
 
                                         @endif
                                         @else
-                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
-                                            Mulai Kerjakan
+                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn  {{ $materi->soal->count() > 1 ? '' : 'disabled'}}" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
+                                            Mulai Kerjakan 
                                         </a>
                                         @endif
                                         @endif
@@ -309,7 +309,7 @@
                                     <tr>
 
                                         <td>{{ $soal->tryout_nomor}}</td>
-                                        @if($soal->tryout_soal_type == 'MCMA')
+                                        @if($soal->tryout_soal_type == 'TF')
                                         @php
                                         $dataJabawan = json_decode($soal->pengerjaan->tryout_jawaban ?? []);
                                         @endphp
@@ -338,7 +338,7 @@
                                         @endif
 
                                         <td>{{ $soal->tryout_soal_type ?? ''}}</td>
-                                        @if($soal->tryout_soal_type == 'MCMA')
+                                        @if($soal->tryout_soal_type == 'TF')
                                         @php
                                         $dataKunciJabawan = json_decode($soal->tryout_kunci_jawaban ?? []);
                                         @endphp

@@ -55,6 +55,7 @@ class PengerjaanController extends Controller
             $nilai->soal_dijekerjakan = 0;
             $nilai->status = 'Proses';
             $nilai->mulai_pengerjaan = now();
+            
             $nilai->save();
         }
 
@@ -108,8 +109,27 @@ class PengerjaanController extends Controller
     }
 
 
-    public function jawab(Request $request,$id)
+    public function jawab(Request $request, $id)
     {
+        if (!$request->jawaban) {
+            $soal = TryoutSoal::find($request->tryout_soal_id);
+            TryoutPengerjaan::updateOrCreate(
+                [
+                    'tryout_soal_id' => $soal->tryout_soal_id,
+                    'user_id' => auth()->id(),
+                    'tryout_materi_id' => $request->tryout_materi_id,
+                ],
+                [
+                    'tryout_jawaban' => $soal->tryout_soal_type = 'TF' ? '{}' : json_encode([]),
+                    'point' => 0,
+                    'status' => 'Salah',
+                ]
+            );
+
+            return response()->json([
+                'success' => false,
+            ]);
+        }
         $nilai = TryoutNilai::find($id);
         $nilai->soal_dijekerjakan = $request->soal_nomor;
         $nilai->last_soal_id = $request->tryout_soal_id;
@@ -131,24 +151,26 @@ class PengerjaanController extends Controller
                     $nilai = $soal->point;
                     $status = 'Benar';
                 }
-                $simpanJawaban = (array) $jawabanSiswa;
-
-                break;
-
-            case 'MC':
-                $benar = count(array_intersect($jawabanSiswa, $kunci));
-                $totalBenar = count($kunci);
-                $salah = count(array_diff($jawabanSiswa, $kunci));
-                $nilai = max(0, (($benar - $salah) / $totalBenar) * $soal->point);
-                $status = ($benar == $totalBenar && $salah == 0)
-                    ? 'Benar'
-                    : (($benar > 0) ? 'Sebagian Benar' : 'Salah');
-
-                $simpanJawaban = $jawabanSiswa;
+                $simpanJawaban = (array) $jawabanSiswa ?? [];
 
                 break;
 
             case 'MCMA':
+                $benar = count(array_intersect($jawabanSiswa, $kunci));
+                $totalBenar = count($kunci);
+                $salah = count(array_diff($jawabanSiswa, $kunci));
+                $status = ($benar == $totalBenar && $salah == 0)
+                    ? 'Benar'
+                    : 'Salah';
+                if ($status == 'Benar') {
+                    $nilai = $soal->point;
+                }
+
+                $simpanJawaban = $jawabanSiswa ?? [];
+
+                break;
+
+            case 'TF':
                 $benar = 0;
                 $total = count($kunci);
                 foreach ($kunci as $key => $val) {
@@ -159,16 +181,19 @@ class PengerjaanController extends Controller
                         $detail_status[$key] = 'Salah';
                     }
                 }
-                $nilai = ($benar / $total) * $soal->point;
+
                 $status = ($benar == $total)
                     ? 'Benar'
-                    : (($benar > 0) ? 'Sebagian Benar' : 'Salah');
+                    : 'Salah';
+                if ($status == 'Benar') {
+                    $nilai = $soal->point;
+                }
 
                 $simpanJawaban = $jawabanSiswa;
 
                 break;
         }
- 
+
         // Simpan hasil ke DB
         TryoutPengerjaan::updateOrCreate(
             [
@@ -248,7 +273,7 @@ class PengerjaanController extends Controller
         $salah = $pengerjaan->where('status', 'Salah')->count();
         $pengerjaan = TryoutPengerjaan::with('soal')->where('tryout_materi_id', $nilai->tryout_materi_id)
             ->where('user_id', auth()->user()->id);
-        $benar = $pengerjaan->whereIn('status', ['Benar','Sebagian Benar']);
+        $benar = $pengerjaan->whereIn('status', ['Benar', 'Sebagian Benar']);
 
         $totalPoint = 0;
         foreach ($benar->get() as $key => $value) {
