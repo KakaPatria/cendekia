@@ -27,8 +27,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Panel\InvoiceController;
 use App\Http\Controllers\Panel\KelasCendekiaController;
-use App\Http\Controllers\Siswa\PaymentController;
-use App\Http\Controllers\ManajemenSiswaController;
+use App\Http\Controllers\Siswa\PaymentController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -69,10 +68,6 @@ Route::post('ajax/upload-img-soal', [AjaxController::class, 'uploadImgSoal'])->n
 // ===========================
 // PANEL ADMIN / PENGAJAR
 // ===========================
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/panel/manajemen_siswa', [ManajemenSiswaController::class, 'index'])->name('manajemen_siswa.index');
-});
 Route::name('panel.')->prefix('panel')->group(function () {
     Route::get('/', [PanelUserController::class, 'login'])->name('login');
     Route::post('login', [PanelUserController::class, 'doLogin'])->name('doLogin');

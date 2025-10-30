@@ -46,7 +46,9 @@
                          <h6 class="card-title mb-2 fw-bold">Daftar Jadwal</h6>
                      </div>
                      <div class="flex-shrink-0">
+                         @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                          <a href="#" class="btn btn-primary btn-sm btn-label waves-effect waves-light " data-bs-toggle="modal" data-bs-target="#add-materi-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Jadwal</a>
+                         @endif
                      </div>
                  </div>
                  <table class="table table-striped">
@@ -57,7 +59,9 @@
                              <th scope="col">Guru</th>
                              <th scope="col">Jam Mulai</th>
                              <th scope="col">Jam Selesai</th>
+                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                              <th scope="col" class="text-center">Action</th>
+                             @endif
                          </tr>
                      </thead>
                      <tbody>
@@ -68,10 +72,12 @@
                              <td>{{ $jadwal->guru->name ?? ''}}</td>
                              <td>{{ $jadwal->jadwal_mulai}}</td>
                              <td>{{ $jadwal->jadwal_selesai}}</td>
+                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                              <td class="text-center"> <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm edit-materi-btn" data-bs-toggle="modal" data-bs-target="#edit-materi-modal" data-jadwal_cendekia_id="{{ $jadwal->jadwal_cendekia_id}}" data-ref_materi_id="{{ $jadwal->ref_materi_id}}" data-guru_id="{{ $jadwal->guru_id}}" data-jadwal_cendekia_hari="{{ $jadwal->jadwal_cendekia_hari}}" data-jadwal_mulai="{{ $jadwal->jadwal_mulai}}" data-jadwal_selesai="{{ $jadwal->jadwal_selesai}}">
                                      <i class="fa fa-edit"></i> Edit</a>
                                  <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteMateriBtn" data-bs-toggle="modal" data-bs-target="#deleteMateriModal" data-id="{{$jadwal->jadwal_cendekia_id}}" data-name="{{$jadwal->mataPelajaran->ref_materi_judul}}"><i class="fa fa-trash"></i> Hapus</a>
                              </td>
+                             @endif
                          </tr>
                          @endforeach
                      </tbody>
@@ -102,7 +108,9 @@
                              <th scope="col">Nama siswa</th>
                              <th scope="col">Asal Sekolah</th>
                              <th scope="col">Telepon</th>
+                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                              <th scope="col" class="text-center">Action</th>
+                             @endif
                          </tr>
                      </thead>
                      <tbody>
@@ -112,10 +120,12 @@
                              <td>{{ $siswa->siswa->name ?? ''}}</td>
                              <td>{{ $siswa->siswa->asal_sekolah ?? ''}}</td>
                              <td>{{ $siswa->siswa->telepon ?? ''}}</td>
+                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                              <td class="text-center">
                                  <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteSiswaBtn" data-bs-toggle="modal" data-bs-target="#deleteSiswaModal" data-kelas_cendekia_id="{{$siswa->kelas_cendekia_id}}"
                                      data-kelas_siswa_cendekia_id="{{$siswa->kelas_siswa_cendekia_id}}" data-name="{{$siswa->siswa->name ?? ''}}"><i class="fa fa-trash"></i> Hapus</a>
                              </td>
+                             @endif
                          </tr>
                          @endforeach
                      </tbody>
@@ -502,8 +512,8 @@
      $('.deleteSiswaBtn').click(function() {
          var kelas_cendekia_id = $(this).data('kelas_cendekia_id');
          var kelas_siswa_cendekia_id = $(this).data('kelas_siswa_cendekia_id');
-         var name = $(this).data('name'); 
-         $('#deleteSiswaForm').attr('action', '<?php echo route('panel.kelas_cendekia.destroySiswa', ['','']) ?>/' + kelas_cendekia_id + '/' + kelas_siswa_cendekia_id)
+         var name = $(this).data('name');
+         $('#deleteSiswaForm').attr('action', '<?php echo route('panel.kelas_cendekia.destroySiswa', ['', '']) ?>/' + kelas_cendekia_id + '/' + kelas_siswa_cendekia_id)
          $('#deleteSiswaName').html(name);
      })
  </script>

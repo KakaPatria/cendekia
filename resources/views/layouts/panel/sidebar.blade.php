@@ -43,6 +43,11 @@
                 <i class="ri-file-paper-line"></i> <span>Registrasi Tryout</span>
                 </a>
                 </li>--}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Request::routeIs('panel.tryout.*') ? 'active' : '' }}" href="{{route('panel.kelas_cendekia.index')}}">
+                        <i class="ri-team-line"></i> <span>Kelas Cendekia</span>
+                    </a>
+                </li>
                 @if(auth()->user()->roles_id == 2)
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Request::routeIs('panel.pendaftaran.*') ? 'active' : '' }}" href="{{route('panel.pendaftaran.index')}}">
@@ -55,11 +60,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('manajemen_siswa.index') }}">
-                        <i class="ri-team-line"></i> <span>Manajemen Siswa</span>
-                    </a>
-                </li>
+
 
                 @php
                 $isReferensiActive = Request::routeIs('panel.bank_soal.*') || Request::routeIs('panel.materi.*') || Request::routeIs('panel.asal_sekolah.*');
@@ -205,23 +206,25 @@
         color: #fff !important;
     }
 
-/* Submenu */
-.menu-dropdown .nav-link {
-    display: block;
-    color: #452103 !important;
-    margin: 4px 14px !important; /* sama jarak kiri-kanan dengan menu utama */
-    padding: 10px 16px !important;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.25s ease;
-    box-sizing: border-box;
-}
-.menu-dropdown .nav-link.active {
-    background-color: rgba(152, 0, 0, 0.1) !important;
-    color: var(--primary-red) !important;
-}
-.menu-dropdown .nav-link:hover {
-    background-color: rgba(240, 201, 70, 0.3) !important;
-}
+    /* Submenu */
+    .menu-dropdown .nav-link {
+        display: block;
+        color: #452103 !important;
+        margin: 4px 14px !important;
+        /* sama jarak kiri-kanan dengan menu utama */
+        padding: 10px 16px !important;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.25s ease;
+        box-sizing: border-box;
+    }
 
+    .menu-dropdown .nav-link.active {
+        background-color: rgba(152, 0, 0, 0.1) !important;
+        color: var(--primary-red) !important;
+    }
+
+    .menu-dropdown .nav-link:hover {
+        background-color: rgba(240, 201, 70, 0.3) !important;
+    }
 </style>

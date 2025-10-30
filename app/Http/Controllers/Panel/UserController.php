@@ -139,7 +139,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|unique:users,email,' . $user->id,
-                'telepon' => 'required|numeric',
+                'telepon' => 'required',
                 'asal_sekolah' => 'required|string|max:255',
                 'jenjang' => 'required|string|in:SD,SMP,SMA',
                 'kelas' => 'required|integer|min:1|max:12',
@@ -153,7 +153,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|unique:users,email,' . $user->id,
-                'telepon' => 'required|numeric',
+                'telepon' => 'required',
             ]);
         }
 
@@ -217,7 +217,7 @@ class UserController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'telepon' => 'required|numeric',
+                'telepon' => 'required',
                 'asal_sekolah' => 'required|string|max:255',
                 'jenjang' => 'required|string|in:SD,SMP,SMA',
                 'kelas' => 'required|integer|min:1|max:12',
@@ -232,7 +232,7 @@ class UserController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'telepon' => 'required|numeric',
+                'telepon' => 'required',
                 'password' => 'required|string|min:8',
             ]);
         }

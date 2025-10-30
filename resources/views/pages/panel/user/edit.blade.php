@@ -137,7 +137,7 @@
                         <div class="col-md-9">
                             <select class="multiple-select2 form-control" multiple name="role[]">
                                 @foreach($roles as $role)
-                                    <option value="{{ $role->id }}" {{ in_array($role->name, $userRole) ? 'selected' : '' }}>
+                                    <option value="{{ $role->name }}" {{ in_array($role->name, $userRole) ? 'selected' : '' }}>
                                         {{ $role->name }}
                                     </option>
                                 @endforeach

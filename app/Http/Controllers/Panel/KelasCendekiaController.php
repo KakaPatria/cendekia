@@ -14,6 +14,7 @@ class KelasCendekiaController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user();
 
         $kelasCendekia = KelasCendekia::with('jadwal')
             ->withCount('siswaKelas')
@@ -27,8 +28,14 @@ class KelasCendekiaController extends Controller
                 $q->whereHas('jadwal', function ($q2) use ($guru) {
                     $q2->where('guru_id', $guru);
                 });
-            })
-            ->orderByDesc('created_at')
+            });
+        if (!$user->hasRole(['Admin'])) {
+            $kelasCendekia->whereHas('jadwal', function ($q1) use ($user) {
+                $q1->where('guru_id', $user->id);
+            });
+        }
+
+        $kelasCendekia = $kelasCendekia->orderByDesc('created_at')
             ->paginate(10);
 
         $load['kelas_cendekia'] = $kelasCendekia;
@@ -157,7 +164,7 @@ class KelasCendekiaController extends Controller
         $siswa = User::where('roles_id', 1)
             ->where('jenjang', $kelasCendekia->jenjang)
             ->where('kelas', $kelasCendekia->kelas)
-            ->whereNotIn('id',$existingSiswaIds)
+            ->whereNotIn('id', $existingSiswaIds)
             ->get();
 
         $load['kelas_cendekia'] = $kelasCendekia;
