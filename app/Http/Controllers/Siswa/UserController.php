@@ -210,7 +210,8 @@ class UserController extends Controller
     public function register()
     {
 
-        return view('pages.siswa.register');
+        // show siswa registration view (custom auth register-siswa)
+        return view('pages.auth.register-siswa');
     }
 
     public function doRegister(Request $request)

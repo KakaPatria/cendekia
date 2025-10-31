@@ -195,7 +195,7 @@
                                 <option value="">Pilih Jenjang Dulu</option>
                             </select>
                         </div>
-                    <div class="col-md-6 mb-3">
+                    <!-- <div class="col-md-6 mb-3">
                         <label for="golongan" class="form-label">Golongan <span class="text-danger">*</span></label>
                         <select class="form-select" name="golongan" id="golongan" required>
                             <option value="" selected disabled>Pilih Golongan</option>
@@ -204,7 +204,7 @@
                             <option value="C" {{ old('golongan') == 'C' ? 'selected' : '' }}>C</option>
                             <option value="D" {{ old('golongan') == 'D' ? 'selected' : '' }}>D</option>
                         </select>
-                    </div>
+                    </div> -->
                         <div class="col-12 mb-3"><label class="form-label" for="password">Password <span class="text-danger">*</span></label><input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Minimal 8 karakter" required>@error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
                         <div class="col-12 mb-3"><label class="form-label" for="password_confirmation">Ulangi Password <span class="text-danger">*</span></label><input type="password" class="form-control" name="password_confirmation" placeholder="Ketik ulang password" required></div>
                     </div>

@@ -157,7 +157,7 @@
                     </div>
 
                     <div class="mt-4 text-center bottom-link">
-                        <p class="mb-0 text-white">Belum Punya Akun? <a href="{{ route('register.choice') }}" class="fw-semibold text-white text-decoration-underline"> Daftar Sekarang </a></p>
+                        <p class="mb-0 text-white">Belum Punya Akun? <a href="{{ route('register.siswa') }}" class="fw-semibold text-white text-decoration-underline"> Daftar Sekarang </a></p>
                     </div>
 
                 </div>

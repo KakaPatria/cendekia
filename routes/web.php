@@ -47,11 +47,14 @@ Route::get('/daftar_tryout_success', function () {
 // ===========================
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showChoiceForm')->name('register.choice');
-    Route::get('/register/siswa', 'showSiswaForm')->name('register.siswa');
-    Route::post('/register/siswa', 'registerSiswa');
+    // NOTE: siswa registration is handled by Siswa\UserController (custom)
     Route::get('/register/pengajar', 'showPengajarForm')->name('register.pengajar');
     Route::post('/register/pengajar', 'registerPengajar');
 });
+
+// Use Siswa UserController for siswa registration (custom view and logic)
+Route::get('/register/siswa', [SiswaUserController::class, 'register'])->name('register.siswa');
+Route::post('/register/siswa', [SiswaUserController::class, 'doRegister']);
 
 // ===========================
 // AJAX
