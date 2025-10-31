@@ -44,7 +44,7 @@
                 </a>
                 </li>--}}
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ Request::routeIs('panel.tryout.*') ? 'active' : '' }}" href="{{route('panel.kelas_cendekia.index')}}">
+                    <a class="nav-link menu-link {{ Request::routeIs('panel.kelas_cendekia.*') ? 'active' : '' }}" href="{{route('panel.kelas_cendekia.index')}}">
                         <i class="ri-team-line"></i> <span>Kelas Cendekia</span>
                     </a>
                 </li>
