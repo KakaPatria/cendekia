@@ -169,6 +169,8 @@ Route::post('/webhook/midtrans/notify', [PaymentController::class, 'handleNotifi
 
 
 Route::name('siswa.')->prefix('siswa')->group(function () {
+        // Route for public student registration (handled by Siswa\UserController@doRegister)
+        Route::post('register', [SiswaUserController::class, 'doRegister'])->name('doRegister');
     Route::post('login', [SiswaUserController::class, 'doLogin'])->name('doLogin');
     Route::get('forgot_password', [SiswaUserController::class, 'forgotPassword'])->name('forgotPassword');
     Route::post('forgot_password', [SiswaUserController::class, 'doForgotPassword'])->name('doForgotPassword');
