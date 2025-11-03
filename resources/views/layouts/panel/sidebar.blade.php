@@ -87,8 +87,8 @@
                     </a>
                     <div class="collapse menu-dropdown {{ $isUserActive ? 'show' : '' }}" id="sidebar-user">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('panel.user.index','role=Siswa')}}" class="nav-link {{ request('rule') == 'Siswa' ? 'active' : '' }}">Siswa</a></li>
-                            <li class="nav-item"><a href="{{ route('panel.user.index','role=Admin')}}" class="nav-link {{ request('rule') == 'Admin' ? 'active' : '' }}">Admin & Pengajar</a></li>
+                            <li class="nav-item"><a href="{{ route('panel.user.index', ['role' => 'Siswa']) }}" class="nav-link {{ request('role') == 'Siswa' ? 'active' : '' }}">Siswa</a></li>
+                            <li class="nav-item"><a href="{{ route('panel.user.index', ['role' => 'Admin']) }}" class="nav-link {{ request('role') == 'Admin' ? 'active' : '' }}">Admin & Pengajar</a></li>
                         </ul>
                     </div>
                 </li>
