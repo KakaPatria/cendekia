@@ -82,6 +82,17 @@
 
                         </div>
                     </div>
+                      <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Tampilkan Kunci Jawaban?</label>
+                        <div class="col-md-9">
+                            <select id="add-tampilkan_kunci" class="form-control" name="tampilkan_kunci">
+                                <option value="">Pilih tampilkan kunci?</option>
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak">Tidak</option>
+                            </select>
+
+                        </div>
+                    </div>
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Kategori</label>
                         <div class="col-md-9">

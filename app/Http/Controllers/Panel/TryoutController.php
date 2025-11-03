@@ -90,7 +90,6 @@ class TryoutController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'tryout_judul' => 'required|string|max:255',
             'tryout_jenjang' => 'required|string|in:SD,SMP,SMA',
@@ -99,14 +98,14 @@ class TryoutController extends Controller
             'tryout_status' => 'required',
             'tryout_jenis' => 'required|in:Gratis,Berbayar',
             'tryout_nominal' => [
-                'required',
                 function ($attribute, $value, $fail) use ($request) {
-                    if ($request->tryout_jenis === 'Berbayar' && $value <= 0) {
+                    if ($request->is_open === 'Umum' && $request->tryout_jenis === 'Berbayar' && $value <= 0) {
                         $fail('Nominal harus lebih dari 0 jika tryout berbayar.');
                     }
                 },
             ],
             'is_open' => 'required|in:Cendekia,Umum',
+            'tampilkan_kunci' => 'required|in:Ya,Tidak',
         ]);
 
         $tryout = new Tryout();
@@ -117,9 +116,10 @@ class TryoutController extends Controller
         $tryout->tryout_register_due = $request->tryout_register_due;
         $tryout->tryout_status = $request->tryout_status;
         $tryout->tryout_jenis = $request->tryout_jenis;
-        $tryout->tryout_nominal = $request->tryout_nominal;
+        $tryout->tryout_nominal = $request->tryout_nominal ?? 0;
         $tryout->tryout_diskon = $request->tryout_diskon ?? 0;
         $tryout->is_open = $request->is_open;
+        $tryout->tampilkan_kunci = $request->tampilkan_kunci;
         $tryout->save();
 
         if ($request->is_open == 'Cendekia') {
@@ -145,7 +145,7 @@ class TryoutController extends Controller
                     'tryout_id' => $tryout->tryout_id,
                     'materi_id' => $value->ref_materi_id,
                     'pengajar_id' => $value->guru_id,
-                    'durasi' => '90',
+                    'durasi' => '120',
                     'safe_mode' => 1,
                     'tryout_materi_deskripsi' => $value->jadwal_cendekia_keterangan
                 ]);
@@ -231,7 +231,6 @@ class TryoutController extends Controller
             'tryout_status' => 'required',
             //'tryout_jenis' => 'required|in:Gratis,Berbayar',
             'tryout_nominal' => [
-                'required',
                 function ($attribute, $value, $fail) use ($request) {
                     if ($request->tryout_jenis === 'Berbayar' && $value <= 0) {
                         $fail('Nominal harus lebih dari 0 jika tryout berbayar.');
@@ -240,6 +239,7 @@ class TryoutController extends Controller
             ],
             //'tryout_nominal' => 'required',
             //'is_open' => 'required',
+            'tampilkan_kunci' => 'required|in:Ya,Tidak',
         ]);
 
         $tryout = Tryout::find($id);
@@ -249,10 +249,11 @@ class TryoutController extends Controller
         $tryout->tryout_kelas = $request->tryout_kelas;
         $tryout->tryout_register_due = $request->tryout_register_due;
         $tryout->tryout_status = $request->tryout_status;
-        $tryout->tryout_jenis = $request->tryout_jenis;
-        $tryout->tryout_nominal = $request->tryout_nominal;
-        $tryout->tryout_diskon = $request->tryout_diskon;
+        //$tryout->tryout_jenis = $request->tryout_jenis;
+        $tryout->tryout_nominal = $request->tryout_nominal ?? 0;
+        $tryout->tryout_diskon = $request->tryout_diskon ?? 0;
         //$tryout->is_open = $request->is_open;
+        $tryout->tampilkan_kunci = $request->tampilkan_kunci;
         $tryout->update();
 
         if ($request->file('tryout_banner')) {
@@ -535,7 +536,7 @@ class TryoutController extends Controller
         $dirPath = 'app/public/exports/';
         $filePath = storage_path($dirPath . 'Data Peserta tryout ' . $tryout->tryout_judul . '.xlsx');
         if (!file_exists(storage_path($dirPath))) {
-            Storage::disk('public')->makeDirectory('template_jadwal');
+            Storage::disk('public')->makeDirectory('exports');
         }
         $writer->save($filePath);
 

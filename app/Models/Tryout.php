@@ -25,6 +25,7 @@ class Tryout extends Model
         'tryout_nominal',
         'tryout_diskon',
         'is_open',
+        'tampilkan_kunci',
     ];
 
     public function materi()

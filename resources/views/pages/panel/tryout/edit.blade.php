@@ -83,6 +83,17 @@
 
                         </div>
                     </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Tampilkan Kunci Jawaban?</label>
+                        <div class="col-md-9">
+                            <select id="add-tampilkan_kunci" class="form-control" name="tampilkan_kunci">
+                                <option value="">Pilih tampilkan kunci?</option>
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak">Tidak</option>
+                            </select>
+
+                        </div>
+                    </div>
 
 
                     {{--
@@ -281,6 +292,7 @@
     $('#add-kelas').val('<?= $tryout->tryout_kelas ?>').change()
     $('#add-jenis').val('<?= $tryout->tryout_jenis ?>').change()
     $('#add-status').val('<?= $tryout->tryout_status ?>').change()
+    $('#add-tampilkan_kunci').val('<?= $tryout->tampilkan_kunci ?>').change()
     $('#add-is-open').val('<?= $tryout->is_open ?>').change()
 </script>
 @endsection

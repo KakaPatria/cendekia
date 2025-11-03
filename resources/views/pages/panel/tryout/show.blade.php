@@ -319,6 +319,10 @@
                                 <td class="fw-medium">Umum</td>
                                 <td>{{ $tryout->is_open}}</td>
                             </tr>
+                            <tr>
+                                <td class="fw-medium">Tampilkan Kunci Jawaban?</td>
+                                <td>{{ $tryout->tampilkan_kunci}}</td>
+                            </tr>
                             @if($tryout->tryout_jenis == 'Berbayar')
                             <tr>
                                 <td class="fw-medium">Jenis</td>

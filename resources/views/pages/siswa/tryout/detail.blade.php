@@ -166,7 +166,7 @@
                                         @endif
                                         @else
                                         <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn  {{ $materi->soal->count() > 1 ? '' : 'disabled'}}" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
-                                            Mulai Kerjakan 
+                                            Mulai Kerjakan
                                         </a>
                                         @endif
                                         @endif
@@ -298,7 +298,9 @@
                                         <th scope="col">No. </th>
                                         <th scope="col">Jawaban </th>
                                         <th scope="col">Jenis Soal</th>
+                                        @if($tryout->tampilkan_kunci == 'Ya')
                                         <th scope="col">Kunci Jawaban</th>
+                                        @endif
                                         <th scope="col">Point</th>
                                         <th scope="col">Status</th>
                                         <th scope="col"></th>
@@ -338,6 +340,7 @@
                                         @endif
 
                                         <td>{{ $soal->tryout_soal_type ?? ''}}</td>
+                                        @if($tryout->tampilkan_kunci == 'Ya')
                                         @if($soal->tryout_soal_type == 'TF')
                                         @php
                                         $dataKunciJabawan = json_decode($soal->tryout_kunci_jawaban ?? []);
@@ -363,11 +366,12 @@
                                         @else
                                         <td>{{ implode(', ', json_decode($soal->tryout_kunci_jawaban))}}</td>
                                         @endif
+                                        @endif
 
                                         <td>{{ $soal->pengerjaan->point}}</td>
                                         <td>{!! $soal->pengerjaan->status_badge ?? '' !!}</td>
                                         <td>
-                                            @if($soal->pengerjaan)
+                                            @if($soal->pengerjaan && $tryout->tampilkan_kunci == 'Ya')
                                             <a href="{{ route('siswa.tryout.pengerjaan.analisa',$soal->pengerjaan->tryout_pengerjaan_id) }}" class="btn rounded-pill btn-info btn-sm">
                                                 <i class="fa fa-edit"></i> Detail
                                             </a>
