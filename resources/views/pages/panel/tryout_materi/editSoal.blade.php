@@ -140,7 +140,7 @@
                                                     <option value="Salah" @selected(($opsiJawabanMCMA[$abjad] ?? '' )=='Salah' )>Salah</option>
                                                 </select>
 
-                                                <input class="form-check-input {{ $soal->tryout_soal_type == 'TF' ? 'd-none' : '' }}"
+                                                <input class="form-check-input opsi-checkbox {{ $soal->tryout_soal_type == 'TF' ? 'd-none' : '' }}"
                                                     type="checkbox"
                                                     name="opsi_jawaban[]"
                                                     value="{{ $abjad }}"
@@ -185,6 +185,7 @@
 
 <script>
     $('#nav-tryout').addClass('active')
+
 
     <?php if ($tryout_materi->jenis_soal != 'PDF') { ?>
 
@@ -281,17 +282,17 @@
         container.find('#jenis-jawaban').addClass('d-none');
         tbody.find('.opsi-cell').html('');
 
-        if (jenis === 'SC' || jenis === 'MC') {
+        if (jenis === 'SC' || jenis === 'MCMA') {
             // Buat checkbox
             tbody.find('tr').each(function() {
                 const abjad = $(this).find('td:first').text().replace('.', '').trim();
                 $(this).find('.opsi-cell').html(`
-                <input class="form-check-input" type="checkbox" name="opsi_jawaban[]" value="${abjad}">
+                <input class="form-check-input opsi-checkbox" type="checkbox" name="opsi_jawaban[]" value="${abjad}">
             `);
             });
 
             // Single Choice hanya 1 boleh dipilih
-            if (jenis === 'SC') { 
+            if (jenis === 'SC') {
                 container.find('.opsi-checkbox').off('change').on('change', function() {
                     if (this.checked) container.find('.opsi-checkbox').not(this).prop('checked', false);
                 });
@@ -312,6 +313,10 @@
             });
         }
     });
+
+    <?php if ($soal->tryout_soal_type == 'SC') { ?>
+        $('.jenis-soal').val('<?= $soal->tryout_soal_type ?>').trigger('change');
+    <?php } ?>
 
     <?php
     if ($soal->tryout_kunci_jawaban) {
