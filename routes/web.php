@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Panel\UserController as PanelUserController;
+use App\Http\Controllers\Panel\ForgotPasswordController;
 use App\Http\Controllers\Panel\DashboardController as PanelDashboardController;
 use App\Http\Controllers\Panel\PendaftaranController;
 use App\Http\Controllers\Panel\PermissionController;
@@ -71,6 +72,14 @@ Route::post('ajax/upload-img-soal', [AjaxController::class, 'uploadImgSoal'])->n
 Route::name('panel.')->prefix('panel')->group(function () {
     Route::get('/', [PanelUserController::class, 'login'])->name('login');
     Route::post('login', [PanelUserController::class, 'doLogin'])->name('doLogin');
+
+    // Panel forgot-password (OTP + reset) - panel-specific flow
+    Route::get('forgot_password', [ForgotPasswordController::class, 'forgotPassword'])->name('forgotPassword');
+    Route::post('forgot_password', [ForgotPasswordController::class, 'doForgotPassword'])->name('doForgotPassword');
+    Route::get('enter-otp', [ForgotPasswordController::class, 'enterOtp'])->name('enterOtp');
+    Route::post('verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('verifyOtp');
+    Route::get('reset_password', [ForgotPasswordController::class, 'passwordReset'])->name('password.reset');
+    Route::post('reset_password', [ForgotPasswordController::class, 'doPasswordReset'])->name('do.password.reset');
 
     Route::group(['middleware' => ['admin']], function () {
         Route::get('dashboard', [PanelDashboardController::class, 'index'])->name('dashboard');

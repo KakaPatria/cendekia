@@ -1,8 +1,8 @@
 @extends('layouts.master-without-nav')
-@section('title', 'Reset Password')
+@section('title', 'Reset Password Panel')
 @section('css')
 <style>
-    /* Mengadopsi style dari halaman login dengan !important */
+    /* Mengadopsi style dari halaman login dengan !important (sama seperti siswa reset) */
     .auth-page-wrapper {
         min-height: 100vh;
         display: flex;
@@ -78,31 +78,27 @@
     }
 </style>
 @endsection
-
 @section('content')
 <div class="auth-page-wrapper">
-    
     <div class="auth-page-content overflow-hidden py-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-5">
-                    
                     <div class="card mt-4">
                         <div class="card-body p-4 p-lg-5">
                             <div class="text-center mb-4">
                                 <a href="/" class="d-inline-block auth-logo">
                                     <img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia" height="50">
                                 </a>
-                                <h4 class="text-dark mt-4">Reset Kata Sandi</h4>
+                                <h4 class="text-dark mt-4">Reset Kata Sandi Panel</h4>
                                 <p class="text-muted">Masukkan kata sandi baru untuk akun <strong>{{ $email ?? 'emailanda@example.com' }}</strong>.</p>
                             </div>
 
                             @include('components.message')
 
                             <div class="p-2">
-                                <form action="{{ route('siswa.do.password.reset') }}" method="POST">
+                                <form action="{{ route('panel.do.password.reset') }}" method="POST">
                                     @csrf
-                                    {{-- token & email dari query string atau controller --}}
                                     <input type="hidden" name="token" value="{{ $token ?? '' }}">
                                     <input type="hidden" name="email" value="{{ $email ?? '' }}">
 
@@ -129,7 +125,7 @@
                             </div>
 
                             <div class="mt-4 text-center">
-                                <p class="text-muted">Ingat password Anda? <a href="{{ route('login') }}" class="fw-semibold text-decoration-underline" style="color: #980000;">Kembali ke Login</a></p>
+                                <p class="text-muted">Ingat password Anda? <a href="{{ route('panel.login') }}" class="fw-semibold text-decoration-underline" style="color: #980000;">Kembali ke Login</a></p>
                             </div>
                         </div>
                     </div>
@@ -143,7 +139,6 @@
 
 @section('script')
 <script>
-// Small helper: focus the first password input for convenience.
 document.addEventListener('DOMContentLoaded', function () {
     const pwd = document.getElementById('password');
     if (pwd) pwd.focus();

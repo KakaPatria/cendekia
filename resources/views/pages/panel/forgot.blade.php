@@ -1,8 +1,10 @@
 @extends('layouts.master-without-nav')
-@section('title', 'Reset Password')
+@section('title')
+    Lupa Password Panel
+@endsection
 @section('css')
 <style>
-    /* Mengadopsi style dari halaman login dengan !important */
+    /* Mengadopsi style dari halaman login dengan improvement V2 (sama seperti siswa) */
     .auth-page-wrapper {
         min-height: 100vh;
         display: flex;
@@ -13,10 +15,10 @@
         background-position: center;
     }
 
+    /* [IMPROVEMENT V2] Efek Glassmorphism pada Card dengan !important */
     .card {
-        /* ==== JURUS PAMUNGKAS DENGAN !important ==== */
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        background: rgba(255, 255, 255, 0.65) !important;
+        background: rgba(255, 255, 255, 0.65) !important; /* DIPAKSA DENGAN !important */
         backdrop-filter: blur(15px) !important;
         -webkit-backdrop-filter: blur(15px) !important;
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, .2) !important;
@@ -36,32 +38,42 @@
     .auth-logo:hover img {
         transform: scale(1.05);
     }
+    
     .auth-logo img {
         transition: transform 0.3s ease-in-out;
     }
-    
-    .otp-input-group {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin: 2rem 0;
-    }
-    .otp-input {
-        width: 48px;
-        height: 55px;
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight: 600;
+
+    .form-floating > .form-control {
+        height: calc(3.5rem + 2px);
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
         border-radius: 0.5rem;
-        border: 1px solid rgba(0, 0, 0, 0.1);
         background-color: rgba(255, 255, 255, 0.5);
-        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.1);
     }
-    .otp-input:focus {
+
+    .form-floating > label {
+        padding: 1rem 1.25rem;
+        color: #6c757d;
+    }
+
+    .form-floating > .form-control:focus {
         border-color: #980000;
         box-shadow: 0 0 0 0.2rem rgba(152, 0, 0, 0.15);
-        outline: none;
-        transform: scale(1.05);
+    }
+    
+    .form-floating > .form-control:not(:placeholder-shown) ~ label,
+    .form-floating > .form-control:focus ~ label {
+        color: #980000;
+        transform: scale(.85) translateY(-.5rem) translateX(.15rem);
+    }
+    
+    .form-control.is-invalid {
+        border-color: #dc3545;
+    }
+    .invalid-feedback {
+        font-size: 0.875em;
+        font-weight: 500;
     }
     
     .btn-gradient-danger {
@@ -72,66 +84,61 @@
         transition: all 0.5s ease;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
+
     .btn-gradient-danger:hover {
         background-position: right center;
         transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(152, 0, 0, 0.3);
+    }
+    
+    .bottom-link a {
+        transition: color 0.3s ease;
+    }
+    
+    .bottom-link a:hover {
+        color: #212529 !important;
     }
 </style>
 @endsection
-
 @section('content')
 <div class="auth-page-wrapper">
-    
     <div class="auth-page-content overflow-hidden py-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-5">
-                    
                     <div class="card mt-4">
                         <div class="card-body p-4 p-lg-5">
                             <div class="text-center mb-4">
                                 <a href="/" class="d-inline-block auth-logo">
                                     <img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia" height="50">
                                 </a>
-                                <h4 class="text-dark mt-4">Reset Kata Sandi</h4>
-                                <p class="text-muted">Masukkan kata sandi baru untuk akun <strong>{{ $email ?? 'emailanda@example.com' }}</strong>.</p>
+                                <h4 class="text-dark mt-4">Lupa Password Panel</h4>
+                                <p class="text-muted">Masukkan email admin Anda untuk menerima kode OTP.</p>
                             </div>
 
                             @include('components.message')
 
                             <div class="p-2">
-                                <form action="{{ route('siswa.do.password.reset') }}" method="POST">
+                                <form action="{{ route('panel.doForgotPassword') }}" method="POST">
                                     @csrf
-                                    {{-- token & email dari query string atau controller --}}
-                                    <input type="hidden" name="token" value="{{ $token ?? '' }}">
-                                    <input type="hidden" name="email" value="{{ $email ?? '' }}">
-
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Kata Sandi Baru" required>
-                                        <label for="password">Kata Sandi Baru</label>
-                                        @error('password')
-                                            <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-floating mb-3">
-                                        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" placeholder="Konfirmasi Kata Sandi" required>
-                                        <label for="password_confirmation">Konfirmasi Kata Sandi</label>
-                                        @error('password_confirmation')
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="floatingEmail" name="email" placeholder="Masukkan Email Anda" value="{{ old('email') }}" required>
+                                        <label for="floatingEmail">Email</label>
+                                        @error('email')
                                             <div class="invalid-feedback d-block mt-1">{{ $message }}</div>
                                         @enderror
                                     </div>
 
                                     <div class="mt-4">
-                                        <button class="btn btn-gradient-danger w-100 btn-lg" type="submit">Reset Password</button>
+                                        <button class="btn btn-gradient-danger w-100 btn-lg" type="submit">Kirim Kode OTP</button>
                                     </div>
                                 </form>
                             </div>
-
-                            <div class="mt-4 text-center">
-                                <p class="text-muted">Ingat password Anda? <a href="{{ route('login') }}" class="fw-semibold text-decoration-underline" style="color: #980000;">Kembali ke Login</a></p>
-                            </div>
                         </div>
+                    </div>
+
+                    <div class="mt-4 text-center bottom-link">
+                        <p class="mb-0">Ingat password Anda? <a href="{{ route('panel.login') }}" class="fw-semibold text-dark text-decoration-underline"> Kembali ke Login </a></p>
                     </div>
 
                 </div>
@@ -139,14 +146,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('script')
-<script>
-// Small helper: focus the first password input for convenience.
-document.addEventListener('DOMContentLoaded', function () {
-    const pwd = document.getElementById('password');
-    if (pwd) pwd.focus();
-});
-</script>
 @endsection
