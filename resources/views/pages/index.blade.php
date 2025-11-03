@@ -866,7 +866,8 @@ html {
                             </div>
 
 
-                            <img src="{{URL::asset('assets/images/job-profile2.png')}}" alt="" class="user-img">
+                            <img src="{{URL::asset('assets/images/cobain.png')}}" alt="" class="user-img" style="margin-left: -80px;">
+                      
 
                             {{-- Circle decoration (dinonaktifkan sementara)
                             <div class="circle-effect">
