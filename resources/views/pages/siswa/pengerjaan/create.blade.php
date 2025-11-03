@@ -27,7 +27,7 @@ Tryout
 </div>
 
 <div class="row">
-    <div class="col-lg-10">
+    <div class="col-lg-9">
         <div class="card">
             <div class="card-body">
                 <div id="smartwizard">
@@ -169,7 +169,7 @@ Tryout
             </div>
         </div>
     </div>
-    <div class="col-lg-2">
+    <div class="col-lg-3">
         <div class="card">
             <div class="card-header">
                 <div class="text-center">
@@ -177,13 +177,13 @@ Tryout
                 </div>
             </div>
             <div class="card-body">
-                <div class="row">
+                <div class="row row-cols-5">
                     @foreach($tryout_materi->soal as $key => $soal)
-                    <div class="col-lg-3 mb-2">
+                    <div class="col mb-2">
                         <a href="javascript:;" data-index="{{ $key}}" class="btn-nomor">
-                            <div class="avatar-sm p-1 py-2 h-auto bg-light rounded-3" id="nomor-soal-{{ $key}}">
+                            <div class="avatar-m  p-1 py-2 h-auto bg-light rounded-3" id="nomor-soal-{{ $key}}">
                                 <div class="text-center">
-                                    <h5 class="mb-0" data-index="{{ $key}}">{{ $soal->tryout_nomor}}</h5>
+                                    <p class="mb-0 fs-5" data-index="{{ $key}}">{{ $soal->tryout_nomor}}</p>
                                 </div>
                             </div>
                         </a>
