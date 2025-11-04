@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\JadwalCendekia;
 use App\Models\KelasCendekia;
@@ -57,7 +58,10 @@ class KelasCendekiaController extends Controller
 
     public function store(Request $request)
     {
-
+            if (!Auth::user()->hasRole('Admin')) {
+                return redirect()->route('panel.kelas_cendekia.index')
+                                 ->with('error', 'Anda tidak memiliki izin untuk menambah kelas.');
+            }
         $validator = Validator::make($request->all(), [
             'kelas_cendekia_nama' => 'required|string',
             'kelas_cendekia_keterangan' => 'nullable|',
@@ -81,12 +85,23 @@ class KelasCendekiaController extends Controller
             'kelas_cendekia_nama' => 'required|string',
             'kelas_cendekia_keterangan' => 'nullable|',
             'jenjang' => 'required|in:SD,SMP,SMA',
-            'kelas' => 'required|in:1,2,3,4,5,6,7,8,9',
+            'kelas' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
             'status' => 'required|in:Aktif,Tidak Aktif',
         ]);
 
         $validated = $validator->validated();
-        KelasCendekia::find($id)->update($validated);
+        $kelas = KelasCendekia::findOrFail($id);
+                
+                // Cek Keamanan: Jika bukan Admin, pastikan dia pemilik jadwal
+                if (!Auth::user()->hasRole('Admin')) {
+                    $isOwner = $kelas->jadwal()->where('guru_id', Auth::id())->exists();
+                    if (!$isOwner) {
+                         return redirect()->route('panel.kelas_cendekia.index')
+                                          ->with('error', 'Anda tidak memiliki izin untuk mengedit kelas ini.');
+                    }
+                }
+                
+                $kelas->update($validated);;
 
 
         return redirect()->route('panel.kelas_cendekia.show', $id)
@@ -95,7 +110,11 @@ class KelasCendekiaController extends Controller
 
     public function destroy($id)
     {
-
+            // --- TAMBAHKAN BLOK INI ---
+            if (!Auth::user()->hasRole('Admin')) {
+                return redirect()->route('panel.kelas_cendekia.index')
+                                 ->with('error', 'Anda tidak memiliki izin untuk menghapus kelas.');
+            }
         KelasCendekia::findOrFail($id)->delete();
 
 
@@ -199,4 +218,20 @@ class KelasCendekiaController extends Controller
         return redirect()->route('panel.kelas_cendekia.show', $kelasCendekiaId)
             ->withSuccess(('Siswa berhasil dihapus dari kelas!'));
     }
+    public function edit($id)
+        {
+            $kelas = \App\Models\KelasCendekia::findOrFail($id);
+    
+            // Keamanan: Cek apakah pengajar ini mengajar di kelas ini
+            if (!Auth::user()->hasRole('Admin')) {
+                $isOwner = $kelas->jadwal()->where('guru_id', Auth::id())->exists();
+                if (!$isOwner) {
+                     return redirect()->route('panel.kelas_cendekia.index')
+                                      ->with('error', 'Anda tidak memiliki izin untuk mengedit kelas ini.');
+                }
+            }
+            
+            // Arahkan ke folder 'kleas_cendekia' Anda
+            return view('pages.panel.kleas_cendekia.edit', compact('kelas')); 
+        }
 }

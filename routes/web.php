@@ -132,7 +132,9 @@ Route::name('panel.')->prefix('panel')->group(function () {
             Route::post('kelas_cendekia/addMateri', [KelasCendekiaController::class, 'addMateri'])->name('addMateri');
             Route::put('kelas_cendekia/updateMateri/{id}', [KelasCendekiaController::class, 'updateMateri'])->name('updateMateri');
             Route::delete('kelas_cendekia/destroyMateri/{id}', [KelasCendekiaController::class, 'destroyMateri'])->name('destroyMateri');
-
+            
+            Route::get('kelas_cendekia/{id}/edit', [KelasCendekiaController::class, 'edit'])->name('edit');
+            
             Route::get('kelas_cendekia/{id}/add_siswa', [KelasCendekiaController::class, 'addSiswa'])->name('addSiswa');
             Route::post('kelas_cendekia/{id}/store_siswa', [KelasCendekiaController::class, 'storeSiswa'])->name('storeSiswa');
             Route::delete('kelas_cendekia/destroySiswa/{kelas_cendekia_id}/{kelas_siswa_cendekia}', [KelasCendekiaController::class, 'destroySiswa'])->name('destroySiswa');

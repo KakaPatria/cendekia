@@ -48,64 +48,93 @@
                         <i class="ri-team-line"></i> <span>Kelas Cendekia</span>
                     </a>
                 </li>
-                @if(auth()->user()->roles_id == 2)
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Request::routeIs('panel.pendaftaran.*') ? 'active' : '' }}" href="{{route('panel.pendaftaran.index')}}">
-                        <i class="ri-newspaper-line"></i> <span>Registrasi Tryout</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Request::routeIs('panel.invoices.*') ? 'active' : '' }}" href="{{route('panel.invoices.index')}}">
-                        <i class="ri-money-dollar-circle-line "></i> <span>Daftar Pembayaran</span>
-                    </a>
-                </li>
-
-
-
-                @php
-                $isReferensiActive = Request::routeIs('panel.bank_soal.*') || Request::routeIs('panel.materi.*') || Request::routeIs('panel.asal_sekolah.*');
-                $isUserActive = Request::routeIs('panel.user.*');
-                $isSettingActive = Request::routeIs('panel.role.*') || Request::routeIs('panel.permission.*');
-                @endphp
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ $isReferensiActive ? 'active' : '' }}" href="#sidebar-referensi" data-bs-toggle="collapse" role="button" aria-expanded="{{ $isReferensiActive ? 'true' : 'false' }}" aria-controls="sidebar-referensi">
-                        <i class="ri-database-line"></i> <span>Referensi</span>
-                    </a>
-                    <div class="collapse menu-dropdown {{ $isReferensiActive ? 'show' : '' }}" id="sidebar-referensi">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('panel.bank_soal.index')}}" class="nav-link {{ Request::routeIs('panel.bank_soal.*') ? 'active' : '' }}">Bank Soal</a></li>
-                            <li class="nav-item"><a href="{{ route('panel.materi.index')}}" class="nav-link {{ Request::routeIs('panel.materi.*') ? 'active' : '' }}">Mata Pelajaran</a></li>
-                            <li class="nav-item"><a href="{{ route('panel.asal_sekolah.index')}}" class="nav-link {{ Request::routeIs('panel.asal_sekolah.*') ? 'active' : '' }}">Asal Sekolah</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ $isUserActive ? 'active' : '' }}" href="#sidebar-user" data-bs-toggle="collapse" role="button" aria-expanded="{{ $isUserActive ? 'true' : 'false' }}" aria-controls="sidebar-user">
-                        <i class="ri-user-line"></i> <span>Pengguna</span>
-                    </a>
-                    <div class="collapse menu-dropdown {{ $isUserActive ? 'show' : '' }}" id="sidebar-user">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('panel.user.index', ['role' => 'Siswa']) }}" class="nav-link {{ request('role') == 'Siswa' ? 'active' : '' }}">Siswa</a></li>
-                            <li class="nav-item"><a href="{{ route('panel.user.index', ['role' => 'Admin']) }}" class="nav-link {{ request('role') == 'Admin' ? 'active' : '' }}">Admin & Pengajar</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ $isSettingActive ? 'active' : '' }}" href="#sidebar-setting" data-bs-toggle="collapse" role="button" aria-expanded="{{ $isSettingActive ? 'true' : 'false' }}" aria-controls="sidebar-setting">
-                        <i class="ri-settings-line"></i> <span>Pengaturan</span>
-                    </a>
-                    <div class="collapse menu-dropdown {{ $isSettingActive ? 'show' : '' }}" id="sidebar-setting">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item"><a href="{{ route('panel.role.index')}}" class="nav-link {{ Request::routeIs('panel.role.*') ? 'active' : '' }}">Peran</a></li>
-                            <li class="nav-item"><a href="{{ route('panel.permission.index')}}" class="nav-link {{ Request::routeIs('panel.permission.*') ? 'active' : '' }}">Izin</a></li>
-                        </ul>
-                    </div>
-                </li>
-                @endif
+                {{-- ================================= --}}
+                          {{-- HANYA UNTUK ADMIN --}}
+                          {{-- ================================= --}}
+                          @if(auth()->user()->hasRole('Admin'))
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ Request::routeIs('panel.pendaftaran.*') ? 'active' : '' }}" href="{{route('panel.pendaftaran.index')}}">
+                                    <i class="ri-newspaper-line"></i> <span>Registrasi Tryout</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ Request::routeIs('panel.invoices.*') ? 'active' : '' }}" href="{{route('panel.invoices.index')}}">
+                                    <i class="ri-money-dollar-circle-line "></i> <span>Daftar Pembayaran</span>
+                                </a>
+                            </li>
+                          @endif
+                
+                          {{-- ================================= --}}
+                          {{-- UNTUK ADMIN & PENGAJAR --}}
+                          {{-- ================================= --}}
+                          @if(auth()->user()->hasRole(['Admin', 'Pengajar']))
+                            @php
+                                // Variabel ini kita pindahkan ke dalam sini
+                                $isReferensiActive = Request::routeIs('panel.bank_soal.*') || Request::routeIs('panel.materi.*') || Request::routeIs('panel.asal_sekolah.*');
+                                $isUserActive = Request::routeIs('panel.user.*');
+                            @endphp
+                            
+                            {{-- POIN 4: REFERENSI --}}
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ $isReferensiActive ? 'active' : '' }}" href="#sidebar-referensi" data-bs-toggle="collapse" role="button" aria-expanded="{{ $isReferensiActive ? 'true' : 'false' }}" aria-controls="sidebar-referensi">
+                                    <i class="ri-database-line"></i> <span>Referensi</span>
+                                </a>
+                                <div class="collapse menu-dropdown {{ $isReferensiActive ? 'show' : '' }}" id="sidebar-referensi">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item"><a href="{{ route('panel.bank_soal.index')}}" class="nav-link {{ Request::routeIs('panel.bank_soal.*') ? 'active' : '' }}">Bank Soal</a></li>
+                                    
+                                        
+                                        {{-- Asal Sekolah hanya untuk Admin --}}
+                                        @if(auth()->user()->hasRole('Admin'))
+                                            <li class="nav-item"><a href="{{ route('panel.asal_sekolah.index')}}" class="nav-link {{ Request::routeIs('panel.asal_sekolah.*') ? 'active' : '' }}">Asal Sekolah</a></li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </li>
+                
+                            {{-- POIN 5: PENGGUNA --}}
+                            @if(auth()->user()->hasRole('Admin'))
+                                {{-- Admin melihat menu dropdown 'Pengguna' --}}
+                                <li class="nav-item">
+                                    <a class="nav-link menu-link {{ $isUserActive ? 'active' : '' }}" href="#sidebar-user" data-bs-toggle="collapse" role="button" aria-expanded="{{ $isUserActive ? 'true' : 'false' }}" aria-controls="sidebar-user">
+                                        <i class="ri-user-line"></i> <span>Pengguna</span>
+                                    </a>
+                                    <div class="collapse menu-dropdown {{ $isUserActive ? 'show' : '' }}" id="sidebar-user">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="{{ route('panel.user.index', ['role' => 'Siswa']) }}" class="nav-link {{ request('role') == 'Siswa' ? 'active' : '' }}">Siswa</a></li>
+                                            <li class="nav-item"><a href="{{ route('panel.user.index', ['role' => 'Admin']) }}" class="nav-link {{ request('role') == 'Admin' ? 'active' : '' }}">Admin & Pengajar</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            @else
+                                {{-- Pengajar hanya melihat link 'Siswa' --}}
+                                <li class="nav-item">
+                                    <a class="nav-link menu-link {{ $isUserActive ? 'active' : '' }}" href="{{ route('panel.user.index', ['role' => 'Siswa']) }}">
+                                        <i class="ri-user-line"></i> <span>Siswa</span>
+                                    </a>
+                                </li>
+                            @endif
+                          @endif
+                          
+                          {{-- ================================= --}}
+                          {{-- HANYA UNTUK ADMIN --}}
+                          {{-- ================================= --}}
+                          @if(auth()->user()->hasRole('Admin'))
+                            @php
+                                 $isSettingActive = Request::routeIs('panel.role.*') || Request::routeIs('panel.permission.*');
+                            @endphp
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ $isSettingActive ? 'active' : '' }}" href="#sidebar-setting" data-bs-toggle="collapse" role="button" aria-expanded="{{ $isSettingActive ? 'true' : 'false' }}" aria-controls="sidebar-setting">
+                                    <i class="ri-settings-line"></i> <span>Pengaturan</span>
+                                </a>
+                                <div class="collapse menu-dropdown {{ $isSettingActive ? 'show' : '' }}" id="sidebar-setting">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item"><a href="{{ route('panel.role.index')}}" class="nav-link {{ Request::routeIs('panel.role.*') ? 'active' : '' }}">Peran</a></li>
+                                        <li class="nav-item"><a href="{{ route('panel.permission.index')}}" class="nav-link {{ Request::routeIs('panel.permission.*') ? 'active' : '' }}">Izin</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                          @endif
             </ul>
         </div>
     </div>

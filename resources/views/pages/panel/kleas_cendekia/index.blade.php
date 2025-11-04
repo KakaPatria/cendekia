@@ -20,7 +20,9 @@
                  <form action="">
                      <div class="row g-2">
                          <div class="col-lg-2 col-sm-4">
-                             <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Kelas</a>
+                             @if(Auth::user()->hasRole('Admin'))
+                                 <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Kelas</a>
+                             @endif
                          </div>
                          <div class="col-lg-2 col-sm-4">
                              <div class="search-box">
@@ -95,7 +97,22 @@
                                  @endfor
                                  <td>{{ $value->siswa_kelas_count }}</td>
                                  <td>{{ $value->status }}</td>
-                                 <td class="text-center"><a href="{{ route('panel.kelas_cendekia.show',$value->kelas_cendekia_id) }}" class="btn rounded-pill btn-primary btn-sm"><i class="fa fa-edit"></i> detail</a></td>
+                                 <td class="text-center">
+                                     @if(Auth::user()->hasRole('Admin'))
+                                         <a href="{{ route('panel.kelas_cendekia.show',$value->kelas_cendekia_id) }}" class="btn rounded-pill btn-primary btn-sm">
+                                             <i class="fa fa-edit"></i> Detail
+                                         </a>
+                                     @else
+                                         {{-- Pengajar bisa Kelola Siswa --}}
+                                         <a href="{{ route('panel.kelas_cendekia.show',$value->kelas_cendekia_id) }}" class="btn rounded-pill btn-info btn-sm">
+                                             Kelola Siswa
+                                         </a>
+                                         {{-- Pengajar bisa Edit Kelas --}}
+                                         <a href="{{ route('panel.kelas_cendekia.edit', $value->kelas_cendekia_id) }}" class="btn rounded-pill btn-warning btn-sm">
+                                             Edit Kelas
+                                         </a>
+                                     @endif
+                                 </td>
                          </tr>
                          @endforeach
                      </tbody>
