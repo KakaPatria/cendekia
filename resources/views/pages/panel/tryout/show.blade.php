@@ -24,7 +24,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
-                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
 
                             <a href="{{ route('panel.tryout.exportPeserta',$tryout->tryout_id)}}" class="btn rounded-pill btn-warning btn-sm">
                                 <i class="fa fa-edit"></i> Export Data</a>
@@ -47,7 +47,7 @@
                         <div class="flex-shrink-0">
 
                             {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
-                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-materi-modal">
                                 <i class="fa fa-edit"></i> Tambah Mata Pelajaran
                             </a>
@@ -144,7 +144,7 @@
                         <div class="flex-shrink-0">
 
                             {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
-                            @if((Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2) && $tryout->is_open == 'Cendekia')
+                            @if((Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3) && $tryout->is_open == 'Cendekia')
 
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-peserta-modal">
                                 <i class="fa fa-edit"></i> Tambah Peserta
@@ -191,7 +191,7 @@
                                         <td>{{ $peserta->tanggal_daftar}}</td>
                                         <td>{!! $peserta->status_badge !!}</td>
                                         <td class="text-center">
-                                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
                                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deletePesertaBtn" data-bs-toggle="modal" data-bs-target="#deletePesertaModal" data-id="{{$peserta->tryout_peserta_id }}" data-name="{{$peserta->siswa->name}}">
                                                 <i class="fa fa-edit"></i> Hapus</a>
                                             @endif

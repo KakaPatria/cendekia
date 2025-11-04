@@ -62,7 +62,7 @@
                                     <i class="ri-money-dollar-circle-line "></i> <span>Daftar Pembayaran</span>
                                 </a>
                             </li>
-                          @endif
+                          @endif    
                 
                           {{-- ================================= --}}
                           {{-- UNTUK ADMIN & PENGAJAR --}}
@@ -82,6 +82,9 @@
                                 <div class="collapse menu-dropdown {{ $isReferensiActive ? 'show' : '' }}" id="sidebar-referensi">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item"><a href="{{ route('panel.bank_soal.index')}}" class="nav-link {{ Request::routeIs('panel.bank_soal.*') ? 'active' : '' }}">Bank Soal</a></li>
+                                        @if(auth()->check() && auth()->user()->roles_id != 3)
+                                            <li class="nav-item"><a href="{{ route('panel.materi.index')}}" class="nav-link {{ Request::routeIs('panel.materi.*') ? 'active' : '' }}">Mata Pelajaran</a></li>
+                                        @endif
                                     
                                         
                                         {{-- Asal Sekolah hanya untuk Admin --}}
