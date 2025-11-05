@@ -177,7 +177,60 @@
 
     })
 
-    <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
+    $('form').on('submit', function(e) {
+        e.preventDefault(); // Mencegah submit form langsung
+        <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
+            $('#soal-<?= $key ?>').val(quill<?= $key ?>.root.innerHTML)
+        <?php } ?>
+
+
+        setTimeout(function() {
+            $('form').off('submit').submit(); // Submit form setelah delay
+        }, 500); //
+    });
+
+    $('.jenis-soal').on('change', function() { 
+        const soalId = $(this).attr('name').match(/\[(.*?)\]/)[1];
+        const jenis = $(this).val();
+        const container = $(this).closest('.soal-container');
+        const tbody = container.find('.jawaban-table tbody');
+        const checkboxes = container.find('.opsi-checkbox');
+
+        // Reset centang
+        checkboxes.prop('checked', false);
+        container.find('#jenis-jawaban').addClass('d-none');
+
+        // Kembalikan kolom ke default (checkbox)
+        tbody.find('.opsi-cell').each(function() {
+            const abjad = $(this).closest('tr').find('td:first').text().replace('.', '').trim();
+            $(this).html(`<input class="form-check-input opsi-checkbox" type="checkbox" name="opsi_jawaban[${soalId}][]" value="${abjad}">`);
+        });
+
+        // Perilaku sesuai jenis
+        if (jenis === 'SC') {
+            const cb = container.find('.opsi-checkbox');
+            cb.off('change').on('change', function() {
+                if (this.checked) cb.not(this).prop('checked', false);
+            });
+        } else if (jenis === 'TF') {
+            container.find('#jenis-jawaban').removeClass('d-none');
+            // Ganti kolom opsi menjadi dropdown Benar/Salah
+            tbody.find('.opsi-cell').each(function() {
+                const abjad = $(this).closest('tr').find('td:first').text().replace('.', '').trim();
+                $(this).html(`
+                    <select class="form-select" name="opsi_jawaban_tf[${soalId}][${abjad}]">
+                        <option value="">--Pilih--</option>
+                        <option value="Benar">Benar</option>
+                        <option value="Salah">Salah</option>
+                    </select>
+                `);
+            });
+        }
+    });
+
+    $('.jenis-soal').trigger('change');
+
+     <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
         var quill<?= $key ?> = new Quill('#editor-<?= $key ?>', {
             theme: 'snow',
             modules: {
@@ -228,60 +281,6 @@
             };
         }
     <?php } ?>
-
-    $('form').on('submit', function(e) {
-        e.preventDefault(); // Mencegah submit form langsung
-        <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
-            $('#soal-<?= $key ?>').val(quill<?= $key ?>.root.innerHTML)
-        <?php } ?>
-
-
-        setTimeout(function() {
-            $('form').off('submit').submit(); // Submit form setelah delay
-        }, 500); //
-    });
-
-    $('.jenis-soal').on('change', function() {
-        const soalId = $(this).attr('name').match(/\[(.*?)\]/)[1];
-        const jenis = $(this).val();
-        const container = $(this).closest('.soal-container');
-        const tbody = container.find('.jawaban-table tbody');
-        const checkboxes = container.find('.opsi-checkbox');
-
-        // Reset centang
-        checkboxes.prop('checked', false);
-        container.find('#jenis-jawaban').addClass('d-none');
-
-        // Kembalikan kolom ke default (checkbox)
-        tbody.find('.opsi-cell').each(function() {
-            const abjad = $(this).closest('tr').find('td:first').text().replace('.', '').trim();
-            $(this).html(`<input class="form-check-input opsi-checkbox" type="checkbox" name="opsi_jawaban[${soalId}][]" value="${abjad}">`);
-        });
-
-        // Perilaku sesuai jenis
-        if (jenis === 'SC') {
-            const cb = container.find('.opsi-checkbox');
-            cb.off('change').on('change', function() {
-                if (this.checked) cb.not(this).prop('checked', false);
-            });
-        } else if (jenis === 'TF') {
-            container.find('#jenis-jawaban').removeClass('d-none');
-            // Ganti kolom opsi menjadi dropdown Benar/Salah
-            tbody.find('.opsi-cell').each(function() {
-                const abjad = $(this).closest('tr').find('td:first').text().replace('.', '').trim();
-                $(this).html(`
-                    <select class="form-select" name="opsi_jawaban_tf[${soalId}][${abjad}]">
-                        <option value="">--Pilih--</option>
-                        <option value="Benar">Benar</option>
-                        <option value="Salah">Salah</option>
-                    </select>
-                `);
-            });
-        }
-    });
-
-    $('.jenis-soal').trigger('change');
-
     // Upload gambar ke server
     function uploadImage(file, quilKey) {
         const formData = new FormData();
