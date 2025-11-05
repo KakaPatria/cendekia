@@ -273,8 +273,8 @@ html {
 /* Text dalam box WhatsApp - PUTIH */
 #hero .inquiry-box h5 {
   color: white !important;
-  font-weight: 700 !important;
-  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
   letter-spacing: 0.3px !important;
   margin: 0 !important;
@@ -285,6 +285,12 @@ html {
   color: white !important;
   text-decoration: none !important;
 }
+
+#hero .inquiry-box {
+  margin-top: 0.5rem !important;
+  display: inline-flex !important;
+}
+
 
 /* ==========================================
    4. SECTION INFORMASI (TOP 4)
@@ -850,9 +856,9 @@ html {
                         </div>
                     </div>
                     <!--end col-->
-                    <div class="col-lg-4">
-                        <div class="position-relative home-img text-center mt-5 mt-lg-0">
-                            <div class="card p-3 rounded shadow-lg inquiry-box">
+                    <div class="col-lg-5">
+                        <div class="position-relative home-img text-center mt-3 mt-lg-0">
+                            <div class="card p-2 w-80 rounded shadow-lg inquiry-box fixed-left">
                                 <div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0 me-3">
                                         <div class="avatar-title bg-soft-warning text-warning rounded fs-18">
@@ -866,7 +872,7 @@ html {
                             </div>
 
 
-                            <img src="{{URL::asset('assets/images/cobain.png')}}" alt="" class="user-img" style="margin-left: -80px;">
+                            <img src="{{URL::asset('assets/images/lp1.png')}}" alt="" class="user-img" style="margin-left: -80px;">
                       
 
                             {{-- Circle decoration (dinonaktifkan sementara)

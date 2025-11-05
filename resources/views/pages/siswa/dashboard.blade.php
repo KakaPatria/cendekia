@@ -217,7 +217,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-3 col-md-6" style="display: none">
                     <div class="card stat-card card-rank" style="background: #ffc107;">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
