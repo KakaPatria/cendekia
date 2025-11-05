@@ -46,8 +46,11 @@ Route::get('/daftar_tryout_success', function () {
 // ===========================
 // Registrasi (Public)
 // ===========================
+// Redirect legacy /register to the student registration form
+Route::permanentRedirect('/register', '/register/siswa');
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'showChoiceForm')->name('register.choice');
+    // /register choice form is disabled in favour of direct student registration
+    // Route::get('/register', 'showChoiceForm')->name('register.choice');
     Route::get('/register/siswa', 'showSiswaForm')->name('register.siswa');
     Route::post('/register/siswa', 'registerSiswa');
     Route::get('/register/pengajar', 'showPengajarForm')->name('register.pengajar');
@@ -132,7 +135,9 @@ Route::name('panel.')->prefix('panel')->group(function () {
             Route::post('kelas_cendekia/addMateri', [KelasCendekiaController::class, 'addMateri'])->name('addMateri');
             Route::put('kelas_cendekia/updateMateri/{id}', [KelasCendekiaController::class, 'updateMateri'])->name('updateMateri');
             Route::delete('kelas_cendekia/destroyMateri/{id}', [KelasCendekiaController::class, 'destroyMateri'])->name('destroyMateri');
-
+            
+            Route::get('kelas_cendekia/{id}/edit', [KelasCendekiaController::class, 'edit'])->name('edit');
+            
             Route::get('kelas_cendekia/{id}/add_siswa', [KelasCendekiaController::class, 'addSiswa'])->name('addSiswa');
             Route::post('kelas_cendekia/{id}/store_siswa', [KelasCendekiaController::class, 'storeSiswa'])->name('storeSiswa');
             Route::delete('kelas_cendekia/destroySiswa/{kelas_cendekia_id}/{kelas_siswa_cendekia}', [KelasCendekiaController::class, 'destroySiswa'])->name('destroySiswa');

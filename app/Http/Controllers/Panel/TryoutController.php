@@ -35,18 +35,47 @@ class TryoutController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $tryout =  Tryout::all();
+        $tryout = Tryout::query();
+        
+        // Filter berdasarkan kata kunci pencarian
+        if ($request->keyword) {
+            $keyword = $request->keyword;
+            $keywordUpper = strtoupper($keyword);
+            
+            // Cek apakah keyword berisi angka kelas (1-12)
+            if (is_numeric($keyword) && $keyword >= 1 && $keyword <= 12) {
+                $tryout->where('tryout_kelas', $keyword);
+            }
+            // Cek apakah keyword berisi kata kunci jenjang
+            else if (in_array($keywordUpper, ['SD', 'SMP', 'SMA'])) {
+                $tryout->where('tryout_jenjang', $keywordUpper);
+            } 
+            // Cek apakah keyword adalah 'cendekia' atau 'umum'
+            else if (strtolower($keyword) === 'cendekia') {
+                $tryout->where('is_open', 'Cendekia');
+            }
+            else if (strtolower($keyword) === 'umum') {
+                $tryout->where('is_open', 'Umum');
+            }
+            // Pencarian normal untuk keyword lainnya
+            else {
+                $tryout->where(function($q) use ($request) {
+                    $q->where('tryout_judul', 'like', "%{$request->keyword}%")
+                      ->orWhere('tryout_deskripsi', 'like', "%{$request->keyword}%")
+                      ->orWhere('tryout_jenis', 'like', "%{$request->keyword}%")
+                      ->orWhereHas('materi.refMateri', function($q) use ($request) {
+                          $q->where('ref_materi_judul', 'like', "%{$request->keyword}%");
+                      });
+                });
+            }
+        }
 
-        $tryout =  Tryout::when($request->keyword, function ($query) use ($request) {
-            return $query->where('tryout_judul', 'like', "%{$request->keyword}%")
-                ->orWhere('tryout_deskripsi', 'like', "%{$request->keyword}%");
-        })
-            ->when($request->jenjang, function ($query) use ($request) {
-                return $query->where('tryout_jenjang', $request->jenjang);
-            })
-            ->when($request->kelas, function ($query) use ($request) {
-                return $query->where('tryout_kelas', $request->kelas);
-            });
+        // Filter berdasarkan jenjang dan kelas dari dropdown
+        $tryout->when($request->jenjang, function ($query) use ($request) {
+            return $query->where('tryout_jenjang', $request->jenjang);
+        })->when($request->kelas, function ($query) use ($request) {
+            return $query->where('tryout_kelas', $request->kelas);
+        });
         if (!$user->hasRole(['Admin'])) {
             // dd($user->hasRole(['Admin']));
 

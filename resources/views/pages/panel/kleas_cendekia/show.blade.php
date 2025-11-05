@@ -26,11 +26,15 @@
                      </div>
                      <div class="flex-shrink-0">
                          {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
-                         @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
-                         <a href="javasript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editKelasModal">
-                             <i class="fa fa-edit"></i> Edit</a>
-                         <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteKelasModal"><i class="fa fa-trash"></i> Hapus</a>
-                         @endif
+                         @if(Auth::user()->hasRole(['Admin', 'Pengajar']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
+                                                  <a href="javasript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editKelasModal">
+                                                      <i class="fa fa-edit"></i> Edit</a>
+                                                  @endif
+                                                  
+                                                  {{-- HANYA Admin yang bisa Hapus Kelas --}}
+                                                  @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
+                                                  <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteKelasModal"><i class="fa fa-trash"></i> Hapus</a>
+                                                  @endif
                      </div>
                  </div>
              </div>
@@ -46,7 +50,7 @@
                          <h6 class="card-title mb-2 fw-bold">Daftar Jadwal</h6>
                      </div>
                      <div class="flex-shrink-0">
-                         @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                         @if(Auth::user()->hasRole(['Admin', 'Pengajar']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
                          <a href="#" class="btn btn-primary btn-sm btn-label waves-effect waves-light " data-bs-toggle="modal" data-bs-target="#add-materi-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Jadwal</a>
                          @endif
                      </div>
@@ -59,7 +63,7 @@
                              <th scope="col">Guru</th>
                              <th scope="col">Jam Mulai</th>
                              <th scope="col">Jam Selesai</th>
-                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                             @if(Auth::user()->hasRole(['Admin', 'Pengajar']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
                              <th scope="col" class="text-center">Action</th>
                              @endif
                          </tr>
@@ -72,7 +76,7 @@
                              <td>{{ $jadwal->guru->name ?? ''}}</td>
                              <td>{{ $jadwal->jadwal_mulai}}</td>
                              <td>{{ $jadwal->jadwal_selesai}}</td>
-                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                             @if(Auth::user()->hasRole(['Admin', 'Pengajar']) || Auth::user()->roles_id == 2)
                              <td class="text-center"> <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm edit-materi-btn" data-bs-toggle="modal" data-bs-target="#edit-materi-modal" data-jadwal_cendekia_id="{{ $jadwal->jadwal_cendekia_id}}" data-ref_materi_id="{{ $jadwal->ref_materi_id}}" data-guru_id="{{ $jadwal->guru_id}}" data-jadwal_cendekia_hari="{{ $jadwal->jadwal_cendekia_hari}}" data-jadwal_mulai="{{ $jadwal->jadwal_mulai}}" data-jadwal_selesai="{{ $jadwal->jadwal_selesai}}">
                                      <i class="fa fa-edit"></i> Edit</a>
                                  <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteMateriBtn" data-bs-toggle="modal" data-bs-target="#deleteMateriModal" data-id="{{$jadwal->jadwal_cendekia_id}}" data-name="{{$jadwal->mataPelajaran->ref_materi_judul}}"><i class="fa fa-trash"></i> Hapus</a>
@@ -94,7 +98,7 @@
                      </div>
                      <div class="flex-shrink-0">
                          {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
-                         @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                         @if(Auth::user()->hasRole(['Admin', 'Pengajar']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
                          <a href="{{ route('panel.kelas_cendekia.addSiswa',$kelas_cendekia->kelas_cendekia_id)}}" class="btn btn-primary btn-sm btn-label waves-effect waves-light"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah Siswa</a>
                          @endif
                      </div>
@@ -108,7 +112,7 @@
                              <th scope="col">Nama siswa</th>
                              <th scope="col">Asal Sekolah</th>
                              <th scope="col">Telepon</th>
-                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                             @if(Auth::user()->hasRole(['Admin', 'Pengajar']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
                              <th scope="col" class="text-center">Action</th>
                              @endif
                          </tr>
@@ -120,7 +124,7 @@
                              <td>{{ $siswa->siswa->name ?? ''}}</td>
                              <td>{{ $siswa->siswa->asal_sekolah ?? ''}}</td>
                              <td>{{ $siswa->siswa->telepon ?? ''}}</td>
-                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                             @if(Auth::user()->hasRole(['Admin', 'Pengajar']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
                              <td class="text-center">
                                  <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteSiswaBtn" data-bs-toggle="modal" data-bs-target="#deleteSiswaModal" data-kelas_cendekia_id="{{$siswa->kelas_cendekia_id}}"
                                      data-kelas_siswa_cendekia_id="{{$siswa->kelas_siswa_cendekia_id}}" data-name="{{$siswa->siswa->name ?? ''}}"><i class="fa fa-trash"></i> Hapus</a>
