@@ -14,26 +14,35 @@ use Illuminate\Support\Facades\Validator;
 class KelasCendekiaController extends Controller
 {
     public function index(Request $request)
-    {
-        $user = auth()->user();
-
-        $kelasCendekia = KelasCendekia::with('jadwal')
-            ->withCount('siswaKelas')
-            ->when($request->keyword, function ($q, $kelas) {
-                $q->where('kelas_cendekia_nama', 'like', "%$kelas%");
-            })
-            ->when($request->kelas, function ($q, $kelas) {
-                $q->where('kelas', $kelas);
-            })
-            ->when($request->guru, function ($q, $guru) {
-                $q->whereHas('jadwal', function ($q2) use ($guru) {
-                    $q2->where('guru_id', $guru);
-                });
-            });
-        if (!$user->hasRole(['Admin'])) {
-            $kelasCendekia->whereHas('jadwal', function ($q1) use ($user) {
-                $q1->where('guru_id', $user->id);
-            });
+        {
+            $user = auth()->user();
+    
+            $kelasCendekia = KelasCendekia::with('jadwal')
+                ->withCount('siswaKelas')
+                ->when($request->keyword, function ($q, $keyword) { 
+                                // Sekarang mencari di Nama Kelas, Jenjang, dan Kelas
+                                $q->where('kelas_cendekia_nama', 'like', "%$keyword%")
+                                  ->orWhere('jenjang', 'like', "%$keyword%")
+                                  ->orWhere('kelas', 'like', "%$keyword%");
+                            })
+                            ->when($request->kelas, function ($q, $kelas) {
+                                            $q->where('kelas', $kelas);
+                                        })
+                                        
+                                    ->when($request->jenjang, function ($q, $jenjang) {
+                                                        $q->where('jenjang', $jenjang);
+                                                    })
+                                        
+                                                    ->when($request->guru, function ($q, $guru) {
+                                                                    $q->whereHas('jadwal', function ($q2) use ($guru) {
+                                                                        $q2->where('guru_id', $guru);
+                                                                    });
+                                                                });
+                                                                
+                                                            if (!$user->hasRole(['Admin'])) {
+                                                                $kelasCendekia->whereHas('jadwal', function ($q1) use ($user) {
+                                                                    $q1->where('guru_id', $user->id);
+                                                                });
         }
 
         $kelasCendekia = $kelasCendekia->orderByDesc('created_at')
@@ -42,6 +51,11 @@ class KelasCendekiaController extends Controller
         $load['kelas_cendekia'] = $kelasCendekia;
         $load['keyword'] = $request->keyword;
 
+        $load['filter_jenjang_dipilih'] = $request->jenjang; 
+        $load['filter_kelas_dipilih'] = $request->kelas; 
+        $load['filter_guru_dipilih'] = $request->guru;
+
+        
         return view('pages.panel.kleas_cendekia.index', ($load));
     }
 
