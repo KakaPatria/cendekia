@@ -133,13 +133,15 @@ class TryoutSoalController extends Controller
                 $jawaban->tryout_jawaban_urutan = $urutan;
                 $jawaban->update();
             } else {
-                TryoutJawaban::create([
-                    'tryout_materi_id' => $tryoutSoal->tryout_materi_id,
-                    'tryout_soal_id' => $tryoutSoal->tryout_soal_id,
-                    'tryout_jawaban_prefix' => $prefix,
-                    'tryout_jawaban_urutan' => $urutan,
-                    'tryout_jawaban_isi' => $isi,
-                ]);
+                if ($isi) {
+                    TryoutJawaban::create([
+                        'tryout_materi_id' => $tryoutSoal->tryout_materi_id,
+                        'tryout_soal_id' => $tryoutSoal->tryout_soal_id,
+                        'tryout_jawaban_prefix' => $prefix,
+                        'tryout_jawaban_urutan' => $urutan,
+                        'tryout_jawaban_isi' => $isi,
+                    ]);
+                }
             }
 
             $urutan++;

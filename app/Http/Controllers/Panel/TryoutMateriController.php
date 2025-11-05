@@ -123,7 +123,7 @@ class TryoutMateriController extends Controller
 
             // Rename file
             $fileName = time() . '_' . $file->getClientOriginalName();
-            
+
             // Simpan file
             $file->storeAs($directory, $fileName);
 
@@ -139,8 +139,15 @@ class TryoutMateriController extends Controller
                 $r = array_map(fn($v) => is_string($v) ? trim($v) : $v, $r);
                 if (isset($r[1])) $r[1] = strtoupper($r[1]); // tipe soal
                 return $r;
-            }, array_slice($sheet->toArray(), 1));
+            }, array_filter(
+                array_slice($sheet->toArray(), 1), // skip header
+                function ($r) {
+                    // cek apakah baris punya data (tidak semuanya kosong)
+                    return count(array_filter($r, fn($v) => !is_null($v) && $v !== '')) > 0;
+                }
+            ));
 
+         
             foreach ($rows as $i => $row) {
                 $baris = $i + 2; // karena baris pertama header
 
@@ -232,22 +239,24 @@ class TryoutMateriController extends Controller
                 $dataSoal['tryout_soal_type'] = $value[1];
                 $dataSoal['tryout_kunci_jawaban'] = json_encode($formattedKunci);
                 $dataSoal['notes'] = $value[9];
-               
+
                 $inertSoal = TryoutSoal::create($dataSoal);
 
                 $prefixes = ['A', 'B', 'C', 'D']; // huruf pilihan jawaban
                 $dataJawaban = [];
                 foreach ($prefixes as $index => $prefix) {
                     $kolomIndex = 3 + $index;
-                    $dataJawaban[] = [
-                        'tryout_materi_id'       => $request->tyout_materi_id,
-                        'tryout_soal_id'         => $inertSoal->tryout_soal_id,
-                        'tryout_jawaban_prefix'  => $prefix,
-                        'tryout_jawaban_urutan'  => $index + 1,
-                        'tryout_jawaban_isi'     => $value[$kolomIndex],
-                        'created_at'             => now(),
-                        'updated_at'             => now(),
-                    ];
+                    if (isset($value[$kolomIndex]) && $value[$kolomIndex]) {
+                        $dataJawaban[] = [
+                            'tryout_materi_id'       => $request->tyout_materi_id,
+                            'tryout_soal_id'         => $inertSoal->tryout_soal_id,
+                            'tryout_jawaban_prefix'  => $prefix,
+                            'tryout_jawaban_urutan'  => $index + 1,
+                            'tryout_jawaban_isi'     => $value[$kolomIndex],
+                            'created_at'             => now(),
+                            'updated_at'             => now(),
+                        ];
+                    }
                 }
 
                 // lalu tinggal insert batch
