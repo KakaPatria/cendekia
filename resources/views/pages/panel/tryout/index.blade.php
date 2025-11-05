@@ -139,30 +139,30 @@
         SMA: ['10', '11', '12']
     };
 
-    $('#filter-jenjang').change(function() {
-        var schoolLevel = $(this).val();
+    function populateClassLevels(schoolLevel, selectedClass = '') {
         var $classLevel = $('#filter-kelas');
-        $classLevel.empty().append('<option value="">Pilih Kelas</option>'); // Reset class level options
-        if (schoolLevel) {
+        $classLevel.empty().append('<option value="">Pilih Kelas</option>');
+        
+        if (schoolLevel && classes[schoolLevel]) {
             $classLevel.prop('disabled', false);
             classes[schoolLevel].forEach(function(classItem) {
-                $classLevel.append('<option value="' + classItem + '">' + classItem + '</option>');
+                $classLevel.append('<option value="' + classItem + '"' + 
+                    (classItem == selectedClass ? ' selected' : '') + '>' + 
+                    classItem + '</option>');
             });
         } else {
             $classLevel.prop('disabled', true);
         }
-        $classLevel.trigger('change'); // Trigger change to update select2
+    }
+
+    $('#filter-jenjang').change(function() {
+        populateClassLevels($(this).val());
     });
 
-
-
-
+    // Initialize filters
     <?php if ($filter_jenjang) { ?>
-        $('#filter-jenjang').val('<?= $filter_jenjang ?>').change()
-
-    <?php } ?>
-    <?php if ($filter_kelas) { ?>
-        $('#filter-kelas').val('<?= $filter_kelas ?>').change()
+        $('#filter-jenjang').val('<?= $filter_jenjang ?>');
+        populateClassLevels('<?= $filter_jenjang ?>', '<?= $filter_kelas ?>');
     <?php } ?>
 </script>
 @endsection

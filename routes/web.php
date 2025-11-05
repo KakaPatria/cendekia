@@ -46,8 +46,11 @@ Route::get('/daftar_tryout_success', function () {
 // ===========================
 // Registrasi (Public)
 // ===========================
+// Redirect legacy /register to the student registration form
+Route::permanentRedirect('/register', '/register/siswa');
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'showChoiceForm')->name('register.choice');
+    // /register choice form is disabled in favour of direct student registration
+    // Route::get('/register', 'showChoiceForm')->name('register.choice');
     Route::get('/register/siswa', 'showSiswaForm')->name('register.siswa');
     Route::post('/register/siswa', 'registerSiswa');
     Route::get('/register/pengajar', 'showPengajarForm')->name('register.pengajar');

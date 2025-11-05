@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ Request::routeIs('panel.tryout.*') ? 'active' : '' }}" href="{{route('panel.tryout.index')}}">
+                    <a class="nav-link menu-link {{ Request::routeIs('panel.tryout.*') || Request::routeIs('panel.tryout_materi.*') ? 'active' : '' }}" href="{{route('panel.tryout.index')}}">
                         <i class="ri-file-edit-line"></i> <span>Tryout</span>
                     </a>
                 </li>
