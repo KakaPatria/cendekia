@@ -14,6 +14,7 @@ class Tryout extends Model
     protected $primaryKey = 'tryout_id';
 
     protected $fillable = [
+        'kelas_cendekia_id',
         'tryout_judul',
         'tryout_deskripsi',
         'tryout_jenjang',
@@ -45,6 +46,11 @@ class Tryout extends Model
         return $this->hasMany(TryoutNilai::class, 'tryout_id', 'tryout_id');
     }
 
+    public function kelasCendekia()
+    {
+        return $this->belongsTo(KelasCendekia::class, 'kelas_cendekia_id','kelas_cendekia_id');
+    }
+
     public function getTryoutNominalAttribute($value)
     {
         return number_format($value, 0, ',', '.');
@@ -67,7 +73,7 @@ class Tryout extends Model
     {
         $this->attributes['tryout_register_due'] = Carbon::createFromFormat('d-M-Y', $value)->toDateString();
     }
- 
+
 
     public function getTryoutHargaJualFormattedAttribute()
     {

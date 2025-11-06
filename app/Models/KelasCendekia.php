@@ -19,6 +19,11 @@ class KelasCendekia extends Model
         'status',
     ];
 
+    public function tryouts()
+    {
+        return $this->hasMany(Tryout::class, 'kelas_cendekia_id')->orderBy('created_at');
+    }
+
     public function jadwal()
     {
         return $this->hasMany(JadwalCendekia::class, 'kelas_cendekia_id', 'kelas_cendekia_id');
@@ -30,7 +35,7 @@ class KelasCendekia extends Model
     }
 
     public function getStatusBadgeAttribute()
-    { 
+    {
         if ($this->status == 'Aktif') {
             return ' <span class="badge badge-soft-info fs-11" id="kelas-status">Aktif</span>';
         } else {

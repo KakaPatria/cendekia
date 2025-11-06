@@ -154,6 +154,9 @@ class TryoutController extends Controller
         if ($request->is_open == 'Cendekia') {
             $kelasCendekia = KelasCendekia::find($request->kelas_cendekia_id);
 
+            $tryout->kelas_cendekia_id = $kelasCendekia->kelas_cendekia_id;
+            $tryout->update();
+
             $peserta = KelasSiswaCendekia::where('kelas_cendekia_id', $request->kelas_cendekia_id)
                 ->get();
             $listPesertaData = [];

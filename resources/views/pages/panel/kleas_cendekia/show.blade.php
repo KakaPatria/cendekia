@@ -27,14 +27,14 @@
                      <div class="flex-shrink-0">
                          {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
                          @if(Auth::user()->hasRole(['Admin', 'Pengajar']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
-                                                  <a href="javasript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editKelasModal">
-                                                      <i class="fa fa-edit"></i> Edit</a>
-                                                  @endif
-                                                  
-                                                  {{-- HANYA Admin yang bisa Hapus Kelas --}}
-                                                  @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
-                                                  <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteKelasModal"><i class="fa fa-trash"></i> Hapus</a>
-                                                  @endif
+                         <a href="javasript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editKelasModal">
+                             <i class="fa fa-edit"></i> Edit</a>
+                         @endif
+
+                         {{-- HANYA Admin yang bisa Hapus Kelas --}}
+                         @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
+                         <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteKelasModal"><i class="fa fa-trash"></i> Hapus</a>
+                         @endif
                      </div>
                  </div>
              </div>
@@ -138,6 +138,110 @@
          </div>
      </div>
  </div>
+
+ @if($kelas_cendekia->tryouts->count() > 0)
+ <div class="row">
+     <div class="col-lg-12">
+         <div class="card" id="">
+             <div class="card-header ">
+                 <div class="align-items-center d-flex">
+                     <div class="flex-grow-1">
+                         <h5 class="mb-3 fw-bold text-uppercase">Riwayat Tryout</h5>
+                     </div>
+                 </div>
+             </div>
+             <div class="card-body">
+                 <ul class="nav nav-tabs mb-3" role="tablist">
+                     <li class="nav-item" role="presentation">
+                         <a class="nav-link active" data-bs-toggle="tab" href="#data_summary" role="tab" aria-selected="true">
+                             Nilai Keseluruhan
+                         </a>
+                     </li>
+                     @foreach($data_detail as $keyDetail => $detail)
+                     <li class="nav-item" role="presentation">
+                         <a class="nav-link" data-bs-toggle="tab" href="#detail-{{ str_replace(' ','-',strtolower($keyDetail))}}" role="tab" aria-selected="false" tabindex="-1">
+                             {{$keyDetail}}
+                         </a>
+                     </li>
+                     @endforeach
+
+                 </ul>
+                 <div class="tab-content  text-muted">
+                     <div class="tab-pane active show" id="data_summary" role="tabpanel">
+                         <table class="table table-striped">
+                             <thead class="table-light">
+                                 <tr>
+                                     <th scope="col" rowspan="2" width="1%">#</th>
+                                     <th scope="col" rowspan="2">Nama siswa</th>
+                                     @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
+                                     <th colspan="2">{{ $tryout->tryout_judul}}</th>
+                                     @endforeach
+                                 </tr>
+                                 <tr>
+                                     @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
+                                     <th>Rata-rata Nilai</th>
+                                     <th>Total Point</th>
+                                     @endforeach
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 @foreach($data_summary as $keySummary => $summary)
+                                 <tr>
+                                     <td>{{ $loop->iteration}}</td>
+                                     <td>{{ $summary['nama'] ?? ''}}</td>
+                                     @foreach($summary['tryouts'] as $keyNilaiSummary => $nilaiSummary)
+                                     <td>{{ $nilaiSummary['rata_rata']}}</td>
+                                     <td>{{ $nilaiSummary['total_point']}}</td>
+                                     @endforeach
+
+                                 </tr>
+                                 @endforeach
+                             </tbody>
+                         </table>
+                     </div>
+                     @foreach($data_detail as $keyDetail => $detail)
+                     <div class="tab-pane" id="detail-{{ str_replace(' ','-',strtolower($keyDetail))}}" role="tabpanel">
+                         <div class="tab-pane active show" id="data_summary" role="tabpanel">
+                             <table class="table table-striped">
+                                 <thead class="table-light">
+                                     <tr>
+                                         <th scope="col" rowspan="2" width="1%">#</th>
+                                         <th scope="col" rowspan="2">Nama siswa</th>
+                                         @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
+                                         <th colspan="2">{{ $tryout->tryout_judul}}</th>
+                                         @endforeach
+                                     </tr>
+                                     <tr>
+                                         @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
+                                         <th>Rata-rata Nilai</th>
+                                         <th>Total Point</th>
+                                         @endforeach
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     @foreach($detail as $keyDetailNilai => $detailNilai)
+                                     <tr>
+                                         <td>{{ $loop->iteration}}</td>
+                                         <td>{{ $detailNilai['nama'] ?? ''}}</td>
+                                         @foreach($detailNilai['tryouts'] as $keyNilaiDetial => $nilaiDetail)
+                                         <td>{{ $nilaiDetail['nilai']}}</td>
+                                         <td>{{ $nilaiDetail['point']}}</td>
+                                         @endforeach
+
+                                     </tr>
+                                     @endforeach
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
+                     @endforeach
+
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ @endif
 
  <div class="modal fade" id="editKelasModal" tabindex="-1" aria-labelledby="editKelasModal-label" aria-hidden="true">
      <div class="modal-dialog modal-lg">
