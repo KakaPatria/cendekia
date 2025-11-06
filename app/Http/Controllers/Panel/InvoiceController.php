@@ -15,15 +15,83 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $invoices = Invoice::when($request->status, function ($q, $status) {
-            if ($status == 2) {
-                $q->where('status', 0);
-            } else {
-                $q->where('status', $status);
-            }
-        })
+        $invoices = Invoice::query()
+            ->when($request->status, function ($q, $status) {
+                if ($status == 2) {
+                    $q->where('status', 0);
+                } else {
+                    $q->where('status', $status);
+                }
+            })
+            // Keyword search: invoice id, related tryout title, peserta name, or numeric amounts
+            ->when($request->keyword, function ($q, $keyword) {
+                $cleanNumeric = preg_replace('/\D/', '', $keyword);
+
+                // detect status keywords
+                $lower = strtolower(trim($keyword));
+                $statusVal = null;
+                if (in_array($lower, ['lunas'])) {
+                    $statusVal = 1;
+                } elseif (in_array($lower, ['menunggu', 'menunggu pembayaran', 'menunggu_pembayaran'])) {
+                    $statusVal = 0;
+                }
+
+                // detect date-like input
+                $ts = strtotime($keyword);
+                $isDate = $ts !== false && $ts !== -1;
+                $dateYmd = $isDate ? date('Y-m-d', $ts) : null;
+
+                // if the cleaned keyword is a number (e.g. searching amounts like 300000)
+                if ($cleanNumeric !== '' && is_numeric($cleanNumeric)) {
+                    $q->where(function ($sub) use ($cleanNumeric, $keyword, $statusVal, $isDate, $dateYmd) {
+                        $sub->where('amount', $cleanNumeric)
+                            ->orWhere('total', $cleanNumeric)
+                            // discount column stores percentage; also check percentage equality
+                            ->orWhere('discount', $cleanNumeric)
+                            // also check computed discount nominal: (amount * discount) / 100 = searched value
+                            ->orWhereRaw('ROUND((COALESCE(amount,0) * COALESCE(discount,0)) / 100) = ?', [$cleanNumeric])
+                            ->orWhere('inv_id', 'like', "%{$keyword}%")
+                            ->orWhereHas('tryout', function ($q2) use ($keyword) {
+                                $q2->where('tryout_judul', 'like', "%{$keyword}%");
+                            })
+                            ->orWhereHas('peserta', function ($q3) use ($keyword) {
+                                $q3->where('tryout_peserta_name', 'like', "%{$keyword}%");
+                            });
+
+                        if (!is_null($statusVal)) {
+                            $sub->orWhere('status', $statusVal);
+                        }
+
+                        if ($isDate && $dateYmd) {
+                            $sub->orWhereDate('created_at', $dateYmd)
+                                ->orWhereDate('inv_paid', $dateYmd)
+                                ->orWhereDate('due_date', $dateYmd);
+                        }
+                    });
+                } else {
+                    $q->where(function ($sub) use ($keyword, $statusVal, $isDate, $dateYmd) {
+                        $sub->where('inv_id', 'like', "%{$keyword}%")
+                            ->orWhereHas('tryout', function ($q2) use ($keyword) {
+                                $q2->where('tryout_judul', 'like', "%{$keyword}%");
+                            })
+                            ->orWhereHas('peserta', function ($q3) use ($keyword) {
+                                $q3->where('tryout_peserta_name', 'like', "%{$keyword}%");
+                            });
+
+                        if (!is_null($statusVal)) {
+                            $sub->orWhere('status', $statusVal);
+                        }
+
+                        if ($isDate && $dateYmd) {
+                            $sub->orWhereDate('created_at', $dateYmd)
+                                ->orWhereDate('inv_paid', $dateYmd)
+                                ->orWhereDate('due_date', $dateYmd);
+                        }
+                    });
+                }
+            })
             ->orderBy('created_at', 'desc')
-            ->paginate('10');
+            ->paginate(10);
 
         $load['invoices'] = $invoices;
         return view('pages.panel.invoice.index', $load);
