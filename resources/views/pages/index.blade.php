@@ -235,6 +235,32 @@ html {
   50% { transform: translateY(-10px) rotate(2deg); }
 }
 
+/* Image Stack Styling */
+.image-stack {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+}
+
+/* Gambar bawah — bisa kamu geser sendiri */
+.img-bottom {
+  position: relative;
+  width: 110%;        /* ubah sesukamu */
+  left: -50px; /* geser kiri */
+  z-index: 1;
+  display: inline;
+}
+
+/* Gambar atas — overlay */
+.img-top {
+  position: absolute;
+  top: 0;
+  left: -20px;      /* geser sedikit ke kiri */
+  width: 110%;      /* ubah sesuai kebutuhan */
+  z-index: 1;
+  opacity: 1;       /* 1 = solid, 0.9 = transparan */
+}
+
 /* WHATSAPP BOX - HIJAU PENUH */
 #hero .inquiry-box {
   background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
@@ -845,7 +871,7 @@ html {
         <!-- end navbar -->
 
         <!-- start hero section -->
-        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:85px;">
+        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:120px;">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-lg-6">
@@ -872,7 +898,10 @@ html {
                             </div>
 
 
-                            <img src="{{URL::asset('assets/images/lp1.png')}}" alt="" class="user-img" style="margin-left: -80px;">
+                            <div class="image-stack">
+                              <img src="{{URL::asset('assets/images/lp-base.png')}}" alt="gambar bawah" class="img-bottom" class="user-img" style="margin-left: 25px;">
+                              <img src="{{URL::asset('assets/images/lp4.png')}}" alt="gambar atas" class="img-top">
+                            </div>
                       
 
                             {{-- Circle decoration (dinonaktifkan sementara)
