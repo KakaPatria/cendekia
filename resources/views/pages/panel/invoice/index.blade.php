@@ -17,9 +17,10 @@
              <div class="card-body bg-soft-light border border-dashed border-start-0 border-end-0">
                  <form>
                      <div class="row g-3">
-                         <div class="col-xxl-5 col-sm-12">
+                        <div class="col-xxl-5 col-sm-12">
                              <div class="search-box">
-                                 <input type="text" class="form-control search bg-light border-light" placeholder="Cari...">
+                                 {{-- Tambah atribut name dan value agar input manual dikirim saat submit dan nilai dipertahankan --}}
+                                 <input type="text" name="keyword" value="{{ request('keyword') }}" class="form-control search bg-light border-light" placeholder="Cari...">
                                  <i class="ri-search-line search-icon"></i>
                              </div>
                          </div>
@@ -69,28 +70,40 @@
                              <th scope="col" class="text-center">Action</th>
                          </tr>
                      </thead>
-                     <tbody>
-                         @foreach($invoices as $invoice)
-                         <tr>
-                             <td>#{{ $invoice->inv_id }}</td>
-                             <td>{{ $invoice->tryout->tryout_judul }}</td>
-                             <td>{{ $invoice->peserta->tryout_peserta_name??'' }}</td>
-                             <td>Rp.{{ $invoice->amount_rp }}</td>
-                             <td>Rp.{{ $invoice->discount_rp }}</td>
-                             <td>Rp.{{ $invoice->total_invoice_rp }}</td>
-                             <td>{{ $invoice->inv_date_format }}</td>
-                             <td>{{ $invoice->due_date_format }}</td>
-                             <td>{!! $invoice->status_badge !!}</td>
-                             <td>{{ $invoice->inv_paid_format }}</td>
-                             <td class="text-center">
-                                 <a href="{{ route('panel.invoices.show',$invoice->inv_id)}}" class="btn rounded-pill btn-primary btn-sm">
-                                     <i class="fa fa-edit"></i> Detail</a>
-                             </td>
+                    <tbody>
+                        @forelse($invoices as $invoice)
+                        <tr>
+                            <td>#{{ $invoice->inv_id }}</td>
+                            <td>{{ $invoice->tryout->tryout_judul }}</td>
+                            <td>{{ $invoice->peserta->tryout_peserta_name??'' }}</td>
+                            <td>Rp.{{ $invoice->amount_rp }}</td>
+                            <td>Rp.{{ $invoice->discount_rp }}</td>
+                            <td>Rp.{{ $invoice->total_invoice_rp }}</td>
+                            <td>{{ $invoice->inv_date_format }}</td>
+                            <td>{{ $invoice->due_date_format }}</td>
+                            <td>{!! $invoice->status_badge !!}</td>
+                            <td>{{ $invoice->inv_paid_format }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('panel.invoices.show',$invoice->inv_id)}}" class="btn rounded-pill btn-primary btn-sm">
+                                    <i class="fa fa-edit"></i> Detail</a>
+                            </td>
 
-                         </tr>
-                         @endforeach
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="11" class="text-center py-4">
+                                @if(request('keyword'))
+                                    Tidak ada data untuk kata kunci: "<strong>{{ request('keyword') }}</strong>".
+                                @elseif(request('status') !== null && request('status') !== '')
+                                    Tidak ada data untuk filter status saat ini.
+                                @else
+                                    Belum ada data pembayaran.
+                                @endif
+                            </td>
+                        </tr>
+                        @endforelse
 
-                     </tbody>
+                    </tbody>
                  </table>
                  {{ $invoices->withQueryString()->links() }}
              </div>
