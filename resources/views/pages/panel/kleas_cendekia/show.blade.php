@@ -168,40 +168,7 @@
                  </ul>
                  <div class="tab-content  text-muted">
                      <div class="tab-pane active show" id="data_summary" role="tabpanel">
-                         <table class="table table-striped">
-                             <thead class="table-light">
-                                 <tr>
-                                     <th scope="col" rowspan="2" width="1%">#</th>
-                                     <th scope="col" rowspan="2">Nama siswa</th>
-                                     @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
-                                     <th colspan="2">{{ $tryout->tryout_judul}}</th>
-                                     @endforeach
-                                 </tr>
-                                 <tr>
-                                     @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
-                                     <th>Rata-rata Nilai</th>
-                                     <th>Total Point</th>
-                                     @endforeach
-                                 </tr>
-                             </thead>
-                             <tbody>
-                                 @foreach($data_summary as $keySummary => $summary)
-                                 <tr>
-                                     <td>{{ $loop->iteration}}</td>
-                                     <td>{{ $summary['nama'] ?? ''}}</td>
-                                     @foreach($summary['tryouts'] as $keyNilaiSummary => $nilaiSummary)
-                                     <td>{{ $nilaiSummary['rata_rata']}}</td>
-                                     <td>{{ $nilaiSummary['total_point']}}</td>
-                                     @endforeach
-
-                                 </tr>
-                                 @endforeach
-                             </tbody>
-                         </table>
-                     </div>
-                     @foreach($data_detail as $keyDetail => $detail)
-                     <div class="tab-pane" id="detail-{{ str_replace(' ','-',strtolower($keyDetail))}}" role="tabpanel">
-                         <div class="tab-pane active show" id="data_summary" role="tabpanel">
+                         <div class="table-responsive">
                              <table class="table table-striped">
                                  <thead class="table-light">
                                      <tr>
@@ -219,13 +186,13 @@
                                      </tr>
                                  </thead>
                                  <tbody>
-                                     @foreach($detail as $keyDetailNilai => $detailNilai)
+                                     @foreach($data_summary as $keySummary => $summary)
                                      <tr>
                                          <td>{{ $loop->iteration}}</td>
-                                         <td>{{ $detailNilai['nama'] ?? ''}}</td>
-                                         @foreach($detailNilai['tryouts'] as $keyNilaiDetial => $nilaiDetail)
-                                         <td>{{ $nilaiDetail['nilai']}}</td>
-                                         <td>{{ $nilaiDetail['point']}}</td>
+                                         <td>{{ $summary['nama'] ?? ''}}</td>
+                                         @foreach($summary['tryouts'] as $keyNilaiSummary => $nilaiSummary)
+                                         <td>{{ $nilaiSummary['rata_rata']}}</td>
+                                         <td>{{ $nilaiSummary['total_point']}}</td>
                                          @endforeach
 
                                      </tr>
@@ -233,6 +200,43 @@
                                  </tbody>
                              </table>
                          </div>
+                     </div>
+                     @foreach($data_detail as $keyDetail => $detail)
+                     <div class="tab-pane" id="detail-{{ str_replace(' ','-',strtolower($keyDetail))}}" role="tabpanel">
+                         <div class="tab-pane active show" id="data_summary" role="tabpanel">
+                             <div class="table-responsive">
+                                 <table class="table table-striped">
+                                     <thead class="table-light">
+                                         <tr>
+                                             <th scope="col" rowspan="2" width="1%">#</th>
+                                             <th scope="col" rowspan="2">Nama siswa</th>
+                                             @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
+                                             <th colspan="2">{{ $tryout->tryout_judul}}</th>
+                                             @endforeach
+                                         </tr>
+                                         <tr>
+                                             @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
+                                             <th>Rata-rata Nilai</th>
+                                             <th>Total Point</th>
+                                             @endforeach
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                         @foreach($detail as $keyDetailNilai => $detailNilai)
+                                         <tr>
+                                             <td>{{ $loop->iteration}}</td>
+                                             <td>{{ $detailNilai['nama'] ?? ''}}</td>
+                                             @foreach($detailNilai['tryouts'] as $keyNilaiDetial => $nilaiDetail)
+                                             <td>{{ $nilaiDetail['nilai']}}</td>
+                                             <td>{{ $nilaiDetail['point']}}</td>
+                                             @endforeach
+
+                                         </tr>
+                                         @endforeach
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div> 
                      </div>
                      @endforeach
 
