@@ -21,7 +21,7 @@
                     </div>
                     <div class="flex-shrink-0">
                         <div class="d-flex gap-2">
-                            
+
                             <a href="{{ route('panel.bank_soal.index')}}" class="btn btn-primary btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
 
                         <div class="col-lg-3">
 
-                            <a class="image-popup w-20" href="{{ Storage::url($soal->tryout_soal) }}"  title="">
+                            <a class="image-popup w-20" href="{{ Storage::url($soal->tryout_soal) }}" title="">
                                 <img class="gallery-img img-fluid mx-auto w-50 border border-dark" src="{{ Storage::url($soal->tryout_soal) }}" alt="">
                             </a>
 
@@ -107,13 +107,58 @@
                             </div>
                             <table class="table table-responsive">
                                 <tbody>
-                                    @foreach($soal->jawaban as $jawaban)
-                                    <tr>
-                                        <td class="col-1"><input class="form-check-input" type="radio" name="" value="A" id="" @if (in_array($jawaban->tryout_jawaban_prefix,json_decode($soal->tryout_kunci_jawaban) )){{ 'checked'}}@endif disabled></td>
-                                        <td class="col-1">{{$jawaban->tryout_jawaban_prefix}}.</td>
-                                        <td>{{$jawaban->tryout_jawaban_isi}}</td>
-                                    </tr>
-                                    @endforeach
+                                    @if($soal->tryout_soal_type != 'TF')
+                                    <table class="table table-responsive">
+                                        <tbody>
+                                            @foreach($soal->jawaban as $jawaban)
+                                            <tr>
+                                                <td class="col-1"><input class="form-check-input" type="checkbox" name="" value="A" id="" @if(($soal->tryout_kunci_jawaban) && in_array($jawaban->tryout_jawaban_prefix,json_decode($soal->tryout_kunci_jawaban) )){{ 'checked'}}@endif disabled></td>
+                                                <td class="col-1">{{$jawaban->tryout_jawaban_prefix}}.</td>
+                                                <td>{{$jawaban->tryout_jawaban_isi}}</td>
+                                            </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                    @endif
+                                    @if($soal->tryout_soal_type === 'TF')
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered align-middle">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Pernyataan</th>
+                                                    <th style="width: 120px;">Kunci Jawaban</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                $opsi = $soal->jawaban;
+                                                $kunci = json_decode($soal->tryout_kunci_jawaban, true) ?? [];
+                                                $prefix = explode(',',$soal->notes);
+                                                $arrayPrefix['Benar'] = $prefix[0];
+                                                $arrayPrefix['Salah'] = $prefix[1];
+                                                @endphp
+
+                                                @foreach ($opsi as $index => $jawaban)
+                                                <tr>
+                                                    <td>{!! $jawaban->tryout_jawaban_isi !!}</td>
+                                                    <td>
+                                                        @php
+                                                        $key = $jawaban->tryout_jawaban_prefix;
+                                                        $nilai = $kunci[$key] ?? '-';
+                                                        @endphp
+                                                        <span class="badge 
+                                {{ $nilai === 'Benar' ? 'bg-success' : 
+                                   ($nilai === 'Salah' ? 'bg-danger' : 'bg-secondary') }}">
+                                                            {{ $arrayPrefix[$nilai] }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @endif
 
                                 </tbody>
                             </table>
