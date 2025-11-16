@@ -63,9 +63,13 @@ class KelasCendekiaController extends Controller
 
     public function Show($kelasCendekiaId)
     {
+        $user = Auth::user();
 
         $kelasCendekia = KelasCendekia::with('jadwal', 'siswaKelas', 'tryouts')
             ->find($kelasCendekiaId);
+
+
+
 
         // ambil tryout urut berdasar waktu
         $tryouts = Tryout::where('kelas_cendekia_id', $kelasCendekiaId)
@@ -88,11 +92,21 @@ class KelasCendekiaController extends Controller
         $rataRataData = [];
         $mapelData = [];
 
+
         // Ambil semua mapel unik dari semua tryout
         $allMapel = collect($tryouts)
             ->flatMap(fn($t) => $t->materi->map(fn($m) => $m->refMateri->ref_materi_judul))
             ->unique()
             ->values();
+
+        if ($user->roles_id == 3) {
+            $jadwalGuru = JadwalCendekia::where('kelas_cendekia_id', $kelasCendekiaId)
+                ->where('guru_id', $user->id)
+                ->first();
+            $allMapel=  $allMapel ->filter(function ($value)use($jadwalGuru) {
+                return $value == $jadwalGuru->mataPelajaran->ref_materi_judul;
+            });
+        } 
 
         foreach ($peserta as $p) {
             $row = [
@@ -101,7 +115,7 @@ class KelasCendekiaController extends Controller
             ];
 
             foreach ($tryouts as $t) {
-                 $totalNilai = 0;
+                $totalNilai = 0;
                 $totalPoint = 0;
                 $count = 0;
 
@@ -114,7 +128,7 @@ class KelasCendekiaController extends Controller
                     }
                 }
 
-                 $rataNilai = $count > 0 ? round($totalNilai / $count, 2) : '-';
+                $rataNilai = $count > 0 ? round($totalNilai / $count, 2) : '-';
                 $totalPoint = $count > 0 ? round($totalPoint, 2) : '-';
 
                 $row['tryouts'][$t->tryout_id] = [
@@ -161,7 +175,7 @@ class KelasCendekiaController extends Controller
                 $mapelData[$mapel][] = $row;
             }
         }
- 
+
 
         $load['kelas_cendekia'] = $kelasCendekia;
         $load['data_summary'] = $rataRataData;

@@ -24,7 +24,7 @@
                         </div>
                         <div class="flex-shrink-0">
                             {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
-                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
+                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
 
                             <a href="{{ route('panel.tryout.exportPeserta',$tryout->tryout_id)}}" class="btn rounded-pill btn-warning btn-sm">
                                 <i class="fa fa-edit"></i> Export Data</a>
@@ -47,7 +47,7 @@
                         <div class="flex-shrink-0">
 
                             {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
-                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
+                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-materi-modal">
                                 <i class="fa fa-edit"></i> Tambah Mata Pelajaran
                             </a>
@@ -94,10 +94,16 @@
                                         </div>
                                         <div class="flex-shrink-0">
 
+                                            @if( Auth::user()->roles_id == 3 && $materi->pengajar_id == Auth::user()->id)
                                             <a href="{{ route('panel.tryout_materi.show',$materi->tryout_materi_id)}}" class="btn rounded-pill btn-primary btn-sm">
-                                                <i class="fa fa-edit"></i> Detail</a>
-                                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                                                <i class="fa fa-edit"></i> Detail
+                                            </a>
+                                            @endif
 
+                                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                                            <a href="{{ route('panel.tryout_materi.show',$materi->tryout_materi_id)}}" class="btn rounded-pill btn-primary btn-sm">
+                                                <i class="fa fa-edit"></i> Detail
+                                            </a>
                                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteMateriBtn" data-bs-toggle="modal" data-bs-target="#deleteMateriModal" data-id="{{$materi->tryout_materi_id}}" data-name="{{$materi->refMateri->ref_materi_judul}}"><i class="fa fa-trash"></i> Hapus</a>
                                             @endif
 
@@ -144,7 +150,7 @@
                         <div class="flex-shrink-0">
 
                             {{-- Support both Spatie roles and legacy roles_id column (2 == Admin) --}}
-                            @if((Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3) && $tryout->is_open == 'Cendekia')
+                            @if((Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2) && $tryout->is_open == 'Cendekia')
 
                             <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#add-peserta-modal">
                                 <i class="fa fa-edit"></i> Tambah Peserta
@@ -175,7 +181,9 @@
                                         <th scope="col">Kelas</th>
                                         <th scope="col">Tanggal Pendaftaran</th>
                                         <th scope="col">Status Pembayaran</th>
+                                        @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                                         <th scope="col">#</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -190,12 +198,12 @@
                                         <td>{{ $peserta->siswa->kelas}}</td>
                                         <td>{{ $peserta->tanggal_daftar}}</td>
                                         <td>{!! $peserta->status_badge !!}</td>
+                                        @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                                         <td class="text-center">
-                                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3)
                                             <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deletePesertaBtn" data-bs-toggle="modal" data-bs-target="#deletePesertaModal" data-id="{{$peserta->tryout_peserta_id }}" data-name="{{$peserta->siswa->name}}">
                                                 <i class="fa fa-edit"></i> Hapus</a>
-                                            @endif
                                         </td>
+                                        @endif
 
                                     </tr>
                                     @endforeach
