@@ -36,7 +36,7 @@
     }
     .left-panel {
         flex: 1;
-        background-image: url("{{ asset('assets/images/bg_registerrrr.jpg') }}");
+        background-image: url("{{ asset('assets/images/COBA-BG-REGIST.png') }}");
         background-size: cover;
         background-position: center;
         position: relative;
