@@ -14,10 +14,16 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $tryout =  Tryout::where('tryout_status', 'Aktif')
-            ->where('is_open', 'Ya');
-        $tryout = $tryout->limit(3)->orderByDesc('tryout_register_due');
-        $load['tryout'] = $tryout->get();
+        // Pastikan filter `is_open` sesuai dengan nilai di database.
+        // Pada DB nilai `is_open` berisi 'Cendekia' atau 'Umum',
+        // sehingga menggunakan whereIn supaya record yang benar muncul.
+        $tryout = Tryout::where('tryout_status', 'Aktif')
+            ->whereIn('is_open', ['Cendekia', 'Umum'])
+            ->orderByDesc('tryout_register_due')
+            ->limit(3)
+            ->get();
+
+        $load['tryout'] = $tryout;
 
 
         return view('pages.index', $load);
