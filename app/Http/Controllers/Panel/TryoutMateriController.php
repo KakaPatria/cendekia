@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class TryoutMateriController extends Controller
 {
@@ -47,31 +48,122 @@ class TryoutMateriController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'soal_jenis' => 'required|in:PDF,EXCEL,FORM',
-            'tyout_materi_id' => 'required',
-            /*'periode_mulai' => 'required',
+        if ($request->bank_soal == 'Ya') {
+            $request->validate([
+                'bank_soal_id' => 'required',
+                /*'periode_mulai' => 'required',
             'periode_selesai' => 'required',
             'waktu_mulai' => 'nullable',
             'waktu_selesai' => 'nullable',
             'durasi' => 'nullable',
             'safe_mode' => 'required|integer',*/
-        ]);
+            ]);
 
-        $tryoutMateri = TryoutMateri::find($request->tyout_materi_id);
-        $tryoutMateri->jenis_soal = $request->soal_jenis;
-        /*$tryoutMateri->periode_mulai = $request->periode_mulai;
+            $materi = TryoutMateri::find($request->bank_soal_id);
+
+            $tryoutMateri = TryoutMateri::find($request->tyout_materi_id);
+            $tryoutMateri->jenis_soal = $materi->jenis_soal;
+            $tryoutMateri->master_soal =  $materi->master_soal;
+            $tryoutMateri->jumlah_soal =  $materi->jumlah_soal;
+
+
+            $litSoal = [];
+            foreach ($materi->soal as $key => $value) {
+                $dataSoal['tryout_materi_id'] = $request->tyout_materi_id;
+                $dataSoal['tryout_nomor'] = $value->tryout_nomor;
+                $dataSoal['point'] = $value->point;
+                $dataSoal['tryout_soal'] = $value->tryout_soal;
+                $dataSoal['tryout_soal_type'] = $value->tryout_soal_type;
+                $dataSoal['tryout_kunci_jawaban'] = $value->tryout_kunci_jawaban;
+                $dataSoal['notes'] = $value->notes;
+
+                $inertSoal  = TryoutSoal::create($dataSoal); 
+                $dataJawaban = [];
+                foreach ($value->jawaban as $keyJawaban => $jawaban) {
+                    $dataJawaban[] = [
+                        'tryout_materi_id'       => $request->tyout_materi_id,
+                        'tryout_soal_id'         => $inertSoal->tryout_soal_id,
+                        'tryout_jawaban_prefix'  => $jawaban->tryout_jawaban_prefix,
+                        'tryout_jawaban_urutan'  => $jawaban->tryout_jawaban_urutan,
+                        'tryout_jawaban_isi'     => $jawaban->tryout_jawaban_isi,
+                        'created_at'             => now(),
+                        'updated_at'             => now(),
+                    ];
+                }
+
+                TryoutJawaban::insert($dataJawaban);
+            }
+
+            $tryoutMateri->update();
+
+            return redirect()->route('panel.tryout_materi.show', $tryoutMateri->tryout_materi_id);
+        } else {
+            $request->validate([
+                'soal_jenis' => 'required|in:PDF,EXCEL,FORM',
+                'tyout_materi_id' => 'required',
+                /*'periode_mulai' => 'required',
+            'periode_selesai' => 'required',
+            'waktu_mulai' => 'nullable',
+            'waktu_selesai' => 'nullable',
+            'durasi' => 'nullable',
+            'safe_mode' => 'required|integer',*/
+            ]);
+
+            $tryoutMateri = TryoutMateri::find($request->tyout_materi_id);
+            $tryoutMateri->jenis_soal = $request->soal_jenis;
+            /*$tryoutMateri->periode_mulai = $request->periode_mulai;
         $tryoutMateri->periode_selesai = $request->periode_selesai;
         $tryoutMateri->waktu_mulai = $request->waktu_mulai;
         $tryoutMateri->waktu_selesai = $request->waktu_selesai;
         $tryoutMateri->durasi = $request->durasi;
         $tryoutMateri->safe_mode = $request->safe_mode;*/
-        if ($request->soal_jenis == 'PDF') {
-            $request->validate([
-                'soal' => 'required|mimes:pdf|max:10000',
-            ]);
+            if ($request->soal_jenis == 'PDF') {
+                $request->validate([
+                    'soal' => 'required|mimes:pdf|max:10000',
+                ]);
 
-            if ($request->file('soal')) {
+                if ($request->file('soal')) {
+                    $file = $request->file('soal');
+
+                    // Buat direktori jika belum ada
+                    $directory = 'public/uploads/soal';
+                    if (!Storage::exists($directory)) {
+                        Storage::makeDirectory($directory);
+                    }
+
+                    // Rename file
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+
+                    // Simpan file
+                    $file->storeAs($directory, $fileName);
+
+                    $fileSoal = $directory . '/' . $fileName;
+
+                    $tryoutMateri->master_soal =  $fileSoal;
+
+
+                    $result = $this->convertPdfToImage(($fileName));
+
+                    $postSoal = [];
+                    $nomorSoal = 1;
+                    foreach ($result as $key => $value) {
+                        $postSoal[] = [
+                            'tryout_materi_id' => $tryoutMateri->tryout_materi_id,
+                            'tryout_nomor' => $nomorSoal,
+                            'tryout_soal' => $value['soal'],
+                            'tryout_penyelesaian' => $value['jawaban'],
+                        ];
+                        $nomorSoal++;
+                    }
+                    $tryoutMateri->jumlah_soal =  $nomorSoal;
+                    TryoutSoal::insert($postSoal);
+                    //dd($result);
+                }
+            } else if ($request->soal_jenis == 'EXCEL') {
+                $request->validate([
+                    'soal' => 'required|mimes:xls,xlsx|max:10000',
+                ]);
+
                 $file = $request->file('soal');
 
                 // Buat direktori jika belum ada
@@ -90,201 +182,161 @@ class TryoutMateriController extends Controller
 
                 $tryoutMateri->master_soal =  $fileSoal;
 
+                $spreadsheet = IOFactory::load(storage_path('app/' . $fileSoal));
+                $sheet = $spreadsheet->getActiveSheet();
 
-                $result = $this->convertPdfToImage(($fileName));
+                $rows = array_map(function ($r) {
+                    $r = array_pad($r, 10, null);
+                    $r = array_map(fn($v) => is_string($v) ? trim($v) : $v, $r);
+                    if (isset($r[1])) $r[1] = strtoupper($r[1]); // tipe soal
+                    return $r;
+                }, array_filter(
+                    array_slice($sheet->toArray(), 1), // skip header
+                    function ($r) {
+                        // cek apakah baris punya data (tidak semuanya kosong)
+                        return count(array_filter($r, fn($v) => !is_null($v) && $v !== '')) > 0;
+                    }
+                ));
+
+
+                foreach ($rows as $i => $row) {
+                    $baris = $i + 2; // karena baris pertama header
+
+                    $rules["{$i}.1"] = ['required', 'in:SC,MCMA,TF']; // tipe soal
+                    $rules["{$i}.2"] = ['required', 'string']; // pertanyaan
+                    $rules["{$i}.7"] = ['required']; // kunci jawaban
+                    $rules["{$i}.8"] = ['required', 'numeric', 'min:1']; // bobot
+
+                    $messages["{$i}.1.required"] = "Baris {$baris}: Tipe Soal wajib diisi.";
+                    $messages["{$i}.1.in"] = "Baris {$baris}: Tipe Soal hanya boleh SC, MCMA, atau TF.";
+                    $messages["{$i}.2.required"] = "Baris {$baris}: Pertanyaan wajib diisi.";
+                    $messages["{$i}.7.required"] = "Baris {$baris}: Kunci Jawaban wajib diisi.";
+                    $messages["{$i}.8.required"] = "Baris {$baris}: Bobot wajib diisi.";
+                    $messages["{$i}.8.numeric"] = "Baris {$baris}: Bobot harus berupa angka.";
+                    $messages["{$i}.8.min"] = "Baris {$baris}: Bobot minimal 1.";
+                }
+
+                $validator = Validator::make($rows, $rules, $messages);
+
+                $validator->after(function ($validator) use ($rows) {
+                    foreach ($rows as $i => $row) {
+                        $baris = $i + 2;
+                        $tipeSoal = strtoupper(trim($row[1] ?? ''));
+                        $kunci = strtoupper(trim($row[7] ?? ''));
+                        $notes = trim($row[9] ?? '');
+
+                        // validasi lanjutan tergantung tipe soal
+                        if ($tipeSoal === 'SC') {
+                            if (!preg_match('/^[A-D]$/', $kunci)) {
+                                $validator->errors()->add("{$i}.7", "Baris {$baris}: SC harus punya satu kunci jawaban (A-D).");
+                            }
+                        }
+
+                        if ($tipeSoal === 'MCMA') {
+                            $keys = array_map('trim', explode(',', $kunci));
+                            foreach ($keys as $key) {
+                                if (!in_array($key, ['A', 'B', 'C', 'D'])) {
+                                    $validator->errors()->add("{$i}.7", "Baris {$baris}: MCMA hanya boleh huruf A-D (contoh: A,C).");
+                                }
+                            }
+                        }
+
+                        if ($tipeSoal === 'TF') {
+                            $keys = array_map('trim', explode(',', $kunci));
+                            $jumlahPernyataan = 0;
+                            for ($col = 3; $col <= 6; $col++) {
+                                if (!empty($row[$col])) $jumlahPernyataan++;
+                            }
+
+                            if (count($keys) !== $jumlahPernyataan) {
+                                $validator->errors()->add("{$i}.7", "Baris {$baris}: Jumlah kunci TF tidak sesuai jumlah pernyataan ({$jumlahPernyataan}).");
+                            }
+
+                            foreach ($keys as $key) {
+                                if (!in_array($key, ['B', 'S'])) {
+                                    $validator->errors()->add("{$i}.7", "Baris {$baris}: Kunci TF hanya boleh berisi B atau S.");
+                                }
+                            }
+                        }
+                    }
+                });
+
+                if ($validator->fails()) {
+                    return back()->withErrors($validator)->withInput();
+                }
+                foreach ($rows as $key => $value) {
+
+                    $tipe = $value[1];
+                    $kunci = strtoupper(trim($value[7]));
+
+                    if ($tipe == 'SC') {
+                        $formattedKunci = [$kunci]; // ['A'] 
+                    } elseif ($tipe == 'MCMA') {
+                        $formattedKunci = array_map('trim', explode(',', $kunci)); // ['A','C','D']
+                    } elseif ($tipe == 'TF') {
+                        // buat pasangan huruf ke Benar/Salah
+                        $keys = array_map('trim', explode(',', $kunci));
+                        $formattedKunci = [];
+                        $opsi = ['A', 'B', 'C', 'D'];
+                        foreach ($keys as $idx => $key) {
+                            $formattedKunci[$opsi[$idx]] = ($key === 'B') ? 'Benar' : 'Salah';
+                        }
+                    }
+
+                    $dataSoal['tryout_materi_id'] = $request->tyout_materi_id;
+                    $dataSoal['tryout_nomor'] = $value[0];
+                    $dataSoal['point'] = $value[8];
+                    $dataSoal['tryout_soal'] = $value[2];
+                    $dataSoal['tryout_soal_type'] = $value[1];
+                    $dataSoal['tryout_kunci_jawaban'] = json_encode($formattedKunci);
+                    $dataSoal['notes'] = $value[9];
+
+                    $inertSoal = TryoutSoal::create($dataSoal);
+
+                    $prefixes = ['A', 'B', 'C', 'D']; // huruf pilihan jawaban
+                    $dataJawaban = [];
+                    foreach ($prefixes as $index => $prefix) {
+                        $kolomIndex = 3 + $index;
+                        if (isset($value[$kolomIndex]) && $value[$kolomIndex]) {
+                            $dataJawaban[] = [
+                                'tryout_materi_id'       => $request->tyout_materi_id,
+                                'tryout_soal_id'         => $inertSoal->tryout_soal_id,
+                                'tryout_jawaban_prefix'  => $prefix,
+                                'tryout_jawaban_urutan'  => $index + 1,
+                                'tryout_jawaban_isi'     => $value[$kolomIndex],
+                                'created_at'             => now(),
+                                'updated_at'             => now(),
+                            ];
+                        }
+                    }
+
+                    // lalu tinggal insert batch
+                    TryoutJawaban::insert($dataJawaban);
+                }
+                $tryoutMateri->jumlah_soal =  count($rows);
+                $tryoutMateri->update();
+
+                return redirect()->route('panel.tryout_materi.show', $tryoutMateri->tryout_materi_id);
+            } else {
+                $request->validate([
+                    'jumlah_soal' => 'required',
+                ]);
+                $tryoutMateri->jumlah_soal =  $request->jumlah_soal;
 
                 $postSoal = [];
                 $nomorSoal = 1;
-                foreach ($result as $key => $value) {
+                for ($i = 1; $i <= $request->jumlah_soal; $i++) {
                     $postSoal[] = [
                         'tryout_materi_id' => $tryoutMateri->tryout_materi_id,
-                        'tryout_nomor' => $nomorSoal,
-                        'tryout_soal' => $value['soal'],
-                        'tryout_penyelesaian' => $value['jawaban'],
+                        'tryout_nomor' => $i,
                     ];
-                    $nomorSoal++;
                 }
-                $tryoutMateri->jumlah_soal =  $nomorSoal;
                 TryoutSoal::insert($postSoal);
-                //dd($result);
             }
-        } else if ($request->soal_jenis == 'EXCEL') {
-            $request->validate([
-                'soal' => 'required|mimes:xls,xlsx|max:10000',
-            ]);
-
-            $file = $request->file('soal');
-
-            // Buat direktori jika belum ada
-            $directory = 'public/uploads/soal';
-            if (!Storage::exists($directory)) {
-                Storage::makeDirectory($directory);
-            }
-
-            // Rename file
-            $fileName = time() . '_' . $file->getClientOriginalName();
-
-            // Simpan file
-            $file->storeAs($directory, $fileName);
-
-            $fileSoal = $directory . '/' . $fileName;
-
-            $tryoutMateri->master_soal =  $fileSoal;
-
-            $spreadsheet = IOFactory::load(storage_path('app/' . $fileSoal));
-            $sheet = $spreadsheet->getActiveSheet();
-
-            $rows = array_map(function ($r) {
-                $r = array_pad($r, 10, null);
-                $r = array_map(fn($v) => is_string($v) ? trim($v) : $v, $r);
-                if (isset($r[1])) $r[1] = strtoupper($r[1]); // tipe soal
-                return $r;
-            }, array_filter(
-                array_slice($sheet->toArray(), 1), // skip header
-                function ($r) {
-                    // cek apakah baris punya data (tidak semuanya kosong)
-                    return count(array_filter($r, fn($v) => !is_null($v) && $v !== '')) > 0;
-                }
-            ));
-
-         
-            foreach ($rows as $i => $row) {
-                $baris = $i + 2; // karena baris pertama header
-
-                $rules["{$i}.1"] = ['required', 'in:SC,MCMA,TF']; // tipe soal
-                $rules["{$i}.2"] = ['required', 'string']; // pertanyaan
-                $rules["{$i}.7"] = ['required']; // kunci jawaban
-                $rules["{$i}.8"] = ['required', 'numeric', 'min:1']; // bobot
-
-                $messages["{$i}.1.required"] = "Baris {$baris}: Tipe Soal wajib diisi.";
-                $messages["{$i}.1.in"] = "Baris {$baris}: Tipe Soal hanya boleh SC, MCMA, atau TF.";
-                $messages["{$i}.2.required"] = "Baris {$baris}: Pertanyaan wajib diisi.";
-                $messages["{$i}.7.required"] = "Baris {$baris}: Kunci Jawaban wajib diisi.";
-                $messages["{$i}.8.required"] = "Baris {$baris}: Bobot wajib diisi.";
-                $messages["{$i}.8.numeric"] = "Baris {$baris}: Bobot harus berupa angka.";
-                $messages["{$i}.8.min"] = "Baris {$baris}: Bobot minimal 1.";
-            }
-
-            $validator = Validator::make($rows, $rules, $messages);
-
-            $validator->after(function ($validator) use ($rows) {
-                foreach ($rows as $i => $row) {
-                    $baris = $i + 2;
-                    $tipeSoal = strtoupper(trim($row[1] ?? ''));
-                    $kunci = strtoupper(trim($row[7] ?? ''));
-                    $notes = trim($row[9] ?? '');
-
-                    // validasi lanjutan tergantung tipe soal
-                    if ($tipeSoal === 'SC') {
-                        if (!preg_match('/^[A-D]$/', $kunci)) {
-                            $validator->errors()->add("{$i}.7", "Baris {$baris}: SC harus punya satu kunci jawaban (A-D).");
-                        }
-                    }
-
-                    if ($tipeSoal === 'MCMA') {
-                        $keys = array_map('trim', explode(',', $kunci));
-                        foreach ($keys as $key) {
-                            if (!in_array($key, ['A', 'B', 'C', 'D'])) {
-                                $validator->errors()->add("{$i}.7", "Baris {$baris}: MCMA hanya boleh huruf A-D (contoh: A,C).");
-                            }
-                        }
-                    }
-
-                    if ($tipeSoal === 'TF') {
-                        $keys = array_map('trim', explode(',', $kunci));
-                        $jumlahPernyataan = 0;
-                        for ($col = 3; $col <= 6; $col++) {
-                            if (!empty($row[$col])) $jumlahPernyataan++;
-                        }
-
-                        if (count($keys) !== $jumlahPernyataan) {
-                            $validator->errors()->add("{$i}.7", "Baris {$baris}: Jumlah kunci TF tidak sesuai jumlah pernyataan ({$jumlahPernyataan}).");
-                        }
-
-                        foreach ($keys as $key) {
-                            if (!in_array($key, ['B', 'S'])) {
-                                $validator->errors()->add("{$i}.7", "Baris {$baris}: Kunci TF hanya boleh berisi B atau S.");
-                            }
-                        }
-                    }
-                }
-            });
-
-            if ($validator->fails()) {
-                return back()->withErrors($validator)->withInput();
-            }
-            foreach ($rows as $key => $value) {
-
-                $tipe = $value[1];
-                $kunci = strtoupper(trim($value[7]));
-
-                if ($tipe == 'SC') {
-                    $formattedKunci = [$kunci]; // ['A'] 
-                } elseif ($tipe == 'MCMA') {
-                    $formattedKunci = array_map('trim', explode(',', $kunci)); // ['A','C','D']
-                } elseif ($tipe == 'TF') {
-                    // buat pasangan huruf ke Benar/Salah
-                    $keys = array_map('trim', explode(',', $kunci));
-                    $formattedKunci = [];
-                    $opsi = ['A', 'B', 'C', 'D'];
-                    foreach ($keys as $idx => $key) {
-                        $formattedKunci[$opsi[$idx]] = ($key === 'B') ? 'Benar' : 'Salah';
-                    }
-                }
-
-                $dataSoal['tryout_materi_id'] = $request->tyout_materi_id;
-                $dataSoal['tryout_nomor'] = $value[0];
-                $dataSoal['point'] = $value[8];
-                $dataSoal['tryout_soal'] = $value[2];
-                $dataSoal['tryout_soal_type'] = $value[1];
-                $dataSoal['tryout_kunci_jawaban'] = json_encode($formattedKunci);
-                $dataSoal['notes'] = $value[9];
-
-                $inertSoal = TryoutSoal::create($dataSoal);
-
-                $prefixes = ['A', 'B', 'C', 'D']; // huruf pilihan jawaban
-                $dataJawaban = [];
-                foreach ($prefixes as $index => $prefix) {
-                    $kolomIndex = 3 + $index;
-                    if (isset($value[$kolomIndex]) && $value[$kolomIndex]) {
-                        $dataJawaban[] = [
-                            'tryout_materi_id'       => $request->tyout_materi_id,
-                            'tryout_soal_id'         => $inertSoal->tryout_soal_id,
-                            'tryout_jawaban_prefix'  => $prefix,
-                            'tryout_jawaban_urutan'  => $index + 1,
-                            'tryout_jawaban_isi'     => $value[$kolomIndex],
-                            'created_at'             => now(),
-                            'updated_at'             => now(),
-                        ];
-                    }
-                }
-
-                // lalu tinggal insert batch
-                TryoutJawaban::insert($dataJawaban);
-            }
-            $tryoutMateri->jumlah_soal =  count($rows);
             $tryoutMateri->update();
 
-            return redirect()->route('panel.tryout_materi.show', $tryoutMateri->tryout_materi_id);
-        } else {
-            $request->validate([
-                'jumlah_soal' => 'required',
-            ]);
-            $tryoutMateri->jumlah_soal =  $request->jumlah_soal;
-
-            $postSoal = [];
-            $nomorSoal = 1;
-            for ($i = 1; $i <= $request->jumlah_soal; $i++) {
-                $postSoal[] = [
-                    'tryout_materi_id' => $tryoutMateri->tryout_materi_id,
-                    'tryout_nomor' => $i,
-                ];
-            }
-            TryoutSoal::insert($postSoal);
+            return redirect()->route('panel.tryout_materi.createJawaban', $tryoutMateri->tryout_materi_id);
         }
-        $tryoutMateri->update();
-
-        return redirect()->route('panel.tryout_materi.createJawaban', $tryoutMateri->tryout_materi_id);
     }
 
     /**
@@ -304,6 +356,18 @@ class TryoutMateriController extends Controller
                 $q->where('id', 3);
             }
         )->get();
+
+        $bankSoal =   TryoutMateri::where('materi_id', $tryoutMateri->materi_id)
+            ->has('soal')
+            ->get();
+
+        $listBankSoal = $bankSoal
+            ->mapWithKeys(function ($item) {
+                return [
+                    $item->tryout_materi_id => $item->jenis_soal . ' - ' . Str::limit($item->tryout_materi_deskripsi, 25)
+                ];
+            });
+        $load['bank_soal'] = $listBankSoal;
 
 
         return view('pages.panel.tryout_materi.show', $load);

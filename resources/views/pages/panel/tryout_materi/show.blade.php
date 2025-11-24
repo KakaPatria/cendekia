@@ -173,7 +173,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                        $opsi = $soal->jawaban; 
+                                        $opsi = $soal->jawaban;
                                         $kunci = json_decode($soal->tryout_kunci_jawaban, true) ?? [];
                                         $prefix = explode(',',$soal->notes);
                                         $arrayPrefix['Benar'] = $prefix[0];
@@ -259,28 +259,52 @@
                     <input type="hidden" name="tyout_materi_id" value="{{ $tryout_materi->tryout_materi_id}}">
 
                     <div class="form-group  mb-3">
-                        <label class="form-label ">Jenis Soal</label>
+                        <label class="form-label ">Ambil dari bank soal ?</label>
                         <div class="">
-                            <select class="form-control select2" name="soal_jenis" id="soal-jenis">
-                                <option value="">-- Pilih Jenis Soal --</option>
-                                <option value="PDF">PDF</option>
-                                <option value="EXCEL">EXCEL</option>
-                                <option value="FORM">FORM</option>
+                            <select class="form-control" name="bank_soal" id="select-bank-soal">
+                                <option value="Tidak">Tidak</option>
+                                <option value="Ya">Ya</option>
 
                             </select>
                         </div>
                     </div>
 
-                    <div class="form-group mb-3 " id="file-soal-input">
-                        <label class="col-form-label ">File Soal</label>
-                        <div class="">
-                            <input type="file" class="form-control mb-2" name="soal" id="file-soal">
+                    <div id="soal-lama" class="d-none">
+                        <div class="form-group  mb-3">
+                            <label class="form-label ">Ambil dari bank soal ?</label>
+                            <div class="">
+                                <select class="form-control" name="bank_soal_id" id="">
+                                    @foreach($bank_soal as $key => $value)
+                                    <option value="{{$key }}">{{$value}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group mb-3 d-none" id="jumlah-soal-input">
-                        <label class="col-form-label ">Jumlah Soal</label>
-                        <div class="">
-                            <input type="number" class="form-control mb-2" name="jumlah_soal" id="jumlah-soal">
+                    <div id="soal-baru">
+                        <div class="form-group  mb-3">
+                            <label class="form-label ">Jenis Soal</label>
+                            <div class="">
+                                <select class="form-control select2" name="soal_jenis" id="soal-jenis">
+                                    <option value="">-- Pilih Jenis Soal --</option>
+                                    <option value="PDF">PDF</option>
+                                    <option value="EXCEL">EXCEL</option>
+                                    <option value="FORM">FORM</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 " id="file-soal-input">
+                            <label class="col-form-label ">File Soal</label>
+                            <div class="">
+                                <input type="file" class="form-control mb-2" name="soal" id="file-soal">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3 d-none" id="jumlah-soal-input">
+                            <label class="col-form-label ">Jumlah Soal</label>
+                            <div class="">
+                                <input type="number" class="form-control mb-2" name="jumlah_soal" id="jumlah-soal">
+                            </div>
                         </div>
                     </div>
                     {{--<div class="row">
@@ -551,5 +575,19 @@
     })
 
     $('#add-safe-mode').val('<?= $tryout_materi->safe_mode ?>').change()
+
+    $('#select-bank-soal').change(function() {
+        if ($(this).val() == 'Ya') {
+            $('#soal-lama').addClass('d-block')
+            $('#soal-lama').removeClass('d-none')
+            $('#soal-baru').addClass('d-none')
+            $('#soal-baru').addClass('d-block')
+        } else {
+            $('#soal-baru').addClass('d-block')
+            $('#soal-baru').removeClass('d-none')
+            $('#soal-lama').addClass('d-none')
+            $('#soal-lama').addClass('d-block')
+        }
+    })
 </script>
 @endsection

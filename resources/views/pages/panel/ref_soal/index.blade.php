@@ -62,7 +62,8 @@
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col" width="1%">#</th>
-                                    <th scope="col">Judul Materi</th>
+                                    <th scope="col" class="col-3">Judul Materi</th>
+                                    <th scope="col">Materi</th>
                                     <th scope="col">Jenjang</th>
                                     <th scope="col">Kelas</th>
                                     <th scope="col">Jenis Soal</th>
@@ -77,6 +78,7 @@
 
                                     <td>{{ $data->tryout_materi_deskripsi }}</td>
 
+                                    <td>{{ $data->refMateri->ref_materi_judul }}</td>
                                     <td>{{ $data->refMateri->ref_materi_jenjang }}</td>
                                     <td>{{ $data->refMateri->ref_materi_kelas }}</td>
                                     <td>{{ $data->jenis_soal }}</td>

@@ -1,0 +1,41 @@
+/* Primary */
+.btn-primary {
+    background-color: #2C3E50;
+    border-color: #2C3E50;
+}
+.btn-primary:hover {
+    background-color: #1A252F;
+    border-color: #1A252F;
+}
+
+/* CTA / Button Kuning */
+.btn-warning {
+    background-color: #D4A017;
+    border-color: #D4A017;
+    color: #fff;
+}
+.btn-warning:hover {
+    background-color: #B8860B;
+    border-color: #B8860B;
+    color: #fff;
+}
+
+/* Danger */
+.btn-danger {
+    background-color: #E74C3C;
+    border-color: #E74C3C;
+}
+.btn-danger:hover {
+    background-color: #C0392B;
+    border-color: #C0392B;
+}
+
+/* Secondary */
+.btn-secondary {
+    background-color: #3498DB;
+    border-color: #3498DB;
+}
+.btn-secondary:hover {
+    background-color: #2980B9;
+    border-color: #2980B9;
+}
