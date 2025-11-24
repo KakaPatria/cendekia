@@ -41,7 +41,7 @@
                             </select>
                         </div>
                         <div class="col-lg-2 col-sm-4">
-                            <a href="{{ route('panel.user.index')}}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
+                            <a href="{{ route('panel.bank_soal.index')}}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
                                 Reset
                             </a>
                         </div>

@@ -26,9 +26,25 @@ class PendaftaranController extends Controller
 
         $load['peserta'] =  TryoutPeserta::with('siswa', 'masterTryout')
             ->when($request->keyword, function ($query) use ($request) {
-                return $query->where('tryout_peserta_name', 'like', "%{$request->keyword}%")
-                    ->orWhere('tryout_peserta_telpon', 'like', "%{$request->keyword}%");
-            })
+    $kw = "%{$request->keyword}%";
+    return $query->where(function ($q) use ($kw) {
+
+        // Nama peserta
+        $q->where('tryout_peserta_name', 'like', $kw)
+
+        // Relasi ke siswa (kelas & asal sekolah)
+          ->orWhereHas('siswa', function ($sq) use ($kw) {
+              $sq->where('asal_sekolah', 'like', $kw)
+                 ->orWhere('kelas', 'like', $kw)
+                 ->orWhere('jenjang', 'like', $kw); // optional, kalau kolom jenjang ditampilkan
+          })
+
+        // Relasi ke Tryout
+          ->orWhereHas('masterTryout', function ($tq) use ($kw) {
+              $tq->where('tryout_judul', 'like', $kw);
+          });
+    });
+})
             ->when($request->tryout, function ($query) use ($request) {
                 return $query->where('tryout_id',  "$request->tryout");
             })
