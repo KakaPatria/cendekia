@@ -141,6 +141,12 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $('#nav-pendaftaran').addClass('active')
+    
+    // Cegah dropdown tertutup saat klik Select2 di dalamnya
+    $('#filter-dropdown').on('click', function (e) {
+        e.stopPropagation();
+    });
+
     $('#selct-tryout').select2({
         placeholder: 'Cari judul Tryout',
         dropdownParent: $('#filter-dropdown')
@@ -151,7 +157,7 @@
         allowClear: true,
         tags: true,
         minimumInputLength: 1,
-        dropdownParent: $('#filter-dropdown')
+        dropdownParent: $('#filter-dropdown'),
         ajax: {
             url: '<?= route('ajax.cari-sekolah') ?>',
             dataType: 'json',
@@ -167,7 +173,7 @@
                 };
             },
             cache: true
-        },
+        }
 
     });
     const classes = {

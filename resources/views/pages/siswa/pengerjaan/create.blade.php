@@ -148,10 +148,8 @@ Tryout
 
 
                             <div class="text-center">
-                                @if ($loop->last)
-                                <button type="button" class="btn rounded-pill btn-warning  back-btn">Kembali</button>
-                                <button type="button" class="btn rounded-pill btn-primary selesai-btn" id="selesai-btn">Selesai</button>
-                                @else
+
+                            
                                 <button type="button" class="btn rounded-pill btn-warning back-btn">Kembali</button>
                                 <button type="button" class="btn rounded-pill btn-success next-btn">Selanjutnya</button>
                                 @endif
