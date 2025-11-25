@@ -28,7 +28,8 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Panel\InvoiceController;
 use App\Http\Controllers\Panel\KelasCendekiaController;
-use App\Http\Controllers\Siswa\PaymentController; 
+use App\Http\Controllers\Siswa\KelasCendekiaController as SiswaKelasCendekiaController;
+use App\Http\Controllers\Siswa\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,13 +132,13 @@ Route::name('panel.')->prefix('panel')->group(function () {
             Route::put('kelas_cendekia/{id}', [KelasCendekiaController::class, 'update'])->name('update');
 
             Route::delete('kelas_cendekia/{id}', [KelasCendekiaController::class, 'destroy'])->name('destroy');
-            
+
             Route::post('kelas_cendekia/addMateri', [KelasCendekiaController::class, 'addMateri'])->name('addMateri');
             Route::put('kelas_cendekia/updateMateri/{id}', [KelasCendekiaController::class, 'updateMateri'])->name('updateMateri');
             Route::delete('kelas_cendekia/destroyMateri/{id}', [KelasCendekiaController::class, 'destroyMateri'])->name('destroyMateri');
-            
+
             Route::get('kelas_cendekia/{id}/edit', [KelasCendekiaController::class, 'edit'])->name('edit');
-            
+
             Route::get('kelas_cendekia/{id}/add_siswa', [KelasCendekiaController::class, 'addSiswa'])->name('addSiswa');
             Route::post('kelas_cendekia/{id}/store_siswa', [KelasCendekiaController::class, 'storeSiswa'])->name('storeSiswa');
             Route::delete('kelas_cendekia/destroySiswa/{kelas_cendekia_id}/{kelas_siswa_cendekia}', [KelasCendekiaController::class, 'destroySiswa'])->name('destroySiswa');
@@ -183,8 +184,8 @@ Route::post('/webhook/midtrans/notify', [PaymentController::class, 'handleNotifi
 
 
 Route::name('siswa.')->prefix('siswa')->group(function () {
-        // Route for public student registration (handled by Siswa\UserController@doRegister)
-        Route::post('register', [SiswaUserController::class, 'doRegister'])->name('doRegister');
+    // Route for public student registration (handled by Siswa\UserController@doRegister)
+    Route::post('register', [SiswaUserController::class, 'doRegister'])->name('doRegister');
     Route::post('login', [SiswaUserController::class, 'doLogin'])->name('doLogin');
     Route::get('forgot_password', [SiswaUserController::class, 'forgotPassword'])->name('forgotPassword');
     Route::post('forgot_password', [SiswaUserController::class, 'doForgotPassword'])->name('doForgotPassword');
@@ -217,6 +218,11 @@ Route::name('siswa.')->prefix('siswa')->group(function () {
         Route::get('tryout/{nilai}/leave/{tryout_peserta_id}', [SiswaPengerjaanController::class, 'leave'])->name('tryout.pengerjaan.leave');
         Route::get('tryout/{nilai}/selesai/{tryout_peserta_id}', [SiswaPengerjaanController::class, 'selesai'])->name('tryout.pengerjaan.selesai');
         Route::get('analisa/{pengerjaan_id}/detail', [SiswaPengerjaanController::class, 'analisa'])->name('tryout.pengerjaan.analisa');
+
+        Route::name('kelas_cendekia.')->group(function () {
+            Route::get('kelas_cendekia', [SiswaKelasCendekiaController::class, 'index'])->name('index');
+            Route::get('kelas_cendekia/{kelas_cendekia_id}', [SiswaKelasCendekiaController::class, 'show'])->name('show');
+        });
 
         Route::post('/payment', [PaymentController::class, 'createSnapToken'])->name('payment.snapToken');
 

@@ -36,6 +36,13 @@
                         <i class="ri-home-3-line"></i> <span>Home</span>
                     </a>
                 </li>
+                @if(Auth::user()->tipe_siswa == 'Cendekia')
+                <li class="nav-item">
+                    <a class="nav-link menu-link text-white" href="{{route('siswa.kelas_cendekia.index')}}" id="nav-kelas-cendekia">
+                        <i class="ri-team-line"></i> <span>Kelas Cendekia</span>
+                    </a>
+                </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link menu-link text-white" href="{{route('siswa.tryout.library')}}" id="nav-home">
                         <i class="ri-book-line"></i> <span>Perpustakaan</span>
