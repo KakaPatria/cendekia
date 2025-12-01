@@ -15,7 +15,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url('{{ asset('assets/images/loginbaruu.jpg') }}');
+        background-image: url('{{ asset('assets/images/loginbaruu.png') }}');
         background-size: cover;
         background-position: center;
     }

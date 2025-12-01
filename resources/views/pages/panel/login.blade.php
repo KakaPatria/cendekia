@@ -15,7 +15,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url('{{ asset('assets/images/loginadmin.jpeg') }}');
+        background-image: url('{{ asset('assets/images/loginadmin.png') }}');
         background-size: cover;
         background-position: center;
     }
