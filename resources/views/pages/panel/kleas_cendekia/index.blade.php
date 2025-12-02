@@ -91,11 +91,13 @@
                                 <option value="12" {{ ($filter_kelas_dipilih ?? '') == 12 ? 'selected' : ''}}>Kelas 12</option>
                             </select>
                         </div>
+                        @if(!(Auth::user() && Auth::user()->roles_id == 3))
                         <div class="col-lg-2 col-sm-4">
                             <select class="form-select select-pengajar" id="cari-pengajar" name="guru">
                                 <option value="">Pilih Pengajar</option>
                             </select>
                         </div>
+                        @endif
                         <div class="col-lg-2 col-sm-4 d-flex gap-2">
                             <button type="submit" class="btn btn-primary waves-effect waves-light flex-fill" style="height: 38px;">
                                 <i class="ri-search-line align-middle me-1"></i> Cari
@@ -138,11 +140,13 @@
                                 <option value="12" {{ ($filter_kelas_dipilih ?? '') == 12 ? 'selected' : ''}}>Kelas 12</option>
                             </select>
                         </div>
+                        @if(!(Auth::user() && Auth::user()->roles_id == 3))
                         <div class="col-lg-2 col-sm-4">
                             <select class="form-select select-pengajar" id="cari-pengajar" name="guru" style="height: 38px;">
                                 <option value="">Pilih Pengajar</option>
                             </select>
                         </div>
+                        @endif
                         <div class="col-lg-3 col-sm-4 d-flex gap-2">
                             <button type="submit" class="btn btn-primary waves-effect waves-light flex-fill" style="height: 38px;">
                                 <i class="ri-search-line align-middle me-1"></i> Cari
