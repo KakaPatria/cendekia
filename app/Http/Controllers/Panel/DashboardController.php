@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Materi;
 use App\Models\Tryout;
 use App\Models\User;
+use App\Models\AsalSekolah;
 use App\Models\TryoutMateri;
 use App\Models\KelasCendekia;
 use App\Models\JadwalCendekia; // Kita perlukan ini
@@ -38,14 +39,16 @@ class DashboardController extends Controller
          */
         private function dashboardAdmin()
         {
-            $user = User::where('status', 'Aktif')->whereHas('roles', function ($q) {
-                $q->where('id', 1); // Siswa
-            })->get();
-            $jumlahSekolah = 0;
-    
+            // Ambil semua user dengan roles_id = 1 (Siswa) dan status Aktif
+            $user = User::where('roles_id', 1)->where('status', 'Aktif')->get();
+
+            // Hitung jumlah sekolah dari tabel master `asal_sekolah`
+            $jumlahSekolah = AsalSekolah::count();
+
+            // Susun urutan sekolah berdasarkan jumlah siswa (berdasarkan users.asal_sekolah)
             $susunUrutanSekolah = [];
             foreach ($user->groupBy('asal_sekolah') as $key => $value) {
-                $jumlahSekolah += 1;
+                if (!$key) continue; // lewati entry kosong
                 $susunUrutanSekolah[] = [
                     'nama' => $key,
                     'jumlah' => count($value)
