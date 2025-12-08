@@ -580,8 +580,8 @@ html {
 }
 
 #hubungi .contact-title {
-  color: white !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 1) !important;
+  color: #980000 !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.06) !important;
 }
 
 #hubungi .contact-title::after {
@@ -711,6 +711,45 @@ html {
   margin-top: 0.2rem !important;
   font-style: italic !important;
   text-transform: uppercase !important;
+}
+
+/* Footer text colours: titles black, labels black, values red */
+footer .col-sm-4 .footer-title {
+  color: #111111 !important;
+  text-shadow: none !important;
+}
+footer .col-sm-4 .contact-label,
+footer .col-sm-4 .hours-day,
+footer .col-sm-4 .address-label {
+  color: #111111 !important;
+}
+footer .col-sm-4 .contact-value,
+footer .col-sm-4 .hours-time,
+footer .col-sm-4 .address-value,
+footer .copy-rights,
+.footer-left-text p {
+  color: #980000 !important;
+}
+
+/* footer left description as list items */
+.footer-desc li {
+  color: #980000 !important;
+  margin-bottom: 0.5rem;
+  line-height: 1.45;
+}
+
+/* specific: make the main description justified + black */
+.footer-desc-text {
+  color: #111111 !important;
+  text-align: justify;
+}
+.footer-desc-welcome {
+  color: #980000 !important;
+}
+
+/* left panel removed per request; left content uses .footer-left-text */
+.logo-wrapper img {
+  filter: none;
 }
 
 /* Animasi pulse */
@@ -1034,8 +1073,8 @@ html {
                                         <i class="ri-whatsapp-line fs-1"></i>
                                     </div>
                                 </div>
-                                <a href="https://bit.ly/WA-CENDEKIA-YENI" target="_blank" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">Whatsapp Kak Yeni</h5>
+                                <a href="https://bit.ly/WA-CENDEKIA-AFIINA" target="_blank" class="stretched-link">
+                                    <h5 class="fs-17 pt-1">Whatsapp Kak Afiina</h5>
                                 </a>
                             </div>
                         </div>
@@ -1274,34 +1313,34 @@ html {
 <!-- end faq -->
 
         <!-- Start footer -->
-<footer class="py-5 position-relative" style="background-color: #e2b602;">
+        <footer class="py-5 position-relative" style="background-color: #E2B602;">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 mt-4">
-                <div>
-                    <div>
-                        <img src="{{URL::asset('assets/images/logo-cendikia.png')}}" alt="logo light" height="40" />
-                    </div>
-                    <div class="mt-4 fs-13">
-                        <p style="text-align: justify;">Selamat datang di LBB Cendekia!</p>
-                        <p style="text-align: justify;">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
-                        <ul class="list-inline mb-0 footer-social-link">
-                            <li class="list-inline-item">
-                                <a href="https://www.facebook.com/profile.php?id=100070975055336" target="_blank" class="avatar-xs d-block">
-                                    <div class="avatar-title rounded-circle">
-                                        <i class="ri-facebook-fill"></i>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://instagram.com/lbbcendekia" target="_blank" class="avatar-xs d-block">
-                                    <div class="avatar-title rounded-circle">
-                                        <i class="ri-instagram-line"></i>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="logo-wrapper mb-3">
+                  <img src="{{URL::asset('assets/images/logo-cendikia.png')}}" alt="logo light" height="40" />
+                </div>
+                <div class="mt-4 fs-13 footer-left-text">
+                  <ul class="list-unstyled footer-desc mb-2">
+                    <li class="footer-desc-welcome">Selamat datang di LBB Cendekia!</li>
+                    <li class="footer-desc-text">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</li>
+                  </ul>
+                  <ul class="list-inline mb-0 footer-social-link">
+                    <li class="list-inline-item">
+                      <a href="https://www.facebook.com/profile.php?id=100070975055336" target="_blank" class="avatar-xs d-block">
+                        <div class="avatar-title rounded-circle">
+                          <i class="ri-facebook-fill"></i>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="https://instagram.com/lbbcendekia" target="_blank" class="avatar-xs d-block">
+                        <div class="avatar-title rounded-circle">
+                          <i class="ri-instagram-line"></i>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
             </div>
 
@@ -1313,12 +1352,12 @@ html {
                         
                         <!-- WhatsApp Contact 1 -->
                         <a href="https://wa.me/6281272139500" target="_blank" class="contact-item phone-contact text-decoration-none" 
-                           style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: white;"
+                          style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: #111111;"
                            onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';"
                            onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                             <div class="contact-icon" 
                                  style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                <i class="ri-whatsapp-line" style="color: white;"></i>
+                                <i class="ri-whatsapp-line" style="color: #111111;"></i>
                             </div>
                             <div class="contact-info" style="flex: 1; text-align: left;">
                                 <div class="contact-label" style="font-size: 0.75rem; opacity: 0.9;">WHATSAPP</div>
@@ -1328,24 +1367,24 @@ html {
 
                         <!-- WhatsApp Contact 2 -->
                         <a href="https://wa.me/6282323356415" target="_blank" class="contact-item phone-contact text-decoration-none"
-                           style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: white;"
+                          style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: #111111;"
                            onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';"
                            onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                             <div class="contact-icon" 
                                  style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                <i class="ri-whatsapp-line" style="color: white;"></i>
+                                <i class="ri-whatsapp-line" style="color: #111111;"></i>
                             </div>
                             <div class="contact-info" style="flex: 1; text-align: left;">
                                 <div class="contact-label" style="font-size: 0.75rem; opacity: 0.9;">WHATSAPP</div>
-                                <div class="contact-value"><strong>Kak Yeni : 082323356415</strong></div>
+                                <div class="contact-value"><strong>Kak Afiina : 082323356415</strong></div>
                             </div>
                         </a>
                     </div>
 
                     <!-- Working Hours -->
-                    <div class="col-sm-4 mt-4">
+                        <div class="col-sm-4 mt-4">
                         <h5 class="footer-title">JAM KERJA</h5>
-                        <div class="text-white mt-3">
+                        <div class="mt-3">
                             <div class="hours-item" style="background: rgba(255,255,255,0.1); padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
                                  onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.transform='translateX(5px)';"
                                  onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(0)';">
@@ -1357,7 +1396,7 @@ html {
                                  onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.transform='translateX(5px)';"
                                  onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(0)';">
                                 <span class="hours-day">SABTU</span>
-                                <span class="hours-time">09.00 - 17.00</span>
+                                <span class="hours-time">08.00 - 16.00</span>
                             </div>
                             
                             <div class="hours-item" style="background: rgba(255,255,255,0.1); padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
@@ -1373,20 +1412,37 @@ html {
                     <div class="col-sm-4 mt-4">
                         <h5 class="footer-title">ALAMAT</h5>
                         
-                        <a href="https://maps.app.goo.gl/8Yq12fMQ2qCd8h9ZA" target="_blank" class="address-item text-decoration-none" 
-                           style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; color: white; border: 2px solid transparent; position: relative; overflow: hidden;"
+                        <div class="address-list">
+                          <a href="https://bit.ly/MAPS-LBBCENDEKIA" target="_blank" class="address-item text-decoration-none d-block" 
+                          style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: #111111;"
                            onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.4)';"
                            onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='transparent';">
                             <div class="address-icon" 
-                                 style="width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; position: relative; z-index: 1;">
-                                <i class="ri-map-pin-line" style="color: white;"></i>
+                               style="width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; position: relative; z-index: 1;">
+                              <i class="ri-map-pin-line" style="color: #111111;"></i>
                             </div>
                             <div class="address-info" style="flex: 1; text-align: left; position: relative; z-index: 1;">
-                                <div class="address-label" style="font-size: 0.75rem; opacity: 0.9;">LOKASI KAMI</div>
-                                <div class="address-value" style="font-size: 0.9rem; line-height: 1.4;">BARAT GEDUNG SMPN 9<br>YOGYAKARTA</div>
-                                <div class="map-hint" style="font-size: 0.7rem; opacity: 0.8; margin-top: 0.3rem;"> KLIK UNTUK BUKA PETA</div>
+                              <div class="address-label" style="font-size: 0.75rem; opacity: 0.95;">Cabang Kotagede</div>
+                              <div class="address-value" style="font-size: 0.9rem; line-height: 1.4;">Jl. Ngeksigondo No. 23 (Gang Masjid Al Barokah) <br>Barat Gedung SMP N 9 Yogyakarta.</div>
+                              <div class="map-hint" style="font-size: 0.7rem; opacity: 0.8; margin-top: 0.3rem;">Buka Peta</div>
                             </div>
-                        </a>
+                          </a>
+
+                          <a href="https://bit.ly/MAPSCENDEKIACENTER" target="_blank" class="address-item text-decoration-none d-block mt-2" 
+                          style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: #111111;"
+                           onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.4)';"
+                           onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='transparent';">
+                            <div class="address-icon" 
+                               style="width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; position: relative; z-index: 1;">
+                              <i class="ri-map-pin-line" style="color: #111111;"></i>
+                            </div>
+                            <div class="address-info" style="flex: 1; text-align: left; position: relative; z-index: 1;">
+                              <div class="address-label" style="font-size: 0.75rem; opacity: 0.95;">Cabang Ketandan</div>
+                              <div class="address-value" style="font-size: 0.9rem; line-height: 1.4;">Jl. Tegalsari Raya, Kalangan Baturetno, Banguntapan Bantul</div>
+                              <div class="map-hint" style="font-size: 0.7rem; opacity: 0.8; margin-top: 0.3rem;">Buka Peta</div>
+                            </div>
+                          </a>
+                        </div>
                     </div>
                 </div>
             </div>
