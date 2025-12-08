@@ -5,92 +5,17 @@
 <link href="{{ URL::asset('assets/libs/swiper/swiper.min.css') }}" rel="stylesheet" type="text/css" />
 
 <style>
-
-/* ============================================
-   LBB CENDEKIA - CSS ORGANIZED
-   Semua nilai SAMA seperti aslinya, cuma dirapikan
-   ============================================ */
-
-/* ==========================================
-   1. GLOBAL & BASE STYLES
-   ========================================== */
-
-html {
-  scroll-behavior: smooth !important;
+.explore-place-bid-img img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
 /* ==========================================
-   2. NAVBAR STYLES
+   6. SECTION FAQ (redesigned)
    ========================================== */
-
-/* Modern Navbar Enhancement */
-.navbar-landing {
-  background: rgba(255, 255, 255, 0.98) !important;
-  backdrop-filter: blur(15px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
-  border-bottom: 1px solid rgba(152, 0, 0, 0.1) !important;
-  box-shadow: 0 4px 30px rgba(152, 0, 0, 0.08) !important;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  padding: 0.8rem 0 !important;
-}
-
-/* Navbar scroll effect */
-.navbar-landing.scrolled {
-  box-shadow: 0 8px 40px rgba(152, 0, 0, 0.15) !important;
-  padding: 0.5rem 0 !important;
-}
-
-/* Logo Enhancement */
-.navbar-brand img {
-  transition: transform 0.3s ease !important;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)) !important;
-}
-
-.navbar-brand:hover img {
-  transform: scale(1.1) !important;
-}
-
-/* Modern Navigation Links */
-.navbar-nav .nav-link {
-  position: relative !important;
-  font-weight: 500 !important;
-  font-size: 0.95rem !important;
-  color: #2c3e50 !important;
-  padding: 0.8rem 1.2rem !important;
-  margin: 0 0.3rem !important;
-  border-radius: 25px !important;
-  transition: all 0.3s ease !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-}
-
-/* Underline animation effect */
-.navbar-nav .nav-link::before {
-  content: '';
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #E2B602, #980000);
-  transition: width 0.3s ease;
-}
-
-.navbar-nav .nav-link:hover::before {
-  width: 60%;
-}
-
-/* Active State */
-.navbar-nav .nav-link.active {
-  background: linear-gradient(135deg, #e1e1e1ff 0%, #e1e1e1ff 100%) !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 15px rgba(32, 30, 30, 0.2) !important;
-  transform: translateY(-2px) !important;
-}
-
-/* Hover Effect */
-.navbar-nav .nav-link:hover:not(.active) {
   background: rgba(46, 54, 57, 0.1) !important;
   color: #000000ff !important;
   transform: translateY(-1px) !important;
@@ -99,69 +24,7 @@ html {
 
 /* Modern Login Button */
 .btn-soft-danger {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
-  border: none !important;
-  border-radius: 25px !important;
-  padding: 0.7rem 1.5rem !important;
-  font-weight: 600 !important;
-  color: white !important;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4) !important;
-  transition: all 0.3s ease !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-}
-
-.btn-soft-danger:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6) !important;
-  background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%) !important;
-  color: white !important;
-}
-
-/* Focus States untuk Accessibility */
-.nav-link:focus, .btn:focus {
-  outline: 2px solid rgba(255, 255, 255, 0.5) !important;
-  outline-offset: 2px !important;
-}
-
-/* ==========================================
-   3. HERO SECTION STYLES
-   ========================================== */
-
-/* Hero Background & Layout */
-.job-hero-section.bg-light {
-  background: linear-gradient(180deg, #980000 0%, #7A0000 100%) !important;
-  position: relative !important;
-  overflow: hidden !important;
-  color: #ffffff !important;
-}
-
-/* Wave kuning atas - WITH ANIMATION */
-/*.job-hero-section.bg-light::before {
-  content: '';
-  position: absolute;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  z-index: 1;
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 140'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='0%'><stop offset='0%' style='stop-color:%23980000;stop-opacity:1' /><stop offset='100%' style='stop-color:%23E2B602;stop-opacity:1' /></linearGradient></defs><path fill='url(%23grad)' d='M0,40 C300,60 800,0 1440,90 L1440,0 L0,0 Z'></path></svg>");
-  background-size: cover;
-  background-repeat: no-repeat;
-  animation: waveMove 15s ease-in-out infinite;
-}*/
-
-@keyframes waveMove {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(10px);
-  }
-}
-
-/* Wave kuning bawah */
-/*.job-hero-section.bg-light::after {
+  /* FAQ HTML is included later in the document; removed duplicate here to fix layout and remove merge artifacts */
   content: '';
   position: absolute;
   bottom: 0;
@@ -583,9 +446,8 @@ html {
 .treasure-badge-6 { background: linear-gradient(135deg, #FF9800, #E68900); animation-delay: 0.5s; }
 
 /* ==========================================
-   6. SECTION FAQ
->>>>>>> baae564ecbf72fa779d5e20468589445eacd0778
-   ========================================== */
+  6. SECTION FAQ
+  ========================================== */
 
 #faq {
   padding-top: 160px;
@@ -629,77 +491,68 @@ html {
 }
 
 /* Reusable title style (match FAQ heading) */
-.section-title-faq {
-  font-size: 2.25rem !important;
-  line-height: 1.05 !important;
-  font-weight: 800 !important;
-  color: #222 !important;
-  margin-bottom: 0.75rem !important;
-}
+<section id="faq" class="section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4">
+        <div class="faq-intro">
+          <div class="badge-faq">Frequently asked</div>
+          <h2 class="fw-bold">Frequently asked <span class="accent">questions</span></h2>
+          <p class="mt-3">Pertanyaan yang sering diajukan seputar pendaftaran, akses tryout, dan masalah akun. Jika pertanyaanmu belum tercantum, silakan hubungi admin melalui WA.</p>
+        </div>
+      </div>
 
-.section-title-faq .accent {
-  color: #980000;
-}
+      <div class="col-lg-6">
+        <div class="faq-accordion">
+          <div class="accordion" id="faqAccordion">
+            <!-- item 1 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq1">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                  Bagaimana cara mengikuti tryout?
+                </button>
+              </h2>
+              <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Kamu bisa mendaftar akun terlebih dahulu, lalu pilih tryout yang tersedia di menu dashboard.
+                </div>
+              </div>
+            </div>
 
-/* Accordion column */
-.faq-accordion .accordion-item {
-  border: 0;
-  margin-bottom: 14px;
-}
+            <!-- item 2 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                  Apakah Tryout bisa diakses gratis?
+                </button>
+              </h2>
+              <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Beberapa tryout disediakan gratis, sedangkan versi premium bisa diakses setelah login dan berlangganan.
+                </div>
+              </div>
+            </div>
 
-.faq-accordion .accordion-button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  border: 1px solid rgba(152,0,0,0.08); /* soft red border */
-  border-radius: 12px;
-  padding: 18px 18px;
-  box-shadow: 0 6px 20px rgba(152,0,0,0.03);
-  font-weight: 700;
-  color: #222;
-}
+            <!-- item 3 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq3">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                  Bagaimana jika lupa password akun?
+                </button>
+              </h2>
+              <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Gunakan fitur “Lupa Password” di halaman login untuk mengatur ulang kata sandi kamu.
+                </div>
+              </div>
+            </div>
 
-.faq-accordion .accordion-button:not(.collapsed) {
-  background: linear-gradient(90deg, rgba(226,182,2,0.06), rgba(152,0,0,0.02));
-  border-color: rgba(152,0,0,0.22);
-}
-
-/* Replace default chevron with circular red/yellow icon */
-.faq-accordion .accordion-button::after {
-  content: '';
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,#980000,#E2B602);
-  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/></svg>") center/60% no-repeat;
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/></svg>") center/60% no-repeat;
-  border: none;
-  transform: rotate(0deg);
-}
-
-.faq-accordion .accordion-button:not(.collapsed)::after {
-  transform: rotate(180deg);
-}
-
-.faq-accordion .accordion-body {
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.04);
-  border-radius: 12px;
-  margin-top: 8px;
-  padding: 16px;
-  color: #444;
-  line-height: 1.6;
-}
-
-/* Keep nested cards white and readable */
-#faq .card:not(.inquiry-box),
-#faq .card:not(.inquiry-box) * {
-  color: #2c3e50 !important;
-  background-color: #ffffff !important;
-}
-
-/* ==========================================
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
    7. SECTION HUBUNGI (Hidden by default)
    ========================================== */
 
@@ -1295,9 +1148,9 @@ footer .copy-rights,
         
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="text-center mb-5">
-                    <h1 class="fw-bold fs-1 text-danger">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
-                </div>
+              <div class="text-center mb-5">
+                <h1 class="mb-3 fw-semibold lh-base text-danger section-title-faq">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
+              </div>
             </div>
         </div>
         
@@ -1355,11 +1208,12 @@ footer .copy-rights,
 
         <!-- Treasure Map Section -->
         <div class="row justify-content-center pt-5">
-            <div class="col-lg-12">
-                <div class="text-center mb-5">
-                    <h2 class="fw-bold fs-1 text-primary">ALUR PENDAFTARAN TRY OUT CENDEKIA</h2>
-                </div>
+          <div class="col-lg-12">
+            <div class="text-center mb-5">
+              <h2 class="fw-bold fs-1 text-warning section-title-faq">ALUR PENDAFTARAN</h2>
+              <h2 class="fw-bold fs-2 text-danger section-title-faq">TRY OUT ASPD SD</h2>
             </div>
+          </div>
         </div>
 
         <!-- SVG Treasure Map Visualization -->
@@ -1558,10 +1412,10 @@ footer .copy-rights,
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
-                        <div class="text-center mb-5">
-                            <h1 class="fw-bold fs-1 text-dark">TRYOUT</h1>
-                            <p class="text-muted mb-4">Temukan tryout yang sesuai dengan kebutuhan anda.</p>
-                        </div>
+                      <div class="text-center mb-5">
+                        <h1 class="mb-3 fw-semibold lh-base section-title-faq">TRY OUT</h1>
+                        <p class="text-muted mb-4">Temukan tryout yang sesuai dengan kebutuhan anda.</p>
+                      </div>
                     </div>
                     <!-- end col -->
                 </div>
@@ -1664,11 +1518,12 @@ footer .copy-rights,
 <!-- start faq -->
 <section id="faq" class="section">
   <div class="container">
+<<<<<<< HEAD
     <div class="row align-items-center">
       <div class="col-lg-6 mb-4">
         <div class="faq-intro">
-          <div class="badge-faq">FAQ</div>
-          <h2 class="fw-bold">Frequently Asked <span class="accent">Questions</span></h2>
+          <div class="badge-faq">Frequently asked</div>
+          <h2 class="fw-bold">Frequently asked <span class="accent">questions</span></h2>
           <p class="mt-3">Pertanyaan yang sering diajukan seputar pendaftaran, akses tryout, dan masalah akun. Jika pertanyaanmu belum tercantum, silakan hubungi admin melalui WA.</p>
         </div>
       </div>
@@ -1718,6 +1573,23 @@ footer .copy-rights,
               </div>
             </div>
 
+=======
+    <div class="text-center mb-5">
+      <h1 class="fw-bold fs-1 text-dark">FAQ</h1>
+      <p class="text-muted">Pertanyaan yang sering diajukan</p>
+    </div>
+    
+    <div class="accordion" id="faqAccordion">
+      <!-- item 1 -->
+      <div class="accordion-item mb-3">
+        <h2 class="accordion-header" id="faq1">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+            Bagaimana cara mengikuti tryout?
+          </button>
+        </h2>
+        <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Kamu bisa mendaftar akun terlebih dahulu, lalu pilih tryout yang tersedia di menu dashboard.
           </div>
         </div>
       </div>
