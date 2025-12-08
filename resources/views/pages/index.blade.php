@@ -503,6 +503,83 @@ html {
 }
 
 /* ==========================================
+   TREASURE MAP STYLES
+   ========================================== */
+
+.treasure-map-container {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(226, 182, 2, 0.05), rgba(152, 0, 0, 0.05));
+  border-radius: 20px;
+  border: 3px solid #E2B602;
+}
+
+.treasure-map-svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
+}
+
+.treasure-step {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.treasure-step:hover circle {
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1));
+}
+
+.treasure-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
+  border: none !important;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98)) !important;
+  margin-top: 2rem;
+  border-radius: 15px !important;
+}
+
+.treasure-card:hover {
+  transform: translateY(-12px) scale(1.04) !important;
+  box-shadow: 0 20px 40px rgba(226, 182, 2, 0.25), 0 0 30px rgba(152, 0, 0, 0.15) !important;
+}
+
+.treasure-badge {
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  animation: float 3s ease-in-out infinite;
+  border: 3px solid white;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+}
+
+.treasure-badge-1 { background: linear-gradient(135deg, #FF6B6B, #EE5A6F); }
+.treasure-badge-2 { background: linear-gradient(135deg, #4CAF50, #45A049); animation-delay: 0.1s; }
+.treasure-badge-3 { background: linear-gradient(135deg, #25D366, #22BA57); animation-delay: 0.2s; }
+.treasure-badge-4 { background: linear-gradient(135deg, #2196F3, #1976D2); animation-delay: 0.3s; }
+.treasure-badge-5 { background: linear-gradient(135deg, #9C27B0, #7B1FA2); animation-delay: 0.4s; }
+.treasure-badge-6 { background: linear-gradient(135deg, #FF9800, #E68900); animation-delay: 0.5s; }
+
+/* ==========================================
    6. SECTION FAQ
    ========================================== */
 
@@ -853,7 +930,124 @@ footer .copy-rights,
 }
 
 /* ==========================================
-   10. RESPONSIVE DESIGN
+   10. TREASURE MAP STYLES
+   ========================================== */
+
+/* Treasure Map Container */
+.treasure-map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: linear-gradient(180deg, rgba(152, 0, 0, 0.05) 0%, rgba(226, 182, 2, 0.05) 100%);
+  border-radius: 20px;
+  margin: 30px auto;
+  max-width: 1000px;
+}
+
+/* Treasure Map SVG */
+.treasure-map-svg {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* Treasure Card Styling */
+.treasure-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.treasure-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.treasure-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(152, 0, 0, 0.2);
+}
+
+.treasure-card:hover::before {
+  opacity: 1;
+}
+
+/* Treasure Badge (Circle with Icon) */
+.treasure-badge {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  margin: 0 auto 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+  }
+}
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Treasure Chest Animation */
+.treasure-chest {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* SVG Text Animation */
+.decorative-stars {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.compass-rose {
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   11. RESPONSIVE DESIGN
    ========================================== */
 
 @media (max-width: 768px) {
@@ -863,6 +1057,37 @@ footer .copy-rights,
   
   .section {
     padding: 3rem 0;
+  }
+
+  .treasure-map-svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .treasure-card {
+    margin-bottom: 15px;
+  }
+
+  .treasure-badge {
+    width: 70px;
+    height: 70px;
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .treasure-badge {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+
+  .treasure-card h5 {
+    font-size: 0.95rem;
+  }
+
+  .treasure-card p {
+    font-size: 0.85rem;
   }
 }
 
@@ -1032,7 +1257,7 @@ footer .copy-rights,
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="text-center mb-5">
-                    <h1 class="mb-3 ff-secondary fw-semibold lh-base text-danger">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
+                    <h1 class="fw-bold fs-1 text-danger">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
                 </div>
             </div>
         </div>
@@ -1089,97 +1314,86 @@ footer .copy-rights,
         </div>
         <hr class="mb-5 mt-5">
 
+        <!-- Treasure Map Section -->
         <div class="row justify-content-center pt-5">
-             <div class="col-lg-12">
+            <div class="col-lg-12">
                 <div class="text-center mb-5">
-                    <h2 class="fw-bold fs-1 text-warning">ALUR PENDAFTARAN</h2>
-                    <h2 class="fw-bold fs-2 text-danger">TRY OUT ASPD SD</h2>
+                    <h2 class="fw-bold fs-1 text-primary">ALUR PENDAFTARAN TRY OUT CENDEKIA</h2>
                 </div>
             </div>
         </div>
 
+        <!-- SVG Treasure Map Visualization -->
+        <!-- Treasure Cards Section -->
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-10">
+        <div class="row">
+            
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #FFB6C1;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);">
+                        <span style="font-size: 2.5rem;">👤</span>
+                    </div>
+                    <h5 class="fw-bold mt-3 text-dark">1. Masuk/Daftar Akun</h5>
+                    <p class="text-muted fs-14">Buat akun baru atau masuk menggunakan akun Cendekia yang sudah Anda miliki.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #87CEEB;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #E2B602 0%, #FFD700 100%);">
+                        <span style="font-size: 2.5rem;">📚</span>
+                    </div>
+                    <h5 class="fw-bold mt-3 text-dark">2. Pilih Tryout</h5>
+                    <p class="text-muted fs-14">Telusuri daftar Tryout yang tersedia dan pilih Tryout yang sesuai dengan kebutuhan Anda (misalnya: Try Out ASPD SD).</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #98FB98;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #980000 0%, #7A0000 100%);">
+                        <span style="font-size: 2.5rem;">💳</span>
+                    </div>
+                    <h5 class="fw-bold mt-3 text-dark">3. Melakukan Pembayaran</h5>
+                    <p class="text-muted fs-14">Lakukan pembayaran sesuai dengan biaya yang tertera untuk Tryout yang Anda pilih (transfer bank atau metode lain).</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div> 
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-10">
         <div class="row justify-content-center">
             
-            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
-                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
-                    <div class="mx-auto avatar-md mb-3">
-                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
-                            <i class="ri-money-dollar-circle-line"></i>
-                        </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #FFD700;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
+                        <span style="font-size: 2.5rem;">✅</span>
                     </div>
-                    <h5 class="fw-bold">1. PEMBAYARAN</h5>
-                    <p class="text-muted fs-14 text-start">Melakukan pembayaran dengan biaya yang tertera pada tryout berbayar yang anda pilih, (payment mwlalui transfer atau bayar langsung). <span class="fw-bold text-danger">**lanjut isi link di poin 2.**</span></p>
+                    <h5 class="fw-bold mt-3 text-dark">4. Konfirmasi Admin</h5>
+                    <p class="text-muted fs-14">Tunggu konfirmasi dari pihak admin Cendekia (verifikasi pembayaran dan aktivasi akses Tryout Anda).</p>
                 </div>
             </div>
 
-            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
-                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
-                    <div class="mx-auto avatar-md mb-3">
-                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
-                            <i class="ri-upload-cloud-line"></i>
-                        </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #DDA0DD;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%);">
+                        <span style="font-size: 2.5rem;">📝</span>
                     </div>
-                    <h5 class="fw-bold">2. DAFTAR DAN UNGGAH HASIL SCREENSHOT</h5>
-                    <p class="text-muted fs-14 text-start">Isi data diri serta screenshot bukti pembayaran melalui link: <a href="https://bit.ly/TO_SPELANTA_2025" target="_blank" class="fw-bold text-decoration-underline">https://bit.ly/TO_SPELANTA_2025</a>.</p>
-                    <a href="https://bit.ly/TO_SPELANTA_2025" target="_blank" class="btn btn-warning btn-sm mt-auto shadow-sm">DAFTAR TRYOUT DISINI</a>
+                    <h5 class="fw-bold mt-3 text-dark">5. Mengerjakan Tryout</h5>
+                    <p class="text-muted fs-14">Setelah terkonfirmasi, Anda akan mendapatkan akses ke soal-soal Tryout dan dapat mulai mengerjakannya sesuai jadwal.</p>
                 </div>
             </div>
             
-            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
-                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
-                    <div class="mx-auto avatar-md mb-3">
-                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
-                            <i class="ri-whatsapp-line"></i>
-                        </div>
-                    </div>
-                    <h5 class="fw-bold">3. WHATSAPP GRUP</h5>
-                    <p class="text-muted fs-14 text-start">Bergabung ke grup WA Peserta Tryout 2025. Tautan WA Grup diperoleh di akhir pengisian formulir pendaftaran (poin 2).</p>
-                </div>
-            </div>
-
-            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
-                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
-                    <div class="mx-auto avatar-md mb-3">
-                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
-                            <i class="ri-mail-line"></i>
-                        </div>
-                    </div>
-                    <h5 class="fw-bold">4. CEK EMAIL</h5>
-                    <p class="text-muted fs-14 text-start">Periksa email untuk mengakses kartu peserta dan mengetahui nomor peserta (pastikan menggunakan email aktif).</p>
-                </div>
-            </div>
-            
-            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
-                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
-                    <div class="mx-auto avatar-md mb-3">
-                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
-                            <i class="ri-group-line"></i>
-                        </div>
-                    </div>
-                    <h5 class="fw-bold">5. PEMBAGIAN RUANG</h5>
-                    <p class="text-muted fs-14 text-start">Pembagian ruang peserta disampaikan melalui WA Grup Peserta Tryout SPELANTA 2025.</p>
-                </div>
-            </div>
-            
-            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
-                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
-                    <div class="mx-auto avatar-md mb-3">
-                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
-                            <i class="ri-information-line"></i>
-                        </div>
-                    </div>
-                    <h5 class="fw-bold">6. INFORMASI TRYOUT</h5>
-                    <p class="text-muted fs-14 text-start">Informasi seputar Tryout disampaikan melalui Instagram (<span class="fw-bold text-danger">@smpselayikfficial</span> & <span class="fw-bold text-danger">@lbbcendekia</span>).</p>
-                </div>
-            </div>
-
-        </div> 
-        <div class="text-center mt-5">
-            <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="btn btn-success btn-lg waves-effect waves-light shadow-lg">
-                <i class="ri-whatsapp-line align-bottom me-2 fs-5"></i> WHATSAPP CENDEKIA KAK LIA
-            </a>
         </div>
-        </div>
+    </div>
+</div>
+<div class="text-center mt-5 pt-4">
+    <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="btn btn-success btn-lg waves-effect waves-light shadow-lg">
+        <i class="ri-whatsapp-line align-bottom me-2 fs-5"></i> BUTUH BANTUAN? WHATSAPP KAK LIA
+    </a>
+</div>
     </section>
 
         <!-- start services -->
@@ -1306,7 +1520,7 @@ footer .copy-rights,
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">TRY OUT</h1>
+                            <h1 class="fw-bold fs-1 text-dark">TRYOUT</h1>
                             <p class="text-muted mb-4">Temukan tryout yang sesuai dengan kebutuhan anda.</p>
                         </div>
                     </div>
@@ -1412,7 +1626,7 @@ footer .copy-rights,
 <section id="faq" class="section bg-light">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="fw-semibold text-uppercase">FAQ</h2>
+      <h1 class="fw-bold fs-1 text-dark">FAQ</h1>
       <p class="text-muted">Pertanyaan yang sering diajukan</p>
     </div>
     
