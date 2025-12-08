@@ -503,18 +503,14 @@ html {
 }
 
 /* ==========================================
-   6. SECTION FAQ
+   6. SECTION FAQ (redesigned)
    ========================================== */
 
 #faq {
-  padding: 80px 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: #ffffffff !important;
-  color: #ffffff !important;
+  padding-top: 160px;
+  padding-bottom: 160px;
+  background-color: #ffffff !important; /* match #informasi */
+  color: #111111 !important;
 }
 
 #faq .container {
@@ -522,61 +518,100 @@ html {
   max-width: 900px;
 }
 
-#faq h1,
-#faq h2 {
-  font-weight: 700;
-  font-size: 2rem;
-  color: #980000 !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-}
-
-#faq p.text-muted {
-  font-size: 1rem;
-  color: #980000 !important;
-}
-
-/* Accordion Style */
-.accordion-item {
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.accordion-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.accordion-button {
+/* Left intro */
+.faq-intro .badge-faq {
+  display: inline-block;
+  background: rgba(226,182,2,0.08); /* pale yellow */
+  color: #980000; /* brand red */
   font-weight: 600;
-  font-size: 1rem;
-  color: #2c3e50;
-  background-color: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
 }
 
-.accordion-button:not(.collapsed) {
-  color: #980000 !important;
-  background-color: #E2B60240 !important;
-  border-color: #E2B602 !important;
+.faq-intro h2 {
+  font-size: 2.25rem;
+  line-height: 1.05;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 0.75rem;
 }
 
-.accordion-body {
-  background-color: #fff;
+.faq-intro h2 .accent {
+  color: #980000; /* highlight 'questions' with brand red */
+}
+
+.faq-intro p {
   color: #555;
+  max-width: 480px;
+}
+
+/* Reusable title style (match FAQ heading) */
+.section-title-faq {
+  font-size: 2.25rem !important;
+  line-height: 1.05 !important;
+  font-weight: 800 !important;
+  color: #222 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.section-title-faq .accent {
+  color: #980000;
+}
+
+/* Accordion column */
+.faq-accordion .accordion-item {
+  border: 0;
+  margin-bottom: 14px;
+}
+
+.faq-accordion .accordion-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid rgba(152,0,0,0.08); /* soft red border */
+  border-radius: 12px;
+  padding: 18px 18px;
+  box-shadow: 0 6px 20px rgba(152,0,0,0.03);
+  font-weight: 700;
+  color: #222;
+}
+
+.faq-accordion .accordion-button:not(.collapsed) {
+  background: linear-gradient(90deg, rgba(226,182,2,0.06), rgba(152,0,0,0.02));
+  border-color: rgba(152,0,0,0.22);
+}
+
+/* Replace default chevron with circular red/yellow icon */
+.faq-accordion .accordion-button::after {
+  content: '';
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#980000,#E2B602);
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/></svg>") center/60% no-repeat;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/></svg>") center/60% no-repeat;
+  border: none;
+  transform: rotate(0deg);
+}
+
+.faq-accordion .accordion-button:not(.collapsed)::after {
+  transform: rotate(180deg);
+}
+
+.faq-accordion .accordion-body {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.04);
+  border-radius: 12px;
+  margin-top: 8px;
+  padding: 16px;
+  color: #444;
   line-height: 1.6;
 }
 
-/* Animasi Icon Accordion */
-.accordion-button::after {
-  filter: invert(30%) sepia(80%) saturate(600%) hue-rotate(330deg) brightness(85%) contrast(100%);
-}
-
-.accordion-button:not(.collapsed)::after {
-  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
-}
-
-/* Pastikan card FAQ tetap putih */
+/* Keep nested cards white and readable */
 #faq .card:not(.inquiry-box),
 #faq .card:not(.inquiry-box) * {
   color: #2c3e50 !important;
@@ -922,7 +957,7 @@ footer .copy-rights,
         <!-- end navbar -->
 
         <!-- start hero section -->
-        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:120px;">
+        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:160px;">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-lg-6">
@@ -1031,10 +1066,10 @@ footer .copy-rights,
         
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="text-center mb-5">
-                    <h1 class="mb-3 ff-secondary fw-semibold lh-base text-danger">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
-                </div>
-            </div>
+          <div class="text-center mb-5">
+            <h1 class="mb-3 fw-semibold lh-base text-danger section-title-faq">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
+          </div>
+        </div>
         </div>
         
         <div class="row mb-5 pb-5"> 
@@ -1090,12 +1125,12 @@ footer .copy-rights,
         <hr class="mb-5 mt-5">
 
         <div class="row justify-content-center pt-5">
-             <div class="col-lg-12">
-                <div class="text-center mb-5">
-                    <h2 class="fw-bold fs-1 text-warning">ALUR PENDAFTARAN</h2>
-                    <h2 class="fw-bold fs-2 text-danger">TRY OUT ASPD SD</h2>
-                </div>
-            </div>
+            <div class="col-lg-12">
+          <div class="text-center mb-5">
+            <h2 class="fw-bold fs-1 text-warning section-title-faq">ALUR PENDAFTARAN</h2>
+            <h2 class="fw-bold fs-2 text-danger section-title-faq">TRY OUT ASPD SD</h2>
+          </div>
+        </div>
         </div>
 
         <div class="row justify-content-center">
@@ -1305,10 +1340,10 @@ footer .copy-rights,
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
-                        <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">TRY OUT</h1>
-                            <p class="text-muted mb-4">Temukan tryout yang sesuai dengan kebutuhan anda.</p>
-                        </div>
+                      <div class="text-center mb-5">
+                        <h1 class="mb-3 fw-semibold lh-base section-title-faq">TRY OUT</h1>
+                        <p class="text-muted mb-4">Temukan tryout yang sesuai dengan kebutuhan anda.</p>
+                      </div>
                     </div>
                     <!-- end col -->
                 </div>
@@ -1409,59 +1444,68 @@ footer .copy-rights,
         </section>--}}
 
 <!-- start faq -->
-<section id="faq" class="section bg-light">
+<section id="faq" class="section">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="fw-semibold text-uppercase">FAQ</h2>
-      <p class="text-muted">Pertanyaan yang sering diajukan</p>
-    </div>
-    
-    <div class="accordion" id="faqAccordion">
-      <!-- item 1 -->
-      <div class="accordion-item mb-3">
-        <h2 class="accordion-header" id="faq1">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
-            Bagaimana cara mengikuti tryout?
-          </button>
-        </h2>
-        <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Kamu bisa mendaftar akun terlebih dahulu, lalu pilih tryout yang tersedia di menu dashboard.
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4">
+        <div class="faq-intro">
+          <div class="badge-faq">Frequently asked</div>
+          <h2 class="fw-bold">Frequently asked <span class="accent">questions</span></h2>
+          <p class="mt-3">Pertanyaan yang sering diajukan seputar pendaftaran, akses tryout, dan masalah akun. Jika pertanyaanmu belum tercantum, silakan hubungi admin melalui WA.</p>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="faq-accordion">
+          <div class="accordion" id="faqAccordion">
+            <!-- item 1 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq1">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                  Bagaimana cara mengikuti tryout?
+                </button>
+              </h2>
+              <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Kamu bisa mendaftar akun terlebih dahulu, lalu pilih tryout yang tersedia di menu dashboard.
+                </div>
+              </div>
+            </div>
+
+            <!-- item 2 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                  Apakah Tryout bisa diakses gratis?
+                </button>
+              </h2>
+              <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Beberapa tryout disediakan gratis, sedangkan versi premium bisa diakses setelah login dan berlangganan.
+                </div>
+              </div>
+            </div>
+
+            <!-- item 3 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq3">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                  Bagaimana jika lupa password akun?
+                </button>
+              </h2>
+              <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Gunakan fitur “Lupa Password” di halaman login untuk mengatur ulang kata sandi kamu.
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
-      <!-- item 2 -->
-<div class="accordion-item mb-3">
-  <h2 class="accordion-header" id="faq2">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
-      Apakah Tryout bisa diakses gratis?
-    </button>
-  </h2>
-  <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-    <div class="accordion-body">
-      Beberapa tryout disediakan gratis, sedangkan versi premium bisa diakses setelah login dan berlangganan.
-    </div>
-  </div>
-</div>
-
-<!-- item 3 -->
-<div class="accordion-item mb-3">
-  <h2 class="accordion-header" id="faq3">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
-      Bagaimana jika lupa password akun?
-    </button>
-  </h2>
-  <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-    <div class="accordion-body">
-      Gunakan fitur “Lupa Password” di halaman login untuk mengatur ulang kata sandi kamu.
-    </div>
-  </div>
-</div>
-
     </div>
   </div>
 </section>
-
 
 <!-- end faq -->
 
