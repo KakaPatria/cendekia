@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        @if($peserta->masterTryout->is_gratis)
+        @if($peserta->masterTryout->is_gratis && $peserta->invoice)
 
         <div class="card">
             <div class="card-header">

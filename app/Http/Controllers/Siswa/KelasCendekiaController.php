@@ -64,14 +64,26 @@ class KelasCendekiaController extends Controller
         $kelasCendekia = KelasCendekia::with('jadwal', 'siswaKelas', 'tryouts')
             ->find($kelasCendekiaId);
 
+
         // ambil tryout urut berdasar waktu
         $tryouts = Tryout::where('kelas_cendekia_id', $kelasCendekiaId)
             ->orderBy('created_at', 'asc')
-            ->with(['materi.refMateri'])
+            ->with([
+                'materi.refMateri'
+            ])
             ->get();
 
+        $susunNilai = [];
+        foreach ($tryouts as $kTreyout => $vTryout) {
+            $nilai = $vTryout->nilai->where('user_id', $user->id);
 
+            foreach ($vTryout->materi as $kMateri => $vMateri) {
+                $susunNilai[$vMateri->materi_id]['materi'] = $vMateri->refMateri;
+                $susunNilai[$vMateri->materi_id]['nilai'][$vTryout->tryout_id] = $vMateri->nilai->where('user_id', $user->id)->first();
+            }
+        } 
         $load['kelas_cendekia'] = $kelasCendekia;
+        $load['susun_nilai'] = $susunNilai;
 
         return view('pages.siswa.kelas_cendekia.show', ($load));
     }

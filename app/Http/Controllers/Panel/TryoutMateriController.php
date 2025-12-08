@@ -359,7 +359,8 @@ class TryoutMateriController extends Controller
 
         $bankSoal =   TryoutMateri::where('materi_id', $tryoutMateri->materi_id)
             ->has('soal')
-            ->get();
+            ->get(); 
+        //dd($tryoutMateri->materi_id,$bankSoal);
 
         $listBankSoal = $bankSoal
             ->mapWithKeys(function ($item) {

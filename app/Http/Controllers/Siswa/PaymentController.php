@@ -71,9 +71,12 @@ class PaymentController extends Controller
             ->where('tryout_id', $invoice->tryout_id)
             ->first();
 
-        $tryoutPeserta->tryout_peserta_status  = $request->transaction_status == 'settlement' ? 1 : 0;
-        $tryoutPeserta->updated_at = now();
-        $tryoutPeserta->save();
+        if ($tryoutPeserta) {
+            $tryoutPeserta->tryout_peserta_status  = $request->transaction_status == 'settlement' ? 1 : 0;
+            $tryoutPeserta->updated_at = now();
+            $tryoutPeserta->save();
+        }
+
 
         return response()->json(['message' => 'Notification handled'], 200);
     }

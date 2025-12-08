@@ -313,7 +313,9 @@
                                         <td>{{ $soal->tryout_nomor}}</td>
                                         @if($soal->tryout_soal_type == 'TF')
                                         @php
+                                        if($soal->pengerjaan){
                                         $dataJabawan = json_decode($soal->pengerjaan->tryout_jawaban ?? []);
+                                        }
                                         @endphp
                                         <td>
                                             <table class="table table-bordered">
@@ -324,12 +326,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @if($soal->pengerjaan)
                                                     @foreach($dataJabawan as $key => $value)
                                                     <tr>
                                                         <td>{{ $key }}</td>
                                                         <td>{{ $value }}</td>
                                                     </tr>
                                                     @endforeach
+                                                    @endif
                                                 </tbody>
                                             </table>
                                         </td>
@@ -368,7 +372,7 @@
                                         @endif
                                         @endif
 
-                                        <td>{{ $soal->pengerjaan->point}}</td>
+                                        <td>{{ $soal->pengerjaan->point ?? ''}}</td>
                                         <td>{!! $soal->pengerjaan->status_badge ?? '' !!}</td>
                                         <td>
                                             @if($soal->pengerjaan && $tryout->tampilkan_kunci == 'Ya')

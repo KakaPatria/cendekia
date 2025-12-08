@@ -40,6 +40,7 @@ public function library(Request $request)
         ->whereHas('materi')
         ->where('tryout_jenjang', $user->jenjang)
         ->where('tryout_kelas', $user->kelas)
+        ->where('is_open', 'Umum')
         ->orderBy('updated_at', 'desc')
         ->get()
         ->filter(function ($tryout) {
