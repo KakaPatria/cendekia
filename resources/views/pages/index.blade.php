@@ -272,9 +272,21 @@ html {
 }
 
 #hero .inquiry-box:hover {
-  transform: translateY(-5px) scale(1.03) !important;
+  /*transform: translateY(-5px) scale(1.03) !important;*/
   box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6) !important;
   background: linear-gradient(135deg, #128C7E 0%, #075E54 100%) !important;
+}
+
+/* Tambahkan di dalam tag <style> Anda */
+.btn-warning.btn-lg {
+    transition: all 0.3s ease !important;
+}
+
+.btn-warning.btn-lg:hover {
+    transform: translateY(-2px) scale(1.03); /* Sedikit naik dan membesar saat hover */
+    box-shadow: 0 8px 25px rgba(226, 182, 2, 0.8) !important; /* Efek shadow lebih kuat */
+    background: #FFD700 !important; /* Warna emas lebih cerah saat hover */
+    color: #980000 !important;
 }
 
 /* Icon WhatsApp - PUTIH */
@@ -491,18 +503,95 @@ html {
 }
 
 /* ==========================================
-   6. SECTION FAQ
+<<<<<<< HEAD
+   6. SECTION FAQ (redesigned)
+=======
+   TREASURE MAP STYLES
    ========================================== */
 
-#faq {
-  padding: 80px 0;
-  min-height: 100vh;
+.treasure-map-container {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(226, 182, 2, 0.05), rgba(152, 0, 0, 0.05));
+  border-radius: 20px;
+  border: 3px solid #E2B602;
+}
+
+.treasure-map-svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
+}
+
+.treasure-step {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.treasure-step:hover circle {
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1));
+}
+
+.treasure-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
+  border: none !important;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98)) !important;
+  margin-top: 2rem;
+  border-radius: 15px !important;
+}
+
+.treasure-card:hover {
+  transform: translateY(-12px) scale(1.04) !important;
+  box-shadow: 0 20px 40px rgba(226, 182, 2, 0.25), 0 0 30px rgba(152, 0, 0, 0.15) !important;
+}
+
+.treasure-badge {
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  background-color: #ffffffff !important;
-  color: #ffffff !important;
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  animation: float 3s ease-in-out infinite;
+  border: 3px solid white;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+}
+
+.treasure-badge-1 { background: linear-gradient(135deg, #FF6B6B, #EE5A6F); }
+.treasure-badge-2 { background: linear-gradient(135deg, #4CAF50, #45A049); animation-delay: 0.1s; }
+.treasure-badge-3 { background: linear-gradient(135deg, #25D366, #22BA57); animation-delay: 0.2s; }
+.treasure-badge-4 { background: linear-gradient(135deg, #2196F3, #1976D2); animation-delay: 0.3s; }
+.treasure-badge-5 { background: linear-gradient(135deg, #9C27B0, #7B1FA2); animation-delay: 0.4s; }
+.treasure-badge-6 { background: linear-gradient(135deg, #FF9800, #E68900); animation-delay: 0.5s; }
+
+/* ==========================================
+   6. SECTION FAQ
+>>>>>>> baae564ecbf72fa779d5e20468589445eacd0778
+   ========================================== */
+
+#faq {
+  padding-top: 160px;
+  padding-bottom: 160px;
+  background-color: #ffffff !important; /* match #informasi */
+  color: #111111 !important;
 }
 
 #faq .container {
@@ -510,61 +599,100 @@ html {
   max-width: 900px;
 }
 
-#faq h1,
-#faq h2 {
-  font-weight: 700;
-  font-size: 2rem;
-  color: #980000 !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-}
-
-#faq p.text-muted {
-  font-size: 1rem;
-  color: #980000 !important;
-}
-
-/* Accordion Style */
-.accordion-item {
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.accordion-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.accordion-button {
+/* Left intro */
+.faq-intro .badge-faq {
+  display: inline-block;
+  background: rgba(226,182,2,0.08); /* pale yellow */
+  color: #980000; /* brand red */
   font-weight: 600;
-  font-size: 1rem;
-  color: #2c3e50;
-  background-color: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
 }
 
-.accordion-button:not(.collapsed) {
-  color: #980000 !important;
-  background-color: #E2B60240 !important;
-  border-color: #E2B602 !important;
+.faq-intro h2 {
+  font-size: 2.25rem;
+  line-height: 1.05;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 0.75rem;
 }
 
-.accordion-body {
-  background-color: #fff;
+.faq-intro h2 .accent {
+  color: #980000; /* highlight 'questions' with brand red */
+}
+
+.faq-intro p {
   color: #555;
+  max-width: 480px;
+}
+
+/* Reusable title style (match FAQ heading) */
+.section-title-faq {
+  font-size: 2.25rem !important;
+  line-height: 1.05 !important;
+  font-weight: 800 !important;
+  color: #222 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.section-title-faq .accent {
+  color: #980000;
+}
+
+/* Accordion column */
+.faq-accordion .accordion-item {
+  border: 0;
+  margin-bottom: 14px;
+}
+
+.faq-accordion .accordion-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid rgba(152,0,0,0.08); /* soft red border */
+  border-radius: 12px;
+  padding: 18px 18px;
+  box-shadow: 0 6px 20px rgba(152,0,0,0.03);
+  font-weight: 700;
+  color: #222;
+}
+
+.faq-accordion .accordion-button:not(.collapsed) {
+  background: linear-gradient(90deg, rgba(226,182,2,0.06), rgba(152,0,0,0.02));
+  border-color: rgba(152,0,0,0.22);
+}
+
+/* Replace default chevron with circular red/yellow icon */
+.faq-accordion .accordion-button::after {
+  content: '';
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#980000,#E2B602);
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/></svg>") center/60% no-repeat;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/></svg>") center/60% no-repeat;
+  border: none;
+  transform: rotate(0deg);
+}
+
+.faq-accordion .accordion-button:not(.collapsed)::after {
+  transform: rotate(180deg);
+}
+
+.faq-accordion .accordion-body {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.04);
+  border-radius: 12px;
+  margin-top: 8px;
+  padding: 16px;
+  color: #444;
   line-height: 1.6;
 }
 
-/* Animasi Icon Accordion */
-.accordion-button::after {
-  filter: invert(30%) sepia(80%) saturate(600%) hue-rotate(330deg) brightness(85%) contrast(100%);
-}
-
-.accordion-button:not(.collapsed)::after {
-  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
-}
-
-/* Pastikan card FAQ tetap putih */
+/* Keep nested cards white and readable */
 #faq .card:not(.inquiry-box),
 #faq .card:not(.inquiry-box) * {
   color: #2c3e50 !important;
@@ -580,8 +708,8 @@ html {
 }
 
 #hubungi .contact-title {
-  color: white !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 1) !important;
+  color: #980000 !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.06) !important;
 }
 
 #hubungi .contact-title::after {
@@ -713,6 +841,45 @@ html {
   text-transform: uppercase !important;
 }
 
+/* Footer text colours: titles black, labels black, values red */
+footer .col-sm-4 .footer-title {
+  color: #111111 !important;
+  text-shadow: none !important;
+}
+footer .col-sm-4 .contact-label,
+footer .col-sm-4 .hours-day,
+footer .col-sm-4 .address-label {
+  color: #111111 !important;
+}
+footer .col-sm-4 .contact-value,
+footer .col-sm-4 .hours-time,
+footer .col-sm-4 .address-value,
+footer .copy-rights,
+.footer-left-text p {
+  color: #980000 !important;
+}
+
+/* footer left description as list items */
+.footer-desc li {
+  color: #980000 !important;
+  margin-bottom: 0.5rem;
+  line-height: 1.45;
+}
+
+/* specific: make the main description justified + black */
+.footer-desc-text {
+  color: #111111 !important;
+  text-align: justify;
+}
+.footer-desc-welcome {
+  color: #980000 !important;
+}
+
+/* left panel removed per request; left content uses .footer-left-text */
+.logo-wrapper img {
+  filter: none;
+}
+
 /* Animasi pulse */
 @keyframes pulse {
   0% {
@@ -802,7 +969,124 @@ html {
 }
 
 /* ==========================================
-   10. RESPONSIVE DESIGN
+   10. TREASURE MAP STYLES
+   ========================================== */
+
+/* Treasure Map Container */
+.treasure-map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: linear-gradient(180deg, rgba(152, 0, 0, 0.05) 0%, rgba(226, 182, 2, 0.05) 100%);
+  border-radius: 20px;
+  margin: 30px auto;
+  max-width: 1000px;
+}
+
+/* Treasure Map SVG */
+.treasure-map-svg {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* Treasure Card Styling */
+.treasure-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.treasure-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.treasure-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(152, 0, 0, 0.2);
+}
+
+.treasure-card:hover::before {
+  opacity: 1;
+}
+
+/* Treasure Badge (Circle with Icon) */
+.treasure-badge {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  margin: 0 auto 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+  }
+}
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Treasure Chest Animation */
+.treasure-chest {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* SVG Text Animation */
+.decorative-stars {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.compass-rose {
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   11. RESPONSIVE DESIGN
    ========================================== */
 
 @media (max-width: 768px) {
@@ -812,6 +1096,37 @@ html {
   
   .section {
     padding: 3rem 0;
+  }
+
+  .treasure-map-svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .treasure-card {
+    margin-bottom: 15px;
+  }
+
+  .treasure-badge {
+    width: 70px;
+    height: 70px;
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .treasure-badge {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+
+  .treasure-card h5 {
+    font-size: 0.95rem;
+  }
+
+  .treasure-card p {
+    font-size: 0.85rem;
   }
 }
 
@@ -871,31 +1186,85 @@ html {
         <!-- end navbar -->
 
         <!-- start hero section -->
-        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:120px;">
+        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:160px;">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-lg-6">
                         <div>
                             <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">Lembaga Bimbingan Belajar Cendekia Yogyakarta</h1>
                             <p class="lead text-muted lh-base mb-4">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
-
+                          <div class="mb-4"> 
+                          <a href="https://lbbcendekia.com/" target="_blank" class="btn btn-warning btn-lg waves-effect waves-light shadow-lg" style="font-weight: 600; background: #E2B602 !important; border: none !important; color: #980000 !important; box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;">
+                              <i class="ri-globe-line align-bottom me-2 fs-5"></i> KUNJUNGI WEBSITE RESMI CENDEKIA
+                          </a>
+                      </div>
                         </div>
                     </div>
                     <!--end col-->
                     <div class="col-lg-5">
-                        <div class="position-relative home-img text-center mt-3 mt-lg-0">
-                            <div class="card p-2 w-80 rounded shadow-lg inquiry-box fixed-left">
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-sm flex-shrink-0 me-3">
-                                        <div class="avatar-title bg-soft-warning text-warning rounded fs-18">
-                                            <i class="ri-whatsapp-line"></i>
-                                        </div>
+                    <div class="position-relative home-img text-center mt-3 mt-lg-0">
+                        <div id="draggable-wa" class="card p-2 w-80 rounded shadow-lg inquiry-box" style="cursor: grab; touch-action: none; user-select: none;">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm flex-shrink-0 me-3">
+                                    <div class="avatar-title bg-soft-warning text-warning rounded fs-18">
+                                        <i class="ri-whatsapp-line"></i>
                                     </div>
-                                    <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="stretched-link">
-                                        <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
-                                    </a>
                                 </div>
+                                <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="text-white text-decoration-none">
+                                    <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
+                                </a>
                             </div>
+                        </div>
+                        <script>
+                            const box = document.getElementById("draggable-wa");
+                            let isDragging = false;
+                            let offsetX, offsetY;
+
+                            box.addEventListener("mousedown", (e) => {
+                                isDragging = true;
+                                // Hitung selisih posisi mouse dengan posisi box
+                                offsetX = e.clientX - box.getBoundingClientRect().left;
+                                offsetY = e.clientY - box.getBoundingClientRect().top;
+                                box.style.cursor = "grabbing";
+                                box.style.position = "fixed"; // Ubah jadi fixed agar bisa keluar dari kolom
+                                box.style.zIndex = "9999";
+                            });
+
+                            document.addEventListener("mousemove", (e) => {
+                                if (!isDragging) return;
+                                
+                                // Update posisi box mengikuti mouse
+                                box.style.left = (e.clientX - offsetX) + "px";
+                                box.style.top = (e.clientY - offsetY) + "px";
+                                box.style.margin = "0"; // Reset margin agar tidak lari
+                            });
+
+                            document.addEventListener("mouseup", () => {
+                                isDragging = false;
+                                box.style.cursor = "grab";
+                            });
+
+                            // Support untuk layar sentuh (HP)
+                            box.addEventListener("touchstart", (e) => {
+                                isDragging = true;
+                                const touch = e.touches[0];
+                                offsetX = touch.clientX - box.getBoundingClientRect().left;
+                                offsetY = touch.clientY - box.getBoundingClientRect().top;
+                                box.style.position = "fixed";
+                            });
+
+                            box.addEventListener("touchmove", (e) => {
+                                if (!isDragging) return;
+                                const touch = e.touches[0];
+                                box.style.left = (touch.clientX - offsetX) + "px";
+                                box.style.top = (touch.clientY - offsetY) + "px";
+                            });
+
+                            box.addEventListener("touchend", () => {
+                                isDragging = false;
+                            });
+                        </script>
+
 
 
                             <div class="image-stack">
@@ -921,74 +1290,150 @@ html {
         </section>
         <!-- end hero section -->
 
-        <section class="section" id="informasi" style="padding-top:160px; padding-bottom:160px;">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
-
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!--end row-->
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-lg">
-                            <div class="card-body p-4">
-                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
-                                    <div class="job-icon-effect"></div>
-                                    <span>1</span>
-                                </h1>
-                                <h6 class="fs-17 mb-2 fw-bold text-dark">Syakira Marsya T</h6>
-                                <p class="text-muted mb-0 fs-15"> SDN 1 Godean - Total nilai: <span class="fw-bold text-success">276,67</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-lg">
-                            <div class="card-body p-4">
-                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
-                                    <div class="job-icon-effect"></div>
-                                    <span>2</span>
-                                </h1>
-                                <h6 class="fs-17 mb-2 fw-bold text-dark">Fadlan Raya Efendi</h6>
-                                <p class="text-muted mb-0 fs-15">SDN Adisucipto 1 - Total nilai: <span class="fw-bold text-success">276,66</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-lg">
-                            <div class="card-body p-4">
-                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
-                                    <div class="job-icon-effect"></div>
-                                    <span>3</span>
-                                </h1>
-                                <h6 class="fs-17 mb-2 fw-bold text-dark">Janu Lanang P</h6>
-                                <p class="text-muted mb-0 fs-15">SD Budi Utama - Total nilai: <span class="fw-bold text-success">276,66</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-lg">
-                            <div class="card-body p-4">
-                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
-                                    <div class="job-icon-effect"></div>
-                                    <span>4</span>
-                                </h1>
-
-                                <h6 class="fs-17 mb-2 fw-bold text-dark">Nathanael V. T.</h6>
-                                <p class="text-muted mb-0 fs-15">SD Model - Total nilai: <span class="fw-bold text-success">276,66</span></p>
-                            </div>
-                        </div>
-                    </div>
-
+<section class="section" id="informasi" style="padding-top:160px; padding-bottom:160px; background-color: #ffffff;"> 
+    <div class="container">
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bold fs-1 text-danger">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
                 </div>
             </div>
-            <!--end container-->
-        </section>
+        </div>
+        
+        <div class="row mb-5 pb-5"> 
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body p-4">
+                        <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                            <div class="job-icon-effect"></div>
+                            <span>1</span>
+                        </h1>
+                        <h6 class="fs-17 mb-2 fw-bold text-dark">Syakira Marsya T</h6>
+                        <p class="text-muted mb-0 fs-15"> SDN 1 Godean - Total nilai: <span class="fw-bold text-success">276,67</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body p-4">
+                        <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                            <div class="job-icon-effect"></div>
+                            <span>2</span>
+                        </h1>
+                        <h6 class="fs-17 mb-2 fw-bold text-dark">Fadlan Raya Efendi</h6>
+                        <p class="text-muted mb-0 fs-15">SDN Adisucipto 1 - Total nilai: <span class="fw-bold text-success">276,66</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body p-4">
+                        <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                            <div class="job-icon-effect"></div>
+                            <span>3</span>
+                        </h1>
+                        <h6 class="fs-17 mb-2 fw-bold text-dark">Janu Lanang P</h6>
+                        <p class="text-muted mb-0 fs-15">SD Budi Utama - Total nilai: <span class="fw-bold text-success">276,66</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body p-4">
+                        <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                            <div class="job-icon-effect"></div>
+                            <span>4</span>
+                        </h1>
+                        <h6 class="fs-17 mb-2 fw-bold text-dark">Nathanael V. T.</h6>
+                        <p class="text-muted mb-0 fs-15">SD Model - Total nilai: <span class="fw-bold text-success">276,66</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="mb-5 mt-5">
 
+        <!-- Treasure Map Section -->
+        <div class="row justify-content-center pt-5">
+            <div class="col-lg-12">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold fs-1 text-primary">ALUR PENDAFTARAN TRY OUT CENDEKIA</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- SVG Treasure Map Visualization -->
+        <!-- Treasure Cards Section -->
+<div class="row justify-content-center mt-5">
+    <div class="col-lg-10">
+        <div class="row">
+            
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #FFB6C1;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);">
+                        <span style="font-size: 2.5rem;">👤</span>
+                    </div>
+                    <h5 class="fw-bold mt-3 text-dark">1. Masuk/Daftar Akun</h5>
+                    <p class="text-muted fs-14">Buat akun baru atau masuk menggunakan akun Cendekia yang sudah Anda miliki.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #87CEEB;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #E2B602 0%, #FFD700 100%);">
+                        <span style="font-size: 2.5rem;">📚</span>
+                    </div>
+                    <h5 class="fw-bold mt-3 text-dark">2. Pilih Tryout</h5>
+                    <p class="text-muted fs-14">Telusuri daftar Tryout yang tersedia dan pilih Tryout yang sesuai dengan kebutuhan Anda (misalnya: Try Out ASPD SD).</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #98FB98;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #980000 0%, #7A0000 100%);">
+                        <span style="font-size: 2.5rem;">💳</span>
+                    </div>
+                    <h5 class="fw-bold mt-3 text-dark">3. Melakukan Pembayaran</h5>
+                    <p class="text-muted fs-14">Lakukan pembayaran sesuai dengan biaya yang tertera untuk Tryout yang Anda pilih (transfer bank atau metode lain).</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div> 
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-10">
+        <div class="row justify-content-center">
+            
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #FFD700;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
+                        <span style="font-size: 2.5rem;">✅</span>
+                    </div>
+                    <h5 class="fw-bold mt-3 text-dark">4. Konfirmasi Admin</h5>
+                    <p class="text-muted fs-14">Tunggu konfirmasi dari pihak admin Cendekia (verifikasi pembayaran dan aktivasi akses Tryout Anda).</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #DDA0DD;">
+                    <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%);">
+                        <span style="font-size: 2.5rem;">📝</span>
+                    </div>
+                    <h5 class="fw-bold mt-3 text-dark">5. Mengerjakan Tryout</h5>
+                    <p class="text-muted fs-14">Setelah terkonfirmasi, Anda akan mendapatkan akses ke soal-soal Tryout dan dapat mulai mengerjakannya sesuai jadwal.</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="text-center mt-5 pt-4">
+    <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="btn btn-success btn-lg waves-effect waves-light shadow-lg">
+        <i class="ri-whatsapp-line align-bottom me-2 fs-5"></i> BUTUH BANTUAN? WHATSAPP KAK LIA
+    </a>
+</div>
+    </section>
 
         <!-- start services -->
         <section class="section bg-light" id="hubungi" style="padding-top:110px; padding-bottom:10px; display:none;">
@@ -1034,8 +1479,8 @@ html {
                                         <i class="ri-whatsapp-line fs-1"></i>
                                     </div>
                                 </div>
-                                <a href="https://bit.ly/WA-CENDEKIA-YENI" target="_blank" class="stretched-link">
-                                    <h5 class="fs-17 pt-1">Whatsapp Kak Yeni</h5>
+                                <a href="https://bit.ly/WA-CENDEKIA-AFIINA" target="_blank" class="stretched-link">
+                                    <h5 class="fs-17 pt-1">Whatsapp Kak Afiina</h5>
                                 </a>
                             </div>
                         </div>
@@ -1114,7 +1559,7 @@ html {
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">TRY OUT</h1>
+                            <h1 class="fw-bold fs-1 text-dark">TRYOUT</h1>
                             <p class="text-muted mb-4">Temukan tryout yang sesuai dengan kebutuhan anda.</p>
                         </div>
                     </div>
@@ -1217,64 +1662,73 @@ html {
         </section>--}}
 
 <!-- start faq -->
-<section id="faq" class="section bg-light">
+<section id="faq" class="section">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="fw-semibold text-uppercase">FAQ</h2>
-      <p class="text-muted">Pertanyaan yang sering diajukan</p>
-    </div>
-    
-    <div class="accordion" id="faqAccordion">
-      <!-- item 1 -->
-      <div class="accordion-item mb-3">
-        <h2 class="accordion-header" id="faq1">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
-            Bagaimana cara mengikuti tryout?
-          </button>
-        </h2>
-        <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Kamu bisa mendaftar akun terlebih dahulu, lalu pilih tryout yang tersedia di menu dashboard.
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4">
+        <div class="faq-intro">
+          <div class="badge-faq">FAQ</div>
+          <h2 class="fw-bold">Frequently Asked <span class="accent">Questions</span></h2>
+          <p class="mt-3">Pertanyaan yang sering diajukan seputar pendaftaran, akses tryout, dan masalah akun. Jika pertanyaanmu belum tercantum, silakan hubungi admin melalui WA.</p>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="faq-accordion">
+          <div class="accordion" id="faqAccordion">
+            <!-- item 1 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq1">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                  Bagaimana cara mengikuti tryout?
+                </button>
+              </h2>
+              <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Kamu bisa mendaftar akun terlebih dahulu, lalu pilih tryout yang tersedia di menu dashboard.
+                </div>
+              </div>
+            </div>
+
+            <!-- item 2 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                  Apakah Tryout bisa diakses gratis?
+                </button>
+              </h2>
+              <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Beberapa tryout disediakan gratis, sedangkan versi premium bisa diakses setelah login dan berlangganan.
+                </div>
+              </div>
+            </div>
+
+            <!-- item 3 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq3">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                  Bagaimana jika lupa password akun?
+                </button>
+              </h2>
+              <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Gunakan fitur “Lupa Password” di halaman login untuk mengatur ulang kata sandi kamu.
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
-      <!-- item 2 -->
-<div class="accordion-item mb-3">
-  <h2 class="accordion-header" id="faq2">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
-      Apakah Tryout bisa diakses gratis?
-    </button>
-  </h2>
-  <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-    <div class="accordion-body">
-      Beberapa tryout disediakan gratis, sedangkan versi premium bisa diakses setelah login dan berlangganan.
-    </div>
-  </div>
-</div>
-
-<!-- item 3 -->
-<div class="accordion-item mb-3">
-  <h2 class="accordion-header" id="faq3">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
-      Bagaimana jika lupa password akun?
-    </button>
-  </h2>
-  <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-    <div class="accordion-body">
-      Gunakan fitur “Lupa Password” di halaman login untuk mengatur ulang kata sandi kamu.
-    </div>
-  </div>
-</div>
-
     </div>
   </div>
 </section>
 
-
 <!-- end faq -->
 
         <!-- Start footer -->
-<footer class="py-5 position-relative" style="background-color: #e2b602;">
+        <footer class="py-5 position-relative" style="background-color: #E2B602;">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 mt-4">
@@ -1313,12 +1767,12 @@ html {
                         
                         <!-- WhatsApp Contact 1 -->
                         <a href="https://wa.me/6281272139500" target="_blank" class="contact-item phone-contact text-decoration-none" 
-                           style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: white;"
+                          style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: #111111;"
                            onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';"
                            onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                             <div class="contact-icon" 
                                  style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                <i class="ri-whatsapp-line" style="color: white;"></i>
+                                <i class="ri-whatsapp-line" style="color: #111111;"></i>
                             </div>
                             <div class="contact-info" style="flex: 1; text-align: left;">
                                 <div class="contact-label" style="font-size: 0.75rem; opacity: 0.9;">WHATSAPP</div>
@@ -1328,24 +1782,24 @@ html {
 
                         <!-- WhatsApp Contact 2 -->
                         <a href="https://wa.me/6282323356415" target="_blank" class="contact-item phone-contact text-decoration-none"
-                           style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: white;"
+                          style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: #111111;"
                            onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';"
                            onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                             <div class="contact-icon" 
                                  style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                                <i class="ri-whatsapp-line" style="color: white;"></i>
+                                <i class="ri-whatsapp-line" style="color: #111111;"></i>
                             </div>
                             <div class="contact-info" style="flex: 1; text-align: left;">
                                 <div class="contact-label" style="font-size: 0.75rem; opacity: 0.9;">WHATSAPP</div>
-                                <div class="contact-value"><strong>Kak Yeni : 082323356415</strong></div>
+                                <div class="contact-value"><strong>Kak Afiina : 082323356415</strong></div>
                             </div>
                         </a>
                     </div>
 
                     <!-- Working Hours -->
-                    <div class="col-sm-4 mt-4">
+                        <div class="col-sm-4 mt-4">
                         <h5 class="footer-title">JAM KERJA</h5>
-                        <div class="text-white mt-3">
+                        <div class="mt-3">
                             <div class="hours-item" style="background: rgba(255,255,255,0.1); padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
                                  onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.transform='translateX(5px)';"
                                  onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(0)';">
@@ -1357,7 +1811,7 @@ html {
                                  onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.transform='translateX(5px)';"
                                  onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateX(0)';">
                                 <span class="hours-day">SABTU</span>
-                                <span class="hours-time">09.00 - 17.00</span>
+                                <span class="hours-time">08.00 - 16.00</span>
                             </div>
                             
                             <div class="hours-item" style="background: rgba(255,255,255,0.1); padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;"
@@ -1373,20 +1827,37 @@ html {
                     <div class="col-sm-4 mt-4">
                         <h5 class="footer-title">ALAMAT</h5>
                         
-                        <a href="https://maps.app.goo.gl/8Yq12fMQ2qCd8h9ZA" target="_blank" class="address-item text-decoration-none" 
-                           style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; color: white; border: 2px solid transparent; position: relative; overflow: hidden;"
+                        <div class="address-list">
+                          <a href="https://bit.ly/MAPS-LBBCENDEKIA" target="_blank" class="address-item text-decoration-none d-block" 
+                          style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: #111111;"
                            onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.4)';"
                            onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='transparent';">
                             <div class="address-icon" 
-                                 style="width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; position: relative; z-index: 1;">
-                                <i class="ri-map-pin-line" style="color: white;"></i>
+                               style="width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; position: relative; z-index: 1;">
+                              <i class="ri-map-pin-line" style="color: #111111;"></i>
                             </div>
                             <div class="address-info" style="flex: 1; text-align: left; position: relative; z-index: 1;">
-                                <div class="address-label" style="font-size: 0.75rem; opacity: 0.9;">LOKASI KAMI</div>
-                                <div class="address-value" style="font-size: 0.9rem; line-height: 1.4;">BARAT GEDUNG SMPN 9<br>YOGYAKARTA</div>
-                                <div class="map-hint" style="font-size: 0.7rem; opacity: 0.8; margin-top: 0.3rem;"> KLIK UNTUK BUKA PETA</div>
+                              <div class="address-label" style="font-size: 0.75rem; opacity: 0.95;">Cabang Kotagede</div>
+                              <div class="address-value" style="font-size: 0.9rem; line-height: 1.4;">Jl. Ngeksigondo No. 23 (Gang Masjid Al Barokah) <br>Barat Gedung SMP N 9 Yogyakarta.</div>
+                              <div class="map-hint" style="font-size: 0.7rem; opacity: 0.8; margin-top: 0.3rem;">Buka Peta</div>
                             </div>
-                        </a>
+                          </a>
+
+                          <a href="https://bit.ly/MAPSCENDEKIACENTER" target="_blank" class="address-item text-decoration-none d-block mt-2" 
+                          style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 8px; transition: all 0.3s ease; cursor: pointer; border: 2px solid transparent; position: relative; overflow: hidden; color: #111111;"
+                           onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.4)';"
+                           onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'; this.style.borderColor='transparent';">
+                            <div class="address-icon" 
+                               style="width: 45px; height: 45px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; position: relative; z-index: 1;">
+                              <i class="ri-map-pin-line" style="color: #111111;"></i>
+                            </div>
+                            <div class="address-info" style="flex: 1; text-align: left; position: relative; z-index: 1;">
+                              <div class="address-label" style="font-size: 0.75rem; opacity: 0.95;">Cabang Ketandan</div>
+                              <div class="address-value" style="font-size: 0.9rem; line-height: 1.4;">Jl. Tegalsari Raya, Kalangan Baturetno, Banguntapan Bantul</div>
+                              <div class="map-hint" style="font-size: 0.7rem; opacity: 0.8; margin-top: 0.3rem;">Buka Peta</div>
+                            </div>
+                          </a>
+                        </div>
                     </div>
                 </div>
             </div>
