@@ -246,7 +246,7 @@
             <div class="row">
                 <div class="col-xl-8">
                     <div class="card">
-                        <div class="card-body p-0 pb-2">
+                        <div class="card-b  ody p-0 pb-2">
                             <div class="w-100">
                                 @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
                                     <div id="line_chart_datalabel" data-colors='["#980000"]' class="apex-charts" dir="ltr"></div>
@@ -402,72 +402,70 @@
 <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
-            const categories = @json($riwayat_pengerjaan->pluck('masterTryout.tryout_judul'));
-            const seriesData = @json($riwayat_pengerjaan->pluck('nilai')); // Diubah dari nilai_akhir
-            
-            // === [INI BAGIAN YANG DIUBAH] ===
-            var options = {
-                series: [{
-                    name: 'Nilai',
-                    data: seriesData
-                }],
-                chart: {
-                    height: 350,
-                    type: 'bar', // Diubah dari 'line'
-                    toolbar: {
-                        show: false
+document.addEventListener("DOMContentLoaded", function() {
+    @if(isset($riwayat_pengerjaan) && $riwayat_pengerjaan->count() > 0)
+        const categories = @json($riwayat_pengerjaan->pluck('masterTryout.tryout_judul'));
+        let seriesData = @json($riwayat_pengerjaan->pluck('nilai'));
+
+        // Convert ke integer
+        seriesData = seriesData.map(v => parseInt(v));
+
+        var options = {
+            series: [{
+                name: 'Nilai',
+                data: seriesData
+            }],
+            chart: {
+                height: 350,
+                type: 'bar',
+                toolbar: { show: false }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '45%',
+                    borderRadius: 6,
+                    dataLabels: {
+                        position: 'top',
                     }
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                offsetY: -20,
+                style: {
+                    fontSize: '12px',
+                    colors: ["#000"]
                 },
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        columnWidth: '50%',
-                        borderRadius: 4,
-                        dataLabels: {
-                            position: 'top',
-                        },
-                    }
-                },
-                dataLabels: {
-                    enabled: true,
-                    offsetY: -20,
-                    style: {
-                        fontSize: '12px',
-                        colors: ["#304758"]
-                    },
-                    formatter: function (val) {
-                        return val.toFixed(0); 
-                    }
-                },
-                stroke: {
-                    show: false // Dihapus dari 'line'
-                },
-                colors: ['#980000'],
-                xaxis: {
-                    categories: categories,
-                },
-                yaxis: {
-                    min: 0,
-                    max: 100,
-                    title: {
-                        text: 'Nilai' // Ditambahkan label Y-Axis
-                    }
-                },
-                tooltip: {
-                    y: {
-                        formatter: function (val) {
-                            return val
-                        }
-                    }
-                },
-            };
-            // ID HTML tidak diubah, jadi chart akan dirender di tempat yang sama
-            var chart = new ApexCharts(document.querySelector("#line_chart_datalabel"), options); 
-            chart.render();
-        @endif
-    });
+                formatter: function (val) {
+                    return val; // sudah integer
+                }
+            },
+            stroke: {
+                show: false
+            },
+            colors: ['#980000'],
+            xaxis: {
+                categories: categories,
+                labels: { style: { fontSize: '12px' } }
+            },
+            yaxis: {
+                min: 0,
+                max: 100,
+                tickAmount: 5,
+                title: { text: 'Nilai' },
+                labels: { formatter: val => val }
+            },
+            tooltip: {
+                y: { formatter: val => val }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#line_chart_datalabel"), options);
+        chart.render();
+    @endif
+});
 </script>
+
 @endsection
 
