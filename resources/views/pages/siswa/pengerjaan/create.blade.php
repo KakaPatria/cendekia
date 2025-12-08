@@ -21,7 +21,7 @@ Tryout
     </div>
     <div class="flex-shrink-0">
         <div>
-            <a href="javascript:;" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+            <a href="javascript:;" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Keluar</a>
         </div>
     </div>
 </div>

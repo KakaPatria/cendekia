@@ -107,9 +107,8 @@
                             </select>
 
                         </div>
-                    </div>--}}
-                    @if($tryout->is_open == 'Umum')
-                    <div class="form-group row mb-3">
+                    </div>--}} 
+                    {{--<div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Jenis</label>
                         <div class="col-md-9">
                             <select id="add-jenis" class="form-control" name="tryout_jenis">
@@ -119,7 +118,9 @@
                             </select>
 
                         </div>
-                    </div>
+                    </div>--}}
+                    @if($tryout->tryout_jenis == 'Berbayar')
+
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Biaya</label>
 
@@ -143,7 +144,7 @@
                             </div>
                         </div>
                     </div>
-                    @endif
+                    @endif 
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>

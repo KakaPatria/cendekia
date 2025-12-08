@@ -45,7 +45,7 @@ public function library(Request $request)
         ->get()
         ->filter(function ($tryout) {
             return $tryout->is_can_register;
-        });
+        }); 
 
     $load['title'] = "Rekomendasi Tryout untuk Jenjang " . $user->jenjang;
     $load['data_tryout'] = $dataTryout;

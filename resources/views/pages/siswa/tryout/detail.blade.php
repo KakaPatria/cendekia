@@ -156,18 +156,19 @@
                                 <div class="card-footer bg-transparent border-top-dashed py-2">
                                     <div class="text-center">
 
+                                        @if($tryout->is_registered->tryout_peserta_status == '1')
                                         @if($tryout->tryout_status == 'Aktif')
                                         @if($materi->nilaiUser)
                                         @if($materi->nilaiUser->status == 'Proses')
                                         <a href="javascript:;" class="btn btn-danger w-100 lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
                                             Lanjutkan Pengerjaan
                                         </a>
-
                                         @endif
                                         @else
                                         <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn  {{ $materi->soal->count() > 1 ? '' : 'disabled'}}" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
-                                            Mulai Kerjakan
+                                            Mulai Kerjakan 
                                         </a>
+                                        @endif
                                         @endif
                                         @endif
                                     </div>
