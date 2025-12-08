@@ -272,9 +272,21 @@ html {
 }
 
 #hero .inquiry-box:hover {
-  transform: translateY(-5px) scale(1.03) !important;
+  /*transform: translateY(-5px) scale(1.03) !important;*/
   box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6) !important;
   background: linear-gradient(135deg, #128C7E 0%, #075E54 100%) !important;
+}
+
+/* Tambahkan di dalam tag <style> Anda */
+.btn-warning.btn-lg {
+    transition: all 0.3s ease !important;
+}
+
+.btn-warning.btn-lg:hover {
+    transform: translateY(-2px) scale(1.03); /* Sedikit naik dan membesar saat hover */
+    box-shadow: 0 8px 25px rgba(226, 182, 2, 0.8) !important; /* Efek shadow lebih kuat */
+    background: #FFD700 !important; /* Warna emas lebih cerah saat hover */
+    color: #980000 !important;
 }
 
 /* Icon WhatsApp - PUTIH */
@@ -878,24 +890,78 @@ html {
                         <div>
                             <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">Lembaga Bimbingan Belajar Cendekia Yogyakarta</h1>
                             <p class="lead text-muted lh-base mb-4">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
-
+                          <div class="mb-4"> 
+                          <a href="https://lbbcendekia.com/" target="_blank" class="btn btn-warning btn-lg waves-effect waves-light shadow-lg" style="font-weight: 600; background: #E2B602 !important; border: none !important; color: #980000 !important; box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;">
+                              <i class="ri-globe-line align-bottom me-2 fs-5"></i> KUNJUNGI WEBSITE RESMI CENDEKIA
+                          </a>
+                      </div>
                         </div>
                     </div>
                     <!--end col-->
                     <div class="col-lg-5">
-                        <div class="position-relative home-img text-center mt-3 mt-lg-0">
-                            <div class="card p-2 w-80 rounded shadow-lg inquiry-box fixed-left">
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-sm flex-shrink-0 me-3">
-                                        <div class="avatar-title bg-soft-warning text-warning rounded fs-18">
-                                            <i class="ri-whatsapp-line"></i>
-                                        </div>
+                    <div class="position-relative home-img text-center mt-3 mt-lg-0">
+                        <div id="draggable-wa" class="card p-2 w-80 rounded shadow-lg inquiry-box" style="cursor: grab; touch-action: none; user-select: none;">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm flex-shrink-0 me-3">
+                                    <div class="avatar-title bg-soft-warning text-warning rounded fs-18">
+                                        <i class="ri-whatsapp-line"></i>
                                     </div>
-                                    <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="stretched-link">
-                                        <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
-                                    </a>
                                 </div>
+                                <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="text-white text-decoration-none">
+                                    <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
+                                </a>
                             </div>
+                        </div>
+                        <script>
+                            const box = document.getElementById("draggable-wa");
+                            let isDragging = false;
+                            let offsetX, offsetY;
+
+                            box.addEventListener("mousedown", (e) => {
+                                isDragging = true;
+                                // Hitung selisih posisi mouse dengan posisi box
+                                offsetX = e.clientX - box.getBoundingClientRect().left;
+                                offsetY = e.clientY - box.getBoundingClientRect().top;
+                                box.style.cursor = "grabbing";
+                                box.style.position = "fixed"; // Ubah jadi fixed agar bisa keluar dari kolom
+                                box.style.zIndex = "9999";
+                            });
+
+                            document.addEventListener("mousemove", (e) => {
+                                if (!isDragging) return;
+                                
+                                // Update posisi box mengikuti mouse
+                                box.style.left = (e.clientX - offsetX) + "px";
+                                box.style.top = (e.clientY - offsetY) + "px";
+                                box.style.margin = "0"; // Reset margin agar tidak lari
+                            });
+
+                            document.addEventListener("mouseup", () => {
+                                isDragging = false;
+                                box.style.cursor = "grab";
+                            });
+
+                            // Support untuk layar sentuh (HP)
+                            box.addEventListener("touchstart", (e) => {
+                                isDragging = true;
+                                const touch = e.touches[0];
+                                offsetX = touch.clientX - box.getBoundingClientRect().left;
+                                offsetY = touch.clientY - box.getBoundingClientRect().top;
+                                box.style.position = "fixed";
+                            });
+
+                            box.addEventListener("touchmove", (e) => {
+                                if (!isDragging) return;
+                                const touch = e.touches[0];
+                                box.style.left = (touch.clientX - offsetX) + "px";
+                                box.style.top = (touch.clientY - offsetY) + "px";
+                            });
+
+                            box.addEventListener("touchend", () => {
+                                isDragging = false;
+                            });
+                        </script>
+
 
 
                             <div class="image-stack">
@@ -921,74 +987,161 @@ html {
         </section>
         <!-- end hero section -->
 
-        <section class="section" id="informasi" style="padding-top:160px; padding-bottom:160px;">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
-
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!--end row-->
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-lg">
-                            <div class="card-body p-4">
-                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
-                                    <div class="job-icon-effect"></div>
-                                    <span>1</span>
-                                </h1>
-                                <h6 class="fs-17 mb-2 fw-bold text-dark">Syakira Marsya T</h6>
-                                <p class="text-muted mb-0 fs-15"> SDN 1 Godean - Total nilai: <span class="fw-bold text-success">276,67</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-lg">
-                            <div class="card-body p-4">
-                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
-                                    <div class="job-icon-effect"></div>
-                                    <span>2</span>
-                                </h1>
-                                <h6 class="fs-17 mb-2 fw-bold text-dark">Fadlan Raya Efendi</h6>
-                                <p class="text-muted mb-0 fs-15">SDN Adisucipto 1 - Total nilai: <span class="fw-bold text-success">276,66</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-lg">
-                            <div class="card-body p-4">
-                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
-                                    <div class="job-icon-effect"></div>
-                                    <span>3</span>
-                                </h1>
-                                <h6 class="fs-17 mb-2 fw-bold text-dark">Janu Lanang P</h6>
-                                <p class="text-muted mb-0 fs-15">SD Budi Utama - Total nilai: <span class="fw-bold text-success">276,66</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card shadow-lg">
-                            <div class="card-body p-4">
-                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
-                                    <div class="job-icon-effect"></div>
-                                    <span>4</span>
-                                </h1>
-
-                                <h6 class="fs-17 mb-2 fw-bold text-dark">Nathanael V. T.</h6>
-                                <p class="text-muted mb-0 fs-15">SD Model - Total nilai: <span class="fw-bold text-success">276,66</span></p>
-                            </div>
-                        </div>
-                    </div>
-
+<section class="section" id="informasi" style="padding-top:160px; padding-bottom:160px; background-color: #ffffff;"> 
+    <div class="container">
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center mb-5">
+                    <h1 class="mb-3 ff-secondary fw-semibold lh-base text-danger">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
                 </div>
             </div>
-            <!--end container-->
-        </section>
+        </div>
+        
+        <div class="row mb-5 pb-5"> 
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body p-4">
+                        <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                            <div class="job-icon-effect"></div>
+                            <span>1</span>
+                        </h1>
+                        <h6 class="fs-17 mb-2 fw-bold text-dark">Syakira Marsya T</h6>
+                        <p class="text-muted mb-0 fs-15"> SDN 1 Godean - Total nilai: <span class="fw-bold text-success">276,67</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body p-4">
+                        <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                            <div class="job-icon-effect"></div>
+                            <span>2</span>
+                        </h1>
+                        <h6 class="fs-17 mb-2 fw-bold text-dark">Fadlan Raya Efendi</h6>
+                        <p class="text-muted mb-0 fs-15">SDN Adisucipto 1 - Total nilai: <span class="fw-bold text-success">276,66</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body p-4">
+                        <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                            <div class="job-icon-effect"></div>
+                            <span>3</span>
+                        </h1>
+                        <h6 class="fs-17 mb-2 fw-bold text-dark">Janu Lanang P</h6>
+                        <p class="text-muted mb-0 fs-15">SD Budi Utama - Total nilai: <span class="fw-bold text-success">276,66</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body p-4">
+                        <h1 class="fw-bold display-5 ff-secondary mb-4 text-success position-relative">
+                            <div class="job-icon-effect"></div>
+                            <span>4</span>
+                        </h1>
+                        <h6 class="fs-17 mb-2 fw-bold text-dark">Nathanael V. T.</h6>
+                        <p class="text-muted mb-0 fs-15">SD Model - Total nilai: <span class="fw-bold text-success">276,66</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="mb-5 mt-5">
 
+        <div class="row justify-content-center pt-5">
+             <div class="col-lg-12">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold fs-1 text-warning">ALUR PENDAFTARAN</h2>
+                    <h2 class="fw-bold fs-2 text-danger">TRY OUT ASPD SD</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            
+            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
+                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
+                    <div class="mx-auto avatar-md mb-3">
+                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
+                            <i class="ri-money-dollar-circle-line"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold">1. PEMBAYARAN</h5>
+                    <p class="text-muted fs-14 text-start">Melakukan pembayaran dengan biaya yang tertera pada tryout berbayar yang anda pilih, (payment mwlalui transfer atau bayar langsung). <span class="fw-bold text-danger">**lanjut isi link di poin 2.**</span></p>
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
+                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
+                    <div class="mx-auto avatar-md mb-3">
+                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
+                            <i class="ri-upload-cloud-line"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold">2. DAFTAR DAN UNGGAH HASIL SCREENSHOT</h5>
+                    <p class="text-muted fs-14 text-start">Isi data diri serta screenshot bukti pembayaran melalui link: <a href="https://bit.ly/TO_SPELANTA_2025" target="_blank" class="fw-bold text-decoration-underline">https://bit.ly/TO_SPELANTA_2025</a>.</p>
+                    <a href="https://bit.ly/TO_SPELANTA_2025" target="_blank" class="btn btn-warning btn-sm mt-auto shadow-sm">DAFTAR TRYOUT DISINI</a>
+                </div>
+            </div>
+            
+            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
+                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
+                    <div class="mx-auto avatar-md mb-3">
+                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
+                            <i class="ri-whatsapp-line"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold">3. WHATSAPP GRUP</h5>
+                    <p class="text-muted fs-14 text-start">Bergabung ke grup WA Peserta Tryout 2025. Tautan WA Grup diperoleh di akhir pengisian formulir pendaftaran (poin 2).</p>
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
+                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
+                    <div class="mx-auto avatar-md mb-3">
+                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
+                            <i class="ri-mail-line"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold">4. CEK EMAIL</h5>
+                    <p class="text-muted fs-14 text-start">Periksa email untuk mengakses kartu peserta dan mengetahui nomor peserta (pastikan menggunakan email aktif).</p>
+                </div>
+            </div>
+            
+            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
+                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
+                    <div class="mx-auto avatar-md mb-3">
+                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
+                            <i class="ri-group-line"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold">5. PEMBAGIAN RUANG</h5>
+                    <p class="text-muted fs-14 text-start">Pembagian ruang peserta disampaikan melalui WA Grup Peserta Tryout SPELANTA 2025.</p>
+                </div>
+            </div>
+            
+            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 mb-4">
+                <div class="card card-body text-center h-100 p-3 shadow-sm border-0">
+                    <div class="mx-auto avatar-md mb-3">
+                        <div class="avatar-title bg-soft-warning text-warning rounded-circle fs-3">
+                            <i class="ri-information-line"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold">6. INFORMASI TRYOUT</h5>
+                    <p class="text-muted fs-14 text-start">Informasi seputar Tryout disampaikan melalui Instagram (<span class="fw-bold text-danger">@smpselayikfficial</span> & <span class="fw-bold text-danger">@lbbcendekia</span>).</p>
+                </div>
+            </div>
+
+        </div> 
+        <div class="text-center mt-5">
+            <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="btn btn-success btn-lg waves-effect waves-light shadow-lg">
+                <i class="ri-whatsapp-line align-bottom me-2 fs-5"></i> WHATSAPP CENDEKIA KAK LIA
+            </a>
+        </div>
+        </div>
+    </section>
 
         <!-- start services -->
         <section class="section bg-light" id="hubungi" style="padding-top:110px; padding-bottom:10px; display:none;">
@@ -1285,6 +1438,13 @@ html {
                     <div class="mt-4 fs-13">
                         <p style="text-align: justify;">Selamat datang di LBB Cendekia!</p>
                         <p style="text-align: justify;">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
+
+                        <div class="d-flex gap-2">
+                              <a href="URL_WEBSITE_UTAMA_CENDEKIA" target="_blank" class="btn btn-warning btn-lg waves-effect waves-light shadow-lg" style="font-weight: 600; background: #E2B602 !important; border: none !important; color: #980000 !important; box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;">
+                                  <i class="ri-arrow-right-line align-bottom me-1"></i> Kunjungi Website Resmi
+                              </a>
+                          </div>
+
                         <ul class="list-inline mb-0 footer-social-link">
                             <li class="list-inline-item">
                                 <a href="https://www.facebook.com/profile.php?id=100070975055336" target="_blank" class="avatar-xs d-block">
