@@ -1186,7 +1186,7 @@ footer .copy-rights,
         <!-- end navbar -->
 
         <!-- start hero section -->
-        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:160px;">
+        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:115px;">
             <div class="container">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-lg-6">
@@ -1369,64 +1369,76 @@ footer .copy-rights,
         <div class="row">
             
             <div class="col-md-6 col-lg-4 mb-4">
-                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #FFB6C1;">
+                <div class="treasure-card h-100 p-4 d-flex flex-column" style="border-left: 5px solid #FFB6C1;">
                     <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);">
-                        <span style="font-size: 2.5rem;">👤</span>
+                        <i class="ri-user-line fs-2 text-white"></i>
                     </div>
-                    <h5 class="fw-bold mt-3 text-dark">1. Masuk/Daftar Akun</h5>
-                    <p class="text-muted fs-14">Buat akun baru atau masuk menggunakan akun Cendekia yang sudah Anda miliki.</p>
+                    <h5 class="fw-bold mt-3 text-dark text-center">1. Masuk/Daftar Akun</h5>
+                    <p class="text-muted fs-14 flex-grow-1" style="text-align: justify;">
+                        Buat akun baru atau masuk menggunakan akun Cendekia yang sudah Anda miliki untuk memulai proses pendaftaran.
+                    </p>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
-                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #87CEEB;">
+                <div class="treasure-card h-100 p-4 d-flex flex-column" style="border-left: 5px solid #87CEEB;">
                     <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #E2B602 0%, #FFD700 100%);">
-                        <span style="font-size: 2.5rem;">📚</span>
+                        <i class="ri-book-open-line fs-2 text-white"></i>
                     </div>
-                    <h5 class="fw-bold mt-3 text-dark">2. Pilih Tryout</h5>
-                    <p class="text-muted fs-14">Telusuri daftar Tryout yang tersedia dan pilih Tryout yang sesuai dengan kebutuhan Anda (misalnya: Try Out ASPD SD).</p>
+                    <h5 class="fw-bold mt-3 text-dark text-center">2. Pilih Tryout</h5>
+                    <p class="text-muted fs-14 flex-grow-1" style="text-align: justify;">
+                        Telusuri daftar Tryout yang tersedia di dashboard dan pilih Tryout yang sesuai dengan kebutuhan Anda (misalnya: Try Out ASPD SD).
+                    </p>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
-                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #98FB98;">
+                <div class="treasure-card h-100 p-4 d-flex flex-column" style="border-left: 5px solid #98FB98;">
                     <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #980000 0%, #7A0000 100%);">
-                        <span style="font-size: 2.5rem;">💳</span>
+                        <i class="ri-bank-card-line fs-2 text-white"></i>
                     </div>
-                    <h5 class="fw-bold mt-3 text-dark">3. Melakukan Pembayaran</h5>
-                    <p class="text-muted fs-14">Lakukan pembayaran sesuai dengan biaya yang tertera untuk Tryout yang Anda pilih (transfer bank atau metode lain).</p>
+                    <h5 class="fw-bold mt-3 text-dark text-center">3. Melakukan Pembayaran</h5>
+                    <p class="text-muted fs-14 flex-grow-1" style="text-align: justify;">
+                        Lakukan pembayaran sesuai dengan biaya yang tertera untuk Tryout yang Anda pilih melalui transfer bank atau metode lain yang tersedia.
+                    </p>
                 </div>
             </div>
             
         </div>
     </div>
 </div> 
-<div class="row justify-content-center mt-4">
+
+<div class="row justify-content-center mt-0">
     <div class="col-lg-10">
         <div class="row justify-content-center">
             
             <div class="col-md-6 col-lg-4 mb-4">
-                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #FFD700;">
+                <div class="treasure-card h-100 p-4 d-flex flex-column" style="border-left: 5px solid #FFD700;">
                     <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
-                        <span style="font-size: 2.5rem;">✅</span>
+                        <i class="ri-check-line fs-2 text-white"></i>
                     </div>
-                    <h5 class="fw-bold mt-3 text-dark">4. Konfirmasi Admin</h5>
-                    <p class="text-muted fs-14">Tunggu konfirmasi dari pihak admin Cendekia (verifikasi pembayaran dan aktivasi akses Tryout Anda).</p>
+                    <h5 class="fw-bold mt-3 text-dark text-center">4. Konfirmasi Admin</h5>
+                    <p class="text-muted fs-14 flex-grow-1" style="text-align: justify;">
+                        Tunggu konfirmasi dari pihak admin Cendekia yang meliputi proses verifikasi pembayaran dan aktivasi akses Tryout ke akun Anda.
+                    </p>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
-                <div class="treasure-card h-100 p-4" style="border-left: 5px solid #DDA0DD;">
+                <div class="treasure-card h-100 p-4 d-flex flex-column" style="border-left: 5px solid #DDA0DD;">
                     <div class="treasure-badge mx-auto mb-3" style="background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%);">
-                        <span style="font-size: 2.5rem;">📝</span>
+                        <i class="ri-file-edit-line fs-2 text-white"></i>
                     </div>
-                    <h5 class="fw-bold mt-3 text-dark">5. Mengerjakan Tryout</h5>
-                    <p class="text-muted fs-14">Setelah terkonfirmasi, Anda akan mendapatkan akses ke soal-soal Tryout dan dapat mulai mengerjakannya sesuai jadwal.</p>
+                    <h5 class="fw-bold mt-3 text-dark text-center">5. Mengerjakan Tryout</h5>
+                    <p class="text-muted fs-14 flex-grow-1" style="text-align: justify;">
+                        Setelah akun terkonfirmasi, Anda akan mendapatkan akses penuh ke soal-soal Tryout dan dapat mulai mengerjakannya sesuai jadwal.
+                    </p>
                 </div>
             </div>
             
         </div>
     </div>
+</div>
 </div>
 <div class="text-center mt-5 pt-4">
     <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="btn btn-success btn-lg waves-effect waves-light shadow-lg">
@@ -1661,71 +1673,81 @@ footer .copy-rights,
             </div>
         </section>--}}
 
-<!-- start faq -->
 <section id="faq" class="section">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6 mb-4">
-        <div class="faq-intro">
-          <div class="badge-faq">FAQ</div>
-          <h2 class="fw-bold">Frequently Asked <span class="accent">Questions</span></h2>
-          <p class="mt-3">Pertanyaan yang sering diajukan seputar pendaftaran, akses tryout, dan masalah akun. Jika pertanyaanmu belum tercantum, silakan hubungi admin melalui WA.</p>
+    <div class="container">
+        <div class="row align-items-center">
+            
+            <div class="col-lg-6 mb-4">
+                <div class="faq-intro">
+                    <div class="badge-faq">FAQ</div>
+                    <h2 class="fw-bold display-5">Frequently Asked <span class="accent">Questions</span></h2>
+                    <p class="mt-3 fs-5 text-muted">Pertanyaan yang sering diajukan seputar pendaftaran, akses tryout, dan masalah akun. Jika pertanyaanmu belum tercantum, silakan hubungi admin melalui WA.</p>
+                    
+                    </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="faq-accordion">
+                    <div class="accordion" id="faqAccordion">
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq1">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                    <span class="fw-semibold">1. Bagaimana cara mengikuti tryout?</span>
+                                </button>
+                            </h2>
+                            <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Kamu bisa mendaftar akun terlebih dahulu melalui website kami, lalu pilih tryout yang tersedia di menu dashboard, lakukan pembayaran (jika berbayar), dan tunggu konfirmasi admin.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                    <span class="fw-semibold">2. Apakah Tryout bisa diakses gratis?</span>
+                                </button>
+                            </h2>
+                            <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Beberapa tryout (seperti sesi demo atau tryout periodik tertentu) disediakan gratis, sedangkan versi premium dengan analisis lengkap dan soal eksklusif bisa diakses setelah login dan berlangganan.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                    <span class="fw-semibold">3. Bagaimana jika lupa password akun?</span>
+                                </button>
+                            </h2>
+                            <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Gunakan fitur “Lupa Password” di halaman login untuk mengatur ulang kata sandi kamu menggunakan email yang terdaftar. Jika masih kesulitan, hubungi admin.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                                    <span class="fw-semibold">4. Kapan hasil tryout akan keluar?</span>
+                                </button>
+                            </h2>
+                            <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Hasil tryout akan langsung keluar setelah kamu menyelesaikan pengerjaan. Untuk analisis ranking dan pembahasan, biasanya akan tersedia 1x24 jam setelah periode tryout berakhir.
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <div class="col-lg-6">
-        <div class="faq-accordion">
-          <div class="accordion" id="faqAccordion">
-            <!-- item 1 -->
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="faq1">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
-                  Bagaimana cara mengikuti tryout?
-                </button>
-              </h2>
-              <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                  Kamu bisa mendaftar akun terlebih dahulu, lalu pilih tryout yang tersedia di menu dashboard.
-                </div>
-              </div>
-            </div>
-
-            <!-- item 2 -->
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="faq2">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
-                  Apakah Tryout bisa diakses gratis?
-                </button>
-              </h2>
-              <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                  Beberapa tryout disediakan gratis, sedangkan versi premium bisa diakses setelah login dan berlangganan.
-                </div>
-              </div>
-            </div>
-
-            <!-- item 3 -->
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="faq3">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
-                  Bagaimana jika lupa password akun?
-                </button>
-              </h2>
-              <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                  Gunakan fitur “Lupa Password” di halaman login untuk mengatur ulang kata sandi kamu.
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </section>
-
-<!-- end faq -->
 
         <!-- Start footer -->
         <footer class="py-5 position-relative" style="background-color: #E2B602;">
