@@ -55,7 +55,7 @@ class PengerjaanController extends Controller
             $nilai->soal_dijekerjakan = 0;
             $nilai->status = 'Proses';
             $nilai->mulai_pengerjaan = now();
-            
+
             $nilai->save();
         }
 
@@ -229,26 +229,25 @@ class PengerjaanController extends Controller
         $pengerjaan = TryoutPengerjaan::where('tryout_materi_id', $nilai->tryout_materi_id)
             ->where('user_id', auth()->user()->id);
 
-        $soal = TryoutSoal::where('tryout_materi_id', $nilai->tryout_materi_id)
-            ->count();
-        if ($pengerjaan->count() == $soal || ($nilai->tryoutMateri->durasi > 0 && $durasi >= ($nilai->tryoutMateri->durasi * 60))) {
+        //$soal = TryoutSoal::where('tryout_materi_id', $nilai->tryout_materi_id)->count();
+        //if ($pengerjaan->count() == $soal || ($nilai->tryoutMateri->durasi > 0 && $durasi >= ($nilai->tryoutMateri->durasi * 60))) {
 
-            $salah = $pengerjaan->where('status', 'Salah')->count();
-            $pengerjaan = TryoutPengerjaan::with('soal')->where('tryout_materi_id', $nilai->tryout_materi_id)
-                ->where('user_id', auth()->user()->id);
-            $benar = $pengerjaan->where('status', 'Benar');
+        $salah = $pengerjaan->where('status', 'Salah')->count();
+        $pengerjaan = TryoutPengerjaan::with('soal')->where('tryout_materi_id', $nilai->tryout_materi_id)
+            ->where('user_id', auth()->user()->id);
+        $benar = $pengerjaan->where('status', 'Benar');
 
-            $totalPoint = 0;
-            foreach ($benar->get() as $key => $value) {
-                $totalPoint += $value->soal->point;
-            }
-            $nilai->jumlah_salah = $salah;
-            $nilai->jumlah_benar = $benar->count();
-            $nilai->total_point = $totalPoint;
-            $nilai->nilai = ($benar->count() / $nilai->soal_total) * 100;
-            $nilai->status = 'Selesai';
-            $nilai->selesai_pengerjaan = now();
+        $totalPoint = 0;
+        foreach ($benar->get() as $key => $value) {
+            $totalPoint += $value->soal->point;
         }
+        $nilai->jumlah_salah = $salah;
+        $nilai->jumlah_benar = $benar->count();
+        $nilai->total_point = $totalPoint;
+        $nilai->nilai = ($benar->count() / $nilai->soal_total) * 100;
+        $nilai->status = 'Selesai';
+        $nilai->selesai_pengerjaan = now();
+        //}
         $nilai->update();
 
         $message = 'Meninggalkan tryout';
