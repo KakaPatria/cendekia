@@ -38,6 +38,18 @@
 
 <!-- JAVASCRIPT -->
 @include('layouts.vendor-scripts')
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const currentUrl = window.location.href;
+
+    document.querySelectorAll("#navbar-nav a").forEach(link => {
+        if (currentUrl.includes(link.getAttribute("href"))) {
+            link.classList.add("active");
+        }
+    });
+});
+</script>
+
 </body>
 
 </html>
