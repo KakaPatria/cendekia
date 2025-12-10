@@ -138,11 +138,14 @@
                                 </a>
                             </li>
                             @foreach($tryout->materi as $materi)
+                            @if(Auth::user()->roles_id == 2 || (Auth::user()->roles_id == 3 && $materi->pengajar_id == Auth::user()->id ))
+
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" data-bs-toggle="tab" href="#tryout-hasil-{{ $materi->tryout_materi_id}}" role="tab" aria-selected="false" tabindex="-1">
                                     Hasil {{ $materi->refMateri->ref_materi_judul}}
                                 </a>
                             </li>
+                            @endif
                             @endforeach
 
                         </ul>
@@ -253,6 +256,7 @@
                         </div>
                     </div>
                     @foreach($tryout->materi as $materi)
+                    @if(Auth::user()->roles_id == 2 || (Auth::user()->roles_id == 3 && $materi->pengajar_id == Auth::user()->id ))
                     <div class="tab-pane " id="tryout-hasil-{{$materi->tryout_materi_id}}" role="tabpanel">
                         <h5 class="card-title mb-4">Rangking {{ $materi->refMateri->ref_materi_judul}}</h5>
                         <div class="table-responsive table-card">
@@ -282,6 +286,7 @@
                             </table>
                         </div>
                     </div>
+                    @endif
                     @endforeach
                     <!--end tab-pane-->
 

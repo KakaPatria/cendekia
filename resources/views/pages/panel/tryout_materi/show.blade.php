@@ -245,7 +245,7 @@
 </div>
 
 <div class="modal fade" id="add-soal-modal" tabindex="-1" aria-labelledby="add-soal-label" aria-hidden="true">
-    <div class="modal-dialog modal-md ">
+    <div class="modal-dialog modal-lg ">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="add-invoice-label">Tambah Soal</h5>

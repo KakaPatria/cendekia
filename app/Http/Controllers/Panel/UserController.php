@@ -133,7 +133,6 @@ class UserController extends Controller
      */
     public function update(User $user, Request $request)
     {
-
         if ($request->rolex == 'Siswa') {
 
             $validator = Validator::make($request->all(), [
@@ -222,7 +221,7 @@ class UserController extends Controller
                 'jenjang' => 'required|string|in:SD,SMP,SMA',
                 'kelas' => 'required|integer|min:1|max:12',
                 //'golongan' => 'nullable|string|max:50',
-                'tipe_siswa' => 'required|string|in:Cemdekia,Umum',
+                'tipe_siswa' => 'required|string|in:Cendekia,Umum',
                 'nama_orang_tua' => 'required|string',
                 'telp_orang_tua' => 'required|numeric',
                 'alamat' => 'required|string|max:255',

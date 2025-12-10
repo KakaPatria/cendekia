@@ -77,7 +77,7 @@ class TryoutMateriController extends Controller
                 $dataSoal['tryout_kunci_jawaban'] = $value->tryout_kunci_jawaban;
                 $dataSoal['notes'] = $value->notes;
 
-                $inertSoal  = TryoutSoal::create($dataSoal); 
+                $inertSoal  = TryoutSoal::create($dataSoal);
                 $dataJawaban = [];
                 foreach ($value->jawaban as $keyJawaban => $jawaban) {
                     $dataJawaban[] = [
@@ -359,13 +359,14 @@ class TryoutMateriController extends Controller
 
         $bankSoal =   TryoutMateri::where('materi_id', $tryoutMateri->materi_id)
             ->has('soal')
-            ->get(); 
+            ->get();
         //dd($tryoutMateri->materi_id,$bankSoal);
 
         $listBankSoal = $bankSoal
             ->mapWithKeys(function ($item) {
+
                 return [
-                    $item->tryout_materi_id => $item->jenis_soal . ' - ' . Str::limit($item->tryout_materi_deskripsi, 25)
+                    $item->tryout_materi_id => $item->refMateri->ref_materi_judul . ' - ' . $item->jenis_soal . ' - ' . Str::limit($item->tryout_materi_deskripsi, 25)
                 ];
             });
         $load['bank_soal'] = $listBankSoal;

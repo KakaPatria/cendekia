@@ -23,9 +23,11 @@ class KelasCendekiaController extends Controller
             ->withCount('siswaKelas')
             ->when($request->keyword, function ($q, $keyword) {
                 // Sekarang mencari di Nama Kelas, Jenjang, dan Kelas
-                $q->where('kelas_cendekia_nama', 'like', "%$keyword%")
-                    ->orWhere('jenjang', 'like', "%$keyword%")
-                    ->orWhere('kelas', 'like', "%$keyword%");
+                $q->where(function ($query) use ($keyword) {
+                    $query->where('kelas_cendekia_nama', 'like', "%$keyword%")
+                        ->orWhere('jenjang', 'like', "%$keyword%")
+                        ->orWhere('kelas', 'like', "%$keyword%");
+                });
             })
             ->when($request->kelas, function ($q, $kelas) {
                 $q->where('kelas', $kelas);
@@ -42,6 +44,7 @@ class KelasCendekiaController extends Controller
             });
 
         if (!$user->hasRole(['Admin'])) {
+
             $kelasCendekia->whereHas('jadwal', function ($q1) use ($user) {
                 $q1->where('guru_id', $user->id);
             });
@@ -103,10 +106,10 @@ class KelasCendekiaController extends Controller
             $jadwalGuru = JadwalCendekia::where('kelas_cendekia_id', $kelasCendekiaId)
                 ->where('guru_id', $user->id)
                 ->first();
-            $allMapel=  $allMapel ->filter(function ($value)use($jadwalGuru) {
+            $allMapel =  $allMapel->filter(function ($value) use ($jadwalGuru) {
                 return $value == $jadwalGuru->mataPelajaran->ref_materi_judul;
             });
-        } 
+        }
 
         foreach ($peserta as $p) {
             $row = [
