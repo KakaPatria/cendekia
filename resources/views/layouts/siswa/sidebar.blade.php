@@ -83,112 +83,122 @@
 <div class="vertical-overlay"></div>
 
 <style>
-/* Ratakan menu ke tengah secara aman */
-.app-menu #navbar-nav {
-    display: flex;
-    justify-content: center;   /* Pusatkan semua item menu */
-    align-items: center;
-    gap: 30px;                 /* Jarak antar menu */
-    width: 100%;
-    margin: 0 auto;            /* Supaya posisinya benar-benar tengah */
-    padding-left: 0;           /* Hilangkan padding default Bootstrap */
-}
-
-/* Biar icon dan teks sejajar & rapi */
-.app-menu .navbar-nav .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: white;
-}
-
-/* Hindari tabrakan logo */
-.navbar-brand-box {
-    text-align: center;
-    width: 100%;
-}
+/* ============================
+   NAVBAR HORIZONTAL (RAPI)
+   ============================ */
 
 .app-menu.navbar-menu {
     background: linear-gradient(90deg, #DBB83E, #E6C96B);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    border-right: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    transition: background .25s ease, box-shadow .25s ease;
 }
 
-.app-menu .navbar-nav .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-radius: 15px;
-    padding: 12px 16px;
-    margin: 6px 12px;
-    font-size: 17px;
-    font-weight: 550;
-    color: white;
-    transition: 0.25s ease;
-}
-
-.app-menu .navbar-nav .nav-link:hover {
-    background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(2px);
-    transform: translateX(3px);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-}
-
-.app-menu .navbar-nav .nav-link.active {
-    background: rgba(255,255,255,0.25);
-    border: 1px solid rgba(255,255,255,0.35);
-}
-
+/* LOGO */
 .navbar-brand-box {
     display: flex;
     justify-content: center;
-    padding: 16px 0;
-}
-
-/* ======= Active pill (neumorphism) ======= */
-.navbar-nav .nav-link {
-  transition: all 0.25s ease;
-  border-radius: 28px; /* default pill shape */
-  padding: 8px 18px;
-}
-
-/* Active state: pill + soft shadow */
-.navbar-nav .nav-link.active,
-.navbar-nav .nav-link:focus {
-  background: linear-gradient(180deg, #f1f6f4 0%, #e9efeb 50%); /* light pill */
-  color: #980000 !important; /* teks warna aktif, ganti sesuai palette */
-  box-shadow:
-    6px 6px 16px rgba(231, 231, 231, 0.14),
-    -6px -6px 16px rgba(231, 231, 231, 0.14);
-  transform: translateY(-2px);
-}
-
-/* Jika mau tampilan mirip contohmu (pill hijau lembut) */
-.navbar-nav .nav-link.active .dot-indicator{
-  display:none;
-}
-
-/* hover effect (non-active) */
-.navbar-nav .nav-link:hover:not(.active) {
-  background: rgba(255,255,255,0.09);
-  color: #111;
-  transform: translateY(-2px);
-}
-
-/* Untuk navbar di landing page: pusatkan nav (opsional) */
-#navbar-example { display:flex; gap:36px; align-items:center; }
-
-.nav-link.active {
-    background-color: rgba(255, 255, 255, 0.25);
-    border-radius: 8px;
-    padding: 6px 10px;
-}
-
-.app-menu .navbar-nav .nav-link {
-    height: 42px;
-    display: flex;
     align-items: center;
-    gap: 8px;
+    padding: 6px 0 12px;
+}
+
+/* NAVBAR LIST */
+#navbar-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+    padding-left: 0;
+    margin: 0;
+}
+
+#navbar-nav .nav-item {
+    list-style: none;
+}
+
+/* ============================
+   NAV LINK (IKON + TEKS SEJAJAR)
+   ============================ */
+#navbar-nav .nav-link {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;      /* ikon & teks sejajar */
+    justify-content: center !important;  /* tetap 1 baris */
+    gap: 8px !important;                 /* jarak ikon-teks */
+    white-space: nowrap !important;      /* cegah turun ke baris baru */
+    padding: 12px 18px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    min-width: 120px;                    /* semua lebar stabil */
+    height: 46px;                        /* tinggi DIKUNCI → anti loncat */
+    box-sizing: border-box;
+    text-align: center;
+    
+    transition: background .20s ease,
+                box-shadow .20s ease,
+                transform .20s ease;
+}
+
+/* ============================
+   ICON FIX
+   ============================ */
+#navbar-nav .nav-link i {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    line-height: 1 !important;
+    position: relative;
+    top: 0 !important;      /* ICON TIDAK TURUN */
+}
+
+/* ============================
+   TEXT FIX
+   ============================ */
+#navbar-nav .nav-link span {
+    line-height: 1 !important;
+    display: flex;
+    align-items: center;    /* teks sejajar dengan icon */
+    position: relative;
+    top: 0 !important;
+}
+
+/* ============================
+   HOVER
+   ============================ */
+#navbar-nav .nav-link:hover {
+    background: rgba(255,255,255,0.18);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+}
+
+/* ============================
+   ACTIVE
+   ============================ */
+#navbar-nav .nav-link.active {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.25);
+    color: #6d0000 !important;
+    font-weight: 600;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    transform: translateY(-1px);
+}
+
+/* ============================
+   FOCUS FIX
+   ============================ */
+#navbar-nav .nav-link:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Khusus Home jika sebelumnya berbeda */
+#menu-dashboard i {
+    top: 0 !important;
 }
 
 </style>
