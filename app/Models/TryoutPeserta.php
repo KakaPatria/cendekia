@@ -55,8 +55,10 @@ class TryoutPeserta extends Model
     public function getStatusBadgeAttribute()
     {
 
-        if ($this->tryout_peserta_status) {
+        if ($this->tryout_peserta_status == 1) {
             return '<span class="badge text-bg-primary">Terdaftar</span>';
+        } else   if ($this->tryout_peserta_status == 2) {
+            return '<span class="badge text-bg-dark">Batal</span>';
         } else {
             return '<span class="badge text-bg-warning">Pending</span>';
         }

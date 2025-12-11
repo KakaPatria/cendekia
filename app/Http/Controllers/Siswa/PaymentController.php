@@ -52,7 +52,15 @@ class PaymentController extends Controller
         if (!$invoice) {
             return response()->json(['message' => 'Notification handled'], 200);
         }
-        $invoice->status = $request->transaction_status == 'settlement' ? 1 : 0;
+
+        $invoiceStatus = 0;
+        if ($request->transaction_status == 'settlement') {
+            $invoiceStatus = 1;
+        } elseif ($request->transaction_status == 'expire') {
+            $invoiceStatus = 2;
+        }
+
+        $invoice->status = $request->transaction_status == $invoiceStatus;
         $invoice->payment_type = $request->payment_type;
 
         if ($invoice->payment_type == 'bank_transfer') {
@@ -72,7 +80,13 @@ class PaymentController extends Controller
             ->first();
 
         if ($tryoutPeserta) {
-            $tryoutPeserta->tryout_peserta_status  = $request->transaction_status == 'settlement' ? 1 : 0;
+            $statusTryoutPeserta = 0;
+            if ($request->transaction_status == 'settlement') {
+                $statusTryoutPeserta = 1;
+            } elseif ($request->transaction_status == 'expire') {
+                $statusTryoutPeserta = 2;
+            }
+            $tryoutPeserta->tryout_peserta_status  = $statusTryoutPeserta;
             $tryoutPeserta->updated_at = now();
             $tryoutPeserta->save();
         }

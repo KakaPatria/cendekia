@@ -85,8 +85,12 @@ class Invoice extends Model
             return ' <span class="badge badge-soft-info fs-11" id="payment-status">Lunas</span>';
         } elseif ($this->status == 0) {
             return ' <span class="badge badge-soft-warning fs-11" id="payment-status">Menunggu Pembayaran</span>';
+        } elseif ($this->status == 2) {
+            return ' <span class="badge badge-soft-danger fs-11" id="payment-status">Expired</span>';
+        } elseif ($this->status == 3) {
+            return ' <span class="badge badge-soft-dark fs-11" id="payment-status">Cancel</span>';
         } else {
-            return '<span class="badge badge-warning fs-11" id="payment-status">Menunggu Pembayaran</span>';
+            return '<span class="badge badge-warning fs-11" id="payment-status">Batal</span>';
         }
     }
 }

@@ -55,7 +55,7 @@
                         </tbody>
                     </table>
                     <!--end table-->
-                    @if($tryout_peserta->tryout_peserta_status)
+                    @if($tryout_peserta->tryout_peserta_status == 1)
                     <div class="m-2 p-2">
                         <!-- Primary Alert -->
                         <div class="alert alert-primary" role="alert">
@@ -166,7 +166,7 @@
                                         @endif
                                         @else
                                         <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn  {{ $materi->soal->count() > 1 ? '' : 'disabled'}}" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
-                                            Mulai Kerjakan 
+                                            Mulai Kerjakan
                                         </a>
                                         @endif
                                         @endif
