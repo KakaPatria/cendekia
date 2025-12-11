@@ -20,6 +20,7 @@ class TryoutController extends Controller
         $user = auth()->user();
         $tryout = TryoutPeserta::with('masterTryout')
             ->where('user_id', $user->id)
+            ->whereIn('tryout_peserta_status',[0,1])
             ->paginate(10);
         $load['tryout'] = $tryout;
         //dd($load);

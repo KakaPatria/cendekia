@@ -24,7 +24,11 @@
                     <div class="flex-shrink-0">
                         @if(!$peserta->tryout_peserta_status)
                         <a href="javascript:;" class="btn rounded-pill btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#approva-peserta-modal">
-                            <i class="fa fa-edit"></i> Terima</a>
+                            <i class="fa fa-check"></i> Konfrimasi
+                        </a>
+                        <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancel-peserta-modal">
+                            <i class="fa fa-check"></i> Batal
+                        </a>
                         @endif
                     </div>
                 </div>
@@ -221,6 +225,29 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
                 <button type="submit" form="approve-form" class="btn btn-primary">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cancel-peserta-modal" tabindex="-1" aria-labelledby="cancel-peserta-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancel-peserta-modalLabel">Batalkan Pendaftaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Apakah anda yakin membatalkan pendaftaran <strong id="deleteName">{{ $peserta->tryout_peserta_name}}</strong>
+                <form action="{{ route('panel.pendaftaran.reject',$peserta->tryout_peserta_id)}}" method="POST" id="cancel-form">
+                    @csrf
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" form="cancel-form" class="btn btn-danger">Simpan</button>
             </div>
         </div>
     </div>

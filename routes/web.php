@@ -165,6 +165,7 @@ Route::name('panel.')->prefix('panel')->group(function () {
         Route::get('pendaftaran/export', [PendaftaranController::class, 'export'])->name('pendaftaran.export');
         Route::get('pendaftaran/{tryout_peserta_id}', [PendaftaranController::class, 'show'])->name('pendaftaran.show');
         Route::post('pendaftaran/{tryout_peserta_id}/approve', [PendaftaranController::class, 'approve'])->name('pendaftaran.approve');
+        Route::post('pendaftaran/{tryout_peserta_id}/reject', [PendaftaranController::class, 'reject'])->name('pendaftaran.reject');
 
         // =======================
         // LOGOUT

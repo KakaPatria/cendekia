@@ -47,7 +47,6 @@ class PaymentController extends Controller
 
     public function handleNotification(Request $request)
     {
-
         $invoice = Invoice::find($request->order_id);
         if (!$invoice) {
             return response()->json(['message' => 'Notification handled'], 200);
@@ -60,7 +59,7 @@ class PaymentController extends Controller
             $invoiceStatus = 2;
         }
 
-        $invoice->status = $request->transaction_status == $invoiceStatus;
+        $invoice->status = $request->transaction_status = $invoiceStatus;
         $invoice->payment_type = $request->payment_type;
 
         if ($invoice->payment_type == 'bank_transfer') {
