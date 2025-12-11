@@ -83,112 +83,80 @@
 <div class="vertical-overlay"></div>
 
 <style>
-/* Ratakan menu ke tengah secara aman */
-.app-menu #navbar-nav {
-    display: flex;
-    justify-content: center;   /* Pusatkan semua item menu */
-    align-items: center;
-    gap: 30px;                 /* Jarak antar menu */
-    width: 100%;
-    margin: 0 auto;            /* Supaya posisinya benar-benar tengah */
-    padding-left: 0;           /* Hilangkan padding default Bootstrap */
-}
+/* ============================
+   NAVBAR HORIZONTAL (RAPI)
+   ============================ */
 
-/* Biar icon dan teks sejajar & rapi */
-.app-menu .navbar-nav .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: white;
-}
-
-/* Hindari tabrakan logo */
-.navbar-brand-box {
-    text-align: center;
-    width: 100%;
-}
-
+/* Container navbar */
 .app-menu.navbar-menu {
     background: linear-gradient(90deg, #DBB83E, #E6C96B);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    border-right: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    transition: background .25s ease, box-shadow .25s ease;
 }
 
-.app-menu .navbar-nav .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-radius: 15px;
-    padding: 12px 16px;
-    margin: 6px 12px;
-    font-size: 17px;
-    font-weight: 550;
-    color: white;
-    transition: 0.25s ease;
-}
-
-.app-menu .navbar-nav .nav-link:hover {
-    background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(2px);
-    transform: translateX(3px);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-}
-
-.app-menu .navbar-nav .nav-link.active {
-    background: rgba(255,255,255,0.25);
-    border: 1px solid rgba(255,255,255,0.35);
-}
-
+/* Logo */
 .navbar-brand-box {
     display: flex;
     justify-content: center;
-    padding: 16px 0;
-}
-
-/* ======= Active pill (neumorphism) ======= */
-.navbar-nav .nav-link {
-  transition: all 0.25s ease;
-  border-radius: 28px; /* default pill shape */
-  padding: 8px 18px;
-}
-
-/* Active state: pill + soft shadow */
-.navbar-nav .nav-link.active,
-.navbar-nav .nav-link:focus {
-  background: linear-gradient(180deg, #f1f6f4 0%, #e9efeb 50%); /* light pill */
-  color: #980000 !important; /* teks warna aktif, ganti sesuai palette */
-  box-shadow:
-    6px 6px 16px rgba(231, 231, 231, 0.14),
-    -6px -6px 16px rgba(231, 231, 231, 0.14);
-  transform: translateY(-2px);
-}
-
-/* Jika mau tampilan mirip contohmu (pill hijau lembut) */
-.navbar-nav .nav-link.active .dot-indicator{
-  display:none;
-}
-
-/* hover effect (non-active) */
-.navbar-nav .nav-link:hover:not(.active) {
-  background: rgba(255,255,255,0.09);
-  color: #111;
-  transform: translateY(-2px);
-}
-
-/* Untuk navbar di landing page: pusatkan nav (opsional) */
-#navbar-example { display:flex; gap:36px; align-items:center; }
-
-.nav-link.active {
-    background-color: rgba(255, 255, 255, 0.25);
-    border-radius: 8px;
-    padding: 6px 10px;
-}
-
-.app-menu .navbar-nav .nav-link {
-    height: 42px;
-    display: flex;
     align-items: center;
-    gap: 8px;
+    padding: 6px 0 12px;
+}
+
+/* NAVBAR LIST → tetap HORIZONTAL */
+#navbar-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+    padding-left: 0;
+    margin: 0;
+}
+
+/* NAV ITEM */
+#navbar-nav .nav-item { 
+    list-style: none;
+}
+
+/* NAV LINK */
+/* Kuncikan tinggi stabil agar tidak loncat */
+#navbar-nav .nav-link {
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transition: background .25s ease,
+                box-shadow .25s ease,
+                transform .20s ease,
+                color .20s ease;
+    will-change: transform, background; /* biar smooth */
+}
+
+/* Hover → kecilin hover movement biar gak bikin loncat */
+#navbar-nav .nav-link:hover {
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    transform: translateY(-1px);  /* Dikecilkan */
+}
+
+/* ACTIVE → HARUS SAMA persis dgn hover supaya NO JUMP */
+#navbar-nav .nav-link.active {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.35);
+    color: #6d0000 !important;
+    font-weight: 600;
+    transform: translateY(-1px); /* SAMA dgn hover */
+    box-shadow: 0 3px 10px rgba(0,0,0,0.20);
+}
+
+/* Fix extra jump when clicking (browser default focus) */
+#navbar-nav .nav-link:focus {
+    outline: none;
+    box-shadow: 0 0 0 0 rgba(0,0,0,0);
+}
+#navbar-nav .nav-link {
+    min-width: 110px; /* bikin semua tab punya lebar minimal sama */
+    text-align: center;
+    display: inline-block;
 }
 
 </style>
