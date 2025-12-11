@@ -87,7 +87,6 @@
    NAVBAR HORIZONTAL (RAPI)
    ============================ */
 
-/* Container navbar */
 .app-menu.navbar-menu {
     background: linear-gradient(90deg, #DBB83E, #E6C96B);
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
@@ -95,7 +94,7 @@
     transition: background .25s ease, box-shadow .25s ease;
 }
 
-/* Logo */
+/* LOGO */
 .navbar-brand-box {
     display: flex;
     justify-content: center;
@@ -103,7 +102,7 @@
     padding: 6px 0 12px;
 }
 
-/* NAVBAR LIST → tetap HORIZONTAL */
+/* NAVBAR LIST */
 #navbar-nav {
     display: flex;
     justify-content: center;
@@ -113,50 +112,93 @@
     margin: 0;
 }
 
-/* NAV ITEM */
-#navbar-nav .nav-item { 
+#navbar-nav .nav-item {
     list-style: none;
 }
 
-/* NAV LINK */
-/* Kuncikan tinggi stabil agar tidak loncat */
+/* ============================
+   NAV LINK (IKON + TEKS SEJAJAR)
+   ============================ */
 #navbar-nav .nav-link {
-    padding: 10px 16px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;      /* ikon & teks sejajar */
+    justify-content: center !important;  /* tetap 1 baris */
+    gap: 8px !important;                 /* jarak ikon-teks */
+    white-space: nowrap !important;      /* cegah turun ke baris baru */
+    padding: 12px 18px;
     border: 1px solid transparent;
-    border-radius: 10px;
-    transition: background .25s ease,
-                box-shadow .25s ease,
-                transform .20s ease,
-                color .20s ease;
-    will-change: transform, background; /* biar smooth */
+    border-radius: 12px;
+    min-width: 120px;                    /* semua lebar stabil */
+    height: 46px;                        /* tinggi DIKUNCI → anti loncat */
+    box-sizing: border-box;
+    text-align: center;
+    
+    transition: background .20s ease,
+                box-shadow .20s ease,
+                transform .20s ease;
 }
 
-/* Hover → kecilin hover movement biar gak bikin loncat */
+/* ============================
+   ICON FIX
+   ============================ */
+#navbar-nav .nav-link i {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    line-height: 1 !important;
+    position: relative;
+    top: 0 !important;      /* ICON TIDAK TURUN */
+}
+
+/* ============================
+   TEXT FIX
+   ============================ */
+#navbar-nav .nav-link span {
+    line-height: 1 !important;
+    display: flex;
+    align-items: center;    /* teks sejajar dengan icon */
+    position: relative;
+    top: 0 !important;
+}
+
+/* ============================
+   HOVER
+   ============================ */
 #navbar-nav .nav-link:hover {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.18);
     box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-    transform: translateY(-1px);  /* Dikecilkan */
+    transform: translateY(-1px);
 }
 
-/* ACTIVE → HARUS SAMA persis dgn hover supaya NO JUMP */
+/* ============================
+   ACTIVE
+   ============================ */
 #navbar-nav .nav-link.active {
     background: rgba(255,255,255,0.25);
-    border-color: rgba(255,255,255,0.35);
+    border-color: rgba(255,255,255,0.25);
     color: #6d0000 !important;
     font-weight: 600;
-    transform: translateY(-1px); /* SAMA dgn hover */
-    box-shadow: 0 3px 10px rgba(0,0,0,0.20);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    transform: translateY(-1px);
 }
 
-/* Fix extra jump when clicking (browser default focus) */
+/* ============================
+   FOCUS FIX
+   ============================ */
 #navbar-nav .nav-link:focus {
     outline: none;
-    box-shadow: 0 0 0 0 rgba(0,0,0,0);
+    box-shadow: none;
 }
-#navbar-nav .nav-link {
-    min-width: 110px; /* bikin semua tab punya lebar minimal sama */
-    text-align: center;
-    display: inline-block;
+
+/* Khusus Home jika sebelumnya berbeda */
+#menu-dashboard i {
+    top: 0 !important;
 }
 
 </style>
