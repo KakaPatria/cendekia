@@ -57,6 +57,7 @@
                              <th scope="col" width="1%">#</th>
                              <th scope="col">Mata Pelajaran</th>
                              <th scope="col">Guru</th>
+                             <th scope="col">Hari</th>
                              <th scope="col">Jam Mulai</th>
                              <th scope="col">Jam Selesai</th>
                              @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 )
@@ -70,6 +71,7 @@
                              <td>{{ $loop->iteration}}</td>
                              <td>{{ $jadwal->mataPelajaran->ref_materi_judul ?? ''}}</td>
                              <td>{{ $jadwal->guru->name ?? ''}}</td>
+                             <td>{{ $jadwal->jadwal_cendekia_hari ?? ''}}</td>
                              <td>{{ $jadwal->jadwal_mulai}}</td>
                              <td>{{ $jadwal->jadwal_selesai}}</td>
                              @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)

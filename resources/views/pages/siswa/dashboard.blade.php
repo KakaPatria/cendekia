@@ -390,7 +390,7 @@
                         </div>
                         @endforelse
                     </div>
-                    @if ($tryout->hasPages()) <div class="mt-2">{{ $tryout->links() }}</div> @endif
+                    {{--@if ($tryout->hasPages()) <div class="mt-2">{{ $tryout->links() }}</div> @endif--}}
                 </div>
             </div>
         </div>

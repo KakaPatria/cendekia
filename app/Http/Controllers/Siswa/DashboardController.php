@@ -16,10 +16,11 @@ class DashboardController extends Controller
 
         $load['tryout'] = Tryout::where('tryout_kelas', $user->kelas)
             ->where('tryout_status', 'Aktif')
-            ->filter(function ($tryout) {
+            ->get()
+             ->filter(function ($tryout) {
                 return $tryout->is_can_register;
-            })
-            ->paginate(10);
+            });
+             
 
         // [PERBAIKAN] Mengambil data dari TryoutNilai, bukan Pengerjaan
         $load['riwayat_pengerjaan'] = TryoutNilai::where('user_id', $user->id)

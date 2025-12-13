@@ -47,6 +47,7 @@
                             <td>{{ $loop->iteration}}</td>
                             <td>{{ $jadwal->mataPelajaran->ref_materi_judul ?? ''}}</td>
                             <td>{{ $jadwal->guru->name ?? ''}}</td>
+                            <td>{{ $jadwal->jadwal_cendekia_hari ?? ''}}</td>
                             <td>{{ $jadwal->jadwal_mulai}}</td>
                             <td>{{ $jadwal->jadwal_selesai}}</td>
                         </tr>
