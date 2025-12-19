@@ -22,7 +22,7 @@
                     <div class="flex-shrink-0">
                         <div class="d-flex gap-2">
 
-                            <a href="{{ route('panel.bank_soal.index')}}" class="btn btn-primary btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+                            <a href="{{ route('panel.bank_soal.index')}}" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
                         </div>
                     </div>
                 </div>

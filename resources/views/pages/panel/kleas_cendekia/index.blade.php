@@ -14,10 +14,22 @@
     .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
         line-height: 36px !important;
         padding-left: 12px !important;
+        /* Tambahan: Agar teks di kotak input tidak tumpah tapi jadi titik-titik */
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
 
     .select2-container--bootstrap-5 .select2-selection--single .select2-selection__arrow {
         height: 36px !important;
+    }
+
+    /* === BARU: PAKSA TEKS DI DROPDOWN TURUN KE BAWAH (WRAPPED) === */
+    .select2-container--bootstrap-5 .select2-dropdown .select2-results__option {
+        white-space: normal !important;      /* Mengizinkan baris baru */
+        word-wrap: break-word !important;   /* Memutus kata jika kepanjangan */
+        line-height: 1.4 !important;        /* Jarak baris agar tidak rapat */
+        padding: 8px 12px !important;       /* Ruang napas teks */
     }
 
     .form-control,
@@ -35,7 +47,6 @@
         height: 38px !important;
     }
 </style>
-@endsection
 
 @section('content')
 @component('components.breadcrumb')
@@ -98,12 +109,12 @@
                             </select>
                         </div>
                         @endif
-                        <div class="col-lg-2 col-sm-4 d-flex gap-2">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light flex-fill" style="height: 38px;">
-                                <i class="ri-search-line align-middle me-1"></i> Cari
+                        <div class="col-lg-2 btn-filter-group d-flex gap-1">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light flex-fill">
+                                <i class="ri-search-line align-middle"></i> Cari
                             </button>
-                            <a href="{{ route('panel.kelas_cendekia.index') }}" class="btn btn-danger waves-effect waves-light flex-fill" style="height: 38px;">
-                                <i class="ri-restart-line align-middle me-1"></i> Reset
+                            <a href="{{ route('panel.kelas_cendekia.index') }}" class="btn btn-danger waves-effect waves-light flex-fill">
+                                <i class="ri-restart-line align-middle"></i> Reset
                             </a>
                         </div>
 

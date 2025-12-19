@@ -24,7 +24,7 @@
                     <div class="flex-shrink-0">
                         @if(!$peserta->tryout_peserta_status)
                         <a href="javascript:;" class="btn rounded-pill btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#approva-peserta-modal">
-                            <i class="fa fa-check"></i> Konfrimasi
+                            <i class="fa fa-check"></i> Konfirmasi
                         </a>
                         <a href="javascript:;" class="btn rounded-pill btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancel-peserta-modal">
                             <i class="fa fa-check"></i> Batal
