@@ -185,7 +185,7 @@ class UserController extends Controller
             // Simpan file
             $file->storeAs($directory, $fileName);
 
-            $file = $directory . '/' . $fileName;
+            $file = 'uploads/avatar/' . $fileName;
 
             //dd($upload);
             $user->update(['avatar' => $file]);

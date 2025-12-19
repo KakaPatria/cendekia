@@ -416,8 +416,8 @@ html {
 
 /* Tryout Cards */
 #tryout .card:not(.inquiry-box),
-#tryout .card:not(.inquiry-box) * {
-  color: #2c3e50 !important;
+#tryout .card:not(.inquiry-box) {
+  color: #128C7E !important;
   background-color: #ffffff !important;
 }
 
@@ -500,6 +500,18 @@ html {
   object-fit: cover;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+}
+
+/* Button Daftar Sekarang - Hijau */
+#tryout .card-footer a.w-100 {
+  background-color: #2c3e50 !important;
+  border-color: #2c3e50 !important;
+  color: #ffffff !important;
+}
+
+#tryout .card-footer a.w-100:hover {
+  background-color: #128C7E !important;
+  border-color: #128C7E !important;
 }
 
 /* ==========================================

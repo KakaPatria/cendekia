@@ -95,6 +95,32 @@
     .bottom-link a:hover {
         color: #f8f9fa !important;
     }
+
+    /* ===== Disable native password reveal Edge ===== */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+        display: none;
+    }
+
+    /* Fix tampilan icon eye agar tidak seperti link */
+    .password-addon {
+        text-decoration: none !important;
+        color: #6c757d !important; /* abu-abu halus seperti sebelumnya */
+    }
+
+    .password-addon:hover,
+    .password-addon:focus,
+    .password-addon:active {
+        text-decoration: none !important;
+        color: #495057 !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    .password-addon i {
+        font-size: 1.1rem;
+        pointer-events: none;
+    }
 </style>
 @endsection
 @section('content')
@@ -132,7 +158,14 @@
                                         <label class="form-label" for="password-input">Password</label>
                                         <div class="position-relative auth-pass-inputgroup">
                                             <input type="password" class="form-control form-control-lg pe-5 password-input" name="password" placeholder="Masukkan password" id="password-input" required>
-                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button"><i class="ri-eye-fill align-middle"></i></button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-link position-absolute end-0 top-50 translate-middle-y password-addon"
+                                                style="z-index: 5;"
+                                            >
+                                                <i class="ri-eye-fill align-middle"></i>
+                                            </button>
+
                                         </div>
                                     </div>
 

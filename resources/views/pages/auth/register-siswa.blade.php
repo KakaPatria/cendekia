@@ -216,12 +216,12 @@
                 </div>
             </form>
             
-            <div class="form-footer">
+            <divter">
                 <p class="text-muted">Sudah punya akun? <a href="{{ route('login') }}" class="fw-bold text-decoration-underline" style="color: var(--primary-red);">Masuk</a></p>
             </div>
         </div>
     </div>
-</div>
+</div> class="form-foo
 @endsection
 
 @section('script')

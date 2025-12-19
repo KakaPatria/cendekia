@@ -34,7 +34,7 @@
                     <br> Telepon : {{ Auth::user()->telepon}}
                     <br> Email : {{ Auth::user()->email}}
                     <br> Nama Orangtua : {{ Auth::user()->nama_orang_tua}}
-                    <br> Telepon Orangtua : {{ Auth::user()->tlp_orang_tua}}
+                    <br> Telepon Orangtua : {{ Auth::user()->telp_orang_tua}}
                 </p> 
                 <div class="hstack text-white-50 gap-1">
                     <div class="me-2"><i class="ri-map-pin-user-line me-1 text-white-75 fs-16 align-middle"></i>{{ Auth::user()->alamat}}</div>
