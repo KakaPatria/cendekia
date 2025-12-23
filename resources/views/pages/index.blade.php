@@ -1651,7 +1651,7 @@ footer .copy-rights,
 </div>
         
         <div class="card-footer border-top border-top-dashed mt-auto text-center">
-            <a href="{{ route('daftar_tryout',$value->tryout_id) }}" class="btn btn-primary waves-effect waves-light w-100">Daftar Sekarang</a>
+            <a href="{{ route('login')}}" class="btn btn-primary waves-effect waves-light w-100">Daftar Sekarang</a>
         </div>
     </div>
 </div>
