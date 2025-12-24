@@ -1198,109 +1198,220 @@ footer .copy-rights,
         <!-- end navbar -->
 
         <!-- start hero section -->
-        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:115px;">
-            <div class="container">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-lg-6">
-                        <div>
-                            <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">Lembaga Bimbingan Belajar Cendekia Yogyakarta</h1>
-                            <p class="lead text-muted lh-base mb-4">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
-                          <div class="mb-4"> 
-                          <a href="https://lbbcendekia.com/" target="_blank" class="btn btn-warning btn-lg waves-effect waves-light shadow-lg" style="font-weight: 600; background: #E2B602 !important; border: none !important; color: #980000 !important; box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;">
-                              <i class="ri-globe-line align-bottom me-2 fs-5"></i> KUNJUNGI WEBSITE RESMI CENDEKIA
-                          </a>
-                      </div>
-                        </div>
-                    </div>
-                    <!--end col-->
-                    <div class="col-lg-5">
-                    <div class="position-relative home-img text-center mt-3 mt-lg-0">
-                        <div id="draggable-wa" class="card p-2 w-80 rounded shadow-lg inquiry-box" style="cursor: grab; touch-action: none; user-select: none;">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar-sm flex-shrink-0 me-3">
-                                    <div class="avatar-title bg-soft-warning text-warning rounded fs-18">
-                                        <i class="ri-whatsapp-line"></i>
-                                    </div>
-                                </div>
-                                <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="text-white text-decoration-none">
-                                    <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
-                                </a>
-                            </div>
-                        </div>
-                        <script>
-                            const box = document.getElementById("draggable-wa");
-                            let isDragging = false;
-                            let offsetX, offsetY;
-
-                            box.addEventListener("mousedown", (e) => {
-                                isDragging = true;
-                                // Hitung selisih posisi mouse dengan posisi box
-                                offsetX = e.clientX - box.getBoundingClientRect().left;
-                                offsetY = e.clientY - box.getBoundingClientRect().top;
-                                box.style.cursor = "grabbing";
-                                box.style.position = "fixed"; // Ubah jadi fixed agar bisa keluar dari kolom
-                                box.style.zIndex = "9999";
-                            });
-
-                            document.addEventListener("mousemove", (e) => {
-                                if (!isDragging) return;
-                                
-                                // Update posisi box mengikuti mouse
-                                box.style.left = (e.clientX - offsetX) + "px";
-                                box.style.top = (e.clientY - offsetY) + "px";
-                                box.style.margin = "0"; // Reset margin agar tidak lari
-                            });
-
-                            document.addEventListener("mouseup", () => {
-                                isDragging = false;
-                                box.style.cursor = "grab";
-                            });
-
-                            // Support untuk layar sentuh (HP)
-                            box.addEventListener("touchstart", (e) => {
-                                isDragging = true;
-                                const touch = e.touches[0];
-                                offsetX = touch.clientX - box.getBoundingClientRect().left;
-                                offsetY = touch.clientY - box.getBoundingClientRect().top;
-                                box.style.position = "fixed";
-                            });
-
-                            box.addEventListener("touchmove", (e) => {
-                                if (!isDragging) return;
-                                const touch = e.touches[0];
-                                box.style.left = (touch.clientX - offsetX) + "px";
-                                box.style.top = (touch.clientY - offsetY) + "px";
-                            });
-
-                            box.addEventListener("touchend", () => {
-                                isDragging = false;
-                            });
-                        </script>
-
-
-
-                            <div class="image-stack">
-                              <img src="{{URL::asset('assets/images/lp-base.png')}}" alt="gambar bawah" class="img-bottom" class="user-img" style="margin-left: 25px;">
-                              <img src="{{URL::asset('assets/images/lp4.png')}}" alt="gambar atas" class="img-top">
-                            </div>
-                      
-
-                            {{-- Circle decoration (dinonaktifkan sementara)
-                            <div class="circle-effect">
-                                <div class="circle"></div>
-                                <div class="circle2"></div>
-                                <div class="circle3"></div>
-                                <div class="circle4"></div>
-                            </div>
-                            --}}
-                        </div>
+        <section class="section job-hero-section bg-light pb-0" id="hero" style="padding-top:115px; position: relative;">
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-lg-6">
+                <div>
+                    <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">Lembaga Bimbingan Belajar Cendekia Yogyakarta</h1>
+                    <p class="lead text-muted lh-base mb-4">Lembaga Bimbingan Belajar Cendekia adalah bimbingan belajar yang melayani kebutuhan belajar dengan Kurikulum Merdeka. Program pembelajaran difokuskan pada penguasaan konsep sekaligus strategi praktis dalam penyelesaian soal, serta pengembangan tipe-tipe soal untuk menghadapi asesmen daerah. Proses belajar didampingi oleh tentor senior berpengalaman yang telah menulis soal ujian nasional, baik di tingkat provinsi maupun nasional.</p>
+                    <div class="mb-4"> 
+                        <a href="https://lbbcendekia.com/" target="_blank" class="btn btn-warning btn-lg waves-effect waves-light shadow-lg" style="font-weight: 600; background: #E2B602 !important; border: none !important; color: #980000 !important; box-shadow: 0 4px 15px rgba(226, 182, 2, 0.4) !important;">
+                            <i class="ri-globe-line align-bottom me-2 fs-5"></i> KUNJUNGI WEBSITE RESMI CENDEKIA
+                        </a>
                     </div>
                 </div>
-                <!-- end row -->
             </div>
-            <!-- end container -->
-        </section>
-        <!-- end hero section -->
+            <!--end col-->
+            <div class="col-lg-5">
+                <div class="position-relative home-img text-center mt-3 mt-lg-0">
+                    <div class="image-stack">
+                        <img src="{{URL::asset('assets/images/lp-base.png')}}" alt="gambar bawah" class="img-bottom" class="user-img" style="margin-left: 25px;">
+                        <img src="{{URL::asset('assets/images/lp4.png')}}" alt="gambar atas" class="img-top">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+
+    <!-- Button Hubungi Kami yang bisa di-drag di hero section -->
+    <div id="draggable-wa" class="card p-2 rounded shadow-lg inquiry-box" style="position: absolute; top: 100px; left: 50%; transform: translateX(-50%); cursor: grab; touch-action: none; user-select: none; z-index: 999; width: auto; transition: all 0.4s ease;">
+        <div class="d-flex align-items-center">
+            <div class="avatar-sm flex-shrink-0 me-3">
+                <div class="avatar-title bg-success text-white rounded fs-18">
+                    <i class="ri-whatsapp-line"></i>
+                </div>
+            </div>
+            <a href="https://bit.ly/WA-CENDEKIA-LIA" target="_blank" class="text-dark text-decoration-none">
+                <h5 class="fs-15 lh-base mb-0">Hubungi Kami</h5>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const box = document.getElementById("draggable-wa");
+        const heroSection = document.getElementById("hero");
+        let isDragging = false;
+        let offsetX, offsetY;
+        let isInHeroMode = true; // Track mode: hero atau fixed
+        let userDraggedPosition = null; // Simpan posisi yang di-drag user
+
+        // Posisi default di hero section
+        const heroPosition = {
+            position: 'absolute',
+            top: '100px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            bottom: 'auto',
+            right: 'auto'
+        };
+
+        // Posisi fixed di bawah (di atas back to top button)
+        const fixedPosition = {
+            position: 'fixed',
+            bottom: '80px', // Di atas back to top button (sesuaikan dengan posisi back to top Anda)
+            right: '20px',
+            top: 'auto',
+            left: 'auto',
+            transform: 'none'
+        };
+
+        // Fungsi untuk cek apakah hero section terlihat
+        function isHeroVisible() {
+            const heroRect = heroSection.getBoundingClientRect();
+            return heroRect.bottom > 0; // Hero masih terlihat di viewport
+        }
+
+        // Fungsi untuk apply posisi
+        function applyPosition(positionObj) {
+            Object.keys(positionObj).forEach(key => {
+                box.style[key] = positionObj[key];
+            });
+        }
+
+        // Handle scroll event
+        function handleScroll() {
+            if (isDragging) return; // Jangan ubah posisi saat sedang drag
+
+            const heroVisible = isHeroVisible();
+
+            if (heroVisible && !isInHeroMode) {
+                // Kembali ke hero section
+                isInHeroMode = true;
+                box.style.transition = 'all 0.4s ease';
+                
+                if (userDraggedPosition) {
+                    // Kembali ke posisi yang di-drag user
+                    applyPosition(userDraggedPosition);
+                } else {
+                    // Kembali ke posisi default
+                    applyPosition(heroPosition);
+                }
+            } else if (!heroVisible && isInHeroMode) {
+                // Pindah ke mode fixed di bawah
+                isInHeroMode = false;
+                box.style.transition = 'all 0.4s ease';
+                applyPosition(fixedPosition);
+            }
+        }
+
+        // Event listener untuk scroll
+        window.addEventListener("scroll", handleScroll);
+
+        // Mouse drag events
+        box.addEventListener("mousedown", (e) => {
+            // Jangan drag jika klik pada link atau sedang dalam mode fixed
+            if (e.target.closest('a') || !isInHeroMode) return;
+            
+            isDragging = true;
+            const rect = box.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            box.style.cursor = "grabbing";
+            box.style.transition = "none";
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (!isDragging || !isInHeroMode) return;
+            
+            const heroRect = heroSection.getBoundingClientRect();
+            const boxRect = box.getBoundingClientRect();
+            
+            // Hitung posisi baru relatif terhadap hero section
+            let newLeft = e.clientX - heroRect.left - offsetX;
+            let newTop = e.clientY - heroRect.top - offsetY;
+            
+            // Batasi agar tidak keluar dari hero section
+            newLeft = Math.max(0, Math.min(newLeft, heroRect.width - boxRect.width));
+            newTop = Math.max(0, Math.min(newTop, heroRect.height - boxRect.height));
+            
+            box.style.left = newLeft + "px";
+            box.style.top = newTop + "px";
+            box.style.transform = "none";
+            
+            // Simpan posisi yang di-drag user
+            userDraggedPosition = {
+                position: 'absolute',
+                top: newTop + 'px',
+                left: newLeft + 'px',
+                transform: 'none',
+                bottom: 'auto',
+                right: 'auto'
+            };
+        });
+
+        document.addEventListener("mouseup", () => {
+            if (isDragging) {
+                isDragging = false;
+                box.style.cursor = "grab";
+            }
+        });
+
+        // Touch events untuk mobile
+        box.addEventListener("touchstart", (e) => {
+            if (e.target.closest('a') || !isInHeroMode) return;
+            
+            isDragging = true;
+            const touch = e.touches[0];
+            const rect = box.getBoundingClientRect();
+            offsetX = touch.clientX - rect.left;
+            offsetY = touch.clientY - rect.top;
+            box.style.transition = "none";
+            e.preventDefault();
+        });
+
+        box.addEventListener("touchmove", (e) => {
+            if (!isDragging || !isInHeroMode) return;
+            
+            const touch = e.touches[0];
+            const heroRect = heroSection.getBoundingClientRect();
+            const boxRect = box.getBoundingClientRect();
+            
+            let newLeft = touch.clientX - heroRect.left - offsetX;
+            let newTop = touch.clientY - heroRect.top - offsetY;
+            
+            newLeft = Math.max(0, Math.min(newLeft, heroRect.width - boxRect.width));
+            newTop = Math.max(0, Math.min(newTop, heroRect.height - boxRect.height));
+            
+            box.style.left = newLeft + "px";
+            box.style.top = newTop + "px";
+            box.style.transform = "none";
+            
+            userDraggedPosition = {
+                position: 'absolute',
+                top: newTop + 'px',
+                left: newLeft + 'px',
+                transform: 'none',
+                bottom: 'auto',
+                right: 'auto'
+            };
+            
+            e.preventDefault();
+        });
+
+        box.addEventListener("touchend", () => {
+            if (isDragging) {
+                isDragging = false;
+            }
+        });
+
+        // Initial check
+        handleScroll();
+    </script>
+</section>
+<!-- end hero section -->
 
 <section class="section" id="informasi" style="padding-top:160px; padding-bottom:160px; background-color: #ffffff;"> 
     <div class="container">
