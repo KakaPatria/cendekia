@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class UserAktifMiddleware
 {
@@ -24,9 +25,14 @@ class UserAktifMiddleware
         }
 
         // Only enforce 'Aktif' status for siswa (legacy roles_id == 1)
-        if (isset($user->roles_id) && $user->roles_id == 1) {
-            if ($user->status !== 'Aktif') {
-                return redirect()->route('siswa.profile.complete');
+        // if profil_siswa table is missing, skip to avoid fatal SQL errors
+        if (Schema::hasTable('profil_siswa') && isset($user->roles_id) && $user->roles_id == 1) {
+            try {
+                if ($user->status !== 'Aktif') {
+                    return redirect()->route('siswa.profile.complete');
+                }
+            } catch (\Throwable $e) {
+                logger()->debug('UserAktifMiddleware skipped due to error: '.$e->getMessage());
             }
         }
         return $next($request);

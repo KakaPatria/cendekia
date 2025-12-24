@@ -76,10 +76,10 @@
                         <div class="row g-3">
                             <div class="col-6">
                                 <h6 class="text-muted text-uppercase fw-semibold mb-3">Alamat Tagih</h6>
-                                <p class="fw-medium mb-2" id="billing-name">{{ $inv->peserta->tryout_peserta_name}}</p>
-                                <p class="text-muted mb-1" id="billing-address-line-1">{{ $inv->peserta->tryout_peserta_alamat}}</p>
-                                <p class="text-muted mb-1"><span>No Telepon: </span><span id="billing-phone-no">{{ $inv->peserta->tryout_peserta_telpon}}</span></p>
-                                <p class="text-muted mb-0"><span>Email: </span><span id="billing-tax-no">{{ $inv->peserta->tryout_peserta_email}} </span> </p>
+                                <p class="fw-medium mb-2" id="billing-name">{{ optional($inv->peserta)->tryout_peserta_name }}</p>
+                                <p class="text-muted mb-1" id="billing-address-line-1">{{ optional($inv->peserta)->tryout_peserta_alamat }}</p>
+                                <p class="text-muted mb-1"><span>No Telepon: </span><span id="billing-phone-no">{{ optional($inv->peserta)->tryout_peserta_telpon }}</span></p>
+                                <p class="text-muted mb-0"><span>Email: </span><span id="billing-tax-no">{{ optional($inv->peserta)->tryout_peserta_email }} </span> </p>
                             </div>
 
                         </div>
