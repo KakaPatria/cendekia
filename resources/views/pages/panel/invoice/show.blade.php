@@ -14,7 +14,7 @@
      @if($invoice->snap_token)
      <a href="javascript:;" id="bayar-btn" class="btn btn-danger btn-sm mb-2"><i class="ri-checkbox-line  align-bottom me-1"></i> Cek Status</a>
      @endif
-     <a href="#" class="btn btn-primary btn-sm mb-2"><i class="  ri-printer-line   align-bottom me-1"></i> Cetak</a>
+     <a href="#" id="print-btn" class="btn btn-primary btn-sm mb-2"><i class="ri-printer-line align-bottom me-1"></i> Cetak</a>
      <div>
          <a href="{{ route('panel.invoices.index')}}" class="btn btn-success btn-sm mb-2"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
      </div>
@@ -304,5 +304,11 @@
          });
 
      });
+
+    // Cetak invoice
+    $('#print-btn').click(function(e) {
+        e.preventDefault();
+        window.print();
+    });
  </script>
  @endsection
