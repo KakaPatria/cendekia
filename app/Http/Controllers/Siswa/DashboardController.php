@@ -14,12 +14,16 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $load['tryout'] = Tryout::where('tryout_kelas', $user->kelas)
+        // Tampilkan tryout aktif untuk kelas siswa.
+        // Jangan difilter oleh batas pendaftaran supaya siswa tetap bisa melihat daftar tryout dan bannernya
+        // (tryout yang sudah lewat deadline bisa ditandai/disable di UI).
+        $load['tryout'] = Tryout::query()
+            ->when($user->kelas, function ($query) use ($user) {
+                return $query->where('tryout_kelas', $user->kelas);
+            })
             ->where('tryout_status', 'Aktif')
-            ->get()
-             ->filter(function ($tryout) {
-                return $tryout->is_can_register;
-            });
+            ->orderByDesc('tryout_register_due')
+            ->get();
              
 
         // [PERBAIKAN] Mengambil data dari TryoutNilai, bukan Pengerjaan
@@ -35,10 +39,7 @@ class DashboardController extends Controller
             $tryouts = Tryout::whereIn('tryout_id', $sessionRecent)
                 ->where('tryout_status', 'Aktif')
                 ->get()
-                ->keyBy('tryout_id')
-                ->filter(function ($tryout) {
-                    return $tryout->is_can_register;
-                });;
+                ->keyBy('tryout_id');
 
             // Kembalikan urutan sesuai session (most recent first)
             $recentOrdered = collect();

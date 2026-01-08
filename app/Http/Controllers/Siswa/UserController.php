@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Siswa;
 
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeMail;
+use App\Models\AsalSekolah;
 use App\Models\User;
 use App\Models\ReferalCode;
 use Illuminate\Http\Request;
@@ -278,6 +279,15 @@ class UserController extends Controller
                 ->withInput();
         }
 
+        // Normalize + ensure master asal_sekolah exists
+        $asalSekolahValue = preg_replace('/\s+/', ' ', trim((string) $request->asal_sekolah));
+        if ($asalSekolahValue !== '') {
+            AsalSekolah::updateOrInsert(
+                ['nama_sekolah' => $asalSekolahValue],
+                ['nama_sekolah' => $asalSekolahValue],
+            );
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -285,7 +295,7 @@ class UserController extends Controller
             'alamat' => $request->alamat,
             'nama_orang_tua' => $request->nama_orang_tua,
             'telp_orang_tua' => $request->telp_orang_tua,
-            'asal_sekolah' => $request->asal_sekolah,
+            'asal_sekolah' => $asalSekolahValue,
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
             'password' => Hash::make($request->password),
@@ -375,12 +385,21 @@ class UserController extends Controller
                 ->withInput();
         }
 
+        // Normalize + ensure master asal_sekolah exists
+        $asalSekolahValue = preg_replace('/\s+/', ' ', trim((string) $request->asal_sekolah));
+        if ($asalSekolahValue !== '') {
+            AsalSekolah::updateOrInsert(
+                ['nama_sekolah' => $asalSekolahValue],
+                ['nama_sekolah' => $asalSekolahValue],
+            );
+        }
+
         $user = User::find($user->id)->update([
             'telepon' => $request->telepon,
             'alamat' => $request->alamat,
             'nama_orang_tua' => $request->nama_orang_tua,
             'telp_orang_tua' => $request->telp_orang_tua,
-            'asal_sekolah' => $request->asal_sekolah,
+            'asal_sekolah' => $asalSekolahValue,
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
         ]);
@@ -461,6 +480,15 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        // Normalize + ensure master asal_sekolah exists
+        $asalSekolahValue = preg_replace('/\s+/', ' ', trim((string) $request->asal_sekolah));
+        if ($asalSekolahValue !== '') {
+            AsalSekolah::updateOrInsert(
+                ['nama_sekolah' => $asalSekolahValue],
+                ['nama_sekolah' => $asalSekolahValue],
+            );
+        }
  
         User::find($user->id)->update([
             'name' => $request->name,
@@ -469,7 +497,7 @@ class UserController extends Controller
             'alamat' => $request->alamat,
             'nama_orang_tua' => $request->nama_orang_tua,
             'telp_orang_tua' => $request->telp_orang_tua,
-            'asal_sekolah' => $request->asal_sekolah,
+            'asal_sekolah' => $asalSekolahValue,
             'jenjang' => $request->jenjang,
             'kelas' => $request->kelas,
         ]);
