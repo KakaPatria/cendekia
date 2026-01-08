@@ -103,7 +103,15 @@ public function library(Request $request)
      */
     public function show($id)
     {
-        $tryout = Tryout::where('tryout_id', $id)->first()->load('materi.refMateri');
+        $tryout = Tryout::where('tryout_id', $id)->first();
+
+        // Jika tryout sudah dihapus/tidak ditemukan, jangan 500.
+        if (!$tryout) {
+            return redirect()->route('siswa.dashboard')
+                ->with('error', 'Tryout tidak ditemukan atau sudah dihapus.');
+        }
+
+        $tryout->load('materi.refMateri');
 
         if ($tryout->tryout_status != 'Aktif') {
             return redirect(route('siswa.tryout.library'))->with('error', "Tryout tidak dapat diakses");
@@ -144,7 +152,18 @@ public function library(Request $request)
             ->where('user_id', $user->id)
             ->where('tryout_peserta_id', $id)
             ->first(); 
+
+        if (!$tryoutPeserta) {
+            return redirect()->route('siswa.tryout.index')
+                ->with('error', 'Data pendaftaran tryout tidak ditemukan.');
+        }
+
         $tryout = Tryout::where('tryout_id', $tryoutPeserta->tryout_id)->first();
+
+        if (!$tryout) {
+            return redirect()->route('siswa.tryout.index')
+                ->with('error', 'Tryout tidak ditemukan atau sudah dihapus.');
+        }
 
 
         $tryout = $tryout->load('materi.refMateri');
