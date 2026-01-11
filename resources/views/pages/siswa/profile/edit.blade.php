@@ -3,6 +3,14 @@
 @section('css')
 <link href="{{ URL::asset('assets/libs/jsvectormap/jsvectormap.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('assets/libs/swiper/swiper.min.css')}}" rel="stylesheet" type="text/css" />
+
+<style>
+/* MATIKAN ICON EYE BAWAAN MICROSOFT EDGE */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+</style>
 @endsection
 @section('content')
 
@@ -152,6 +160,7 @@
 @endsection
 @section('script')
 <script src="{{ URL::asset('assets/js/pages/profile.init.js') }}"></script>
+<script src="{{ URL::asset('assets/js/pages/password-addon.init.js') }}"></script>
 
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 <script>

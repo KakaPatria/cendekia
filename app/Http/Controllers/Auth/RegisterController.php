@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\AsalSekolah;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -51,9 +52,22 @@ class RegisterController extends Controller
             }
         }
 
+        // Normalisasi asal sekolah (trim + reduce spaces). Jika diisi, pastikan juga masuk tabel master asal_sekolah.
+        $asalSekolahValue = null;
+        if ($request->filled('asal_sekolah')) {
+            $normalized = preg_replace('/\s+/', ' ', trim((string) $request->asal_sekolah));
+            if ($normalized !== '') {
+                $asalSekolahValue = $normalized;
+                AsalSekolah::updateOrInsert(
+                    ['nama_sekolah' => $asalSekolahValue],
+                    ['nama_sekolah' => $asalSekolahValue],
+                );
+            }
+        }
+
         // Langkah 2: Simpan data ke tabel 'users' — simpan juga profil siswa ke kolom users (nullable)
         try {
-            DB::transaction(function () use ($request, $kelasValue) {
+            DB::transaction(function () use ($request, $kelasValue, $asalSekolahValue) {
                 // compute next nomor_urut (max existing + 1) — allow null if table empty
                 $nextNomor = (int) optional(DB::table('users')->selectRaw('MAX(nomor_urut) as max')->first())->max;
                 $nextNomor = $nextNomor > 0 ? $nextNomor + 1 : 1;
@@ -66,7 +80,7 @@ class RegisterController extends Controller
                     'status' => 'Aktif',
                     'nomor_urut' => $nextNomor,
                     // siswa fields (nullable)
-                    'asal_sekolah' => $request->asal_sekolah,
+                    'asal_sekolah' => $asalSekolahValue,
                     'jenjang' => $request->jenjang,
                     'kelas' => $kelasValue,
                     'alamat' => $request->alamat,

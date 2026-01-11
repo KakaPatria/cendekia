@@ -14,12 +14,16 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $load['tryout'] = Tryout::where('tryout_kelas', $user->kelas)
+        // Tampilkan tryout aktif untuk kelas siswa.
+        // Jangan difilter oleh batas pendaftaran supaya siswa tetap bisa melihat daftar tryout dan bannernya
+        // (tryout yang sudah lewat deadline bisa ditandai/disable di UI).
+        $load['tryout'] = Tryout::query()
+            ->when($user->kelas, function ($query) use ($user) {
+                return $query->where('tryout_kelas', $user->kelas);
+            })
             ->where('tryout_status', 'Aktif')
-            ->get()
-             ->filter(function ($tryout) {
-                return $tryout->is_can_register;
-            });
+            ->orderByDesc('tryout_register_due')
+            ->get();
              
 
         // [PERBAIKAN] Mengambil data dari TryoutNilai, bukan Pengerjaan
@@ -35,10 +39,16 @@ class DashboardController extends Controller
             $tryouts = Tryout::whereIn('tryout_id', $sessionRecent)
                 ->where('tryout_status', 'Aktif')
                 ->get()
-                ->keyBy('tryout_id')
-                ->filter(function ($tryout) {
-                    return $tryout->is_can_register;
-                });;
+                ->keyBy('tryout_id');
+
+            // Bersihkan session dari tryout yang sudah tidak ada / tidak aktif
+            $cleanRecent = [];
+            foreach ($sessionRecent as $tid) {
+                if (isset($tryouts[$tid])) {
+                    $cleanRecent[] = $tid;
+                }
+            }
+            session()->put('recent_tryouts', array_slice($cleanRecent, 0, 5));
 
             // Kembalikan urutan sesuai session (most recent first)
             $recentOrdered = collect();
@@ -49,15 +59,27 @@ class DashboardController extends Controller
             }
             $load['recent_tryouts'] = $recentOrdered;
         } else {
-            // Recent accesses: gunakan TryoutNilai sebagai proxy untuk tryout yang baru diakses
-            // Ambil entri terbaru per tryout (unique by tryout_id), batasi ke 5
-            $load['recent_tryouts'] = TryoutNilai::where('user_id', $user->id)
-                ->with('masterTryout')
+            // Recent accesses fallback: ambil dari TryoutNilai lalu resolve ke Tryout yang masih ada.
+            $recentTryoutIds = TryoutNilai::where('user_id', $user->id)
                 ->orderBy('updated_at', 'desc')
-                ->get()
-                ->unique('tryout_id')
+                ->pluck('tryout_id')
+                ->unique()
                 ->take(5)
-                ->values();
+                ->values()
+                ->all();
+
+            $tryouts = Tryout::whereIn('tryout_id', $recentTryoutIds)
+                ->where('tryout_status', 'Aktif')
+                ->get()
+                ->keyBy('tryout_id');
+
+            $recentOrdered = collect();
+            foreach ($recentTryoutIds as $tid) {
+                if (isset($tryouts[$tid])) {
+                    $recentOrdered->push($tryouts[$tid]);
+                }
+            }
+            $load['recent_tryouts'] = $recentOrdered;
         }
 
         return view('pages.siswa.dashboard', $load);

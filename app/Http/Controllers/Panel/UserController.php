@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 
 class UserController extends Controller
 {
@@ -44,16 +45,22 @@ class UserController extends Controller
                     if ($role === 'Siswa') {
                         // Only include users that are explicitly Siswa
                         $q->where(function ($qq) {
-                            $qq->whereHas('roles', function ($r) {
-                                $r->where('name', 'Siswa');
-                            })->orWhereIn('roles_id', [1]);;
+                            if (Schema::hasTable('roles')) {
+                                $qq->whereHas('roles', function ($r) {
+                                    $r->where('name', 'Siswa');
+                                });
+                            }
+                            $qq->orWhereIn('roles_id', [1]);
                         });
                     } else {
                         // Admin & Pengajar tab: only include Admin OR Pengajar (legacy ids 2 or 3)
                         $q->where(function ($qq) {
-                            $qq->whereHas('roles', function ($r) {
-                                $r->whereIn('name', ['Admin', 'Pengajar']);
-                            })->orWhereIn('roles_id', [2, 3]);
+                            if (Schema::hasTable('roles')) {
+                                $qq->whereHas('roles', function ($r) {
+                                    $r->whereIn('name', ['Admin', 'Pengajar']);
+                                });
+                            }
+                            $qq->orWhereIn('roles_id', [2, 3]);
                         });
                     }
                 });
@@ -61,8 +68,8 @@ class UserController extends Controller
             ->orderByDesc('created_at')
             ->paginate(10);
 
-        $load['roles'] = Role::get();
-        $load['permissions'] = Permission::get();
+        $load['roles'] = Schema::hasTable('roles') ? Role::get() : collect();
+        $load['permissions'] = Schema::hasTable('permissions') ? Permission::get() : collect();
         $load['keyword'] = $request->keyword;
         $load['filter_role'] = $request->role;
         $load['filter_jenjang'] = $request->jenjang;
@@ -84,8 +91,8 @@ class UserController extends Controller
     {
         $load['title'] = "Tambah User";
         $load['sub_title'] = "";
-        $load['roles'] = Role::latest()->get();
-        $load['permissions'] = Permission::latest()->get();
+        $load['roles'] = Schema::hasTable('roles') ? Role::latest()->get() : collect();
+        $load['permissions'] = Schema::hasTable('permissions') ? Permission::latest()->get() : collect();
         $load['roleX'] = $request->roleX ?? 'Siswa';
 
         return view('pages.panel.user.create', $load);
@@ -101,9 +108,9 @@ class UserController extends Controller
         $load['roleX'] = $request->roleX;
         $load['user'] = $user;
         $load['userRole'] = $user->roles->pluck('name')->toArray();
-        $load['roles'] = Role::latest()->get();
-        $load['permissions'] = Permission::latest()->get();
-        $load['userPermission'] = $user->permissions->pluck('name')->toArray();
+        $load['roles'] = Schema::hasTable('roles') ? Role::latest()->get() : collect();
+        $load['permissions'] = Schema::hasTable('permissions') ? Permission::latest()->get() : collect();
+        $load['userPermission'] = Schema::hasTable('permissions') ? $user->permissions->pluck('name')->toArray() : [];
         //dd($load);
         return view('pages.panel.user.edit', ($load));
     }
@@ -111,7 +118,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        $roleX = $user->roles->pluck('name')->first() ?? '-';
+        $roleX = Schema::hasTable('roles') ? ($user->roles->pluck('name')->first() ?? '-') : '-';
 
         // Ambil semua nilai tryout milik user ini
         $nilaiTryout = \App\Models\TryoutNilai::where('user_id', $user->id)->get();
@@ -185,15 +192,46 @@ class UserController extends Controller
             // Simpan file
             $file->storeAs($directory, $fileName);
 
-            $file = $directory . '/' . $fileName;
+            $file = 'uploads/avatar/' . $fileName;
 
             //dd($upload);
             $user->update(['avatar' => $file]);
         }
         // Only allow the currently authenticated admin to change roles/permissions
         if (Auth::user() && Auth::user()->hasRole('Admin')) {
-            $user->syncRoles($request->get('role'));
-            $user->syncPermissions($request->get('permissions'));
+            try {
+                // Roles
+                $rolesInput = $request->get('role') ?? [];
+                $rolesToSync = is_array($rolesInput) ? $rolesInput : [$rolesInput];
+                foreach ($rolesToSync as $rName) {
+                    if (! empty($rName) && Schema::hasTable('roles') && ! Role::where('name', $rName)->exists()) {
+                        try {
+                            Role::create(['name' => $rName]);
+                            logger()->info('Created missing role: '.$rName);
+                        } catch (\Throwable $e) {
+                            logger()->warning('Failed to create missing role '.$rName.': '.$e->getMessage());
+                        }
+                    }
+                }
+                $user->syncRoles($rolesToSync);
+
+                // Permissions: accept ids or names
+                $permsInput = $request->get('permissions') ?? [];
+                $perms = is_array($permsInput) ? $permsInput : [$permsInput];
+                $permNames = [];
+                if (! empty($perms) && Schema::hasTable('permissions')) {
+                    if (collect($perms)->every(fn($v) => is_numeric($v))) {
+                        $permNames = Permission::whereIn('id', $perms)->pluck('name')->toArray();
+                    } else {
+                        $permNames = $perms;
+                    }
+                    $user->syncPermissions($permNames);
+                }
+            } catch (\Throwable $e) {
+                // Fail gracefully if roles/permissions can't be synced (missing roles table/data)
+                logger()->error('Failed to sync roles/permissions for user '.$user->id.': '.$e->getMessage());
+                return redirect()->back()->with('error', 'Gagal mengatur peran/izin. Periksa konfigurasi role/permission.');
+            }
         }
 
 
@@ -236,21 +274,29 @@ class UserController extends Controller
             ]);
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'telepon' => $request->telepon,
-            'asal_sekolah' => $request->asal_sekolah,
-            'jenjang' => $request->jenjang,
-            //'golongan' => $request->golongan ?? null,
-            'kelas' => $request->kelas,
-            'alamat' => $request->alamat,
-            'nama_orang_tua' => $request->nama_orang_tua,
-            'telp_orang_tua' => $request->telp_orang_tua,
-            'tipe_siswa' => $request->tipe_siswa,
-            'password' => Hash::make($request->password),
+        try {
+            $payload = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'telepon' => $request->telepon,
+                // Siswa-specific fields may be absent for Admin/Pengajar; set to null when missing
+                'asal_sekolah' => $request->asal_sekolah ?? null,
+                'jenjang' => $request->jenjang ?? null,
+                //'golongan' => $request->golongan ?? null,
+                'kelas' => $request->kelas ?? null,
+                'alamat' => $request->alamat ?? null,
+                'nama_orang_tua' => $request->nama_orang_tua ?? null,
+                'telp_orang_tua' => $request->telp_orang_tua ?? null,
+                // Ensure we always set a tipe_siswa so insert doesn't fail on DBs without a default
+                'tipe_siswa' => $request->tipe_siswa ?? 'Umum',
+                'password' => Hash::make($request->password),
+            ];
 
-        ]);
+            $user = User::create($payload);
+        } catch (\Throwable $e) {
+            logger()->error('Failed to create user: '.$e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan user. Periksa konfigurasi database atau log.');
+        }
         //dd($user->id);
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
@@ -274,8 +320,56 @@ class UserController extends Controller
         //die;
 
         $role = $request->get('role') ?? 'Siswa';
-        $user->syncRoles($role);
-        $user->syncPermissions($request->get('permissions'));
+
+        // Only attempt sync if roles/permissions tables exist
+        if (Schema::hasTable('roles')) {
+            // Normalize to array
+            $rolesToSync = is_array($role) ? $role : [$role];
+
+            try {
+                // Ensure roles exist (create missing roles)
+                foreach ($rolesToSync as $rName) {
+                    if (! Role::where('name', $rName)->exists()) {
+                        try {
+                            Role::create(['name' => $rName]);
+                            logger()->info('Created missing role: '.$rName);
+                        } catch (\Throwable $e) {
+                            logger()->warning('Failed to create missing role '.$rName.': '.$e->getMessage());
+                        }
+                    }
+                }
+
+                $user->syncRoles($rolesToSync);
+            } catch (\Throwable $e) {
+                logger()->error('Failed to sync roles for new user '.$user->id.': '.$e->getMessage(), ['roles' => $rolesToSync]);
+                return redirect()->route('panel.user.index', 'role=' . $request->rolex)
+                    ->with('error', 'User ditambahkan tetapi gagal mengatur role/permission.');
+            }
+        } else {
+            logger()->warning('Roles table missing, skipped sync for user '.$user->id);
+        }
+
+        if (Schema::hasTable('permissions')) {
+            try {
+                $permsInput = $request->get('permissions') ?? [];
+                $perms = is_array($permsInput) ? $permsInput : [$permsInput];
+                $permNames = [];
+                if (! empty($perms)) {
+                    if (collect($perms)->every(fn($v) => is_numeric($v))) {
+                        $permNames = Permission::whereIn('id', $perms)->pluck('name')->toArray();
+                    } else {
+                        $permNames = $perms;
+                    }
+                }
+                $user->syncPermissions($permNames);
+            } catch (\Throwable $e) {
+                logger()->error('Failed to sync permissions for new user '.$user->id.': '.$e->getMessage());
+                return redirect()->route('panel.user.index', 'role=' . $request->rolex)
+                    ->with('error', 'User ditambahkan tetapi gagal mengatur role/permission.');
+            }
+        } else {
+            logger()->warning('Permissions table missing, skipped permission sync for user '.$user->id);
+        }
 
         return redirect()->route('panel.user.index', 'role=' . $request->rolex)
             ->withSuccess(('User Berhasil ditambahkan.'));

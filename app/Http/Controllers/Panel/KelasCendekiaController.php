@@ -200,7 +200,7 @@ class KelasCendekiaController extends Controller
             'kelas_cendekia_nama' => 'required|string',
             'kelas_cendekia_keterangan' => 'nullable|',
             'jenjang' => 'required|in:SD,SMP,SMA',
-            'kelas' => 'required|in:1,2,3,4,5,6,7,8,9',
+            'kelas' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
             'status' => 'required|in:Aktif,Tidak Aktif',
         ]);
 

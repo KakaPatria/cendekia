@@ -67,7 +67,13 @@
                     <div class="m-2 p-2">
                         <!-- warning Alert -->
                         <div class="alert alert-warning" role="alert">
-                            Anda belum menyelesaikan pendaftaran silahkan selesaikan <strong><a href="{{ route('siswa.invoice.show',$tryout_peserta->invoice->inv_id)}}">disini</a></strong>
+                            Anda belum menyelesaikan pendaftaran silahkan selesaikan <strong>
+                                @if($tryout_peserta && $tryout_peserta->invoice)
+                                    <a href="{{ route('siswa.invoice.show', $tryout_peserta->invoice->inv_id) }}">disini</a>
+                                @else
+                                    <a href="#" class="disabled">disini</a>
+                                @endif
+                            </strong>
                         </div>
 
                     </div>
@@ -376,10 +382,15 @@
                                         <td>{{ $soal->pengerjaan->point ?? ''}}</td>
                                         <td>{!! $soal->pengerjaan->status_badge ?? '' !!}</td>
                                         <td>
-                                            @if($soal->pengerjaan && $tryout->tampilkan_kunci == 'Ya')
-                                            <a href="{{ route('siswa.tryout.pengerjaan.analisa',$soal->pengerjaan->tryout_pengerjaan_id) }}" class="btn rounded-pill btn-info btn-sm">
-                                                <i class="fa fa-edit"></i> Detail
-                                            </a>
+                                            @if($tryout_peserta && $tryout_peserta->invoice)
+                                                <a href="{{ $tryout_peserta && $tryout_peserta->invoice
+                                                ? route('siswa.tryout.pengerjaan.analisa', $tryout_peserta->invoice->inv_id)
+                                                : '#' }}"
+                                                class="btn rounded-pill btn-info btn-sm {{ !$tryout_peserta || !$tryout_peserta->invoice ? 'disabled' : '' }}">
+                                                    <i class="fa fa-edit"></i> Detail
+                                                </a>
+                                            @else
+                                                <span class="badge bg-secondary">Belum dikerjakan</span>
                                             @endif
                                         </td>
 

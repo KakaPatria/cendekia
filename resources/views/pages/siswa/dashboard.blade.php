@@ -321,7 +321,7 @@
                             @if($t)
                             <a href="{{ route('siswa.tryout.show', $t->tryout_id) }}" class="recent-link-wrapper">
                                 <div class="recent-item">
-                                    <img src="{{ $t->tryout_banner ? Storage::url($t->tryout_banner) : URL::asset('/assets/images/default-thumb.png') }}" alt="thumbnail" class="recent-thumb">
+                                    <img src="{{ ($t->tryout_banner && Storage::exists($t->tryout_banner)) ? ('/storage/' . ltrim(preg_replace('/^public\//', '', $t->tryout_banner), '/')) : '/assets/images/file.png' }}" alt="thumbnail" class="recent-thumb">
                                     <div class="flex-grow-1">
                                         <h6 class="recent-title mb-0">{{ Str::limit($t->tryout_judul, 70) }}</h6>
                                         @if($accessedAt)
@@ -349,8 +349,8 @@
                     <div class="row">
                         @forelse($tryout as $data)
                         <div class="col-md-6 mb-4">
-                            <div class="card tryout-card h-100 {{ $data->is_can_register ? 'disabled' : '' }}">
-                                <img src="{{Storage::url($data->tryout_banner)}}" alt="{{$data->tryout_judul}}" class="card-img-top">
+                            <div class="card tryout-card h-100 {{ !$data->is_can_register ? 'disabled' : '' }}">
+                                <img src="{{ ($data->tryout_banner && Storage::exists($data->tryout_banner)) ? ('/storage/' . ltrim(preg_replace('/^public\//', '', $data->tryout_banner), '/')) : '/assets/images/file.png' }}" alt="{{$data->tryout_judul}}" class="card-img-top">
                                 <div class="card-body d-flex flex-column">
                                     <div class="materi-tags mb-2 d-flex flex-wrap gap-1">
                                         @foreach(collect($data->materi)->take(2) as $materi)

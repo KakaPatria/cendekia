@@ -52,10 +52,16 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        $invoice = Invoice::where('inv_id',$id)->first();
+        $user = auth()->user();
+        // load peserta relation and ensure the invoice belongs to the authenticated user
+        $invoice = Invoice::with('peserta')->where('inv_id', $id)->where('user_id', $user->id)->first();
+
+        if (! $invoice) {
+            return redirect()->route('siswa.invoice.index')->with('error', 'Invoice tidak ditemukan atau Anda tidak memiliki akses.');
+        }
 
         $load['inv'] = $invoice;
-        return view('pages.siswa.invoice.show',$load);
+        return view('pages.siswa.invoice.show', $load);
     }
 
     /**
