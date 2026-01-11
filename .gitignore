@@ -1,5 +1,5 @@
 /node_modules
-/storage
+/storage/app/public/*
 /public/build
 /public/hot
 /public/storage
