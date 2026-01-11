@@ -38,6 +38,8 @@
 
 <!-- JAVASCRIPT -->
 @include('layouts.vendor-scripts')
+<script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const currentUrl = window.location.href;

@@ -5,33 +5,33 @@
                 <!-- LOGO -->
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="{{ route('siswa.dashboard')}}" class="logo logo-dark">
-                    <span class="logo-sm">
-                <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="17">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="40">
-            </span>
+                        <span class="logo-sm">
+                            <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="17">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="40">
+                        </span>
                     </a>
 
                     <a href="{{ route('siswa.dashboard')}}" class="logo logo-light">
                         <span class="logo-sm">
-                <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="17">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="40">
-            </span>
+                            <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="17">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="40">
+                        </span>
                     </a>
                 </div>
 
                 <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
-                    <span class="hamburger-icon">
+                    <span class="hamburger-icon open">
                         <span></span>
                         <span></span>
                         <span></span>
                     </span>
                 </button>
 
-                
+
             </div>
 
 

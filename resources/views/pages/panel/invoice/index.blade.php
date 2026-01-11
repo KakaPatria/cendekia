@@ -74,7 +74,7 @@
                         @forelse($invoices as $invoice)
                         <tr>
                             <td>#{{ $invoice->inv_id }}</td>
-                            <td>{{ $invoice->tryout->tryout_judul }}</td>
+                            <td>{{ $invoice->tryout->tryout_judul ?? '' }}</td>
                             <td>{{ $invoice->peserta->tryout_peserta_name??'' }}</td>
                             <td>Rp.{{ $invoice->amount_rp }}</td>
                             <td>Rp.{{ $invoice->discount_rp }}</td>

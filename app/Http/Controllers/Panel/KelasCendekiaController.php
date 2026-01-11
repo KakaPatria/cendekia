@@ -112,36 +112,39 @@ class KelasCendekiaController extends Controller
         }
 
         foreach ($peserta as $p) {
-            $row = [
-                'nama' => $p->siswa->name,
-                'tryouts' => [],
-            ];
+            if ($p->siswa) {
+                # code...
+                $row = [
+                    'nama' => $p->siswa->name,
+                    'tryouts' => [],
+                ];
 
-            foreach ($tryouts as $t) {
-                $totalNilai = 0;
-                $totalPoint = 0;
-                $count = 0;
+                foreach ($tryouts as $t) {
+                    $totalNilai = 0;
+                    $totalPoint = 0;
+                    $count = 0;
 
-                foreach ($t->materi as $m) {
-                    $item = $nilaiList[$p->siswa_id][$t->tryout_id][$m->tryout_materi_id][0] ?? null;
-                    if ($item) {
-                        $totalNilai += $item->nilai;
-                        $totalPoint += $item->total_point;
-                        $count++;
+                    foreach ($t->materi as $m) {
+                        $item = $nilaiList[$p->siswa_id][$t->tryout_id][$m->tryout_materi_id][0] ?? null;
+                        if ($item) {
+                            $totalNilai += $item->nilai;
+                            $totalPoint += $item->total_point;
+                            $count++;
+                        }
                     }
+
+                    $rataNilai = $count > 0 ? round($totalNilai / $count, 2) : '-';
+                    $totalPoint = $count > 0 ? round($totalPoint, 2) : '-';
+
+                    $row['tryouts'][$t->tryout_id] = [
+                        'judul' => $t->tryout_judul,
+                        'rata_rata' => $rataNilai,
+                        'total_point' => $totalPoint,
+                    ];
                 }
 
-                $rataNilai = $count > 0 ? round($totalNilai / $count, 2) : '-';
-                $totalPoint = $count > 0 ? round($totalPoint, 2) : '-';
-
-                $row['tryouts'][$t->tryout_id] = [
-                    'judul' => $t->tryout_judul,
-                    'rata_rata' => $rataNilai,
-                    'total_point' => $totalPoint,
-                ];
+                $rataRataData[] = $row;
             }
-
-            $rataRataData[] = $row;
         }
 
         foreach ($allMapel as $mapel) {

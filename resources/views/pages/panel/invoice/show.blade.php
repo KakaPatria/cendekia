@@ -85,10 +85,10 @@
                          <div class="row g-3">
                              <div class="col-6">
                                  <h6 class="text-muted text-uppercase fw-semibold mb-3">Alamat Tagih</h6>
-                                 <p class="fw-medium mb-2" id="billing-name">{{ $invoice->peserta->tryout_peserta_name}}</p>
-                                 <p class="text-muted mb-1" id="billing-address-line-1">{{ $invoice->peserta->tryout_peserta_alamat}}</p>
-                                 <p class="text-muted mb-1"><span>No Telepon: </span><span id="billing-phone-no">{{ $invoice->peserta->tryout_peserta_telpon}}</span></p>
-                                 <p class="text-muted mb-0"><span>Email: </span><span id="billing-tax-no">{{ $invoice->peserta->tryout_peserta_email}} </span> </p>
+                                 <p class="fw-medium mb-2" id="billing-name">{{ $invoice->peserta->tryout_peserta_name ?? '-'}}</p>
+                                 <p class="text-muted mb-1" id="billing-address-line-1">{{ $invoice->peserta->tryout_peserta_alamat ?? '-'}}</p>
+                                 <p class="text-muted mb-1"><span>No Telepon: </span><span id="billing-phone-no">{{ $invoice->peserta->tryout_peserta_telpon ?? '-'}}</span></p>
+                                 <p class="text-muted mb-0"><span>Email: </span><span id="billing-tax-no">{{ $invoice->peserta->tryout_peserta_email ?? '-'}} </span> </p>
                              </div>
 
                          </div>
@@ -246,7 +246,7 @@
                              <p class="text-muted mb-0">Email:</p>
                          </div>
                          <div class="flex-grow-1 ms-2">
-                             <h6 class="mb-0">{{ $invoice->peserta->tryout_peserta_email }}</h6>
+                             <h6 class="mb-0">{{ $invoice->peserta->tryout_peserta_email  ?? '-'}}</h6>
                          </div>
                      </div>
                      <div class="d-flex align-items-center mb-2">
@@ -254,7 +254,7 @@
                              <p class="text-muted mb-0">Alamat:</p>
                          </div>
                          <div class="flex-grow-1 ms-2">
-                             <h6 class="mb-0">Rp.{{ $invoice->peserta->tryout_peserta_alamat}}</h6>
+                             <h6 class="mb-0">Rp.{{ $invoice->peserta->tryout_peserta_alamat ?? '-'}}</h6>
                          </div>
                      </div>
                  </div>
