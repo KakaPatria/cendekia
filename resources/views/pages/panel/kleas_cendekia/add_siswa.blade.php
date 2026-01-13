@@ -19,7 +19,7 @@
                          <h5 class="mb-3 fw-bold text-uppercase">{{ $kelas_cendekia->kelas_cendekia_nama}}</h5>
                      </div>
                      <div class="flex-shrink-0">
-                         <a href="{{ route('panel.kelas_cendekia.show',$kelas_cendekia->kelas_cendekia_id)}}" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+                         <a href="{{ route('panel.kelas_cendekia.show',$kelas_cendekia->kelas_cendekia_id)}}" class="btn btn-success btn-sm" onclick="event.preventDefault(); window.location.replace(this.href);"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
                      </div>
                  </div>
              </div>

@@ -196,7 +196,7 @@ Tryout
 </div>
 @endsection
 @section('script')
-<audio id="alert-sound" src="{{ URL::asset('/assets/alert.mp3') }}"></audio>
+<audio id="alert-sound" src="{{ URL::asset('/assets/alert.mp3') }}" preload="auto" playsinline></audio>
 <script src="{{ URL::asset('/assets/js/app.min.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- SmartWizard JavaScript -->
@@ -311,7 +311,7 @@ Tryout
             showCloseButton: true
         }).then(function(result) {
             if (result.value) {
-                window.location.href = "{{ route('siswa.tryout.pengerjaan.selesai',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id] )}}";
+                window.location.replace("{{ route('siswa.tryout.pengerjaan.selesai',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id] )}}");
             }
         });
     })
@@ -333,7 +333,7 @@ Tryout
 
             if (--timer < 0) {
                 clearInterval(timerInterval);
-                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id,'type=1']) }}";
+                window.location.replace("{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id,'type=1']) }}");
             }
         }, 1000);
     }
@@ -361,7 +361,7 @@ Tryout
             showCloseButton: true
         }).then(function(result) {
             if (result.value) {
-                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id] )}}";
+                window.location.replace("{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id] )}}");
             }
         });
     })
@@ -380,18 +380,60 @@ Tryout
             showCloseButton: true
         }).then(function(result) {
             if (result.value) {
-                window.location.href = "{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id] )}}";
+                window.location.replace("{{ route('siswa.tryout.pengerjaan.leave',[$tryout_nilai->tryout_nilai_id,$tryout_peserta_id] )}}");
             }
         });
     });
     <?php if ($tryout_materi->safe_mode) { ?>
-        $(document).on('visibilitychange', function() {
-            if (document.hidden) {
-                console.log('Tab atau jendela lain sedang aktif.');
-                $('#alert-sound')[0].play();
+        const audioEl = document.getElementById('alert-sound');
+        if (audioEl) {
+            audioEl.loop = true;
+        }
+
+        let audioUnlocked = false;
+        let violationActive = false;
+
+        const unlockAudio = () => {
+            if (!audioEl || audioUnlocked) return;
+
+            // "Warm up" audio playback to satisfy autoplay policies.
+            const prevMuted = audioEl.muted;
+            audioEl.muted = true;
+            const p = audioEl.play();
+            if (p && typeof p.then === 'function') {
+                p.then(() => {
+                    audioEl.pause();
+                    audioEl.currentTime = 0;
+                    audioEl.muted = prevMuted;
+                    audioUnlocked = true;
+                }).catch(() => {
+                    // If blocked, we'll try again on the next interaction.
+                    audioEl.muted = prevMuted;
+                });
+            } else {
+                // Older browsers: best effort.
+                try {
+                    audioEl.pause();
+                    audioEl.currentTime = 0;
+                    audioEl.muted = prevMuted;
+                    audioUnlocked = true;
+                } catch (e) {
+                    audioEl.muted = prevMuted;
+                }
+            }
+        };
+
+        // Unlock audio as soon as the user interacts on the page.
+        document.addEventListener('click', unlockAudio, { once: true, capture: true });
+        document.addEventListener('keydown', unlockAudio, { once: true, capture: true });
+        document.addEventListener('touchstart', unlockAudio, { once: true, capture: true });
+
+        const showWarning = (message) => {
+            // Avoid stacking multiple modals.
+            if (!Swal.isVisible()) {
                 Swal.fire({
                     title: "Peringatan !!",
-                    text: "Jangan meninggalkan halaman tryout",
+                    text: message,
                     icon: "warning",
                     showCancelButton: false,
                     confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
@@ -400,11 +442,92 @@ Tryout
                     buttonsStyling: false,
                     showCloseButton: true
                 });
-            } else {
-                $('#alert-sound')[0].pause();
+            }
+        };
 
+        const startAlarm = () => {
+            if (!audioEl) return;
+            try {
+                audioEl.currentTime = 0;
+                const p = audioEl.play();
+                if (p && typeof p.catch === 'function') {
+                    p.catch(() => {
+                        // If play is blocked, it will work after user interaction.
+                    });
+                }
+            } catch (e) {
+                // ignore
+            }
+        };
+
+        const stopAlarm = () => {
+            if (!audioEl) return;
+            try {
+                audioEl.pause();
+                audioEl.currentTime = 0;
+            } catch (e) {
+                // ignore
+            }
+        };
+
+        const isSplitScreen = () => {
+            // Heuristic: window is significantly smaller than available screen.
+            // Works well for Windows split-screen; also catches non-fullscreen.
+            const availW = window.screen?.availWidth || window.screen?.width || 0;
+            const availH = window.screen?.availHeight || window.screen?.height || 0;
+            if (!availW || !availH) return false;
+
+            const w = window.outerWidth || window.innerWidth;
+            const h = window.outerHeight || window.innerHeight;
+
+            const widthRatio = w / availW;
+            const heightRatio = h / availH;
+
+            return widthRatio < 0.85 || heightRatio < 0.85;
+        };
+
+        const triggerViolation = (message) => {
+            if (violationActive) return;
+            violationActive = true;
+            showWarning(message);
+            startAlarm();
+        };
+
+        const clearViolation = () => {
+            violationActive = false;
+            stopAlarm();
+        };
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                triggerViolation('Jangan meninggalkan halaman tryout');
+            } else if (!isSplitScreen() && document.hasFocus()) {
+                clearViolation();
             }
         });
+
+        window.addEventListener('blur', () => {
+            triggerViolation('Jangan berpindah aplikasi saat mengerjakan tryout');
+        });
+
+        window.addEventListener('focus', () => {
+            if (!document.hidden && !isSplitScreen()) {
+                clearViolation();
+            }
+        });
+
+        const checkSplit = () => {
+            if (isSplitScreen()) {
+                triggerViolation('Jangan menggunakan split screen saat mengerjakan tryout');
+            } else if (!document.hidden && document.hasFocus()) {
+                clearViolation();
+            }
+        };
+
+        window.addEventListener('resize', checkSplit);
+        window.addEventListener('orientationchange', checkSplit);
+        setInterval(checkSplit, 1000);
+        checkSplit();
     <?php } ?>
 </script>
 @endsection

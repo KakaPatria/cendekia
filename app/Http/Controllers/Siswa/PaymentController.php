@@ -52,24 +52,39 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Notification handled'], 200);
         }
 
+        $transactionStatus = (string) $request->input('transaction_status', '');
+        $paymentType = (string) $request->input('payment_type', '');
+        $fraudStatus = (string) $request->input('fraud_status', '');
+
+        
         $invoiceStatus = 0;
-        if ($request->transaction_status == 'settlement') {
+        $isPaid = false;
+        if ($transactionStatus === 'settlement') {
             $invoiceStatus = 1;
-        } elseif ($request->transaction_status == 'expire') {
+            $isPaid = true;
+        } elseif ($transactionStatus === 'capture') {
+          
+            if ($fraudStatus === '' || $fraudStatus === 'accept') {
+                $invoiceStatus = 1;
+                $isPaid = true;
+            }
+        } elseif ($transactionStatus === 'expire') {
             $invoiceStatus = 2;
+        } elseif (in_array($transactionStatus, ['cancel', 'deny'], true)) {
+            $invoiceStatus = 3;
         }
 
-        $invoice->status = $request->transaction_status = $invoiceStatus;
-        $invoice->payment_type = $request->payment_type;
+        $invoice->status = $invoiceStatus;
+        $invoice->payment_type = $paymentType;
 
         if ($invoice->payment_type == 'bank_transfer') {
             $invoice->bank = $request->va_numbers[0]['bank'] ?? '';
             $invoice->va_number = $request->va_numbers[0]['va_number'] ?? '';
         }
 
-        if ($request->transaction_status == 'settlement') {
-            $invoice->inv_paid = $request->transaction_time;
-            $invoice->remark = "Dibayar melalui Midtrans dengan status " . $request->transaction_status;
+        if ($isPaid) {
+            $invoice->inv_paid = $request->input('transaction_time');
+            $invoice->remark = "Dibayar melalui Midtrans dengan status " . $transactionStatus;
         }
         $invoice->updated_at = now();
         $invoice->save();
@@ -79,10 +94,11 @@ class PaymentController extends Controller
             ->first();
 
         if ($tryoutPeserta) {
+            // Tryout peserta: 0=Pending, 1=Terdaftar (boleh mengerjakan), 2=Batal
             $statusTryoutPeserta = 0;
-            if ($request->transaction_status == 'settlement') {
+            if ($isPaid) {
                 $statusTryoutPeserta = 1;
-            } elseif ($request->transaction_status == 'expire') {
+            } elseif (in_array($transactionStatus, ['expire', 'cancel', 'deny'], true)) {
                 $statusTryoutPeserta = 2;
             }
             $tryoutPeserta->tryout_peserta_status  = $statusTryoutPeserta;

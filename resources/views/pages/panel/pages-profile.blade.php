@@ -30,8 +30,8 @@
                     <div class="col-md-6 position-relative">
                         {{-- Action buttons fixed to bottom-right inside the card body --}}
                         <div class="position-absolute" style="right:16px; bottom:16px;">
-                            <a href="{{ url()->previous() }}" class="btn btn-secondary me-2">Kembali</a>
-                            <a href="{{ route('panel.user.edit', $user->id) }}" class="btn btn-primary">Edit Profile</a>
+                            <a href="{{ route('panel.dashboard') }}" class="btn btn-secondary me-2">Kembali</a>
+                            <a href="{{ route('panel.user.edit', ['user' => $user->id, 'from' => 'profile']) }}" class="btn btn-primary">Edit Profile</a>
                         </div>
                         {{-- keep some min-height so the buttons have space when content is short --}}
                         <div style="min-height:80px;"></div>
