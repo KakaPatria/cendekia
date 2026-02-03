@@ -235,6 +235,7 @@
 
                         </div>
                     </div>
+                    @if($roleX == 'Siswa')
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Asal Sekolah</label>
                         <div class="col-md-9">
@@ -242,7 +243,7 @@
                             </select>
                         </div>
                     </div>
-                    @if($roleX == 'Siswa')
+                    
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Jenjang</label>
                         <div class="col-md-9">
