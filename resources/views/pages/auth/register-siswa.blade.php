@@ -221,7 +221,7 @@
             </div>
         </div>
     </div>
-</div> class="form-foo
+</div>
 @endsection
 
 @section('script')
