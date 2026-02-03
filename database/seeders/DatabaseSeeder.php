@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             AsalSekolahSeeder::class,
             AdminSeeder::class,
-            GuruSeeder::class,
+            // GuruSeeder::class,
             // SiswaSeeder::class,
             MateriSeeder::class,
             KelasCendekiaSeeder::class,
