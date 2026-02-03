@@ -55,6 +55,7 @@ class AjaxController extends Controller
             $response[] = [
                 'id' => $user->nama_sekolah,
                 'text' => $user->nama_sekolah,
+                'jenjang' => $user->jenjang ?? '',
             ];
         }
 
