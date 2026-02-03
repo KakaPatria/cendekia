@@ -92,8 +92,8 @@
                             <th scope="col" width="15%">Email</th>
                             <th scope="col" width="10%">Nama</th>
                             <th scope="col" width="8%">Telepon</th>
-                            <th scope="col" width="10%">Asal Sekolah</th>
                             @if($roleX == 'Siswa')
+                            <th scope="col" width="10%">Asal Sekolah</th>
                             <th scope="col" width="5%">Jenjang</th>
                             <th scope="col" width="5%">Kelas</th>
                             <th scope="col" width="15%">Alamat</th>
@@ -118,8 +118,8 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->telepon }}</td>
-                            <td>{{ $user->asal_sekolah }}</td>
                             @if($roleX == 'Siswa')
+                            <td>{{ $user->asal_sekolah }}</td>
                             <td>{{ $user->jenjang }}</td>
                             <td>{{ $user->kelas }}</td>
                             <td>{{ $user->alamat }}</td>
@@ -182,7 +182,7 @@
             <tr>
                 @php
                 // count total columns to set proper colspan
-                $colspan = 8; // default columns for Admin & Pengajar (including #, email, name, telepon, asal_sekolah, status, and 2 action columns)
+                $colspan = 7; // default columns for Admin & Pengajar (including #, email, name, telepon, roles, status, and 2 action columns)
                 if ($roleX == 'Siswa') {
                 // #, email, name, telepon, asal_sekolah, jenjang, kelas, alamat, nama_orang_tua, telp_orang_tua, tipe_siswa, status, and 2 action columns
                 $colspan = 14;

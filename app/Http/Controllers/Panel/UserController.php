@@ -41,29 +41,33 @@ class UserController extends Controller
                 return $query->where('tipe_siswa', $request->tipe_siswa);
             })
             ->when($role, function ($query) use ($role) {
-                return $query->where(function ($q) use ($role) {
-                    if ($role === 'Siswa') {
-                        // Only include users that are explicitly Siswa
-                        $q->where(function ($qq) {
-                            if (Schema::hasTable('roles')) {
-                                $qq->whereHas('roles', function ($r) {
-                                    $r->where('name', 'Siswa');
-                                });
-                            }
-                            $qq->orWhereIn('roles_id', [1]);
+                if ($role === 'Siswa') {
+                    // Only include users that are explicitly Siswa
+                    return $query->where(function ($q) {
+                        // Check Spatie roles first
+                        $q->whereHas('roles', function ($r) {
+                            $r->where('name', 'Siswa');
+                        })
+                        // Fallback to legacy roles_id if no Spatie roles
+                        ->orWhere(function ($qq) {
+                            $qq->whereDoesntHave('roles')
+                               ->where('roles_id', 1);
                         });
-                    } else {
-                        // Admin & Pengajar tab: only include Admin OR Pengajar (legacy ids 2 or 3)
-                        $q->where(function ($qq) {
-                            if (Schema::hasTable('roles')) {
-                                $qq->whereHas('roles', function ($r) {
-                                    $r->whereIn('name', ['Admin', 'Pengajar']);
-                                });
-                            }
-                            $qq->orWhereIn('roles_id', [2, 3]);
+                    });
+                } else {
+                    // Admin & Pengajar tab: only include Admin OR Pengajar
+                    return $query->where(function ($q) {
+                        // Check Spatie roles first
+                        $q->whereHas('roles', function ($r) {
+                            $r->whereIn('name', ['Admin', 'Pengajar']);
+                        })
+                        // Fallback to legacy roles_id if no Spatie roles
+                        ->orWhere(function ($qq) {
+                            $qq->whereDoesntHave('roles')
+                               ->whereIn('roles_id', [2, 3]);
                         });
-                    }
-                });
+                    });
+                }
             })
             ->orderByDesc('created_at')
             ->paginate(10);
@@ -173,8 +177,8 @@ class UserController extends Controller
         }
 
         //dd($validated);
-        
-        $user->update($validated); 
+
+        $user->update($validated);
 
 
         if ($request->hasFile('avatar')) {
