@@ -24,7 +24,7 @@
                      <div class="flex-grow-1">
                          <h5 class="mb-3 fw-bold text-uppercase">Detail Kelas</h5>
                      </div>
-                     <div class="flex-shrink-0"> 
+                     <div class="flex-shrink-0">
                          {{-- HANYA Admin yang bisa Hapus Kelas --}}
                          @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2 )
                          <a href="javasript:;" class="btn rounded-pill btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editKelasModal">
@@ -136,114 +136,6 @@
          </div>
      </div>
  </div>
-
- @if($kelas_cendekia->tryouts->count() > 0)
- <div class="row">
-     <div class="col-lg-12">
-         <div class="card" id="">
-             <div class="card-header ">
-                 <div class="align-items-center d-flex">
-                     <div class="flex-grow-1">
-                         <h5 class="mb-3 fw-bold text-uppercase">Riwayat Tryout</h5>
-                     </div>
-                 </div>
-             </div>
-             <div class="card-body">
-                 <ul class="nav nav-tabs mb-3" role="tablist">
-                     <li class="nav-item" role="presentation">
-                         <a class="nav-link active" data-bs-toggle="tab" href="#data_summary" role="tab" aria-selected="true">
-                             Nilai Keseluruhan
-                         </a>
-                     </li>
-                     @foreach($data_detail as $keyDetail => $detail)
-                     <li class="nav-item" role="presentation">
-                         <a class="nav-link" data-bs-toggle="tab" href="#detail-{{ str_replace(' ','-',strtolower($keyDetail))}}" role="tab" aria-selected="false" tabindex="-1">
-                             {{$keyDetail}}
-                         </a>
-                     </li>
-                     @endforeach
-
-                 </ul>
-                 <div class="tab-content  text-muted">
-                     <div class="tab-pane active show" id="data_summary" role="tabpanel">
-                         <div class="table-responsive">
-                             <table class="table table-striped">
-                                 <thead class="table-light">
-                                     <tr>
-                                         <th scope="col" rowspan="2" width="1%">#</th>
-                                         <th scope="col" rowspan="2">Nama siswa</th>
-                                         @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
-                                         <th colspan="2">{{ $tryout->tryout_judul}}</th>
-                                         @endforeach
-                                     </tr>
-                                     <tr>
-                                         @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
-                                         <th>Rata-rata Nilai</th>
-                                         <th>Total Point</th>
-                                         @endforeach
-                                     </tr>
-                                 </thead>
-                                 <tbody>
-                                     @foreach($data_summary as $keySummary => $summary)
-                                     <tr>
-                                         <td>{{ $loop->iteration}}</td>
-                                         <td>{{ $summary['nama'] ?? ''}}</td>
-                                         @foreach($summary['tryouts'] as $keyNilaiSummary => $nilaiSummary)
-                                         <td>{{ $nilaiSummary['rata_rata']}}</td>
-                                         <td>{{ $nilaiSummary['total_point']}}</td>
-                                         @endforeach
-
-                                     </tr>
-                                     @endforeach
-                                 </tbody>
-                             </table>
-                         </div>
-                     </div>
-                     @foreach($data_detail as $keyDetail => $detail)
-                     <div class="tab-pane" id="detail-{{ str_replace(' ','-',strtolower($keyDetail))}}" role="tabpanel">
-                         <div class="tab-pane active show" id="data_summary" role="tabpanel">
-                             <div class="table-responsive">
-                                 <table class="table table-striped">
-                                     <thead class="table-light">
-                                         <tr>
-                                             <th scope="col" rowspan="2" width="1%">#</th>
-                                             <th scope="col" rowspan="2">Nama siswa</th>
-                                             @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
-                                             <th colspan="2">{{ $tryout->tryout_judul}}</th>
-                                             @endforeach
-                                         </tr>
-                                         <tr>
-                                             @foreach($kelas_cendekia->tryouts as $keyTryout => $tryout)
-                                             <th>Rata-rata Nilai</th>
-                                             <th>Total Point</th>
-                                             @endforeach
-                                         </tr>
-                                     </thead>
-                                     <tbody>
-                                         @foreach($detail as $keyDetailNilai => $detailNilai)
-                                         <tr>
-                                             <td>{{ $loop->iteration}}</td>
-                                             <td>{{ $detailNilai['nama'] ?? ''}}</td>
-                                             @foreach($detailNilai['tryouts'] as $keyNilaiDetial => $nilaiDetail)
-                                             <td>{{ $nilaiDetail['nilai']}}</td>
-                                             <td>{{ $nilaiDetail['point']}}</td>
-                                             @endforeach
-
-                                         </tr>
-                                         @endforeach
-                                     </tbody>
-                                 </table>
-                             </div>
-                         </div>
-                     </div>
-                     @endforeach
-
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
- @endif
 
  <div class="modal fade" id="editKelasModal" tabindex="-1" aria-labelledby="editKelasModal-label" aria-hidden="true">
      <div class="modal-dialog modal-lg">
@@ -385,16 +277,17 @@
                      <div class="form-group row mb-3">
                          <label class="col-form-label col-md-3">Jam Mulai</label>
                          <div class="col-md-9">
-                             <input type="text" id="add_jadwal_mulai" name="jadwal_mulai" class="form-control addkelas-timepicker" placeholder="Pilih jam mulai">
-                         </div>
-                     </div>
-                     <div class="form-group row mb-3">
-                         <label class="col-form-label col-md-3">Jam Selesai</label>
-                         <div class="col-md-9">
-                             <input type="text" id="add_jadwal_selesai" name="jadwal_selesai" class="form-control addkelas-timepicker" placeholder="Pilih jam selesai">
-                         </div>
-                     </div>
-
+                            <input type="text" id="add_jadwal_mulai" name="jadwal_mulai" class="form-control" placeholder="Contoh: 14:30" pattern="[0-2][0-9]:[0-5][0-9]" maxlength="5" required>
+                            <small class="text-muted">Format 24 jam (HH:mm), contoh: 08:00 atau 14:30</small>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Jam Selesai</label>
+                        <div class="col-md-9">
+                            <input type="text" id="add_jadwal_selesai" name="jadwal_selesai" class="form-control" placeholder="Contoh: 16:00" pattern="[0-2][0-9]:[0-5][0-9]" maxlength="5" required>
+                            <small class="text-muted">Format 24 jam (HH:mm), contoh: 16:00 atau 20:30</small>
+                        </div>
+                    </div>
                  </form>
 
              </div>
@@ -455,18 +348,16 @@
                      <div class="form-group row mb-3">
                          <label class="col-form-label col-md-3">Jam Mulai</label>
                          <div class="col-md-9">
-                             <input type="text" id="edit_jadwal_mulai" name="jadwal_mulai" class="form-control  " placeholder="Pilih jam mulai">
-                         </div>
-                     </div>
-                     <div class="form-group row mb-3">
-                         <label class="col-form-label col-md-3">Jam Selesai</label>
-                         <div class="col-md-9">
-                             <input type="text" id="edit_jadwal_selesai" name="jadwal_selesai" class="form-control  " placeholder="Pilih jam selesai">
-                         </div>
-                     </div>
-
+                            <input type="text" id="edit_jadwal_mulai" name="jadwal_mulai" class="form-control" placeholder="Contoh: 14:30" pattern="[0-2][0-9]:[0-5][0-9]" maxlength="5" required>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Jam Selesai</label>
+                        <div class="col-md-9">
+                            <input type="text" id="edit_jadwal_selesai" name="jadwal_selesai" class="form-control" placeholder="Contoh: 16:00" pattern="[0-2][0-9]:[0-5][0-9]" maxlength="5" required>
+                        </div>
+                    </div>
                  </form>
-
              </div>
              <div class="modal-footer">
                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
@@ -533,6 +424,153 @@
          SMP: ['7', '8', '9'],
          SMA: ['10', '11', '12']
      };
+
+     // Auto-format input jam dengan format HH:mm
+     function formatTimeInput(input) {
+         let value = input.value.replace(/[^0-9]/g, '');
+         if (value.length >= 2) {
+             value = value.substring(0, 2) + ':' + value.substring(2, 4);
+         }
+         input.value = value;
+     }
+
+     // Validasi format waktu 24 jam
+     function isValidTime(time) {
+         if (!time) return false;
+         const regex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+         if (!regex.test(time)) return false;
+
+         const parts = time.split(':');
+         const hours = parseInt(parts[0]);
+         const minutes = parseInt(parts[1]);
+
+         return hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59;
+     }
+
+     // Event listener untuk auto-format saat mengetik
+     $('#add_jadwal_mulai, #add_jadwal_selesai, #edit_jadwal_mulai, #edit_jadwal_selesai').on('input', function() {
+         formatTimeInput(this);
+     });
+
+     // Validasi jam mulai dan jam selesai untuk form tambah
+     $('#add_jadwal_mulai, #add_jadwal_selesai').on('blur', function() {
+         const value = $(this).val();
+         if (value && !isValidTime(value)) {
+             alert('Format waktu tidak valid! Gunakan format HH:mm (contoh: 08:00 atau 14:30)');
+             $(this).val('').focus();
+             return;
+         }
+
+         const jamMulai = $('#add_jadwal_mulai').val();
+         const jamSelesai = $('#add_jadwal_selesai').val();
+
+         if (jamMulai && jamSelesai && isValidTime(jamMulai) && isValidTime(jamSelesai)) {
+             const timeMulai = jamMulai.split(':');
+             const timeSelesai = jamSelesai.split(':');
+             const minutesMulai = parseInt(timeMulai[0]) * 60 + parseInt(timeMulai[1]);
+             const minutesSelesai = parseInt(timeSelesai[0]) * 60 + parseInt(timeSelesai[1]);
+
+             if (minutesSelesai <= minutesMulai) {
+                 alert('Jam selesai harus lebih besar dari jam mulai!');
+                 if ($(this).attr('id') === 'add_jadwal_selesai') {
+                     $(this).val('').focus();
+                 }
+             }
+         }
+     });
+
+     // Validasi jam mulai dan jam selesai untuk form edit
+     $('#edit_jadwal_mulai, #edit_jadwal_selesai').on('blur', function() {
+         const value = $(this).val();
+         if (value && !isValidTime(value)) {
+             alert('Format waktu tidak valid! Gunakan format HH:mm (contoh: 08:00 atau 14:30)');
+             $(this).val('').focus();
+             return;
+         }
+
+         const jamMulai = $('#edit_jadwal_mulai').val();
+         const jamSelesai = $('#edit_jadwal_selesai').val();
+
+         if (jamMulai && jamSelesai && isValidTime(jamMulai) && isValidTime(jamSelesai)) {
+             const timeMulai = jamMulai.split(':');
+             const timeSelesai = jamSelesai.split(':');
+             const minutesMulai = parseInt(timeMulai[0]) * 60 + parseInt(timeMulai[1]);
+             const minutesSelesai = parseInt(timeSelesai[0]) * 60 + parseInt(timeSelesai[1]);
+
+             if (minutesSelesai <= minutesMulai) {
+                 alert('Jam selesai harus lebih besar dari jam mulai!');
+                 if ($(this).attr('id') === 'edit_jadwal_selesai') {
+                     $(this).val('').focus();
+                 }
+             }
+         }
+     });
+
+     // Validasi sebelum submit form tambah
+     $('#add-materi-form').on('submit', function(e) {
+         const jamMulai = $('#add_jadwal_mulai').val();
+         const jamSelesai = $('#add_jadwal_selesai').val();
+
+         if (!isValidTime(jamMulai)) {
+             e.preventDefault();
+             alert('Format jam mulai tidak valid! Gunakan format HH:mm (contoh: 08:00)');
+             $('#add_jadwal_mulai').focus();
+             return false;
+         }
+
+         if (!isValidTime(jamSelesai)) {
+             e.preventDefault();
+             alert('Format jam selesai tidak valid! Gunakan format HH:mm (contoh: 16:00)');
+             $('#add_jadwal_selesai').focus();
+             return false;
+         }
+
+         if (jamMulai && jamSelesai) {
+             const timeMulai = jamMulai.split(':');
+             const timeSelesai = jamSelesai.split(':');
+             const minutesMulai = parseInt(timeMulai[0]) * 60 + parseInt(timeMulai[1]);
+             const minutesSelesai = parseInt(timeSelesai[0]) * 60 + parseInt(timeSelesai[1]);
+
+             if (minutesSelesai <= minutesMulai) {
+                 e.preventDefault();
+                 alert('Jam selesai harus lebih besar dari jam mulai!');
+                 return false;
+             }
+         }
+     });
+
+     // Validasi sebelum submit form edit
+     $('#edit-materi-form').on('submit', function(e) {
+         const jamMulai = $('#edit_jadwal_mulai').val();
+         const jamSelesai = $('#edit_jadwal_selesai').val();
+
+         if (!isValidTime(jamMulai)) {
+             e.preventDefault();
+             alert('Format jam mulai tidak valid! Gunakan format HH:mm (contoh: 08:00)');
+             $('#edit_jadwal_mulai').focus();
+             return false;
+         }
+
+         if (!isValidTime(jamSelesai)) {
+             e.preventDefault();
+             alert('Format jam selesai tidak valid! Gunakan format HH:mm (contoh: 16:00)');
+             $('#edit_jadwal_selesai').focus();
+             return false;
+         }
+
+         if (jamMulai && jamSelesai) {
+             const timeMulai = jamMulai.split(':');
+             const timeSelesai = jamSelesai.split(':');
+             const minutesMulai = parseInt(timeMulai[0]) * 60 + parseInt(timeMulai[1]);
+             const minutesSelesai = parseInt(timeSelesai[0]) * 60 + parseInt(timeSelesai[1]);
+
+             if (minutesSelesai <= minutesMulai) {
+                 e.preventDefault();
+                 alert('Jam selesai harus lebih besar dari jam mulai!');
+                 return false;
+             }
+         }
+     });
 
      $('#edit-jenjang').change(function() {
          var schoolLevel = $(this).val();
@@ -609,18 +647,12 @@
          $('#edit-hari').val(jadwal_cendekia_hari).change();
          $('#edit_jadwal_mulai').val(jadwal_mulai);
          $('#edit_jadwal_selesai').val(jadwal_selesai);
+    })
 
-     })
-
-     $('.deleteMateriBtn').click(function() {
-         var id = $(this).data('id');
-         var name = $(this).data('name');
-         $('#deleteMateriForm').attr('action', '<?php echo route('panel.kelas_cendekia.destroyMateri', '') ?>/' + id)
-         $('#deleteMateriName').html(name);
-     })
-
-     $('.deleteSiswaBtn').click(function() {
-         var kelas_cendekia_id = $(this).data('kelas_cendekia_id');
+    $('.deleteMateriBtn').click(function() {
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        $('#deleteMateriForm').attr('action', '<?php echo route('panel.kelas_cendekia.destroyMateri', '') ?>/' + id)
          var kelas_siswa_cendekia_id = $(this).data('kelas_siswa_cendekia_id');
          var name = $(this).data('name');
          $('#deleteSiswaForm').attr('action', '<?php echo route('panel.kelas_cendekia.destroySiswa', ['', '']) ?>/' + kelas_cendekia_id + '/' + kelas_siswa_cendekia_id)

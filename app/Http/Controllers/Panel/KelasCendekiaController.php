@@ -66,128 +66,16 @@ class KelasCendekiaController extends Controller
 
     public function Show($kelasCendekiaId)
     {
-        $user = Auth::user();
-
-        $kelasCendekia = KelasCendekia::with('jadwal', 'siswaKelas', 'tryouts')
-            ->find($kelasCendekiaId);
-
-
-
-
-        // ambil tryout urut berdasar waktu
-        $tryouts = Tryout::where('kelas_cendekia_id', $kelasCendekiaId)
-            ->orderBy('created_at', 'asc')
-            ->with(['materi.refMateri'])
-            ->get();
-
-        // ambil peserta
-        $peserta = KelasSiswaCendekia::where('kelas_cendekia_id', $kelasCendekiaId)
-            ->with('siswa')
-            ->get();
-
-        $nilaiList = TryoutNilai::whereIn('tryout_id', $tryouts->pluck('tryout_id'))
-            ->whereIn('user_id', $peserta->pluck('siswa_id'))
-            ->get()
-            ->groupBy(['user_id', 'tryout_id', 'tryout_materi_id']);
-
-
-        $detailData = [];
-        $rataRataData = [];
-        $mapelData = [];
-
-
-        // Ambil semua mapel unik dari semua tryout
-        $allMapel = collect($tryouts)
-            ->flatMap(fn($t) => $t->materi->map(fn($m) => $m->refMateri->ref_materi_judul))
-            ->unique()
-            ->values();
-
-        if ($user->roles_id == 3) {
-            $jadwalGuru = JadwalCendekia::where('kelas_cendekia_id', $kelasCendekiaId)
-                ->where('guru_id', $user->id)
-                ->first();
-            $allMapel =  $allMapel->filter(function ($value) use ($jadwalGuru) {
-                return $value == $jadwalGuru->mataPelajaran->ref_materi_judul;
-            });
-        }
-
-        foreach ($peserta as $p) {
-            if ($p->siswa) {
-                # code...
-                $row = [
-                    'nama' => $p->siswa->name,
-                    'tryouts' => [],
-                ];
-
-                foreach ($tryouts as $t) {
-                    $totalNilai = 0;
-                    $totalPoint = 0;
-                    $count = 0;
-
-                    foreach ($t->materi as $m) {
-                        $item = $nilaiList[$p->siswa_id][$t->tryout_id][$m->tryout_materi_id][0] ?? null;
-                        if ($item) {
-                            $totalNilai += $item->nilai;
-                            $totalPoint += $item->total_point;
-                            $count++;
-                        }
-                    }
-
-                    $rataNilai = $count > 0 ? round($totalNilai / $count, 2) : '-';
-                    $totalPoint = $count > 0 ? round($totalPoint, 2) : '-';
-
-                    $row['tryouts'][$t->tryout_id] = [
-                        'judul' => $t->tryout_judul,
-                        'rata_rata' => $rataNilai,
-                        'total_point' => $totalPoint,
-                    ];
-                }
-
-                $rataRataData[] = $row;
-            }
-        }
-
-        foreach ($allMapel as $mapel) {
-            $mapelData[$mapel] = [];
-
-            foreach ($peserta as $p) {
-                $row = [
-                    'nama' => $p->siswa->name,
-                    'tryouts' => [],
-                ];
-
-                foreach ($tryouts as $t) {
-                    $nilaiItem = null;
-
-                    // cari materi tryout yang sesuai mapel
-                    foreach ($t->materi as $m) {
-                        if ($m->refMateri->ref_materi_judul === $mapel) {
-                            $item = $nilaiList[$p->siswa_id][$t->tryout_id][$m->tryout_materi_id][0] ?? null;
-                            $nilaiItem = $item ? [
-                                'nilai' => $item->nilai,
-                                'point' => $item->total_point,
-                            ] : null;
-                            break;
-                        }
-                    }
-
-                    $row['tryouts'][$t->tryout_id] = [
-                        'judul' => $t->tryout_judul,
-                        'nilai' => $nilaiItem['nilai'] ?? '-',
-                        'point' => $nilaiItem['point'] ?? '-',
-                    ];
-                }
-
-                $mapelData[$mapel][] = $row;
-            }
-        }
-
+        $kelasCendekia = KelasCendekia::with([
+                'jadwal.mataPelajaran',
+                'jadwal.guru',
+                'siswaKelas.siswa'
+            ])
+            ->findOrFail($kelasCendekiaId);
 
         $load['kelas_cendekia'] = $kelasCendekia;
-        $load['data_summary'] = $rataRataData;
-        $load['data_detail'] = $mapelData;
 
-        return view('pages.panel.kleas_cendekia.show', ($load));
+        return view('pages.panel.kleas_cendekia.show', $load);
     }
 
     public function store(Request $request)
