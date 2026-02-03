@@ -76,8 +76,8 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Jenis Jawaban</label>
                                                 <div class="col-sm-10">
-                                                    <select class="form-select mb-3 jenis-soal" name="jenis_soal[{{$soal->tryout_soal_id}}]">
-                                                        <option selected>--Pilih Jenis Soal--</option>
+                                                    <select class="form-select mb-3 jenis-soal" name="jenis_soal[{{$soal->tryout_soal_id}}]" required>
+                                                        <option value="">--Pilih Jenis Soal--</option>
                                                         <option value="SC">Single Choice</option>
                                                         <option value="MCMA">Multiple Choice Multiple Answer</option>
                                                         <option value="TF">Pilihan Ganda Kompleks Kategori</option>
@@ -88,7 +88,7 @@
                                                 <label class="col-sm-2 col-form-label">Jenis Jawaban</label>
                                                 <div class="col-sm-10">
                                                     <select class="form-select mb-3" name="notes[{{$soal->tryout_soal_id}}]">
-                                                        <option selected>--Pilih Jenis Jawaban--</option>
+                                                        <option value="">--Pilih Jenis Jawaban--</option>
                                                         <option value="Benar,Salah">Benar,Salah</option>
                                                         <option value="Setuju,Tidak setuju">Setuju,Tidak setuju</option>
                                                     </select>
@@ -180,7 +180,11 @@
     $('form').on('submit', function(e) {
         e.preventDefault(); // Mencegah submit form langsung
         <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
-            $('#soal-<?= $key ?>').val(quill<?= $key ?>.root.innerHTML)
+            <?php if($tryout_materi->jenis_soal != 'PDF') { ?>
+                if (typeof quill<?= $key ?> !== 'undefined' && quill<?= $key ?>.root) {
+                    $('#soal-<?= $key ?>').val(quill<?= $key ?>.root.innerHTML)
+                }
+            <?php } ?>
         <?php } ?>
 
 
@@ -231,6 +235,7 @@
     $('.jenis-soal').trigger('change');
 
      <?php foreach ($tryout_materi->soal as $key => $soal) { ?>
+        <?php if($tryout_materi->jenis_soal != 'PDF') { ?>
         var quill<?= $key ?> = new Quill('#editor-<?= $key ?>', {
             theme: 'snow',
             modules: {
@@ -280,6 +285,7 @@
                 }
             };
         }
+        <?php } ?>
     <?php } ?>
     // Upload gambar ke server
     function uploadImage(file, quilKey) {

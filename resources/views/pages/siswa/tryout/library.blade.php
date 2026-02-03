@@ -202,7 +202,11 @@
                 <div class="col-lg-4 product-item artwork crypto-card 3d-style ribbon-box ribbon-fill right">
                     <div class="card explore-box card-animate h-100">
                         <div class="explore-place-bid-img">
-                            <img src="/storage/uploads/banner_tryout/1733036999_WhatsApp Image 2023-11-01 at 17.02.40.jpeg" alt="" class="card-img-top explore-img" />
+                            @if($data->tryout_banner)
+                            <img src="{{ asset('storage/' . $data->tryout_banner) }}" alt="{{ $data->tryout_judul }}" class="card-img-top explore-img" />
+                            @else
+                            <img src="{{ asset('assets/images/placeholder-tryout.jpg') }}" alt="{{ $data->tryout_judul }}" class="card-img-top explore-img" />
+                            @endif
                         </div>
                         @if(!$data->is_gratis)
                         <div class="ribbon ribbon-primary"><span>Gratis</span></div>

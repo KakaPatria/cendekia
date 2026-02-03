@@ -207,6 +207,13 @@ Tryout
 
 
 <script>
+    // Setup CSRF Token untuk semua AJAX request
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $('#smartwizard').smartWizard({
         theme: 'dots',
         toolbar: {
@@ -242,6 +249,15 @@ Tryout
                     },
                     error: function(xhr, status, error) {
                         console.log('AJAX error: ' + error);
+                        console.log('Status: ' + xhr.status);
+                        console.log('Response: ' + xhr.responseText);
+                        
+                        // Tandai soal dengan background merah jika ada error
+                        const el = $('#nomor-soal-' + currentStepIdx);
+                        el.removeClass(function(i, c) {
+                            return (c.match(/\bbg-\S+/g) || []).join(' ');
+                        });
+                        el.addClass('bg-danger');
                     }
                 });
             }
@@ -292,10 +308,20 @@ Tryout
             type: 'POST',
             data: data,
             success: function(response) {
-
+                const el = $('#nomor-soal-{{ $tryout_materi->soal->count() - 1 }}');
+                el.removeClass(function(i, c) {
+                    return (c.match(/\bbg-\S+/g) || []).join(' ');
+                });
+                if (response.success) {
+                    el.addClass('bg-success');
+                } else {
+                    el.addClass('bg-warning');
+                }
             },
             error: function(xhr, status, error) {
                 console.log('AJAX error: ' + error);
+                console.log('Status: ' + xhr.status);
+                console.log('Response: ' + xhr.responseText);
             }
         });
         Swal.fire({

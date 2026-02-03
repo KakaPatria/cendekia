@@ -199,7 +199,8 @@ class TryoutController extends Controller
             // Simpan file
             $file->storeAs($directory, $fileName);
 
-            $tryout->tryout_banner = $directory . '/' . $fileName;
+            // Simpan path tanpa 'public/' karena storage link sudah mengarah ke storage/app/public
+            $tryout->tryout_banner = 'uploads/banner_tryout/' . $fileName;
             $tryout->update();
         }
 
@@ -303,7 +304,8 @@ class TryoutController extends Controller
             // Simpan file
             $file->storeAs($directory, $fileName);
 
-            $tryout->tryout_banner = $directory . '/' . $fileName;
+            // Simpan path tanpa 'public/' karena storage link sudah mengarah ke storage/app/public
+            $tryout->tryout_banner = 'uploads/banner_tryout/' . $fileName;
             $tryout->update();
         }
 
