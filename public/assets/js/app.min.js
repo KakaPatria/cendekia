@@ -1108,13 +1108,22 @@ File: Main Js File
 	}
 
 	function updateHorizontalMenus() {
-		document.getElementById("two-column-menu").innerHTML = "";
-		if(document.querySelector(".navbar-menu")){
-		document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+		var twoColumnMenu = document.getElementById("two-column-menu");
+		if (twoColumnMenu) {
+			twoColumnMenu.innerHTML = "";
 		}
-		document.getElementById("scrollbar").removeAttribute("data-simplebar");
-		document.getElementById("navbar-nav").removeAttribute("data-simplebar");
-		document.getElementById("scrollbar").classList.remove("h-100");
+		if(document.querySelector(".navbar-menu")){
+			document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+		}
+		var scrollbar = document.getElementById("scrollbar");
+		var navbarNav = document.getElementById("navbar-nav");
+		if (scrollbar) {
+			scrollbar.removeAttribute("data-simplebar");
+			scrollbar.classList.remove("h-100");
+		}
+		if (navbarNav) {
+			navbarNav.removeAttribute("data-simplebar");
+		}
 
 		var splitMenu = horizontalMenuSplit;
 		var extraMenuName = "More";

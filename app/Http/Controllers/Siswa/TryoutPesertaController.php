@@ -69,7 +69,7 @@ class TryoutPesertaController extends Controller
             return redirect()->route('siswa.tryout.show', $request->tryout_id)
                 ->withSuccess(('Tryout Berhasil terdaftar'));
         } else {
-            $prefix = PrefixNumber::find('Invoice')->first();
+            $prefix = PrefixNumber::find('Invoice');
             $prefix->value = $prefix->value + 1;
 
 

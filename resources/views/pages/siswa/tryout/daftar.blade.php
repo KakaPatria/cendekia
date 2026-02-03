@@ -83,14 +83,14 @@
     $('#nav-tryout').addClass('active');
     
     // Auto reload setelah form submit
-    $('form').on('submit', function(e) {
-        // Biarkan form submit normal
-        // Setelah redirect sukses, halaman akan reload otomatis
+    // $('form').on('submit', function(e) {
+    //     // Biarkan form submit normal
+    //     // Setelah redirect sukses, halaman akan reload otomatis
         
-        // Atau jika ingin reload paksa setelah beberapa detik (backup)
-        setTimeout(function() {
-            location.reload();
-        }, 2000);
-    });
+    //     // Atau jika ingin reload paksa setelah beberapa detik (backup)
+    //     setTimeout(function() {
+    //         location.reload();
+    //     }, 2000);
+    // });
 </script>
 @endsection
