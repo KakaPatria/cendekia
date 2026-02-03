@@ -253,6 +253,13 @@
     }
 }
 
+/* Remove margin-top for page-content in horizontal layout */
+@media (min-width: 1024.1px) {
+    [data-layout=horizontal] .page-content {
+        margin-top: -50px !important;
+    }
+}
+
 </style>
 
 <script>
