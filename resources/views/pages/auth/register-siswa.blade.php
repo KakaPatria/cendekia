@@ -44,10 +44,54 @@
         align-items: flex-start;
         padding: 3rem;
         border-radius: 1rem;
+        will-change: transform;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+    .left-panel::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s infinite;
+        border-radius: 1rem;
+        z-index: 0;
+    }
+    .left-panel.loaded::before {
+        display: none;
+    }
+    .left-panel .logo {
+        position: relative;
+        z-index: 1;
     }
     .left-panel .logo img {
         height: 50px;
         filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .left-panel .logo img.loaded {
+        opacity: 1;
+    }
+    .logo-skeleton {
+        width: 150px;
+        height: 50px;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s infinite;
+        border-radius: 8px;
+        display: inline-block;
+    }
+    .logo-skeleton.hidden {
+        display: none;
+    }
+    @keyframes skeleton-loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
     }
     .right-panel {
         flex: 1;
@@ -133,9 +177,10 @@
 @section('content')
 <div class="auth-page-wrapper">
     <div class="register-container">
-        <div class="left-panel">
+        <div class="left-panel" id="leftPanel">
             <div class="logo">
-                <a href="/"><img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia"></a>
+                <span class="logo-skeleton" id="logoSkeleton"></span>
+                <a href="/"><img src="{{ asset('assets/images/logo-cendikia.png') }}" alt="Logo Cendekia" loading="lazy" decoding="async" id="logoImage"></a>
             </div>
         </div>
 
@@ -329,6 +374,31 @@
         }
         
         jenjangDropdown.addEventListener('change', updateKelasDropdown);
+    });
+
+    // Image loading with skeleton
+    document.addEventListener('DOMContentLoaded', function() {
+        const leftPanel = document.getElementById('leftPanel');
+        const logoImage = document.getElementById('logoImage');
+        const logoSkeleton = document.getElementById('logoSkeleton');
+        
+        // Check if background image is loaded
+        const bgImage = new Image();
+        bgImage.src = "{{ asset('assets/images/COBA-BG-REGIST.png') }}";
+        bgImage.onload = function() {
+            leftPanel.classList.add('loaded');
+        };
+        
+        // Check if logo is loaded
+        if (logoImage.complete) {
+            logoImage.classList.add('loaded');
+            logoSkeleton.classList.add('hidden');
+        } else {
+            logoImage.addEventListener('load', function() {
+                logoImage.classList.add('loaded');
+                logoSkeleton.classList.add('hidden');
+            });
+        }
     });
 </script>
 @endsection
