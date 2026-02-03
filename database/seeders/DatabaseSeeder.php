@@ -14,20 +14,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        //$this->call(RolePermissionSeeder::class);
-        //$this->call(TryoutNilaiSeeder::class);
         $this->call([
-       //GuruSeeder::class,
-       //SiswaSeeder::class,
-       KelasCendekiaSeeder::class,
-       JadwalCendekiaSeeder::class,
-       KelasSiswaCendekiaSeeder::class
-    ]);
+            RolePermissionSeeder::class,
+            AsalSekolahSeeder::class,
+            AdminSeeder::class,
+            GuruSeeder::class,
+            // SiswaSeeder::class,
+            MateriSeeder::class,
+            KelasCendekiaSeeder::class,
+            // JadwalCendekiaSeeder::class,
+            // KelasSiswaCendekiaSeeder::class,
+            // TryoutSeeder::class,
+            // PesertaTryoutSeeder::class,
+            // TryoutNilaiSeeder::class,
+            // SimulasiNilaiKelasCendekia::class,
+        ]);
     }
 }

@@ -18,7 +18,6 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            User::factory()->create(),
             'roles_id' => 1, // default Siswa
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),

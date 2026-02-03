@@ -8,23 +8,20 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('tryout', function (Blueprint $table) {
-            $table->unsignedBigInteger('kelas_cendekia_id')->nullable()->after('tryout_id');
+        Schema::create('asal_sekolah', function (Blueprint $table) {
+            $table->string('nama_sekolah', 255)->primary();
+            $table->string('jenjang', 255);
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        //
+        Schema::dropIfExists('asal_sekolah');
     }
 };

@@ -44,10 +44,13 @@ class KelasSiswaCendekiaSeeder extends Seeder
                 ->where('roles_id', 1)
                 ->first();
 
-            KelasSiswaCendekia::create([
-                'kelas_cendekia_id' => $kelas->kelas_cendekia_id ?? 0,
-                'siswa_id' => $siswa->id,
-            ]);
+            // Only create if both kelas and siswa exist
+            if ($kelas && $siswa) {
+                KelasSiswaCendekia::create([
+                    'kelas_cendekia_id' => $kelas->kelas_cendekia_id,
+                    'siswa_id' => $siswa->id,
+                ]);
+            }
         }
     }
 }

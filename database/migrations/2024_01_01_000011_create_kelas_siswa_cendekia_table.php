@@ -8,13 +8,11 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('kelas_siswa_cendekia', function (Blueprint $table) {
-            $table->id('kelas_siswa_cendekia_id');
+            $table->bigIncrements('kelas_siswa_cendekia_id');
             $table->integer('kelas_cendekia_id');
             $table->integer('siswa_id');
             $table->timestamps();
@@ -23,10 +21,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('kelas_siswa_cendekia');
     }

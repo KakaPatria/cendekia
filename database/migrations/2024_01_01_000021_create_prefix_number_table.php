@@ -8,21 +8,20 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-          Schema::dropIfExists('referal_codes');
+        Schema::create('prefix_number', function (Blueprint $table) {
+            $table->string('id', 55)->primary();
+            $table->integer('value');
+        });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        //
+        Schema::dropIfExists('prefix_number');
     }
 };
