@@ -243,7 +243,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Jenjang</label>
                         <div class="col-md-9">
@@ -311,7 +311,7 @@
                             <select class="form-control" name="role">
                                 <option value="">Select role</option>
                                 @foreach($roles as $role)
-                                <option value="{{ $role->name }}" {{ $role->name == old('role') 
+                                <option value="{{ $role->name }}" {{ $role->name == old('role')
                                     ? 'selected'
                                     : '' }}>{{ $role->name }}</option>
                                 @endforeach
