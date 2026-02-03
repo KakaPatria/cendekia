@@ -129,7 +129,7 @@
 
                             </div>
                         </div>
-                        <div class="form-group row mb-3">
+                        <div class="form-group row mb-3" id="biaya-wrapper">
                             <label class="col-form-label col-md-3">Biaya</label>
 
                             <div class="col-md-9">
@@ -140,7 +140,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row mb-3">
+                        <div class="form-group row mb-3" id="diskon-wrapper">
                             <label class="col-form-label col-md-3">Diskon</label>
 
                             <div class="col-md-9">
@@ -279,6 +279,20 @@
         var jenis = $(this).val();
         if (jenis == 'Gratis') {
             $('#tryout-nominal').val(0);
+            $('#biaya-wrapper').hide();
+            $('#diskon-wrapper').hide();
+        } else if (jenis == 'Berbayar') {
+            $('#biaya-wrapper').show();
+            $('#diskon-wrapper').show();
+        }
+    });
+
+    // Initialize visibility on page load
+    $(document).ready(function() {
+        var jenisValue = $('#add-jenis').val();
+        if (jenisValue == 'Gratis') {
+            $('#biaya-wrapper').hide();
+            $('#diskon-wrapper').hide();
         }
     });
     $('#add-jenjang').change(function() {
