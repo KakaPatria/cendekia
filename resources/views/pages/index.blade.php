@@ -1217,7 +1217,7 @@ footer .copy-rights,
                 <div class="position-relative home-img text-center mt-3 mt-lg-0">
                     <div class="image-stack">
                         <img src="{{URL::asset('assets/images/lp-base.png')}}" alt="gambar bawah" class="img-bottom" class="user-img" style="margin-left: 25px;">
-                        <img src="{{URL::asset('assets/images/lp4.png')}}" alt="gambar atas" class="img-top">
+                        <img src="{{URL::asset('assets/images/lp4.png')}}" alt="gambar atas" class="img-top" loading="lazy">
                     </div>
                 </div>
             </div>
