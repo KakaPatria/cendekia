@@ -22,6 +22,7 @@ class DashboardController extends Controller
                 return $query->where('tryout_kelas', $user->kelas);
             })
             ->where('tryout_status', 'Aktif')
+            ->withCount('peserta') // Hitung jumlah peserta yang mendaftar
             ->orderByDesc('tryout_register_due')
             ->get();
              
