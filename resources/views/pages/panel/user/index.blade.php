@@ -468,6 +468,24 @@
             cache: true
         },
 
+    }).on('select2:select', function(e) {
+        var data = e.params.data;
+        var jenjang = data.jenjang || '';
+        var $jenjangSelect = $('#add-jenjang');
+        var $kelasSelect = $('#add-kelas');
+
+        if (jenjang && jenjang.trim() !== '') {
+            // Jenjang tidak kosong, set value dan disable
+            $jenjangSelect.val(jenjang).prop('disabled', true).trigger('change');
+        } else {
+            // Jenjang kosong, enable untuk input manual
+            $jenjangSelect.val('').prop('disabled', false);
+            $kelasSelect.empty().append('<option value="">Pilih Jenjang Terlebih dahulu</option>').prop('disabled', true);
+        }
+    }).on('select2:clear', function() {
+        // Ketika asal sekolah dihapus, enable kembali jenjang
+        $('#add-jenjang').val('').prop('disabled', false);
+        $('#add-kelas').empty().append('<option value="">Pilih Jenjang Terlebih dahulu</option>').prop('disabled', true);
     });
 </script>
 @endsection

@@ -21,10 +21,10 @@ class AsalSekolahController extends Controller
             return $query->where('nama_sekolah', 'like', "%{$request->keyword}%");
         })
             ->paginate(10);
- 
 
 
-        $load['keyword'] = $request->keyword; 
+
+        $load['keyword'] = $request->keyword;
 
         return view('pages.panel.ref_asal_sekolah.index', ($load));
     }
@@ -48,11 +48,13 @@ class AsalSekolahController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_sekolah' => 'required|string|max:255', 
+            'nama_sekolah' => 'required|string|max:255',
+            'jenjang' => 'required|string|max:255',
         ]);
 
         $user = AsalSekolah::create([
-            'nama_sekolah' => $request->nama_sekolah, 
+            'nama_sekolah' => $request->nama_sekolah,
+            'jenjang' => $request->jenjang,
         ]);
 
         return redirect()->route('panel.asal_sekolah.index')
@@ -78,7 +80,7 @@ class AsalSekolahController extends Controller
      */
     public function edit($id)
     {
-        
+
     }
 
     /**
@@ -91,11 +93,13 @@ class AsalSekolahController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_sekolah' => 'required|string|max:255', 
+            'nama_sekolah' => 'required|string|max:255',
+            'jenjang' => 'required|string|max:255',
         ]);
 
         $user = AsalSekolah::where('nama_sekolah', $id)->update([
-            'nama_sekolah' => $request->nama_sekolah, 
+            'nama_sekolah' => $request->nama_sekolah,
+            'jenjang' => $request->jenjang,
         ]);
 
         return redirect()->route('panel.asal_sekolah.index')
@@ -135,7 +139,7 @@ class AsalSekolahController extends Controller
         $skipped = 0;
 
         foreach ($rows as $index => $row) {
-            // Assume first column contains school name; skip header row if it looks like header
+            // Skip header row if it looks like header
             if ($index == 0) {
                 $firstCell = trim(strtolower((string)($row[0] ?? '')));
                 if (in_array($firstCell, ['nama sekolah', 'nama_sekolah', 'school name', 'name'])) {
@@ -149,10 +153,30 @@ class AsalSekolahController extends Controller
             // Normalize name (trim and reduce spaces)
             $nameNormalized = preg_replace('/\s+/', ' ', $name);
 
+            // Get jenjang from second column, or detect from school name
+            $jenjang = trim((string)($row[1] ?? ''));
+            if (!$jenjang) {
+                // Auto-detect jenjang from school name
+                if (stripos($nameNormalized, 'SD') !== false) {
+                    $jenjang = 'SD';
+                } elseif (stripos($nameNormalized, 'SMP') !== false) {
+                    $jenjang = 'SMP';
+                } elseif (stripos($nameNormalized, 'SMA') !== false) {
+                    $jenjang = 'SMA';
+                } elseif (stripos($nameNormalized, 'SMK') !== false) {
+                    $jenjang = 'SMK';
+                } else {
+                    $jenjang = 'SD'; // Default to SD if can't detect
+                }
+            }
+
             // Insert if not exists
             $exists = AsalSekolah::where('nama_sekolah', $nameNormalized)->exists();
             if (!$exists) {
-                AsalSekolah::create(['nama_sekolah' => $nameNormalized]);
+                AsalSekolah::create([
+                    'nama_sekolah' => $nameNormalized,
+                    'jenjang' => $jenjang
+                ]);
                 $inserted++;
             } else {
                 $skipped++;

@@ -14,5 +14,5 @@ class AsalSekolah extends Model
     public $incrementing = false;
     public $timestamps = false;
 
-    protected $fillable = ['nama_sekolah'];
+    protected $fillable = ['nama_sekolah', 'jenjang'];
 }

@@ -30,7 +30,7 @@
                                 <input type="text" class="form-control search" id="search-task-options" placeholder="Cari ..." name="keyword" value="{{ $keyword }}">
                                 <i class="ri-search-line search-icon"></i>
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-lg-2 col-sm-4">
                             <a href="{{ route('panel.asal_sekolah.index')}}" class="btn btn-danger w-100"> <i class="ri-restart-line  me-1 align-bottom"></i>
                                 Reset
@@ -53,7 +53,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col" width="1%">#</th>
-                                    <th scope="col">Nama Sekolah</th> 
+                                    <th scope="col">Nama Sekolah</th>
                                     <th scope="col" colspan="3" width="10%" class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -62,9 +62,9 @@
                                 <tr>
                                     <td>{{ ($asal_sekolah->currentpage()-1) * $asal_sekolah->perpage() + $loop->index + 1 }}</td>
 
-                                    <td>{{ $data->nama_sekolah }}</td> 
+                                    <td>{{ $data->nama_sekolah }}</td>
                                     <td>
-                                        <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm editBtn" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{route('panel.asal_sekolah.update', $data->nama_sekolah)}}" data-name="{{$data->nama_sekolah}}" >
+                                        <a href="javascript:;" class="btn rounded-pill btn-warning btn-sm editBtn" data-bs-toggle="modal" data-bs-target="#editModal" data-action="{{route('panel.asal_sekolah.update', $data->nama_sekolah)}}" data-name="{{$data->nama_sekolah}}" data-jenjang="{{$data->jenjang}}" >
                                             <i class="fa fa-edit"></i> Edit</a>
                                     </td>
                                     <td><a href="javascript:;" class="btn rounded-pill btn-danger btn-sm deleteBtn" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{$data->nama_sekolah}}" data-name="{{$data->nama_sekolah}}"><i class="fa fa-trash"></i> Hapus</a></td>
@@ -101,10 +101,21 @@
                 <form action="{{route('panel.asal_sekolah.store')}}" method="POST" id="create-form" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group row mb-3">
-                        <label class="col-form-label col-md-3">Asal sekolah</label>
+                        <label class="col-form-label col-md-3">Nama Sekolah</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control mb-2" name="nama_sekolah" value="{{old('nama_sekolah')}}" />
-
+                            <input type="text" class="form-control mb-2" name="nama_sekolah" value="{{old('nama_sekolah')}}" required />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Jenjang</label>
+                        <div class="col-md-9">
+                            <select class="form-select" name="jenjang" required>
+                                <option value="">Pilih Jenjang</option>
+                                <option value="SD" {{ old('jenjang') == 'SD' ? 'selected' : '' }}>SD</option>
+                                <option value="SMP" {{ old('jenjang') == 'SMP' ? 'selected' : '' }}>SMP</option>
+                                <option value="SMA" {{ old('jenjang') == 'SMA' ? 'selected' : '' }}>SMA</option>
+                                <option value="SMK" {{ old('jenjang') == 'SMK' ? 'selected' : '' }}>SMK</option>
+                            </select>
                         </div>
                     </div>
                 </form>
@@ -132,7 +143,12 @@
                                     <label for="import_file" class="form-label">Pilih file (.xlsx, .xls, .csv)</label>
                                     <input class="form-control" type="file" id="import_file" name="import_file" accept=".xlsx,.xls,.csv" required>
                                 </div>
-                                <div class="alert alert-info">Pastikan file memiliki kolom nama sekolah pada kolom pertama. Baris header (jika ada) akan dideteksi dan dilewati.</div>
+                                <div class="alert alert-info">
+                                    <strong>Format file:</strong><br>
+                                    - Kolom 1: Nama Sekolah (wajib)<br>
+                                    - Kolom 2: Jenjang (opsional - jika kosong, akan otomatis terdeteksi dari nama sekolah)<br>
+                                    - Baris header akan otomatis dilewati
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -159,11 +175,21 @@
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Nama Sekolah</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control mb-2" name="nama_sekolah" id="edit-judul" value="{{old('nama_sekolah')}}" />
-
+                            <input type="text" class="form-control mb-2" name="nama_sekolah" id="edit-judul" value="{{old('nama_sekolah')}}" required />
                         </div>
                     </div>
-                    
+                    <div class="form-group row mb-3">
+                        <label class="col-form-label col-md-3">Jenjang</label>
+                        <div class="col-md-9">
+                            <select class="form-select" name="jenjang" id="edit-jenjang" required>
+                                <option value="">Pilih Jenjang</option>
+                                <option value="SD">SD</option>
+                                <option value="SMP">SMP</option>
+                                <option value="SMA">SMA</option>
+                            </select>
+                        </div>
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -207,7 +233,7 @@
 
 
 
-   
+
 
     $('#add-jenjang').change(function() {
         var schoolLevel = $(this).val();
@@ -223,7 +249,7 @@
         }
         $classLevel.trigger('change'); // Trigger change to update select2
     });
- 
+
 
 
 
@@ -237,10 +263,12 @@
 
     $('.editBtn').click(function() {
         var action = $(this).data('action');
-        var name = $(this).data('name'); 
+        var name = $(this).data('name');
+        var jenjang = $(this).data('jenjang');
         $('#edit-form').attr('action', action)
 
-        $('#edit-judul').val(name); 
+        $('#edit-judul').val(name);
+        $('#edit-jenjang').val(jenjang);
     })
 
     // optional: preview selected filename
@@ -251,6 +279,6 @@
         }
     });
 
-    
+
 </script>
 @endsection
