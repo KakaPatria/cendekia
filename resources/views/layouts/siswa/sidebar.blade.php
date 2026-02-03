@@ -1,35 +1,7 @@
 <!-- ========== App Menu ========== -->
 <div class="app-menu navbar-menu" style="background-color: #DBB83E;">
-    <!-- LOGO -->
-    <div class="navbar-brand-box">
-        <!-- Dark Logo-->
-        <a href="index" class="logo logo-dark">
-            <span class="logo-sm">
-                <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="17">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="40">
-            </span>
-        </a>
-        <!-- Light Logo-->
-        <a href="index" class="logo logo-light">
-            <span class="logo-sm">
-                <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="17">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ URL::asset('assets/images/logo-cendikia.png') }}" alt="" height="40">
-            </span>
-        </a>
-        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
-            <i class="ri-record-circle-line"></i>
-        </button>
-    </div>
-
     <div id="scrollbar">
         <div class="container-fluid">
-
-            <div id="two-column-menu">
-            </div>
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link menu-link text-white" 
@@ -92,14 +64,8 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     padding: 8px 0;
     transition: background .25s ease, box-shadow .25s ease;
-}
-
-/* LOGO */
-.navbar-brand-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 6px 0 12px;
+    display: block;
+    position: relative;
 }
 
 /* NAVBAR LIST */
@@ -110,6 +76,7 @@
     gap: 22px;
     padding-left: 0;
     margin: 0;
+    flex-wrap: wrap;
 }
 
 #navbar-nav .nav-item {
@@ -201,4 +168,135 @@
     top: 0 !important;
 }
 
+/* ============================
+   RESPONSIVE MOBILE
+   ============================ */
+@media (max-width: 991px) {
+    .app-menu.navbar-menu {
+        position: fixed;
+        top: -100%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: calc(100vh - 70px);
+        z-index: 1001;
+        transition: top 0.3s ease;
+        overflow-y: auto;
+        padding: 0;
+        margin: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .app-menu.navbar-menu.show {
+        top: 70px;
+    }
+    
+    .container-fluid {
+        padding: 15px;
+    }
+    
+    #navbar-nav {
+        flex-direction: column;
+        gap: 8px;
+        padding: 0;
+        margin: 0;
+    }
+    
+    #navbar-nav .nav-link {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px 20px;
+        border-radius: 8px;
+    }
+    
+    .vertical-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .vertical-overlay.show {
+        display: block;
+        opacity: 1;
+    }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+    .app-menu.navbar-menu {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        display: block !important;
+    }
+    
+    .vertical-overlay {
+        display: none !important;
+    }
+    
+    #topnav-hamburger-icon {
+        display: none !important;
+    }
+    
+    #navbar-nav {
+        flex-direction: row !important;
+        padding: 0 !important;
+    }
+}
+
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('topnav-hamburger-icon');
+    const sidebar = document.querySelector('.app-menu.navbar-menu');
+    const overlay = document.querySelector('.vertical-overlay');
+    
+    if (hamburger && sidebar && overlay) {
+        hamburger.addEventListener('click', function(e) {
+            e.preventDefault();
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+            
+            const icon = this.querySelector('.hamburger-icon');
+            if (icon) {
+                icon.classList.toggle('open');
+            }
+        });
+        
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+            
+            const icon = hamburger.querySelector('.hamburger-icon');
+            if (icon) {
+                icon.classList.remove('open');
+            }
+        });
+        
+        const navLinks = document.querySelectorAll('#navbar-nav .nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 991) {
+                    sidebar.classList.remove('show');
+                    overlay.classList.remove('show');
+                    
+                    const icon = hamburger.querySelector('.hamburger-icon');
+                    if (icon) {
+                        icon.classList.remove('open');
+                    }
+                }
+            });
+        });
+    }
+});
+</script>
