@@ -321,7 +321,11 @@
                             @if($t)
                             <a href="{{ route('siswa.tryout.show', $t->tryout_id) }}" class="recent-link-wrapper">
                                 <div class="recent-item">
-                                    <img src="{{ ($t->tryout_banner && Storage::exists($t->tryout_banner)) ? ('/storage/' . ltrim(preg_replace('/^public\//', '', $t->tryout_banner), '/')) : '/assets/images/file.png' }}" alt="thumbnail" class="recent-thumb">
+                                    @if($t->tryout_banner)
+                                    <img src="{{ asset('storage/' . $t->tryout_banner) }}" alt="thumbnail" class="recent-thumb">
+                                    @else
+                                    <img src="{{ asset('assets/images/placeholder-tryout.jpg') }}" alt="thumbnail" class="recent-thumb">
+                                    @endif
                                     <div class="flex-grow-1">
                                         <h6 class="recent-title mb-0">{{ Str::limit($t->tryout_judul, 70) }}</h6>
                                         @if($accessedAt)
@@ -350,7 +354,11 @@
                         @forelse($tryout as $data)
                         <div class="col-md-6 mb-4">
                             <div class="card tryout-card h-100 {{ !$data->is_can_register ? 'disabled' : '' }}">
-                                <img src="{{ ($data->tryout_banner && Storage::exists($data->tryout_banner)) ? ('/storage/' . ltrim(preg_replace('/^public\//', '', $data->tryout_banner), '/')) : '/assets/images/file.png' }}" alt="{{$data->tryout_judul}}" class="card-img-top">
+                                @if($data->tryout_banner)
+                                <img src="{{ asset('storage/' . $data->tryout_banner) }}" alt="{{ $data->tryout_judul }}" class="card-img-top">
+                                @else
+                                <img src="{{ asset('assets/images/placeholder-tryout.jpg') }}" alt="{{ $data->tryout_judul }}" class="card-img-top">
+                                @endif
                                 <div class="card-body d-flex flex-column">
                                     <div class="materi-tags mb-2 d-flex flex-wrap gap-1">
                                         @foreach(collect($data->materi)->take(2) as $materi)
