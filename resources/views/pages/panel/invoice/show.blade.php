@@ -254,7 +254,7 @@
                              <p class="text-muted mb-0">Alamat:</p>
                          </div>
                          <div class="flex-grow-1 ms-2">
-                             <h6 class="mb-0">Rp.{{ $invoice->peserta->tryout_peserta_alamat ?? '-'}}</h6>
+                             <h6 class="mb-0">{{ $invoice->peserta->tryout_peserta_alamat ?? '-'}}</h6>
                          </div>
                      </div>
                  </div>
