@@ -51,7 +51,8 @@ class PengerjaanController extends Controller
             $nilai->tryout_id = $tryoutMateri->tryout_id;
             $nilai->tryout_materi_id = $id;
             $nilai->user_id = auth()->user()->id;
-            $nilai->soal_total = $tryoutMateri->jumlah_soal;
+            // Gunakan count soal langsung dari database untuk akurasi
+            $nilai->soal_total = $tryoutMateri->soal->count();
             $nilai->soal_dijekerjakan = 0;
             $nilai->status = 'Proses';
             $nilai->mulai_pengerjaan = now();
@@ -85,7 +86,13 @@ class PengerjaanController extends Controller
             'jawaban' => 'required',
         ]);
         $nilai = TryoutNilai::find($id);
-        $nilai->soal_dijekerjakan = $request->soal_nomor;
+        
+        // Hitung jumlah soal yang sudah dikerjakan (count pengerjaan)
+        $jumlahDikerjakan = TryoutPengerjaan::where('tryout_materi_id', $request->tryout_materi_id)
+            ->where('user_id', auth()->user()->id)
+            ->count();
+        
+        $nilai->soal_dijekerjakan = $jumlahDikerjakan;
         $nilai->last_soal_id = $request->tryout_soal_id;
         $nilai->save();
 
@@ -131,7 +138,13 @@ class PengerjaanController extends Controller
             ]);
         }
         $nilai = TryoutNilai::find($id);
-        $nilai->soal_dijekerjakan = $request->soal_nomor;
+        
+        // Hitung jumlah soal yang sudah dikerjakan (count pengerjaan)
+        $jumlahDikerjakan = TryoutPengerjaan::where('tryout_materi_id', $request->tryout_materi_id)
+            ->where('user_id', auth()->user()->id)
+            ->count();
+        
+        $nilai->soal_dijekerjakan = $jumlahDikerjakan;
         $nilai->last_soal_id = $request->tryout_soal_id;
         $nilai->save();
 
@@ -207,6 +220,14 @@ class PengerjaanController extends Controller
                 'status' => $status,
             ]
         );
+        
+        // Update jumlah soal dikerjakan setelah insert/update pengerjaan
+        $nilaiRecord = TryoutNilai::find($id);
+        $jumlahDikerjakanFinal = TryoutPengerjaan::where('tryout_materi_id', $request->tryout_materi_id)
+            ->where('user_id', auth()->user()->id)
+            ->count();
+        $nilaiRecord->soal_dijekerjakan = $jumlahDikerjakanFinal;
+        $nilaiRecord->save();
 
         return response()->json([
             'success' => true,

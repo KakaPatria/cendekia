@@ -35,8 +35,8 @@ class TryoutNilai extends Model
 
     public function getProgresPersenAttribute()
     {
-        if ($this->soal_dijekerjakan && $this->soal_total) {
-            return ($this->soal_dijekerjakan / $this->soal_total) * 100;
+        if ($this->soal_dijekerjakan && $this->soal_total && $this->soal_total > 0) {
+            return round(($this->soal_dijekerjakan / $this->soal_total) * 100, 2);
         }
         return 0;
     }

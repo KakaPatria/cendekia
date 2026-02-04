@@ -79,7 +79,7 @@ class TryoutPesertaController extends Controller
             $peserta->tryout_peserta_status = 1;
             $peserta->update();
 
-            return redirect()->route('siswa.tryout.show', $request->tryout_id)
+            return redirect()->route('siswa.tryout.library')
                 ->withSuccess(('Tryout Berhasil terdaftar'));
         } else {
             $prefix = PrefixNumber::find('Invoice');

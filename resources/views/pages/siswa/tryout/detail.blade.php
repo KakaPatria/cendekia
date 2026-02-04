@@ -147,7 +147,7 @@
                                                     <div>Progres</div>
                                                 </div>
                                                 <div class="flex-shrink-0">
-                                                    <div><i class="ri-list-check align-bottom me-1 text-muted"></i> {{ $materi->nilaiUser->soal_dijekerjakan .'/'.$materi->soal->count()}}</div>
+                                                    <div><i class="ri-list-check align-bottom me-1 text-muted"></i> {{ $materi->nilaiUser->soal_dijekerjakan .'/'.$materi->nilaiUser->soal_total}} ({{ number_format($materi->nilaiUser->progres_persen, 1) }}%)</div>
                                                 </div>
                                             </div>
                                             <div class="progress progress-sm animated-progress">
