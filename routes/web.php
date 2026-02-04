@@ -56,6 +56,10 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register/siswa', 'registerSiswa');
     Route::get('/register/pengajar', 'showPengajarForm')->name('register.pengajar');
     Route::post('/register/pengajar', 'registerPengajar');
+    
+    // Email verification endpoints (send OTP & verify OTP)
+    Route::post('/verify-email', 'verifyEmailRealtime')->name('verify.email.realtime');
+    Route::post('/verify-otp', 'verifyOTP')->name('verify.otp');
 });
 
 // ===========================
