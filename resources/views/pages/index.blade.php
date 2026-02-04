@@ -1711,13 +1711,20 @@ footer .copy-rights,
         </div>
 
         <div class="explore-place-bid-img">
-            <img 
-                src="{{ $value->tryout_banner && Storage::exists($value->tryout_banner) 
-                    ? Storage::url($value->tryout_banner) 
-                    : asset('storage/uploads/tryout_banner/tryoutbanner-nataadibrata.jpg') }}" 
-                alt="banner"
-                class="card-img-top explore-img"
-                style="height: 250px; object-fit: cover; width: 100%;">
+            @if($value->tryout_banner)
+                <img 
+                    src="{{ asset('storage/' . $value->tryout_banner) }}" 
+                    alt="{{ $value->tryout_judul }}"
+                    class="card-img-top explore-img"
+                    style="height: 250px; object-fit: cover; width: 100%;"
+                    onerror="this.onerror=null; this.src='https://via.placeholder.com/400x250/980000/ffffff?text=Tryout+Banner';">
+            @else
+                <img 
+                    src="https://via.placeholder.com/400x250/980000/ffffff?text=Tryout+Banner" 
+                    alt="{{ $value->tryout_judul }}"
+                    class="card-img-top explore-img"
+                    style="height: 250px; object-fit: cover; width: 100%;">
+            @endif
             <div class="bg-overlay"></div>
         </div>
 
