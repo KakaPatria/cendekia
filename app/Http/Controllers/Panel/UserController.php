@@ -221,6 +221,18 @@ class UserController extends Controller
                 }
                 $user->syncRoles($rolesToSync);
 
+                // Update legacy roles_id based on the first synced role
+                if (!empty($rolesToSync) && !empty($rolesToSync[0])) {
+                    $roleName = $rolesToSync[0];
+                    $rolesId = 1; // Default Siswa
+                    if ($roleName == 'Admin') {
+                        $rolesId = 2;
+                    } elseif ($roleName == 'Pengajar') {
+                        $rolesId = 3;
+                    }
+                    $user->update(['roles_id' => $rolesId]);
+                }
+
                 // Permissions: accept ids or names
                 $permsInput = $request->get('permissions') ?? [];
                 $perms = is_array($permsInput) ? $permsInput : [$permsInput];
