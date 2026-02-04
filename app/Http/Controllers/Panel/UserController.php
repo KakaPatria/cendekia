@@ -12,6 +12,8 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Schema;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class UserController extends Controller
 {
@@ -433,5 +435,205 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect(route('panel.login'))->with('success', 'anda berhasil logout.');
+    }
+
+    /**
+     * Download template Excel untuk import siswa
+     */
+    public function downloadTemplate()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        
+        // Header kolom
+        $headers = [
+            'A1' => 'Email',
+            'B1' => 'Nama Lengkap',
+            'C1' => 'Telepon',
+            'D1' => 'Asal Sekolah',
+            'E1' => 'Jenjang',
+            'F1' => 'Kelas',
+            'G1' => 'Alamat',
+            'H1' => 'Nama Orangtua',
+            'I1' => 'Telepon Orangtua',
+            'J1' => 'Tipe Siswa',
+            'K1' => 'Password'
+        ];
+        
+        // Set headers
+        foreach ($headers as $cell => $value) {
+            $sheet->setCellValue($cell, $value);
+            $sheet->getStyle($cell)->getFont()->setBold(true);
+            $sheet->getStyle($cell)->getFill()
+                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                ->getStartColor()->setARGB('FFE0E0E0');
+        }
+        
+        // Contoh data
+        $sheet->setCellValue('A2', 'siswa1@example.com');
+        $sheet->setCellValue('B2', 'Nama Siswa 1');
+        $sheet->setCellValue('C2', '081234567890');
+        $sheet->setCellValue('D2', 'SMA Negeri 1 Jakarta');
+        $sheet->setCellValue('E2', 'SMA');
+        $sheet->setCellValue('F2', '10');
+        $sheet->setCellValue('G2', 'Jl. Contoh No. 123');
+        $sheet->setCellValue('H2', 'Nama Orangtua 1');
+        $sheet->setCellValue('I2', '081234567891');
+        $sheet->setCellValue('J2', 'Cendekia');
+        $sheet->setCellValue('K2', 'password123');
+        
+        // Auto-size kolom
+        foreach (range('A', 'K') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+        
+        // Buat writer
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        
+        // Set nama file
+        $fileName = 'template_import_siswa_' . date('Y-m-d_His') . '.xlsx';
+        
+        // Clear output buffer
+        if (ob_get_contents()) {
+            ob_end_clean();
+        }
+        
+        // Set headers untuk download
+        return response()->streamDownload(function() use ($writer) {
+            $writer->save('php://output');
+        }, $fileName, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Cache-Control' => 'max-age=0',
+        ]);
+    }
+
+    /**
+     * Import siswa dari file Excel
+     */
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,xls|max:10240' // max 10MB
+        ]);
+        
+        try {
+            $file = $request->file('excel_file');
+            $spreadsheet = IOFactory::load($file->getPathname());
+            $sheet = $spreadsheet->getActiveSheet();
+            $rows = $sheet->toArray();
+            
+            // Skip header row
+            $header = array_shift($rows);
+            
+            $imported = 0;
+            $failed = 0;
+            $errors = [];
+            
+            foreach ($rows as $index => $row) {
+                $rowNumber = $index + 2; // +2 karena array dimulai dari 0 dan ada header
+                
+                // Skip baris kosong
+                if (empty(array_filter($row))) {
+                    continue;
+                }
+                
+                try {
+                    // Validasi data
+                    $email = trim($row[0] ?? '');
+                    $name = trim($row[1] ?? '');
+                    $telepon = trim($row[2] ?? '');
+                    $asal_sekolah = trim($row[3] ?? '');
+                    $jenjang = trim($row[4] ?? '');
+                    $kelas = trim($row[5] ?? '');
+                    $alamat = trim($row[6] ?? '');
+                    $nama_orang_tua = trim($row[7] ?? '');
+                    $telp_orang_tua = trim($row[8] ?? '');
+                    $tipe_siswa = trim($row[9] ?? 'Umum');
+                    $password = trim($row[10] ?? 'password123');
+                    
+                    // Validasi required fields
+                    if (empty($email) || empty($name) || empty($telepon)) {
+                        $errors[] = "Baris {$rowNumber}: Email, Nama, dan Telepon harus diisi";
+                        $failed++;
+                        continue;
+                    }
+                    
+                    // Validasi email format
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $errors[] = "Baris {$rowNumber}: Format email tidak valid ({$email})";
+                        $failed++;
+                        continue;
+                    }
+                    
+                    // Cek email sudah ada
+                    if (User::where('email', $email)->exists()) {
+                        $errors[] = "Baris {$rowNumber}: Email sudah terdaftar ({$email})";
+                        $failed++;
+                        continue;
+                    }
+                    
+                    // Validasi jenjang
+                    if (!empty($jenjang) && !in_array($jenjang, ['SD', 'SMP', 'SMA'])) {
+                        $errors[] = "Baris {$rowNumber}: Jenjang harus SD, SMP, atau SMA ({$jenjang})";
+                        $failed++;
+                        continue;
+                    }
+                    
+                    // Validasi tipe siswa
+                    if (!in_array($tipe_siswa, ['Cendekia', 'Umum'])) {
+                        $tipe_siswa = 'Umum';
+                    }
+                    
+                    // Buat user
+                    $user = User::create([
+                        'name' => $name,
+                        'email' => $email,
+                        'telepon' => $telepon,
+                        'asal_sekolah' => $asal_sekolah,
+                        'jenjang' => $jenjang,
+                        'kelas' => $kelas,
+                        'alamat' => $alamat,
+                        'nama_orang_tua' => $nama_orang_tua,
+                        'telp_orang_tua' => $telp_orang_tua,
+                        'tipe_siswa' => $tipe_siswa,
+                        'password' => Hash::make($password),
+                    ]);
+                    
+                    // Assign role Siswa
+                    if (Schema::hasTable('roles')) {
+                        $siswaRole = Role::firstOrCreate(['name' => 'Siswa']);
+                        $user->syncRoles([$siswaRole->name]);
+                    }
+                    
+                    $imported++;
+                    
+                } catch (\Exception $e) {
+                    $errors[] = "Baris {$rowNumber}: " . $e->getMessage();
+                    $failed++;
+                }
+            }
+            
+            // Buat pesan hasil import
+            $message = "Berhasil import {$imported} siswa.";
+            if ($failed > 0) {
+                $message .= " {$failed} data gagal diimport.";
+            }
+            
+            if (!empty($errors)) {
+                $errorMessage = implode('<br>', array_slice($errors, 0, 10)); // Tampilkan max 10 error
+                if (count($errors) > 10) {
+                    $errorMessage .= '<br>... dan ' . (count($errors) - 10) . ' error lainnya';
+                }
+                return redirect()->route('panel.user.index', ['role' => 'Siswa'])
+                    ->with('warning', $message . '<br><br><strong>Detail Error:</strong><br>' . $errorMessage);
+            }
+            
+            return redirect()->route('panel.user.index', ['role' => 'Siswa'])
+                ->with('success', $message);
+                
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Gagal mengimport file: ' . $e->getMessage());
+        }
     }
 }
