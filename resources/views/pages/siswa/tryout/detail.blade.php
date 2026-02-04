@@ -88,7 +88,7 @@
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0  fw-bold flex-grow-1">Detail Tryout</h4>
                 <div class="flex-shrink-0">
-                    <a href="javascript:history.back()" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
+                    <a href="{{ route('siswa.tryout.index') }}" id="back-btn" class="btn btn-success btn-sm"><i class=" ri-arrow-left-line  align-bottom me-1"></i> Kembali</a>
                 </div>
             </div>
             <div class="card-body">

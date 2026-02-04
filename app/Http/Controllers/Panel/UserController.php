@@ -543,12 +543,12 @@ class UserController extends Controller
                     $name = trim($row[1] ?? '');
                     $telepon = trim($row[2] ?? '');
                     $asal_sekolah = trim($row[3] ?? '');
-                    $jenjang = trim($row[4] ?? '');
+                    $jenjang = strtoupper(trim($row[4] ?? '')); // Convert to uppercase untuk jenjang
                     $kelas = trim($row[5] ?? '');
                     $alamat = trim($row[6] ?? '');
                     $nama_orang_tua = trim($row[7] ?? '');
                     $telp_orang_tua = trim($row[8] ?? '');
-                    $tipe_siswa = trim($row[9] ?? 'Umum');
+                    $tipe_siswa_raw = trim($row[9] ?? '');
                     $password = trim($row[10] ?? 'password123');
                     
                     // Validasi required fields
@@ -579,9 +579,33 @@ class UserController extends Controller
                         continue;
                     }
                     
-                    // Validasi tipe siswa
-                    if (!in_array($tipe_siswa, ['Cendekia', 'Umum'])) {
-                        $tipe_siswa = 'Umum';
+                    // Validasi dan normalisasi tipe siswa (fleksibel untuk typo)
+                    $tipe_siswa = 'Umum'; // default
+                    if (!empty($tipe_siswa_raw)) {
+                        $tipe_siswa_clean = strtolower(trim($tipe_siswa_raw));
+                        
+                        // Cek berbagai varian penulisan "Cendekia" dengan typo
+                        // Varian: cendekia, cendikia, cendekiya, cendakia, cendakiya, dll
+                        if (
+                            $tipe_siswa_clean === 'cendekia' ||
+                            $tipe_siswa_clean === 'cendikia' ||
+                            $tipe_siswa_clean === 'cendekiya' ||
+                            $tipe_siswa_clean === 'cendakia' ||
+                            $tipe_siswa_clean === 'cendakiya' ||
+                            $tipe_siswa_clean === 'cendikiya' ||
+                            preg_match('/^cende?[kn]i[ay]a?$/i', $tipe_siswa_clean) ||
+                            (strpos($tipe_siswa_clean, 'cende') === 0 && strlen($tipe_siswa_clean) <= 10) ||
+                            (strpos($tipe_siswa_clean, 'cendi') === 0 && strlen($tipe_siswa_clean) <= 10)
+                        ) {
+                            $tipe_siswa = 'Cendekia';
+                        } elseif (
+                            $tipe_siswa_clean === 'umum' ||
+                            $tipe_siswa_clean === 'umu' ||
+                            $tipe_siswa_clean === 'comum'
+                        ) {
+                            $tipe_siswa = 'Umum';
+                        }
+                        // Jika tidak match sama sekali, tetap default 'Umum'
                     }
                     
                     // Buat user
