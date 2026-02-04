@@ -135,7 +135,7 @@
         from { opacity: 0; transform: translateY(15px); }
         to { opacity: 1; transform: translateY(0); }
     }
-    
+
     /* [PERBAIKAN] Mengembalikan gaya tombol gradasi */
     .btn-gradient-action {
         height: 50px;
@@ -214,7 +214,7 @@
                                 </button>
                             </div>
                             <div id="email-status" class="mt-2" style="display:none;"></div>
-                            
+
                             <!-- Input OTP (hidden by default) -->
                             <div id="otp-container" class="mt-3" style="display:none;">
                                 <label for="otp-input" class="form-label">Kode OTP <span class="text-danger">*</span></label>
@@ -229,7 +229,7 @@
                                 </small>
                                 <div id="otp-status" class="mt-2" style="display:none;"></div>
                             </div>
-                            
+
                             <small class="text-muted"><i class="bi bi-info-circle"></i> Klik "Verifikasi" untuk menerima kode OTP di email Anda</small>
                             @error('email')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -245,7 +245,7 @@
                         <button type="button" class="btn btn-gradient-action btn-next" onclick="nextStep()" disabled>Next</button>
                     </div>
                 </div>
-                
+
                 <div class="form-step" id="step2">
                     <div class="row gx-3">
                         <div class="col-12 mb-3">
@@ -289,7 +289,7 @@
                     </div>
                 </div>
             </form>
-            
+
             <divter">
                 <p class="text-muted">Sudah punya akun? <a href="{{ route('login') }}" class="fw-bold text-decoration-underline" style="color: var(--primary-red);">Masuk</a></p>
             </div>
@@ -352,7 +352,7 @@
 
     $(document).ready(function() {
         showStep(0);
-        
+
         $('#asal_sekolah').select2({
             placeholder: "Cari & Pilih Sekolah",
             allowClear: true,
@@ -367,6 +367,34 @@
                 cache: true
             },
             width: '100%'
+        }).on('select2:select', function(e) {
+            var data = e.params.data;
+            var jenjang = data.jenjang || '';
+            var $jenjangSelect = $('#jenjang');
+            var $kelasSelect = $('#kelas');
+
+            // Remove existing hidden input if any
+            $('#hidden-jenjang').remove();
+
+            if (jenjang && jenjang.trim() !== '') {
+                // Jenjang tidak kosong, set value dan disable
+                $jenjangSelect.val(jenjang).prop('disabled', true).trigger('change');
+                // Add hidden input to ensure value is submitted
+                $jenjangSelect.after('<input type="hidden" id="hidden-jenjang" name="jenjang" value="' + jenjang + '">');
+            } else {
+                // Jenjang kosong, enable untuk input manual
+                $jenjangSelect.val('').prop('disabled', false);
+                $kelasSelect.empty().append('<option value="">Pilih Jenjang Dulu</option>').prop('disabled', true);
+            }
+
+            updateKelasDropdown();
+        }).on('select2:clear', function() {
+            // Ketika asal sekolah dihapus, enable kembali jenjang
+            $('#jenjang').val('').prop('disabled', false);
+            $('#kelas').empty().append('<option value="">Pilih Jenjang Dulu</option>').prop('disabled', true);
+            // Remove hidden input
+            $('#hidden-jenjang').remove();
+            validateStep(currentStep);
         });
 
         const jenjangDropdown = document.getElementById('jenjang');
@@ -397,11 +425,11 @@
             }
             validateStep(currentStep);
         }
-        
+
         if (jenjangDropdown.value) {
             updateKelasDropdown();
         }
-        
+
         jenjangDropdown.addEventListener('change', updateKelasDropdown);
     });
 
@@ -410,14 +438,14 @@
         const leftPanel = document.getElementById('leftPanel');
         const logoImage = document.getElementById('logoImage');
         const logoSkeleton = document.getElementById('logoSkeleton');
-        
+
         // Check if background image is loaded
         const bgImage = new Image();
         bgImage.src = "{{ asset('assets/images/COBA-BG-REGIST.png') }}";
         bgImage.onload = function() {
             leftPanel.classList.add('loaded');
         };
-        
+
         // Check if logo is loaded
         if (logoImage.complete) {
             logoImage.classList.add('loaded');
@@ -478,7 +506,7 @@
                 verifyBtn.classList.remove('btn-outline-primary');
                 verifyBtn.classList.add('btn-info');
                 emailVerified = true;
-                
+
                 // Tampilkan input OTP
                 otpContainer.style.display = 'block';
                 document.getElementById('otp-input').focus();
@@ -551,7 +579,7 @@
                 verifyOtpBtn.disabled = true;
                 otpInput.disabled = true;
                 otpVerified = true;
-                
+
                 // Enable next button
                 const nextBtn = document.querySelector('.btn-next');
                 if (nextBtn) {
@@ -583,7 +611,7 @@
     const originalNextStep = window.nextStep;
     window.nextStep = function() {
         const currentStep = parseInt(document.querySelector('.form-step.active').id.replace('step', ''));
-        
+
         if (currentStep === 1) {
             // Cek apakah email sudah diverifikasi dengan OTP
             if (!emailVerified) {
@@ -595,7 +623,7 @@
                 return false;
             }
         }
-        
+
         // Call original nextStep function
         if (originalNextStep) {
             originalNextStep();
@@ -619,7 +647,7 @@
             verifyBtn.disabled = false;
             emailVerified = false;
             otpVerified = false;
-            
+
             // Reset OTP input
             document.getElementById('otp-input').value = '';
             document.getElementById('otp-input').classList.remove('is-valid', 'is-invalid');
