@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tryout', function (Blueprint $table) {
             $table->bigIncrements('tryout_id');
+            $table->string('kelas_cendekia_id')->nullable();
             $table->string('tryout_judul');
             $table->text('tryout_deskripsi');
             $table->string('tryout_jenjang');
