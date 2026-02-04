@@ -51,6 +51,19 @@ class TryoutPesertaController extends Controller
         $user = auth()->user();
 
         $tryout = Tryout::find($request->tryout_id);
+        
+        // Validasi tryout exists
+        if (!$tryout) {
+            return redirect()->route('siswa.tryout.library')
+                ->with('error', 'Tryout tidak ditemukan.');
+        }
+        
+        // Validasi akses berdasarkan tipe siswa
+        if ($tryout->is_open === 'Cendekia' && $user->tipe_siswa !== 'Cendekia') {
+            return redirect()->route('siswa.tryout.library')
+                ->with('error', 'Anda tidak memiliki akses untuk mendaftar tryout ini.');
+        }
+        
         $peserta = new TryoutPeserta();
         $peserta->tryout_id = $request->tryout_id;
         $peserta->user_id = $user->id;
