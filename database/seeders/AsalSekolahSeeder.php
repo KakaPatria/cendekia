@@ -47,11 +47,11 @@ class AsalSekolahSeeder extends Seeder
             ['nama_sekolah' => 'SD NEGERI BADRAN', 'jenjang' => 'SD'],
             ['nama_sekolah' => 'SD NEGERI LEMPUYANGWANGI', 'jenjang' => 'SD'],
             ['nama_sekolah' => 'SD BUASASRAN 3', 'jenjang' => 'SD'],
-            ['nama_sekolah' => 'smk 2 depok', 'jenjang' => 'SMK'],
-            ['nama_sekolah' => 'SMK Negeri 2 Yogyakarta', 'jenjang' => 'SMK'],
-            ['nama_sekolah' => 'SMKN 1 KOTABUMI', 'jenjang' => 'SMK'],
+            ['nama_sekolah' => 'smk 2 depok', 'jenjang' => 'SMA'],
+            ['nama_sekolah' => 'SMK Negeri 2 Yogyakarta', 'jenjang' => 'SMA'],
+            ['nama_sekolah' => 'SMKN 1 KOTABUMI', 'jenjang' => 'SMA'],
             ['nama_sekolah' => 'SMP 9 Yogyakarta', 'jenjang' => 'SMP'],
-            ['nama_sekolah' => 'smk', 'jenjang' => 'SMK'],
+            ['nama_sekolah' => 'smk', 'jenjang' => 'SMA'],
         ];
 
         foreach ($sekolahList as $sekolah) {
