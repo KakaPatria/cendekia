@@ -20,9 +20,14 @@
                     <input type="hidden" name="role" value="{{ $roleX }}">
 
                     <div class="row g-2">
-                        <div class="col-lg-4 col-sm-4">
+                        <div class="col-lg-2 col-sm-4">
                             <a href="#" class="btn btn-primary btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="ri-add-circle-line  label-icon align-middle fs-16 me-2"></i> Tambah {{ $roleX == 'Siswa' ? 'Siswa' : "Admin & Pengajar"}}</a>
                         </div>
+                        @if($roleX == 'Siswa')
+                        <div class="col-lg-2 col-sm-4">
+                            <a href="#" class="btn btn-success btn-label waves-effect waves-light w-100" data-bs-toggle="modal" data-bs-target="#import-excel-modal"><i class="ri-file-excel-2-line label-icon align-middle fs-16 me-2"></i> Import Excel</a>
+                        </div>
+                        @endif
                         <div class="col-lg-2 col-sm-4">
                             <div class="search-box">
                                 <input type="text" class="form-control search w-100" id="search-task-options" placeholder="Cari ..." name="keyword" value="{{ $keyword }}">
@@ -373,6 +378,54 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Import Excel -->
+<div class="modal fade" id="import-excel-modal" tabindex="-1" aria-labelledby="import-excel-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="import-excel-modal-label">Import Siswa dari Excel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('panel.user.import-excel') }}" method="POST" id="import-excel-form" enctype="multipart/form-data">
+                    @csrf
+                    <div class="alert alert-info">
+                        <strong>Panduan:</strong>
+                        <ul class="mb-0">
+                            <li>File harus dalam format Excel (.xlsx atau .xls)</li>
+                            <li>Gunakan template yang sudah disediakan</li>
+                            <li>Pastikan format sesuai dengan kolom di template</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <a href="{{ route('panel.user.download-template') }}" class="btn btn-info btn-sm w-100">
+                            <i class="ri-download-2-line"></i> Download Template Excel
+                        </a>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Pilih File Excel</label>
+                        <input type="file" class="form-control" name="excel_file" accept=".xlsx,.xls" required />
+                        <small class="text-muted">Format: .xlsx atau .xls</small>
+                    </div>
+
+                    <div id="import-progress" style="display: none;">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+                        </div>
+                        <p class="text-center mt-2">Sedang mengimport data...</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" form="import-excel-form" class="btn btn-success" id="import-btn">Import</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -493,6 +546,12 @@
         $('#add-kelas').empty().append('<option value="">Pilih Jenjang Terlebih dahulu</option>').prop('disabled', true);
         // Remove hidden input
         $('#hidden-jenjang').remove();
+    });
+
+    // Handle import excel form submission
+    $('#import-excel-form').on('submit', function() {
+        $('#import-btn').prop('disabled', true);
+        $('#import-progress').show();
     });
 </script>
 @endsection

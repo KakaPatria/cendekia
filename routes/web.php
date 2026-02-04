@@ -100,6 +100,8 @@ Route::name('panel.')->prefix('panel')->group(function () {
             Route::get('/', [PanelUserController::class, 'index'])->name('index'); // list user
             Route::get('/create', [PanelUserController::class, 'create'])->name('create'); // form tambah
             Route::post('/', [PanelUserController::class, 'store'])->name('store'); // simpan user baru
+            Route::get('/download-template', [PanelUserController::class, 'downloadTemplate'])->name('download-template'); // download template excel
+            Route::post('/import-excel', [PanelUserController::class, 'importExcel'])->name('import-excel'); // import siswa dari excel
             Route::get('{user}/edit', [PanelUserController::class, 'edit'])->name('edit'); // edit
             Route::put('{user}', [PanelUserController::class, 'update'])->name('update'); // update
             Route::get('{user}', [PanelUserController::class, 'show'])->name('show'); // detail
