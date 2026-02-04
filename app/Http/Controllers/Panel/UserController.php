@@ -281,6 +281,17 @@ class UserController extends Controller
         }
 
         try {
+            // Determine roles_id based on rolex or role
+            $rolesId = 1; // Default to Siswa
+            if ($request->rolex != 'Siswa') {
+                $selectedRole = $request->get('role', 'Admin');
+                if ($selectedRole == 'Admin') {
+                    $rolesId = 2;
+                } elseif ($selectedRole == 'Pengajar') {
+                    $rolesId = 3;
+                }
+            }
+
             $payload = [
                 'name' => $request->name,
                 'email' => $request->email,
@@ -296,6 +307,7 @@ class UserController extends Controller
                 // Ensure we always set a tipe_siswa so insert doesn't fail on DBs without a default
                 'tipe_siswa' => $request->tipe_siswa ?? 'Umum',
                 'password' => Hash::make($request->password),
+                'roles_id' => $rolesId, // Set roles_id for legacy compatibility
             ];
 
             $user = User::create($payload);
@@ -444,7 +456,7 @@ class UserController extends Controller
     {
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-        
+
         // Header kolom
         $headers = [
             'A1' => 'Email',
@@ -459,7 +471,7 @@ class UserController extends Controller
             'J1' => 'Tipe Siswa',
             'K1' => 'Password'
         ];
-        
+
         // Set headers
         foreach ($headers as $cell => $value) {
             $sheet->setCellValue($cell, $value);
@@ -468,7 +480,7 @@ class UserController extends Controller
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('FFE0E0E0');
         }
-        
+
         // Contoh data
         $sheet->setCellValue('A2', 'siswa1@example.com');
         $sheet->setCellValue('B2', 'Nama Siswa 1');
@@ -481,23 +493,23 @@ class UserController extends Controller
         $sheet->setCellValue('I2', '081234567891');
         $sheet->setCellValue('J2', 'Cendekia');
         $sheet->setCellValue('K2', 'password123');
-        
+
         // Auto-size kolom
         foreach (range('A', 'K') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
-        
+
         // Buat writer
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        
+
         // Set nama file
         $fileName = 'template_import_siswa_' . date('Y-m-d_His') . '.xlsx';
-        
+
         // Clear output buffer
         if (ob_get_contents()) {
             ob_end_clean();
         }
-        
+
         // Set headers untuk download
         return response()->streamDownload(function() use ($writer) {
             $writer->save('php://output');
@@ -515,28 +527,28 @@ class UserController extends Controller
         $request->validate([
             'excel_file' => 'required|file|mimes:xlsx,xls|max:10240' // max 10MB
         ]);
-        
+
         try {
             $file = $request->file('excel_file');
             $spreadsheet = IOFactory::load($file->getPathname());
             $sheet = $spreadsheet->getActiveSheet();
             $rows = $sheet->toArray();
-            
+
             // Skip header row
             $header = array_shift($rows);
-            
+
             $imported = 0;
             $failed = 0;
             $errors = [];
-            
+
             foreach ($rows as $index => $row) {
                 $rowNumber = $index + 2; // +2 karena array dimulai dari 0 dan ada header
-                
+
                 // Skip baris kosong
                 if (empty(array_filter($row))) {
                     continue;
                 }
-                
+
                 try {
                     // Validasi data
                     $email = trim($row[0] ?? '');
@@ -550,40 +562,40 @@ class UserController extends Controller
                     $telp_orang_tua = trim($row[8] ?? '');
                     $tipe_siswa_raw = trim($row[9] ?? '');
                     $password = trim($row[10] ?? 'password123');
-                    
+
                     // Validasi required fields
                     if (empty($email) || empty($name) || empty($telepon)) {
                         $errors[] = "Baris {$rowNumber}: Email, Nama, dan Telepon harus diisi";
                         $failed++;
                         continue;
                     }
-                    
+
                     // Validasi email format
                     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                         $errors[] = "Baris {$rowNumber}: Format email tidak valid ({$email})";
                         $failed++;
                         continue;
                     }
-                    
+
                     // Cek email sudah ada
                     if (User::where('email', $email)->exists()) {
                         $errors[] = "Baris {$rowNumber}: Email sudah terdaftar ({$email})";
                         $failed++;
                         continue;
                     }
-                    
+
                     // Validasi jenjang
                     if (!empty($jenjang) && !in_array($jenjang, ['SD', 'SMP', 'SMA'])) {
                         $errors[] = "Baris {$rowNumber}: Jenjang harus SD, SMP, atau SMA ({$jenjang})";
                         $failed++;
                         continue;
                     }
-                    
+
                     // Validasi dan normalisasi tipe siswa (fleksibel untuk typo)
                     $tipe_siswa = 'Umum'; // default
                     if (!empty($tipe_siswa_raw)) {
                         $tipe_siswa_clean = strtolower(trim($tipe_siswa_raw));
-                        
+
                         // Cek berbagai varian penulisan "Cendekia" dengan typo
                         // Varian: cendekia, cendikia, cendekiya, cendakia, cendakiya, dll
                         if (
@@ -607,7 +619,7 @@ class UserController extends Controller
                         }
                         // Jika tidak match sama sekali, tetap default 'Umum'
                     }
-                    
+
                     // Buat user
                     $user = User::create([
                         'name' => $name,
@@ -622,27 +634,27 @@ class UserController extends Controller
                         'tipe_siswa' => $tipe_siswa,
                         'password' => Hash::make($password),
                     ]);
-                    
+
                     // Assign role Siswa
                     if (Schema::hasTable('roles')) {
                         $siswaRole = Role::firstOrCreate(['name' => 'Siswa']);
                         $user->syncRoles([$siswaRole->name]);
                     }
-                    
+
                     $imported++;
-                    
+
                 } catch (\Exception $e) {
                     $errors[] = "Baris {$rowNumber}: " . $e->getMessage();
                     $failed++;
                 }
             }
-            
+
             // Buat pesan hasil import
             $message = "Berhasil import {$imported} siswa.";
             if ($failed > 0) {
                 $message .= " {$failed} data gagal diimport.";
             }
-            
+
             if (!empty($errors)) {
                 $errorMessage = implode('<br>', array_slice($errors, 0, 10)); // Tampilkan max 10 error
                 if (count($errors) > 10) {
@@ -651,10 +663,10 @@ class UserController extends Controller
                 return redirect()->route('panel.user.index', ['role' => 'Siswa'])
                     ->with('warning', $message . '<br><br><strong>Detail Error:</strong><br>' . $errorMessage);
             }
-            
+
             return redirect()->route('panel.user.index', ['role' => 'Siswa'])
                 ->with('success', $message);
-                
+
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Gagal mengimport file: ' . $e->getMessage());

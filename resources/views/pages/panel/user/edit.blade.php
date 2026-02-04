@@ -107,7 +107,7 @@
                             <input type="text" class="form-control" name="telp_orang_tua" value="{{ old('telp_orang_tua', $user->telp_orang_tua) }}" />
                         </div>
                     </div>
-                    
+
                     {{-- TIPE SISWA CENDEKIA/ UMUM --}}
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Tipe Siswa</label>
@@ -118,7 +118,7 @@
                                 <option value="Umum" {{ $user->tipe_siswa == 'Umum' ? 'selected' : ''}}> Umum</option>
                             </select>
                         </div>
-                    </div> 
+                    </div>
                     @endif
 
                     {{-- PASSWORD --}}
@@ -130,12 +130,13 @@
                     </div>
 
                     {{-- ROLE DAN PERMISSION (HANYA ADMIN) --}}
-              
+
                     @if(auth()->user()->hasRole('Admin') && $roleX != 'Siswa')
                     <div class="form-group row mb-3">
                         <label class="col-form-label col-md-3">Role</label>
                         <div class="col-md-9">
-                            <select class="multiple-select2 form-control" multiple name="role[]">
+                            <select class="form-control" name="role">
+                                <option value="">Select role</option>
                                 @foreach($roles as $role)
                                     <option value="{{ $role->name }}" {{ in_array($role->name, $userRole) ? 'selected' : '' }}>
                                         {{ $role->name }}
