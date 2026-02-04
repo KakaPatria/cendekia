@@ -179,7 +179,14 @@ Route::name('panel.')->prefix('panel')->group(function () {
 // ===========================
 // SISWA
 // ===========================
-Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+// Redirect /siswa ke dashboard jika sudah login, ke login jika belum
+Route::get('/siswa', function() {
+    if (Auth::check()) {
+        return redirect()->route('siswa.dashboard');
+    }
+    return redirect()->route('login');
+})->name('siswa.index');
+
 Route::get('/login', [SiswaUserController::class, 'login'])->name('login');
 Route::get('/google/redirect', [SiswaUserController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [SiswaUserController::class, 'handleGoogleCallback'])->name('google.callback');
