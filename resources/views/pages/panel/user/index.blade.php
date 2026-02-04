@@ -474,9 +474,14 @@
         var $jenjangSelect = $('#add-jenjang');
         var $kelasSelect = $('#add-kelas');
 
+        // Remove existing hidden input if any
+        $('#hidden-jenjang').remove();
+
         if (jenjang && jenjang.trim() !== '') {
             // Jenjang tidak kosong, set value dan disable
             $jenjangSelect.val(jenjang).prop('disabled', true).trigger('change');
+            // Add hidden input to ensure value is submitted
+            $jenjangSelect.after('<input type="hidden" id="hidden-jenjang" name="jenjang" value="' + jenjang + '">');
         } else {
             // Jenjang kosong, enable untuk input manual
             $jenjangSelect.val('').prop('disabled', false);
@@ -486,6 +491,8 @@
         // Ketika asal sekolah dihapus, enable kembali jenjang
         $('#add-jenjang').val('').prop('disabled', false);
         $('#add-kelas').empty().append('<option value="">Pilih Jenjang Terlebih dahulu</option>').prop('disabled', true);
+        // Remove hidden input
+        $('#hidden-jenjang').remove();
     });
 </script>
 @endsection
