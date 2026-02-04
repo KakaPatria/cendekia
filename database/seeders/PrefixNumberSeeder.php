@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class InvoiceSeeder extends Seeder
+class PrefixNumberSeeder extends Seeder
 {
     /**
      * Run the database seeds.
