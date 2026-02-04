@@ -38,12 +38,22 @@ System akan melakukan validasi otomatis:
 
 #### Jenjang:
 - Harus salah satu dari: **SD**, **SMP**, atau **SMA**
-- Case sensitive (harus huruf kapital)
+- **Tidak case-sensitive** (bisa `sd`, `SD`, `Sd`, dll - akan otomatis dikonversi ke uppercase)
 - Boleh kosong
+- Contoh valid: `SMA`, `sma`, `Sma` (semua akan menjadi `SMA`)
 
 #### Tipe Siswa:
 - Harus salah satu dari: **Cendekia** atau **Umum**
-- Jika kosong, otomatis diset ke **Umum**
+- **Tidak case-sensitive** (bisa `cendekia`, `CENDEKIA`, `Cendekia`, dll)
+- **Toleran terhadap typo umum** seperti:
+  - ✅ `cendikia` → tersimpan sebagai `Cendekia`
+  - ✅ `cendekiya` → tersimpan sebagai `Cendekia`
+  - ✅ `cendakia` → tersimpan sebagai `Cendekia`
+  - ✅ `cendakiya` → tersimpan sebagai `Cendekia`
+  - ✅ `cendikiya` → tersimpan sebagai `Cendekia`
+  - ✅ Dan varian typo lainnya yang mirip
+- Jika kosong atau tidak valid, otomatis diset ke **Umum**
+- Contoh valid: `Cendekia`, `cendekia`, `CENDEKIA`, `cendikia`, `Umum`, `umum`, `UMUM`
 
 #### Kelas:
 - Harus angka 1-12
