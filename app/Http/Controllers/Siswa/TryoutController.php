@@ -41,7 +41,7 @@ public function library(Request $request)
         ->whereHas('materi')
         ->where('tryout_jenjang', $user->jenjang)
         ->where('tryout_kelas', $user->kelas);
-    
+
     // Filter berdasarkan tipe siswa
     if ($user->tipe_siswa === 'Cendekia') {
         // Siswa Cendekia bisa lihat tryout Cendekia DAN Umum
@@ -50,12 +50,12 @@ public function library(Request $request)
         // Siswa Umum HANYA bisa lihat tryout Umum
         $query->where('is_open', 'Umum');
     }
-    
+
     $dataTryout = $query->orderBy('updated_at', 'desc')
         ->get()
         ->filter(function ($tryout) {
             return $tryout->is_can_register;
-        }); 
+        });
 
     $load['title'] = "Rekomendasi Tryout untuk Jenjang " . $user->jenjang;
     $load['data_tryout'] = $dataTryout;
@@ -72,21 +72,24 @@ public function library(Request $request)
     {
         $user = auth()->user();
         $tryout = Tryout::where('tryout_id', $id)->first();
-        
+
         // Validasi tryout exists
         if (!$tryout) {
             return redirect()->route('siswa.tryout.library')
                 ->with('error', 'Tryout tidak ditemukan.');
         }
-        
+
         // Validasi akses berdasarkan tipe siswa
         if ($tryout->is_open === 'Cendekia' && $user->tipe_siswa !== 'Cendekia') {
             return redirect()->route('siswa.tryout.library')
                 ->with('error', 'Tryout ini khusus untuk siswa Cendekia.');
         }
-        
+
+        // Cek pendaftaran aktif (status 0 = pending, 1 = terdaftar)
+        // Status 2 (batal) tidak dianggap sebagai sudah terdaftar
         $registered = TryoutPeserta::where('user_id', $user->id)
             ->where('tryout_id', $id)
+            ->whereIn('tryout_peserta_status', [0, 1])
             ->first();
         if ($registered) {
             return redirect()->route('siswa.tryout.show', $id)->withSuccess(__('Anda sudah terdaftar di tryout ini.'));
@@ -146,7 +149,13 @@ public function library(Request $request)
         if ($tryout->tryout_status != 'Aktif') {
             return redirect(route('siswa.tryout.library'))->with('error', "Tryout tidak dapat diakses");
         }
+
         $load['tryout'] = $tryout;
+        // Cek apakah user sudah terdaftar di tryout ini (hanya status aktif)
+        $load['tryout_peserta'] = TryoutPeserta::where('user_id', $user->id)
+            ->where('tryout_id', $tryout->tryout_id)
+            ->whereIn('tryout_peserta_status', [0, 1])
+            ->first();
 
         // Simpan ke session sebagai recent accesses (tanpa menambah kolom DB)
         try {
@@ -165,7 +174,7 @@ public function library(Request $request)
             // kalau session bermasalah, lanjutkan tanpa menghentikan akses
         }
 
-        return view('pages.siswa.tryout.show', $load);
+        return view('pages.siswa.tryout.detail', $load);
     }
 
     /**
@@ -181,7 +190,7 @@ public function library(Request $request)
         $tryoutPeserta = TryoutPeserta::with('masterTryout')
             ->where('user_id', $user->id)
             ->where('tryout_peserta_id', $id)
-            ->first(); 
+            ->first();
 
         if (!$tryoutPeserta) {
             return redirect()->route('siswa.tryout.index')
@@ -199,8 +208,11 @@ public function library(Request $request)
         $tryout = $tryout->load('materi.refMateri');
         //dd($tryout->getAverageNilai());
         $load['tryout'] = $tryout;
+        // Hanya ambil pendaftaran aktif (status 0 = pending, 1 = terdaftar)
         $load['tryout_peserta'] = TryoutPeserta::where('user_id', $user->id)
-            ->where('tryout_id', $tryout->tryout_id)->first();
+            ->where('tryout_id', $tryout->tryout_id)
+            ->whereIn('tryout_peserta_status', [0, 1])
+            ->first();
         //dd($load);
 
         return view('pages.siswa.tryout.detail', $load);

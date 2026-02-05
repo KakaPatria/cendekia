@@ -55,28 +55,44 @@
                         </tbody>
                     </table>
                     <!--end table-->
-                    @if($tryout_peserta->tryout_peserta_status == 1)
-                    <div class="m-2 p-2">
-                        <!-- Primary Alert -->
-                        <div class="alert alert-primary" role="alert">
-                            Anda sudah terdaftar silahkan mengerjakan tryout!
+                    @if(!$tryout_peserta)
+                        {{-- Belum terdaftar sama sekali --}}
+                        <div class="m-2 p-2">
+                            <a href="{{route('siswa.tryout.daftar',$tryout->tryout_id)}}" class="btn btn-danger w-100">
+                                <i class="ri-checkbox-circle-line me-1 align-bottom"></i>
+                                Daftar
+                            </a>
                         </div>
-
-                    </div>
                     @else
-                    <div class="m-2 p-2">
-                        <!-- warning Alert -->
-                        <div class="alert alert-warning" role="alert">
-                            Anda belum menyelesaikan pendaftaran silahkan selesaikan <strong>
-                                @if($tryout_peserta && $tryout_peserta->invoice)
-                                    <a href="{{ route('siswa.invoice.show', $tryout_peserta->invoice->inv_id) }}">disini</a>
-                                @else
-                                    <a href="#" class="disabled">disini</a>
-                                @endif
-                            </strong>
+                        {{-- Sudah terdaftar --}}
+                        <div class="m-2 p-2">
+                            <a href="button" class="btn btn-danger w-100 disabled">
+                                <i class="ri-checkbox-circle-line me-1 align-bottom"></i>
+                                Anda sudah terdaftar
+                            </a>
                         </div>
 
-                    </div>
+                        @if($tryout_peserta->tryout_peserta_status == 1)
+                            {{-- Sudah bayar / verified --}}
+                            <div class="m-2 p-2">
+                                <div class="alert alert-primary" role="alert">
+                                    Anda sudah terdaftar silahkan mengerjakan tryout!
+                                </div>
+                            </div>
+                        @else
+                            {{-- Belum bayar / pending --}}
+                            <div class="m-2 p-2">
+                                <div class="alert alert-warning" role="alert">
+                                    Anda belum menyelesaikan pendaftaran silahkan selesaikan <strong>
+                                        @if($tryout_peserta->invoice)
+                                            <a href="{{ route('siswa.invoice.show', $tryout_peserta->invoice->inv_id) }}">disini</a>
+                                        @else
+                                            <span class="text-muted">Invoice tidak tersedia</span>
+                                        @endif
+                                    </strong>
+                                </div>
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -132,6 +148,18 @@
                                             <div class="flex-grow-1">
                                                 <h5 class="mb-1 fs-16"><a href="apps-projects-overview.html" class="text-dark">{{ $materi->refMateri->ref_materi_judul}}</a></h5>
                                                 <p class="text-muted text-truncate-two-lines mb-3">{{ $materi->tryout_materi_deskripsi}}</p>
+                                                @if($materi->periode)
+                                                <div class="mb-2">
+                                                    <p class="text-muted mb-1">Periode</p>
+                                                    <h6 class="fs-14"><i class="ri-calendar-line me-1"></i>{{ $materi->periode }}</h6>
+                                                </div>
+                                                @endif
+                                                @if($materi->waktu)
+                                                <div class="mb-2">
+                                                    <p class="text-muted mb-1">Waktu</p>
+                                                    <h6 class="fs-14"><i class="ri-time-line me-1"></i>{{ $materi->waktu }}</h6>
+                                                </div>
+                                                @endif
                                                 @if($materi->durasi)
                                                 <div>
                                                     <p class="text-muted mb-1">Durasi Pengerjaan</p>
@@ -162,20 +190,54 @@
                                 <div class="card-footer bg-transparent border-top-dashed py-2">
                                     <div class="text-center">
 
-                                        @if($tryout->is_registered->tryout_peserta_status == '1')
-                                        @if($tryout->tryout_status == 'Aktif')
-                                        @if($materi->nilaiUser)
-                                        @if($materi->nilaiUser->status == 'Proses')
-                                        <a href="javascript:;" class="btn btn-danger w-100 lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
-                                            Lanjutkan Pengerjaan
-                                        </a>
-                                        @endif
-                                        @else
-                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn  {{ $materi->soal->count() > 1 ? '' : 'disabled'}}" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
-                                            Mulai Kerjakan
-                                        </a>
-                                        @endif
-                                        @endif
+                                        @if($tryout_peserta && $tryout_peserta->tryout_peserta_status == '1')
+                                            @if($tryout->tryout_status == 'Aktif')
+                                                @php
+                                                    // Cek apakah materi sudah bisa dikerjakan berdasarkan waktu
+                                                    $canAccess = true;
+                                                    $messageWaktu = '';
+
+                                                    if($materi->periode_mulai && $materi->waktu_mulai) {
+                                                        $now = \Carbon\Carbon::now();
+                                                        $periodeStart = \Carbon\Carbon::parse($materi->periode_mulai);
+                                                        $waktuMulai = \Carbon\Carbon::createFromTimeString($materi->waktu_mulai);
+
+                                                        // Gabungkan tanggal dan waktu mulai
+                                                        $startDateTime = \Carbon\Carbon::parse($materi->periode_mulai . ' ' . $materi->waktu_mulai);
+
+                                                        if($now->lt($startDateTime)) {
+                                                            $canAccess = false;
+                                                            $messageWaktu = 'Materi dapat dikerjakan mulai ' . $startDateTime->format('d M Y H:i');
+                                                        }
+                                                    } elseif($materi->periode_mulai) {
+                                                        $now = \Carbon\Carbon::now();
+                                                        $periodeStart = \Carbon\Carbon::parse($materi->periode_mulai)->startOfDay();
+
+                                                        if($now->lt($periodeStart)) {
+                                                            $canAccess = false;
+                                                            $messageWaktu = 'Materi dapat dikerjakan mulai ' . $periodeStart->format('d M Y');
+                                                        }
+                                                    }
+                                                @endphp
+
+                                                @if(!$canAccess)
+                                                    <div class="alert alert-warning mb-0 py-2">
+                                                        <i class="ri-time-line me-1"></i>{{ $messageWaktu }}
+                                                    </div>
+                                                @else
+                                                    @if($materi->nilaiUser)
+                                                        @if($materi->nilaiUser->status == 'Proses')
+                                                        <a href="javascript:;" class="btn btn-danger w-100 lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
+                                                            Lanjutkan Pengerjaan
+                                                        </a>
+                                                        @endif
+                                                    @else
+                                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn  {{ $materi->soal->count() > 1 ? '' : 'disabled'}}" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
+                                                            Mulai Kerjakan
+                                                        </a>
+                                                    @endif
+                                                @endif
+                                            @endif
                                         @endif
                                     </div>
                                 </div>

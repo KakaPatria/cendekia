@@ -16,6 +16,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+        // Update status tryout yang sudah melewati register_due setiap hari jam 00:01
+        $schedule->command('tryout:update-status')->dailyAt('00:01');
     }
 
     /**

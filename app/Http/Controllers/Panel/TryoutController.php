@@ -36,12 +36,12 @@ class TryoutController extends Controller
     {
         $user = auth()->user();
         $tryout = Tryout::query();
-        
+
         // Filter berdasarkan kata kunci pencarian
         if ($request->keyword) {
             $keyword = $request->keyword;
             $keywordUpper = strtoupper($keyword);
-            
+
             // Cek apakah keyword berisi angka kelas (1-12)
             if (is_numeric($keyword) && $keyword >= 1 && $keyword <= 12) {
                 $tryout->where('tryout_kelas', $keyword);
@@ -49,7 +49,7 @@ class TryoutController extends Controller
             // Cek apakah keyword berisi kata kunci jenjang
             else if (in_array($keywordUpper, ['SD', 'SMP', 'SMA'])) {
                 $tryout->where('tryout_jenjang', $keywordUpper);
-            } 
+            }
             // Cek apakah keyword adalah 'cendekia' atau 'umum'
             else if (strtolower($keyword) === 'cendekia') {
                 $tryout->where('is_open', 'Cendekia');
@@ -355,6 +355,10 @@ class TryoutController extends Controller
             'pengajar_id' => 'required',
             'tryout_materi_deskripsi' => 'required',
             'durasi' => 'required',
+            'periode_mulai' => 'nullable|date',
+            'periode_selesai' => 'nullable|date|after_or_equal:periode_mulai',
+            'waktu_mulai' => 'nullable|date_format:H:i',
+            'waktu_selesai' => 'nullable|date_format:H:i',
         ]);
         $tryout = Tryout::find($id);
 
@@ -366,7 +370,11 @@ class TryoutController extends Controller
             'pengajar_id' => $request->pengajar_id,
             'durasi' => $request->durasi,
             'safe_mode' => $request->safe_mode,
-            'tryout_materi_deskripsi' => $request->tryout_materi_deskripsi
+            'tryout_materi_deskripsi' => $request->tryout_materi_deskripsi,
+            'periode_mulai' => $request->periode_mulai,
+            'periode_selesai' => $request->periode_selesai,
+            'waktu_mulai' => $request->waktu_mulai,
+            'waktu_selesai' => $request->waktu_selesai,
         ]);
 
         return redirect()->route('panel.tryout.show', $tryout->tryout_id)

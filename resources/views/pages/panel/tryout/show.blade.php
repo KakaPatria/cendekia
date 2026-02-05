@@ -400,12 +400,41 @@
                         </div>
                     </div>
                     <div class="form-group row mb-3">
+                        <label class="form-label col-md-3">Periode Mulai</label>
+                        <div class="col-md-9">
+                            <input type="date" class="form-control" name="periode_mulai" placeholder="Pilih tanggal mulai">
+                            <small class="text-muted">Kosongkan jika tidak ada batasan tanggal</small>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="form-label col-md-3">Periode Selesai</label>
+                        <div class="col-md-9">
+                            <input type="date" class="form-control" name="periode_selesai" placeholder="Pilih tanggal selesai">
+                            <small class="text-muted">Kosongkan jika tidak ada batasan tanggal</small>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="form-label col-md-3">Waktu Mulai</label>
+                        <div class="col-md-9">
+                            <input type="time" class="form-control" name="waktu_mulai" placeholder="Pilih waktu mulai">
+                            <small class="text-muted">Kosongkan jika tidak ada batasan waktu</small>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="form-label col-md-3">Waktu Selesai</label>
+                        <div class="col-md-9">
+                            <input type="time" class="form-control" name="waktu_selesai" placeholder="Pilih waktu selesai">
+                            <small class="text-muted">Kosongkan jika tidak ada batasan waktu</small>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
                         <label class="form-label col-md-3">Durasi Pengerjaan</label>
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="number" class="form-control" placeholder="" name="durasi">
                                 <span class="input-group-text" id="basic-addon2">Menit</span>
                             </div>
+                            <small class="text-muted">Batasan waktu untuk mengerjakan soal</small>
                         </div>
                     </div>
                     <div class="form-group row mb-3">

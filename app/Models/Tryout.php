@@ -124,17 +124,22 @@ class Tryout extends Model
     function getIsRegisteredAttribute()
     {
         //dd(auth()->user()->id);
+        // Hanya cek pendaftaran aktif (status 0 = pending, 1 = terdaftar)
+        // Status 2 (batal) tidak dianggap sebagai sudah terdaftar
         $peserta = TryoutPeserta::where('user_id', auth()->user()->id)
             ->where('tryout_id', $this->tryout_id)
+            ->whereIn('tryout_peserta_status', [0, 1])
             ->first();
         //dd($peserta);
         return $peserta;
     }
     function isTerdaftar($id)
     {
-
+        // Hanya cek pendaftaran aktif (status 0 = pending, 1 = terdaftar)
+        // Status 2 (batal) tidak dianggap sebagai sudah terdaftar
         $peserta = TryoutPeserta::where('user_id', auth()->user()->id)
             ->where('tryout_id', $id)
+            ->whereIn('tryout_peserta_status', [0, 1])
             ->first();
         //dd($peserta);
         return $peserta;
