@@ -379,10 +379,16 @@ class UserController extends Controller
 
     public function handleGoogleCallback()
     {
-    // Use session-based Socialite callback to preserve the state parameter
-    // generated during redirect. Using stateless() here can cause
-    // 'invalid_grant' when Google's returned state doesn't match.
-    $googleUser = Socialite::driver('google')->user();
+        try {
+            // Try session-based first (preferred)
+            $googleUser = Socialite::driver('google')->user();
+        } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
+            // If state validation fails, clear session and redirect back
+            return redirect()->route('login')->with('error', 'Autentikasi gagal. Silakan coba lagi.');
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with('error', 'Terjadi kesalahan saat login dengan Google.');
+        }
+
         $user = User::where('email', $googleUser->email)->first();
         if (!$user) {
             // Create new user with default siswa role (roles_id = 1)
@@ -396,7 +402,7 @@ class UserController extends Controller
         
         // Check if user is a Siswa (roles_id == 1)
         if ($user->roles_id != 1) {
-            return redirect()->route('siswa.login')->with('error', 'Akun ini bukan akun siswa. Silakan login melalui panel admin.');
+            return redirect()->route('login')->with('error', 'Akun ini bukan akun siswa. Silakan login melalui panel admin.');
         }
 
         Auth::login($user);
