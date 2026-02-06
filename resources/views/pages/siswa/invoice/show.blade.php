@@ -165,6 +165,8 @@
     <?php if ($inv->status == 0) { ?>
 
         $('#bayar-btn').click(function() {
+            console.log('Tombol bayar diklik');
+            
             $.ajax({
                 url: "{{ route('siswa.payment.snapToken') }}",
                 type: 'POST',
@@ -173,27 +175,46 @@
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(data) {
-                    // console.log(data);
-                    snap.pay(data.snap_token, {
-                        // Optional
-                        onSuccess: function(result) {
-                            /* You may add your own implementation here */
-                            alert("Pembayaran berhasil!");
-                            location.reload();
-                        },
-                        // Optional
-                        onPending: function(result) {
-                            /* You may add your own implementation here */
-                            alert("Menunggu pembayaran!");
-                            location.reload();
-                        },
-                        // Optional
-                        onError: function(result) {
-                            /* You may add your own implementation here */
-                            alert("Pembayaran gagal!");
-                            location.reload();
+                    console.log('Response dari server:', data);
+                    
+                    if (data.snap_token) {
+                        console.log('Snap token diterima:', data.snap_token);
+                        
+                        // Cek apakah snap tersedia
+                        if (typeof snap !== 'undefined') {
+                            snap.pay(data.snap_token, {
+                                onSuccess: function(result) {
+                                    console.log('Pembayaran berhasil:', result);
+                                    alert("Pembayaran berhasil!");
+                                    location.reload();
+                                },
+                                onPending: function(result) {
+                                    console.log('Pembayaran pending:', result);
+                                    alert("Menunggu pembayaran!");
+                                    location.reload();
+                                },
+                                onError: function(result) {
+                                    console.error('Error pembayaran:', result);
+                                    alert("Pembayaran gagal!");
+                                    location.reload();
+                                },
+                                onClose: function() {
+                                    console.log('Popup ditutup tanpa menyelesaikan pembayaran');
+                                }
+                            });
+                        } else {
+                            console.error('Snap.js tidak terload!');
+                            alert('Error: Midtrans Snap tidak terload. Silakan refresh halaman.');
                         }
-                    });
+                    } else {
+                        console.error('Snap token tidak ada dalam response');
+                        alert('Error: Gagal mendapatkan snap token');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    console.error('Response:', xhr.responseText);
+                    alert('Error: Gagal menghubungi server. ' + error);
                 }
             });
 
