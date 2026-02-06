@@ -370,7 +370,15 @@
                                     </div>
                                     <h5 class="card-title mb-2 fs-16 text-dark flex-grow-1">{{ $data->tryout_judul}}</h5>
                                     <ul class="list-unstyled text-muted small mb-0">
-                                        <li><i class="ri-calendar-2-fill text-danger align-middle me-1"></i> Deadline: {{ \Carbon\Carbon::parse($data->tryout_register_due)->format('d M Y')}}</li>
+                                        @php
+                                            // Ambil periode selesai terakhir dari semua materi tryout
+                                            $periodeAkhir = $data->materi->max('periode_selesai');
+                                        @endphp
+                                        @if($periodeAkhir)
+                                        <li><i class="ri-calendar-2-fill text-danger align-middle me-1"></i> Deadline: {{ \Carbon\Carbon::parse($periodeAkhir)->format('d M Y')}}</li>
+                                        @else
+                                        <li><i class="ri-calendar-2-fill text-danger align-middle me-1"></i> Deadline: {{ \Carbon\Carbon::parse($data->getRawOriginal('tryout_register_due'))->format('d M Y')}}</li>
+                                        @endif
                                     </ul>
                                 </div>
                                 <div class="card-footer">
