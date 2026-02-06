@@ -1227,7 +1227,7 @@ footer .copy-rights,
     <!-- end container -->
 
     <!-- Button Hubungi Kami yang bisa di-drag di hero section -->
-    <div id="draggable-wa" class="card p-2 rounded shadow-lg inquiry-box" style="position: absolute; top: 100px; left: 50%; transform: translateX(-50%); cursor: grab; touch-action: none; user-select: none; z-index: 999; width: auto; transition: all 0.4s ease;">
+    <div id="draggable-wa" class="card p-2 rounded shadow-lg inquiry-box" style="position: absolute; bottom: 100px; right: 20px; cursor: grab; touch-action: none; user-select: none; z-index: 999; width: auto; transition: all 0.4s ease;">
         <div class="d-flex align-items-center">
             <div class="avatar-sm flex-shrink-0 me-3">
                 <div class="avatar-title bg-success text-white rounded fs-18">
@@ -1248,20 +1248,20 @@ footer .copy-rights,
         let isInHeroMode = true; // Track mode: hero atau fixed
         let userDraggedPosition = null; // Simpan posisi yang di-drag user
 
-        // Posisi default di hero section
+        // Posisi default di hero section (kanan bawah)
         const heroPosition = {
             position: 'absolute',
-            top: '100px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            bottom: 'auto',
-            right: 'auto'
+            bottom: '100px',
+            right: '20px',
+            top: 'auto',
+            left: 'auto',
+            transform: 'none'
         };
 
         // Posisi fixed di bawah (di atas back to top button)
         const fixedPosition = {
             position: 'fixed',
-            bottom: '80px', // Di atas back to top button (sesuaikan dengan posisi back to top Anda)
+            bottom: '80px',
             right: '20px',
             top: 'auto',
             left: 'auto',
@@ -1339,6 +1339,8 @@ footer .copy-rights,
             
             box.style.left = newLeft + "px";
             box.style.top = newTop + "px";
+            box.style.right = 'auto';
+            box.style.bottom = 'auto';
             box.style.transform = "none";
             
             // Simpan posisi yang di-drag user
@@ -1387,6 +1389,8 @@ footer .copy-rights,
             
             box.style.left = newLeft + "px";
             box.style.top = newTop + "px";
+            box.style.right = 'auto';
+            box.style.bottom = 'auto';
             box.style.transform = "none";
             
             userDraggedPosition = {
