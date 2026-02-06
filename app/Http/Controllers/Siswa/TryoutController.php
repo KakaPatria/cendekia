@@ -79,6 +79,12 @@ public function library(Request $request)
                 ->with('error', 'Tryout tidak ditemukan.');
         }
 
+        // Validasi status tryout
+        if ($tryout->tryout_status !== 'Aktif') {
+            return redirect()->route('siswa.tryout.library')
+                ->with('error', 'Tryout ini sudah tidak aktif.');
+        }
+
         // Validasi akses berdasarkan tipe siswa
         if ($tryout->is_open === 'Cendekia' && $user->tipe_siswa !== 'Cendekia') {
             return redirect()->route('siswa.tryout.library')

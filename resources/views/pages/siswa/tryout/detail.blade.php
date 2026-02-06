@@ -57,12 +57,30 @@
                     <!--end table-->
                     @if(!$tryout_peserta)
                         {{-- Belum terdaftar sama sekali --}}
-                        <div class="m-2 p-2">
-                            <a href="{{route('siswa.tryout.daftar',$tryout->tryout_id)}}" class="btn btn-danger w-100">
-                                <i class="ri-checkbox-circle-line me-1 align-bottom"></i>
-                                Daftar
-                            </a>
-                        </div>
+                        @if(!$tryout->is_can_register)
+                            {{-- Pendaftaran sudah ditutup --}}
+                            <div class="m-2 p-2">
+                                <button class="btn btn-secondary w-100" disabled>
+                                    <i class="ri-close-circle-line me-1 align-bottom"></i>
+                                    Pendaftaran Ditutup
+                                </button>
+                            </div>
+                            <div class="m-2 p-2">
+                                <div class="alert alert-danger mb-0" role="alert">
+                                    <i class="ri-error-warning-line me-2"></i>
+                                    <strong>Pendaftaran tryout ini sudah ditutup.</strong><br>
+                                    Batas pendaftaran: {{ $tryout->tryout_register_due }}
+                                </div>
+                            </div>
+                        @else
+                            {{-- Pendaftaran masih dibuka --}}
+                            <div class="m-2 p-2">
+                                <a href="{{route('siswa.tryout.daftar',$tryout->tryout_id)}}" class="btn btn-danger w-100">
+                                    <i class="ri-checkbox-circle-line me-1 align-bottom"></i>
+                                    Daftar
+                                </a>
+                            </div>
+                        @endif
                     @else
                         {{-- Sudah terdaftar --}}
                         <div class="m-2 p-2">
