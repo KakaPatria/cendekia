@@ -39,6 +39,29 @@ class UserController extends Controller
 
     public function doLogin(Request $request)
     {
+        // Dekripsi data dari encrypted_data
+        $decrypted = $this->decryptData($request->encrypted_data);
+        
+        if (!$decrypted) {
+            return redirect()->back()->with('error', 'Data tidak valid. Silakan coba lagi.')->withInput();
+        }
+        
+        // Validasi timestamp (maksimal 5 menit)
+        if (isset($decrypted['timestamp'])) {
+            $timestampDiff = time() - ($decrypted['timestamp'] / 1000);
+            if ($timestampDiff > 300) { // 5 menit
+                return redirect()->back()->with('error', 'Sesi login telah kadaluarsa. Silakan coba lagi.')->withInput();
+            }
+        }
+        
+        $email = $decrypted['email'] ?? null;
+        $password = $decrypted['password'] ?? null;
+        
+        if (!$email || !$password) {
+            return redirect()->back()->with('error', 'Email dan password harus diisi.')->withInput();
+        }
+        
+        // Validasi format email dan password
         $messages = [
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
@@ -48,21 +71,24 @@ class UserController extends Controller
             'password.min' => 'Kata sandi minimal harus 8 karakter.',
         ];
         
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make([
+            'email' => $email,
+            'password' => $password
+        ], [
             'email' => 'required|email',
             'password' => 'required|string|min:8',
-        ],$messages);
+        ], $messages);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput(['email' => $email]);
         }
 
         // Attempt to log the user in
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+        if (Auth::attempt(['email' => $email, 'password' => $password], $request->remember)) {
             // Check if the logged in user is a Siswa (roles_id == 1)
             if (Auth::user()->roles_id != 1) {
                 Auth::logout();
-                return redirect()->back()->with('error', 'Login gagal. Akses hanya untuk siswa.')->withInput();
+                return redirect()->back()->with('error', 'Login gagal. Akses hanya untuk siswa.')->withInput(['email' => $email]);
             }
             
             // Authentication passed...
@@ -70,7 +96,39 @@ class UserController extends Controller
         }
 
         // If the login attempt was unsuccessful
-        return redirect()->back()->with('error', 'Login gagal periksa kembali username dan password.')->withInput();
+        return redirect()->back()->with('error', 'Login gagal periksa kembali username dan password.')->withInput(['email' => $email]);
+    }
+    
+    /**
+     * Dekripsi data yang dienkripsi dari client-side
+     */
+    private function decryptData($encryptedData)
+    {
+        try {
+            if (!$encryptedData) {
+                return null;
+            }
+            
+            // Hapus 6 karakter prefix dan suffix (random string)
+            $withoutPrefixSuffix = substr($encryptedData, 6, -6);
+            
+            // Reverse string
+            $reversed = strrev($withoutPrefixSuffix);
+            
+            // Base64 decode
+            $decoded = base64_decode($reversed);
+            
+            if (!$decoded) {
+                return null;
+            }
+            
+            // Parse JSON
+            $data = json_decode($decoded, true);
+            
+            return $data;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     public function logout()

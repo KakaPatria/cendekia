@@ -144,11 +144,13 @@
                             @include('components.message')
 
                             <div class="p-2">
-                                <form action="{{ route('siswa.doLogin') }}" method="POST">
+                                <form action="{{ route('siswa.doLogin') }}" method="POST" id="loginForm">
                                     @csrf
+                                    <input type="hidden" name="encrypted_data" id="encrypted_data">
+                                    
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="Masukkan Email Anda" value="{{ old('email') }}" required>
+                                        <input type="email" class="form-control form-control-lg" id="email" placeholder="Masukkan Email Anda" value="{{ old('email') }}" required>
                                     </div>
 
                                     <div class="mb-3">
@@ -157,7 +159,7 @@
                                         </div>
                                         <label class="form-label" for="password-input">Password</label>
                                         <div class="position-relative auth-pass-inputgroup">
-                                            <input type="password" class="form-control form-control-lg pe-5 password-input" name="password" placeholder="Masukkan password" id="password-input" required>
+                                            <input type="password" class="form-control form-control-lg pe-5 password-input" placeholder="Masukkan password" id="password-input" required>
                                             <button
                                                 type="button"
                                                 class="btn btn-link position-absolute end-0 top-50 translate-middle-y password-addon"
@@ -201,4 +203,46 @@
 @endsection
 @section('script')
 <script src="{{ URL::asset('assets/js/pages/password-addon.init.js') }}"></script>
+<script>
+// Enkripsi sederhana untuk menyembunyikan payload
+function encryptData(data) {
+    // Konversi object ke JSON string
+    const jsonStr = JSON.stringify(data);
+    
+    // Base64 encoding + reverse string + tambah random prefix/suffix
+    const encoded = btoa(jsonStr);
+    const reversed = encoded.split('').reverse().join('');
+    const randomPrefix = Math.random().toString(36).substring(2, 8);
+    const randomSuffix = Math.random().toString(36).substring(2, 8);
+    
+    return randomPrefix + reversed + randomSuffix;
+}
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password-input').value;
+    
+    // Buat object data
+    const data = {
+        email: email,
+        password: password,
+        timestamp: Date.now()
+    };
+    
+    // Enkripsi data
+    const encrypted = encryptData(data);
+    
+    // Set ke hidden input
+    document.getElementById('encrypted_data').value = encrypted;
+    
+    // Clear original inputs sebelum submit
+    document.getElementById('email').removeAttribute('name');
+    document.getElementById('password-input').removeAttribute('name');
+    
+    // Submit form
+    this.submit();
+});
+</script>
 @endsection
