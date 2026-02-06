@@ -216,7 +216,7 @@ class TryoutController extends Controller
      */
     public function show($id)
     {
-        $load['tryout'] = Tryout::where('tryout_id', $id)->first()->load('materi.refMateri');
+        $load['tryout'] = Tryout::where('tryout_id', $id)->first()->load('materi.refMateri', 'peserta.siswa');
         $load['pengajar'] = User::whereHas(
             'roles',
             function ($q) {
