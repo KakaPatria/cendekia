@@ -191,6 +191,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach($tryout->peserta as $peserta)
+                                    @if($peserta->siswa)
                                     <tr>
 
                                         <td>{{ $loop->iteration}}</td>
@@ -209,6 +210,7 @@
                                         @endif
 
                                     </tr>
+                                    @endif
                                     @endforeach
                                 </tbody>
                             </table>
