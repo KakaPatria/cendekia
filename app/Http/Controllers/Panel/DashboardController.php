@@ -17,28 +17,28 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function index()
-        {
-            $user = Auth::user();
-    
-            // 1. Cek jika user adalah Pengajar
-            if ($user->hasRole('Pengajar')) {
-                return $this->dashboardPengajar($user);
-            }
-    
-            // 2. Cek jika user adalah Admin
-            if ($user->hasRole('Admin')) {
-                return $this->dashboardAdmin();
-            }
-    
-            // 3. Fallback
-            return redirect('/')->with('error', 'Anda tidak memiliki akses.');
+    {
+        $user = Auth::user();
+
+        // 1. Cek jika user adalah Pengajar (roles_id == 3)
+        if ($user->roles_id == 3) {
+            return $this->dashboardPengajar($user);
         }
-    
-        /**
-         * Data untuk Dashboard Admin (Kode lama Anda)
-         */
-        private function dashboardAdmin()
-        {
+
+        // 2. Cek jika user adalah Admin (roles_id == 2)
+        if ($user->roles_id == 2) {
+            return $this->dashboardAdmin();
+        }
+
+        // 3. Fallback
+        return redirect('/')->with('error', 'Anda tidak memiliki akses.');
+    }
+
+    /**
+     * Data untuk Dashboard Admin (Kode lama Anda)
+     */
+    private function dashboardAdmin()
+    {
             // Ambil semua user dengan roles_id = 1 (Siswa) dan status Aktif
             $user = User::where('roles_id', 1)->where('status', 'Aktif')->get();
 
@@ -86,9 +86,10 @@ class DashboardController extends Controller
     
             return view('pages.panel.dashboard', $load);
         }
-        private function dashboardPengajar($pengajar)
-        {
-            // 1. Ambil ID kelas yang diampu pengajar
+    
+    private function dashboardPengajar($pengajar)
+    {
+        // 1. Ambil ID kelas yang diampu pengajar
             $kelasIds = JadwalCendekia::where('guru_id', $pengajar->id)
                             ->distinct()
                             ->pluck('kelas_cendekia_id');

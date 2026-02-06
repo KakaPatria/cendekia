@@ -43,7 +43,8 @@ class KelasCendekiaController extends Controller
                 });
             });
 
-        if (!$user->hasRole(['Admin'])) {
+        // Check if user is NOT Admin (roles_id != 2)
+        if ($user->roles_id != 2) {
 
             $kelasCendekia->whereHas('jadwal', function ($q1) use ($user) {
                 $q1->where('guru_id', $user->id);
@@ -80,7 +81,8 @@ class KelasCendekiaController extends Controller
 
     public function store(Request $request)
     {
-        if (!Auth::user()->hasRole('Admin')) {
+        // Check if user is NOT Admin (roles_id != 2)
+        if (Auth::user()->roles_id != 2) {
             return redirect()->route('panel.kelas_cendekia.index')
                 ->with('error', 'Anda tidak memiliki izin untuk menambah kelas.');
         }
@@ -114,8 +116,8 @@ class KelasCendekiaController extends Controller
         $validated = $validator->validated();
         $kelas = KelasCendekia::findOrFail($id);
 
-        // Cek Keamanan: Jika bukan Admin, pastikan dia pemilik jadwal
-        if (!Auth::user()->hasRole('Admin')) {
+        // Cek Keamanan: Jika bukan Admin (roles_id != 2), pastikan dia pemilik jadwal
+        if (Auth::user()->roles_id != 2) {
             $isOwner = $kelas->jadwal()->where('guru_id', Auth::id())->exists();
             if (!$isOwner) {
                 return redirect()->route('panel.kelas_cendekia.index')
@@ -132,8 +134,8 @@ class KelasCendekiaController extends Controller
 
     public function destroy($id)
     {
-        // --- TAMBAHKAN BLOK INI ---
-        if (!Auth::user()->hasRole('Admin')) {
+        // Check if user is NOT Admin (roles_id != 2)
+        if (Auth::user()->roles_id != 2) {
             return redirect()->route('panel.kelas_cendekia.index')
                 ->with('error', 'Anda tidak memiliki izin untuk menghapus kelas.');
         }
@@ -245,7 +247,8 @@ class KelasCendekiaController extends Controller
         $kelas = \App\Models\KelasCendekia::findOrFail($id);
 
         // Keamanan: Cek apakah pengajar ini mengajar di kelas ini
-        if (!Auth::user()->hasRole('Admin')) {
+        // Check if user is NOT Admin (roles_id != 2)
+        if (Auth::user()->roles_id != 2) {
             $isOwner = $kelas->jadwal()->where('guru_id', Auth::id())->exists();
             if (!$isOwner) {
                 return redirect()->route('panel.kelas_cendekia.index')

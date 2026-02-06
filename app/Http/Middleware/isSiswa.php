@@ -17,10 +17,16 @@ class isSiswa
      */
     public function handle(Request $request, Closure $next)
     { 
-        //if(Auth::user() && Auth::user()->hasRole(['Siswa'])) 
-        if(Auth::user()) 
+        // Check if user is logged in AND is a Siswa (roles_id == 1)
+        if(Auth::user() && Auth::user()->roles_id == 1) 
         {
             return $next($request);
+        }
+        
+        // If not siswa, logout and redirect
+        if(Auth::user()) {
+            Auth::logout();
+            return redirect()->route('siswa.login')->with('error', 'Akses hanya untuk siswa.');
         }
         
         abort(403, 'Unauthorized');

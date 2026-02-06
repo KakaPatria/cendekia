@@ -203,8 +203,8 @@ class UserController extends Controller
             //dd($upload);
             $user->update(['avatar' => $file]);
         }
-        // Only allow the currently authenticated admin to change roles/permissions
-        if (Auth::user() && Auth::user()->hasRole('Admin')) {
+        // Only allow Admin (roles_id == 2) to change roles/permissions
+        if (Auth::user() && Auth::user()->roles_id == 2) {
             try {
                 // Roles
                 $rolesInput = $request->get('role') ?? [];
@@ -423,7 +423,8 @@ class UserController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            if (Auth::user()->hasRole('Siswa')) {
+            // Check if user is Siswa (roles_id == 1)
+            if (Auth::user()->roles_id == 1) {
                 Auth::logout();
                 return redirect('/')->with('error', 'Anda tidak memiliki akses.');
             }
@@ -447,6 +448,12 @@ class UserController extends Controller
 
         // Attempt to log the user in
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            // Check if the logged in user is Admin or Pengajar (roles_id == 2 or 3)
+            if (Auth::user()->roles_id == 1) {
+                Auth::logout();
+                return redirect()->back()->with('error', 'Login gagal. Akun siswa tidak dapat login di panel admin.')->withInput();
+            }
+            
             // Authentication passed...
             return redirect()->intended(route('panel.dashboard'))->with('success', 'Login berhasil!');
         }

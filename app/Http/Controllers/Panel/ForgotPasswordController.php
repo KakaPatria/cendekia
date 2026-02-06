@@ -27,8 +27,8 @@ class ForgotPasswordController extends Controller
             return redirect()->back()->with('error', 'Akun tidak ditemukan');
         }
 
-        // Prevent siswa accounts from using panel reset
-        if ($user->hasRole('Siswa')) {
+        // Prevent siswa accounts (roles_id == 1) from using panel reset
+        if ($user->roles_id == 1) {
             return redirect()->back()->with('error', 'Akun siswa tidak dapat direset melalui panel.');
         }
 

@@ -26,7 +26,8 @@ class UserController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            if (!Auth::user()->hasRole('Siswa')) {
+            // Check if user is NOT Siswa (roles_id != 1)
+            if (Auth::user()->roles_id != 1) {
                 Auth::logout();
                 return redirect(route('login'))->with('error', 'Anda tidak memiliki akses.');
             }
@@ -58,6 +59,12 @@ class UserController extends Controller
 
         // Attempt to log the user in
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            // Check if the logged in user is a Siswa (roles_id == 1)
+            if (Auth::user()->roles_id != 1) {
+                Auth::logout();
+                return redirect()->back()->with('error', 'Login gagal. Akses hanya untuk siswa.')->withInput();
+            }
+            
             // Authentication passed...
             return redirect()->intended(route('siswa.dashboard'))->with('success', 'Login berhasil!');
         }
@@ -320,7 +327,18 @@ class UserController extends Controller
     $googleUser = Socialite::driver('google')->user();
         $user = User::where('email', $googleUser->email)->first();
         if (!$user) {
-            $user = User::create(['name' => $googleUser->name, 'email' => $googleUser->email, 'password' => \Hash::make(rand(100000, 999999))]);
+            // Create new user with default siswa role (roles_id = 1)
+            $user = User::create([
+                'name' => $googleUser->name, 
+                'email' => $googleUser->email, 
+                'password' => Hash::make(rand(100000, 999999)),
+                'roles_id' => 1 // Set as Siswa by default
+            ]);
+        }
+        
+        // Check if user is a Siswa (roles_id == 1)
+        if ($user->roles_id != 1) {
+            return redirect()->route('siswa.login')->with('error', 'Akun ini bukan akun siswa. Silakan login melalui panel admin.');
         }
 
         Auth::login($user);

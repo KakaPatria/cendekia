@@ -23,14 +23,15 @@ class isAdmin
 
         $user = Auth::user();
 
-        // Accept users with Spatie roles Admin or Pengajar
-        if ($user && $user->hasRole(['Admin','Pengajar'])) {
-            return $next($request);
-        }
-
-        // Fallback: accept legacy roles_id values for backward compatibility
+        // Only accept Admin (roles_id == 2) or Pengajar (roles_id == 3)
         if ($user && isset($user->roles_id) && in_array($user->roles_id, [2,3])) {
             return $next($request);
+        }
+        
+        // If siswa (roles_id == 1) tries to access, logout and redirect
+        if ($user && $user->roles_id == 1) {
+            Auth::logout();
+            return redirect()->route('panel.login')->with('error', 'Akses ditolak. Silakan login sebagai Admin atau Pengajar.');
         }
 
         abort(403, 'Unauthorized');
