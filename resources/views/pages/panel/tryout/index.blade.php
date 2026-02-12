@@ -96,11 +96,30 @@
                                         </div>
                                     </td>
                                     <td>{{ $data->tryout_register_due }}</td>
-                                    <td>{{ $data->tryout_status }}</td>
+                                    <td>
+                                        @if($data->tryout_status === 'Aktif')
+                                            <span class="badge bg-success">Aktif</span>
+                                        @else
+                                            <span class="badge bg-danger">Tidak Aktif</span>
+                                        @endif
+                                    </td>
 
                                     <td class="text-center">
-                                        <a href="{{ route('panel.tryout.show',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm">
-                                            <i class="fa fa-edit"></i> Detail</a>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="{{ route('panel.tryout.show',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm">
+                                                <i class="fa fa-edit"></i> Detail</a>
+                                            
+                                            @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
+                                            <form action="{{ route('panel.tryout.toggleStatus', $data->tryout_id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                <button type="submit" class="btn rounded-pill btn-sm {{ $data->tryout_status === 'Aktif' ? 'btn-warning' : 'btn-success' }}" 
+                                                    onclick="return confirm('Apakah Anda yakin ingin mengubah status tryout ini?')">
+                                                    <i class="ri-refresh-line"></i> 
+                                                    {{ $data->tryout_status === 'Aktif' ? 'Nonaktifkan' : 'Aktifkan' }}
+                                                </button>
+                                            </form>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
                                     @empty

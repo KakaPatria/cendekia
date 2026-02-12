@@ -122,6 +122,7 @@ Route::name('panel.')->prefix('panel')->group(function () {
         Route::post('tryout/{tryout_id}/addMateri', [TryoutController::class, 'addMateri'])->name('tryout.addMateri');
         Route::post('tryout/{tryout_id}/editMateri', [TryoutController::class, 'editMateri'])->name('tryout.editMateri');
         Route::get('tryout/{tryout_id}/exportPeserta', [TryoutController::class, 'exportPeserta'])->name('tryout.exportPeserta');
+        Route::post('tryout/{tryout_id}/toggleStatus', [TryoutController::class, 'toggleStatus'])->name('tryout.toggleStatus');
         Route::resource('tryout_materi', TryoutMateriController::class);
         Route::get('tryout_materi/{tryout_materi}/createJawaban', [TryoutMateriController::class, 'createJawaban'])->name('tryout_materi.createJawaban');
         Route::post('tryout_materi/{tryout_materi}/storeJawaban', [TryoutMateriController::class, 'storeJawaban'])->name('tryout_materi.storeJawaban');

@@ -341,6 +341,25 @@ class TryoutController extends Controller
     }
 
     /**
+     * Toggle status tryout between Aktif and Tidak Aktif.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function toggleStatus($id)
+    {
+        $tryout = Tryout::where('tryout_id', $id)->firstOrFail();
+        
+        // Toggle status
+        $newStatus = $tryout->tryout_status === 'Aktif' ? 'Tidak Aktif' : 'Aktif';
+        $tryout->tryout_status = $newStatus;
+        $tryout->save();
+
+        return redirect()->route('panel.tryout.index')
+            ->withSuccess("Status tryout berhasil diubah menjadi {$newStatus}.");
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
