@@ -1490,26 +1490,16 @@ footer .copy-rights,
                         $student = $topScoresByJenjang[$jenjang];
                     @endphp
                     <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card shadow-lg border-{{ $color }} h-100">
-                            <div class="card-body p-3 text-center">
-                                <div class="mb-2">
-                                    <span class="badge bg-{{ $color }} fs-6 px-3 py-1">
-                                        <i class="ri-graduation-cap-line me-1"></i>{{ $jenjang }}
-                                    </span>
+                        <div class="card shadow-sm border h-100">
+                            <div class="card-body p-4">
+                                <div class="text-center mb-3">
+                                    <span class="badge bg-{{ $color }} px-3 py-2 fs-6">{{ $jenjang }}</span>
                                 </div>
-                                <div class="trophy-icon mb-2">
-                                    <i class="ri-trophy-line text-{{ $color }}" style="font-size: 2rem;"></i>
-                                </div>
-                                <h1 class="fw-bold display-5 ff-secondary mb-2 text-secondary position-relative">
-                                    <div class="job-icon-effect"></div>
-                                    <span>{{ $rank }}</span>
-                                </h1>
-                                <h6 class="fs-17 mb-1 fw-bold text-dark">{{ $student->name }}</h6>
-                                <p class="text-muted mb-2 fs-14">{{ $student->asal_sekolah }}</p>
-                                <div class="mt-2 pt-2 border-top">
-                                    <p class="mb-0 fs-13 text-muted">Total Nilai</p>
-                                    <h5 class="fw-bold text-{{ $color }} mb-0">{{ number_format($student->total_nilai, 2) }}</h5>
-                                </div>
+                                <h5 class="fw-bold mb-3 text-dark">{{ $student->name }}</h5>
+                                <p class="mb-0 text-muted">
+                                    {{ $student->asal_sekolah }} - Total nilai: 
+                                    <span class="text-danger fw-bold">{{ number_format($student->total_nilai, 2) }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
