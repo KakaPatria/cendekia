@@ -214,26 +214,48 @@
                                                     // Cek apakah materi sudah bisa dikerjakan berdasarkan waktu
                                                     $canAccess = true;
                                                     $messageWaktu = '';
+                                                    $now = \Carbon\Carbon::now();
 
-                                                    if($materi->periode_mulai && $materi->waktu_mulai) {
-                                                        $now = \Carbon\Carbon::now();
-                                                        $periodeStart = \Carbon\Carbon::parse($materi->periode_mulai);
-                                                        $waktuMulai = \Carbon\Carbon::createFromTimeString($materi->waktu_mulai);
-
-                                                        // Gabungkan tanggal dan waktu mulai
-                                                        $startDateTime = \Carbon\Carbon::parse($materi->periode_mulai . ' ' . $materi->waktu_mulai);
-
-                                                        if($now->lt($startDateTime)) {
-                                                            $canAccess = false;
-                                                            $messageWaktu = 'Materi dapat dikerjakan mulai ' . $startDateTime->format('d M Y H:i');
-                                                        }
-                                                    } elseif($materi->periode_mulai) {
-                                                        $now = \Carbon\Carbon::now();
+                                                    // Cek apakah dalam range periode (tanggal)
+                                                    $inPeriodRange = true;
+                                                    if($materi->periode_mulai) {
                                                         $periodeStart = \Carbon\Carbon::parse($materi->periode_mulai)->startOfDay();
-
                                                         if($now->lt($periodeStart)) {
                                                             $canAccess = false;
+                                                            $inPeriodRange = false;
                                                             $messageWaktu = 'Materi dapat dikerjakan mulai ' . $periodeStart->format('d M Y');
+                                                        }
+                                                    }
+
+                                                    if($materi->periode_selesai && $inPeriodRange) {
+                                                        $periodeEnd = \Carbon\Carbon::parse($materi->periode_selesai)->endOfDay();
+                                                        if($now->gt($periodeEnd)) {
+                                                            $canAccess = false;
+                                                            $inPeriodRange = false;
+                                                            $messageWaktu = 'Materi sudah ditutup pada ' . $periodeEnd->format('d M Y');
+                                                        }
+                                                    }
+
+                                                    // Jika dalam range periode, cek waktu hari ini
+                                                    if($inPeriodRange) {
+                                                        $today = $now->format('Y-m-d');
+
+                                                        // Cek waktu mulai (menggunakan tanggal hari ini)
+                                                        if($materi->waktu_mulai) {
+                                                            $startDateTime = \Carbon\Carbon::parse($today . ' ' . $materi->waktu_mulai);
+                                                            if($now->lt($startDateTime)) {
+                                                                $canAccess = false;
+                                                                $messageWaktu = 'Materi dapat dikerjakan mulai pukul ' . $startDateTime->format('H:i');
+                                                            }
+                                                        }
+
+                                                        // Cek waktu selesai (menggunakan tanggal hari ini)
+                                                        if($canAccess && $materi->waktu_selesai) {
+                                                            $endDateTime = \Carbon\Carbon::parse($today . ' ' . $materi->waktu_selesai);
+                                                            if($now->gt($endDateTime)) {
+                                                                $canAccess = false;
+                                                                $messageWaktu = 'Materi sudah ditutup pada pukul ' . $endDateTime->format('H:i');
+                                                            }
                                                         }
                                                     }
                                                 @endphp
@@ -245,14 +267,24 @@
                                                 @else
                                                     @if($materi->nilaiUser)
                                                         @if($materi->nilaiUser->status == 'Proses')
-                                                        <a href="javascript:;" class="btn btn-danger w-100 lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
-                                                            Lanjutkan Pengerjaan
-                                                        </a>
+                                                            <a href="javascript:;" class="btn btn-danger w-100 lanjutkan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
+                                                                Lanjutkan Pengerjaan
+                                                            </a>
+                                                        @elseif($materi->nilaiUser->status == 'Selesai')
+                                                            <button class="btn btn-success w-100" disabled>
+                                                                <i class="ri-check-line me-1"></i>Sudah Selesai
+                                                            </button>
                                                         @endif
                                                     @else
-                                                        <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn  {{ $materi->soal->count() > 1 ? '' : 'disabled'}}" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
-                                                            Mulai Kerjakan
-                                                        </a>
+                                                        @if($materi->soal->count() > 0)
+                                                            <a href="javascript:;" class="btn btn-danger w-100 kerjakan-btn" data-action="{{ route('siswa.tryout.pengerjaan.create',[$materi->tryout_materi_id,$tryout_peserta->tryout_peserta_id])}}">
+                                                                Mulai Kerjakan
+                                                            </a>
+                                                        @else
+                                                            <button class="btn btn-secondary w-100" disabled>
+                                                                Belum Ada Soal
+                                                            </button>
+                                                        @endif
                                                     @endif
                                                 @endif
                                             @endif
