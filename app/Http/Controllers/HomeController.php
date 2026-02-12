@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Tryout;
 use App\Models\TryoutOpenPendaftaran;
 use App\Models\AsalSekolah;
+use App\Models\TryoutNilai;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -25,6 +28,31 @@ class HomeController extends Controller
 
         $load['tryout'] = $tryout;
 
+        // Fetch top 1 score per jenjang
+        $jenjangList = ['SD', 'SMP', 'SMA'];
+        $topScoresByJenjang = [];
+
+        foreach ($jenjangList as $jenjang) {
+            $topStudent = TryoutNilai::select(
+                'tryout_nilai.user_id',
+                'users.name',
+                'users.asal_sekolah',
+                'users.jenjang',
+                DB::raw('SUM(tryout_nilai.nilai) as total_nilai')
+            )
+            ->join('users', 'tryout_nilai.user_id', '=', 'users.id')
+            ->where('users.jenjang', $jenjang)
+            ->where('tryout_nilai.status', 'Selesai')
+            ->groupBy('tryout_nilai.user_id', 'users.name', 'users.asal_sekolah', 'users.jenjang')
+            ->orderByDesc('total_nilai')
+            ->first();
+            
+            if ($topStudent) {
+                $topScoresByJenjang[$jenjang] = $topStudent;
+            }
+        }
+
+        $load['topScoresByJenjang'] = $topScoresByJenjang;
 
         return view('pages.index', $load);
     }
