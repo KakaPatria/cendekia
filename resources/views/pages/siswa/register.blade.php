@@ -121,7 +121,7 @@
         border: none;
         background-image: linear-gradient(to right, #EE5A24 0%, #980000 50%, #EE5A24 100%);
         background-size: 200% auto;
-        color: white;
+        color: white !important;
         transition: all 0.5s ease;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
