@@ -108,13 +108,13 @@
                                         <div class="d-flex gap-2 justify-content-center">
                                             <a href="{{ route('panel.tryout.show',$data->tryout_id)}}" class="btn rounded-pill btn-primary btn-sm">
                                                 <i class="fa fa-edit"></i> Detail</a>
-                                            
+
                                             @if(Auth::user()->hasRole(['Admin']) || Auth::user()->roles_id == 2)
                                             <form action="{{ route('panel.tryout.toggleStatus', $data->tryout_id) }}" method="POST" class="d-inline">
                                                 @csrf
-                                                <button type="submit" class="btn rounded-pill btn-sm {{ $data->tryout_status === 'Aktif' ? 'btn-warning' : 'btn-success' }}" 
+                                                <button type="submit" class="btn rounded-pill btn-sm {{ $data->tryout_status === 'Aktif' ? 'btn-warning' : 'btn-success' }}"
                                                     onclick="return confirm('Apakah Anda yakin ingin mengubah status tryout ini?')">
-                                                    <i class="ri-refresh-line"></i> 
+                                                    <i class="ri-refresh-line"></i>
                                                     {{ $data->tryout_status === 'Aktif' ? 'Nonaktifkan' : 'Aktifkan' }}
                                                 </button>
                                             </form>
@@ -161,12 +161,12 @@
     function populateClassLevels(schoolLevel, selectedClass = '') {
         var $classLevel = $('#filter-kelas');
         $classLevel.empty().append('<option value="">Pilih Kelas</option>');
-        
+
         if (schoolLevel && classes[schoolLevel]) {
             $classLevel.prop('disabled', false);
             classes[schoolLevel].forEach(function(classItem) {
-                $classLevel.append('<option value="' + classItem + '"' + 
-                    (classItem == selectedClass ? ' selected' : '') + '>' + 
+                $classLevel.append('<option value="' + classItem + '"' +
+                    (classItem == selectedClass ? ' selected' : '') + '>' +
                     classItem + '</option>');
             });
         } else {

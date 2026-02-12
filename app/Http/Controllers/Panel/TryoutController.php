@@ -349,7 +349,7 @@ class TryoutController extends Controller
     public function toggleStatus($id)
     {
         $tryout = Tryout::where('tryout_id', $id)->firstOrFail();
-        
+
         // Toggle status
         $newStatus = $tryout->tryout_status === 'Aktif' ? 'Tidak Aktif' : 'Aktif';
         $tryout->tryout_status = $newStatus;

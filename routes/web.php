@@ -56,7 +56,7 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register/siswa', 'registerSiswa');
     Route::get('/register/pengajar', 'showPengajarForm')->name('register.pengajar');
     Route::post('/register/pengajar', 'registerPengajar');
-    
+
     // Email verification endpoints (send OTP & verify OTP)
     Route::post('/verify-email', 'verifyEmailRealtime')->name('verify.email.realtime');
     Route::post('/verify-otp', 'verifyOTP')->name('verify.otp');
@@ -131,7 +131,7 @@ Route::name('panel.')->prefix('panel')->group(function () {
 
         // =======================
         // KELAS CENDEKIA MANGEMENT
-        // ======================= 
+        // =======================
         Route::name('kelas_cendekia.')->group(function () {
             Route::get('kelas_cendekia', [KelasCendekiaController::class, 'index'])->name('index');
             Route::get('kelas_cendekia/{id}', [KelasCendekiaController::class, 'show'])->name('show');
