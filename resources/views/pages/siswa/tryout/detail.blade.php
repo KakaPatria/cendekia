@@ -462,11 +462,9 @@
                                         <td>{{ $soal->pengerjaan->point ?? ''}}</td>
                                         <td>{!! $soal->pengerjaan->status_badge ?? '' !!}</td>
                                         <td>
-                                            @if($tryout_peserta && $tryout_peserta->invoice)
-                                                <a href="{{ $tryout_peserta && $tryout_peserta->invoice
-                                                ? route('siswa.tryout.pengerjaan.analisa', $tryout_peserta->invoice->inv_id)
-                                                : '#' }}"
-                                                class="btn rounded-pill btn-info btn-sm {{ !$tryout_peserta || !$tryout_peserta->invoice ? 'disabled' : '' }}">
+                                            @if($soal->pengerjaan)
+                                                <a href="{{ route('siswa.tryout.pengerjaan.analisa', $soal->pengerjaan->tryout_pengerjaan_id) }}"
+                                                   class="btn rounded-pill btn-info btn-sm">
                                                     <i class="fa fa-edit"></i> Detail
                                                 </a>
                                             @else
