@@ -1490,10 +1490,10 @@ footer .copy-rights,
                         $student = $topScoresByJenjang[$jenjang];
                     @endphp
                     <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card shadow-sm border h-100">
+                        <div class="card border-0 h-100" style="box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border-radius: 15px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);" onmouseover="this.style.transform='translateY(-10px) scale(1.02)'; this.style.boxShadow='0 12px 30px rgba(152, 0, 0, 0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.1)';">
                             <div class="card-body p-4">
                                 <div class="text-center mb-3">
-                                    <span class="badge bg-{{ $color }} px-3 py-2 fs-6">{{ $jenjang }}</span>
+                                    <span class="px-4 py-3 fs-2 fw-bold" style="background-color: transparent; color: #980000 !important; letter-spacing: 1.5px; display: inline-block;">{{ $jenjang }}</span>
                                 </div>
                                 <h5 class="fw-bold mb-3 text-dark">{{ $student->name }}</h5>
                                 <p class="mb-0 text-muted">
