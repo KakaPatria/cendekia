@@ -384,12 +384,12 @@ html {
 /* Styling Dasar Semua Card Hasil Tryout */
 #informasi .card {
   background-color: #ffffff !important;
-  border-radius: 16px !important;
+  border-radius: 12px !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-height: 250px;
-  padding: 15px 15px 20px 15px;
+  min-height: 200px;
+  padding: 10px;
 }
 
 /* Efek Hover untuk Semua Card */
@@ -400,16 +400,16 @@ html {
 
 /* Styling Nama Siswa */
 #informasi .card h6 {
-  font-size: 1.15rem !important;
+  font-size: 1rem !important;
   font-weight: 700 !important;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   color: #2c3e50 !important;
 }
 
 /* Styling Keterangan Sekolah dan Nilai */
 #informasi .card p {
-  font-size: 0.9rem !important;
-  line-height: 1.4;
+  font-size: 0.85rem !important;
+  line-height: 1.3;
   color: #6c757d !important;
 }
 
@@ -1473,25 +1473,25 @@ footer .copy-rights,
                     @php
                         $student = $topScoresByJenjang[$jenjang];
                     @endphp
-                    <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="col-lg-3 col-md-6 mb-3">
                         <div class="card shadow-lg border-{{ $color }} h-100">
-                            <div class="card-body p-4 text-center">
-                                <div class="mb-3">
-                                    <span class="badge bg-{{ $color }} fs-5 px-4 py-2">
-                                        <i class="ri-graduation-cap-line me-2"></i>{{ $jenjang }}
+                            <div class="card-body p-3 text-center">
+                                <div class="mb-2">
+                                    <span class="badge bg-{{ $color }} fs-6 px-3 py-1">
+                                        <i class="ri-graduation-cap-line me-1"></i>{{ $jenjang }}
                                     </span>
                                 </div>
-                                <div class="trophy-icon mb-3">
-                                    <i class="ri-trophy-line text-{{ $color }}" style="font-size: 3rem;"></i>
+                                <div class="trophy-icon mb-2">
+                                    <i class="ri-trophy-line text-{{ $color }}" style="font-size: 2rem;"></i>
                                 </div>
-                                <h1 class="fw-bold display-6 ff-secondary mb-3 text-{{ $color }}">
+                                <h1 class="fw-bold display-5 ff-secondary mb-2 text-{{ $color }}">
                                     <span>#1</span>
                                 </h1>
-                                <h5 class="fw-bold text-dark mb-2">{{ $student->name }}</h5>
-                                <p class="text-muted mb-3">{{ $student->asal_sekolah }}</p>
-                                <div class="mt-3 pt-3 border-top">
-                                    <p class="mb-0 fs-14 text-muted">Total Nilai</p>
-                                    <h3 class="fw-bold text-{{ $color }} mb-0">{{ number_format($student->total_nilai, 2) }}</h3>
+                                <h6 class="fs-17 mb-1 fw-bold text-dark">{{ $student->name }}</h6>
+                                <p class="text-muted mb-2 fs-14">{{ $student->asal_sekolah }}</p>
+                                <div class="mt-2 pt-2 border-top">
+                                    <p class="mb-0 fs-13 text-muted">Total Nilai</p>
+                                    <h5 class="fw-bold text-{{ $color }} mb-0">{{ number_format($student->total_nilai, 2) }}</h5>
                                 </div>
                             </div>
                         </div>
