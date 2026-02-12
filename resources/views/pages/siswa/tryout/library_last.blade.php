@@ -220,7 +220,14 @@
                                 <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                                    @php
+                                        $periodeAkhir = $data->materi->max('periode_selesai');
+                                    @endphp
+                                    @if($periodeAkhir)
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($periodeAkhir)->format('d-M-Y')}}</li>
+                                    @else
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($data->getRawOriginal('tryout_register_due'))->format('d-M-Y')}}</li>
+                                    @endif
                                 </ul>
                                 <h1 class="month" style="display: block;"><sup><small>$</small></sup><span class="ff-secondary fw-bold">29</span> <span class="fs-13 text-muted">/Month</span></h1>
                             </div>
@@ -265,7 +272,14 @@
                                 <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                                    @php
+                                        $periodeAkhir = $data->materi->max('periode_selesai');
+                                    @endphp
+                                    @if($periodeAkhir)
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($periodeAkhir)->format('d-M-Y')}}</li>
+                                    @else
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($data->getRawOriginal('tryout_register_due'))->format('d-M-Y')}}</li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -302,7 +316,14 @@
                                 <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                                    @php
+                                        $periodeAkhir = $data->materi->max('periode_selesai');
+                                    @endphp
+                                    @if($periodeAkhir)
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($periodeAkhir)->format('d-M-Y')}}</li>
+                                    @else
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($data->getRawOriginal('tryout_register_due'))->format('d-M-Y')}}</li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -345,7 +366,14 @@
                                 <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                                    @php
+                                        $periodeAkhir = $data->materi->max('periode_selesai');
+                                    @endphp
+                                    @if($periodeAkhir)
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($periodeAkhir)->format('d-M-Y')}}</li>
+                                    @else
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($data->getRawOriginal('tryout_register_due'))->format('d-M-Y')}}</li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -381,7 +409,14 @@
                                 <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                                    @php
+                                        $periodeAkhir = $data->materi->max('periode_selesai');
+                                    @endphp
+                                    @if($periodeAkhir)
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($periodeAkhir)->format('d-M-Y')}}</li>
+                                    @else
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($data->getRawOriginal('tryout_register_due'))->format('d-M-Y')}}</li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -424,7 +459,14 @@
                                 <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                                    @php
+                                        $periodeAkhir = $data->materi->max('periode_selesai');
+                                    @endphp
+                                    @if($periodeAkhir)
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($periodeAkhir)->format('d-M-Y')}}</li>
+                                    @else
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($data->getRawOriginal('tryout_register_due'))->format('d-M-Y')}}</li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -462,7 +504,14 @@
                                 <h5><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                                    @php
+                                        $periodeAkhir = $data->materi->max('periode_selesai');
+                                    @endphp
+                                    @if($periodeAkhir)
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($periodeAkhir)->format('d-M-Y')}}</li>
+                                    @else
+                                    <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($data->getRawOriginal('tryout_register_due'))->format('d-M-Y')}}</li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>

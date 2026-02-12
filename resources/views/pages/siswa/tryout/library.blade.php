@@ -216,7 +216,15 @@
                             <h5 class="mb-1"><a href="{{ route('siswa.tryout.show',$data->tryout_id)}}">{{ $data->tryout_judul}}</a></h5>
                             <ul class="list-inline mb-2">
                                 <li class="list-inline-item"><i class="ri-user-3-fill text-success align-middle me-1"></i> {{ $data->tryout_jenjang}} kelas {{ $data->tryout_kelas}}</li>
-                                <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ $data->tryout_register_due}}</li>
+                                @php
+                                    // Ambil periode selesai terakhir dari semua materi tryout
+                                    $periodeAkhir = $data->materi->max('periode_selesai');
+                                @endphp
+                                @if($periodeAkhir)
+                                <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($periodeAkhir)->format('d-M-Y')}}</li>
+                                @else
+                                <li class="list-inline-item"><i class="ri-calendar-2-fill text-success align-middle me-1"></i> Daftar Sebelum {{ \Carbon\Carbon::parse($data->getRawOriginal('tryout_register_due'))->format('d-M-Y')}}</li>
+                                @endif
                             </ul>
                             <ul class="list-inline mb-2">
                                 @foreach($data->materi as $materi)
