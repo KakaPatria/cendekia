@@ -349,38 +349,6 @@ html {
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Styling untuk Trophy Icon dan Badge */
-#informasi .trophy-icon {
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-}
-
-#informasi .card.border-success {
-  border-width: 3px !important;
-  border-color: #198754 !important;
-}
-
-#informasi .card.border-primary {
-  border-width: 3px !important;
-  border-color: #0d6efd !important;
-}
-
-#informasi .card.border-danger {
-  border-width: 3px !important;
-  border-color: #dc3545 !important;
-}
-
 /* Styling Dasar Semua Card Hasil Tryout */
 #informasi .card {
   background-color: #ffffff !important;
@@ -414,10 +382,17 @@ html {
 }
 
 /* Styling NILAI TOTAL */
-#informasi .card p span.fw-bold {
+#informasi .card p span.fw-bold,
+#informasi .card p span.text-danger {
   font-weight: 700 !important;
-  color: #980000 !important;
+  color: #dc3545 !important;
   font-size: 1rem !important;
+}
+
+/* Styling untuk ranking number */
+#informasi .card h1.display-5 {
+  color: #6c757d !important;
+  opacity: 0.4 !important;
 }
 
 /* Pastikan isi card tetap gelap dan terbaca */
@@ -1458,41 +1433,38 @@ footer .copy-rights,
     <div class="container">
         
         <div class="row justify-content-center">
-            <div class="col-lg-10">
+            <div class="col-lg-8">
                 <div class="text-center mb-5">
-                    <h1 class="fw-bold fs-1 text-danger">SISWA TERBAIK TRYOUT PENILAIAN AKHIR SEMESTER</h1>
-                    <p class="text-muted fs-5 mt-3">Peringkat 1 Setiap Jenjang Pendidikan</p>
+                    <h1 class="fw-bold fs-1 text-danger">TOP 4 HASIL TRYOUT PENILAIAN AKHIR SEMESTER</h1>
                 </div>
             </div>
         </div>
 
         <!-- Top Students Cards -->
-        <div class="row justify-content-center mb-5 pb-5">
+        <div class="row mb-5 pb-5">
+            @php
+                $rank = 0;
+            @endphp
             @foreach(['SD' => 'success', 'SMP' => 'primary', 'SMA' => 'danger'] as $jenjang => $color)
                 @if(isset($topScoresByJenjang[$jenjang]))
                     @php
+                        $rank++;
                         $student = $topScoresByJenjang[$jenjang];
                     @endphp
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <div class="card shadow-lg border-{{ $color }} h-100">
-                            <div class="card-body p-3 text-center">
-                                <div class="mb-2">
-                                    <span class="badge bg-{{ $color }} fs-6 px-3 py-1">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-lg">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <span class="badge bg-{{ $color }} fs-6 px-3 py-2">
                                         <i class="ri-graduation-cap-line me-1"></i>{{ $jenjang }}
                                     </span>
                                 </div>
-                                <div class="trophy-icon mb-2">
-                                    <i class="ri-trophy-line text-{{ $color }}" style="font-size: 2rem;"></i>
-                                </div>
-                                <h1 class="fw-bold display-5 ff-secondary mb-2 text-{{ $color }}">
-                                    <span>#1</span>
+                                <h1 class="fw-bold display-5 ff-secondary mb-4 text-secondary position-relative">
+                                    <div class="job-icon-effect"></div>
+                                    <span>{{ $rank }}</span>
                                 </h1>
-                                <h6 class="fs-17 mb-1 fw-bold text-dark">{{ $student->name }}</h6>
-                                <p class="text-muted mb-2 fs-14">{{ $student->asal_sekolah }}</p>
-                                <div class="mt-2 pt-2 border-top">
-                                    <p class="mb-0 fs-13 text-muted">Total Nilai</p>
-                                    <h5 class="fw-bold text-{{ $color }} mb-0">{{ number_format($student->total_nilai, 2) }}</h5>
-                                </div>
+                                <h6 class="fs-17 mb-2 fw-bold text-dark">{{ $student->name }}</h6>
+                                <p class="text-muted mb-0 fs-15">{{ $student->asal_sekolah }} - Total nilai: <span class="fw-bold text-danger">{{ number_format($student->total_nilai, 2) }}</span></p>
                             </div>
                         </div>
                     </div>
